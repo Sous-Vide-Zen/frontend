@@ -6,9 +6,35 @@
 	transition: all 0.3s ease-in-out;
 	width: 100%;
 	color: var(--base-color-dark);
+
 	&:focus {
 		border: 1px solid var(--base-color-dark);
 		color: var(--base-color-dark);
+	}
+
+	&__wrapper {
+		position: relative;
+	}
+
+	&__icons {
+		position: absolute;
+		display: flex;
+		flex-direction: row;
+		height: min-content;
+		top: 13.75px;
+		right: 12px;
+	}
+
+	&__eye {
+		display: flex;
+		border-radius: 0;
+		border: none;
+		background-color: transparent;
+		cursor: pointer;
+
+		* {
+			fill: #bcbcbc;
+		}
 	}
 }
 .input:hover {
