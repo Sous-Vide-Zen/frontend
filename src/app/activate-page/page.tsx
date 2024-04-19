@@ -135,6 +135,7 @@ export default function Authentication() {
                         <hr className={styles.line} style={{ marginLeft: '5px' }} />
                     </div>
                     <div className={styles.innerImg}>
+                        
                         <Image
                             style={{ marginRight: "12px" }}
                             src="/img/vk.svg"
