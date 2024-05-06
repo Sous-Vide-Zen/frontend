@@ -31,19 +31,11 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
     <div className={styles.recipe}>
       <div className={styles.user}>
         <div className={styles.userLeft}>
-          {recipe.id}
-          {/*проверка на аватарку*/}
-          {/*{recipe?.author?.avatar ?*/}
-          {/*    <Image src={recipe.author.avatar} alt='avatar' width={30} height={30} draggable={false}/> :*/}
-          {/*    <Image src='/img/recipe-card/profile.png' alt='avatar' width={30} height={30}*/}
-          {/*           draggable={false}/>}*/}
-          <Image
-            src="/img/recipe-card/profile.png"
-            alt="avatar"
-            width={30}
-            height={30}
-            draggable={false}
-          />
+          {/* Проверка на аватарку */}
+          {recipe?.author?.avatar ?
+             <Image src={recipe.author.avatar} alt='avatar' width={30} height={30} draggable={false}/> :
+             <Image src='/img/recipe-card/profile.png' alt='avatar' width={30} height={30} draggable={false}/>
+          }
           <p>{recipe.author.username}</p>
         </div>
         <div className={styles.userRight}>
@@ -64,6 +56,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
         {recipe.preview_image ? (
           <Image
             src={recipe.preview_image}
+            width={300}
             height={300}
             alt="recipe image"
             draggable={false}
