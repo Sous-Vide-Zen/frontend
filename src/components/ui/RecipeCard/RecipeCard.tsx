@@ -14,14 +14,17 @@ interface IRecipeCard {
   refreshListOnRemoveFromFavorites?: boolean
 }
 
-export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: refreshListOnDelete }: IRecipeCard) {
+export default function RecipeCard({
+  recipe,
+  refreshListOnRemoveFromFavorites: refreshListOnDelete,
+}: IRecipeCard) {
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
   const dispatch = useAppDispatch()
 
   const changeIsFavoriteHandler = () => {
     if (recipe.is_favorite) {
       dispatch(fetchRemoveFromFavorites(recipe.slug))
-      refreshListOnDelete && dispatch(removeFromList({slug: recipe.slug}))
+      refreshListOnDelete && dispatch(removeFromList({ slug: recipe.slug }))
     } else {
       dispatch(fetchAddToFavorites(recipe.slug))
     }
@@ -32,10 +35,23 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
       <div className={styles.user}>
         <div className={styles.userLeft}>
           {/* Проверка на аватарку */}
-          {recipe?.author?.avatar ?
-             <Image src={recipe.author.avatar} alt='avatar' width={30} height={30} draggable={false}/> :
-             <Image src='/img/recipe-card/profile.png' alt='avatar' width={30} height={30} draggable={false}/>
-          }
+          {recipe?.author?.avatar ? (
+            <Image
+              src={recipe.author.avatar}
+              alt="avatar"
+              width={30}
+              height={30}
+              draggable={false}
+            />
+          ) : (
+            <Image
+              src="/img/recipe-card/profile.png"
+              alt="avatar"
+              width={30}
+              height={30}
+              draggable={false}
+            />
+          )}
           <p>{recipe.author.username}</p>
         </div>
         <div className={styles.userRight}>
@@ -80,7 +96,7 @@ export default function RecipeCard({ recipe, refreshListOnRemoveFromFavorites: r
         <p className={styles.previewTime}>{recipe.cooking_time} мин.</p>
       </div>
       <div className={styles.name}>
-        <p>{recipe.title}</p>
+        <h2>{recipe.title}</h2>
         <p>{recipe.short_text}</p>
       </div>
       <div className={styles.footer}>
