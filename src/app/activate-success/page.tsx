@@ -1,16 +1,21 @@
 "use client"
 
+import { useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import styles from './activate-success.module.scss';
-import {useEffect} from 'react';
-import {useRouter} from 'next/navigation';
 
 export default function Activate() {
     const router = useRouter();
+
     useEffect(() => {
-        setTimeout(() => {
+        const timer = setTimeout(() => {
             router.push("/user-data-form")
-        }, 4000)
-    }, [])
+        }, 4000);
+
+        
+        return () => clearTimeout(timer);
+    }, [router]); 
+
     return (
         <div>
             <div className={styles.container}>
