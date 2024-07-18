@@ -10,7 +10,7 @@ export default function Activate() {
         setTimeout(() => {
             router.push("/user-data-form")
         }, 4000)
-    }, [])
+    }, [router])
     return (
         <div>
             <div className={styles.container}>
