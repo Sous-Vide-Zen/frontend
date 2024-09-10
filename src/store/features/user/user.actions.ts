@@ -42,22 +42,22 @@ export const fetchRegistration = createAsyncThunk<
 
 //todo: протестировать АКТИВАЦИЮ пользователя
 // активация пользователя, получение токенов
-// export const fetchActivation = createAsyncThunk<IToken, IDataFromForm>(
-//   'userActivation/fetchActivation',
-//   async (dataFromForm, { rejectWithValue }) => {
-//     try {
-//       const res = await instanceAxios({
-//         method: 'POST',
-//         url: 'auth/jwt/create/',
-//         data: dataFromForm,
-//       })
-//       return res.data
-//     } catch (err) {
-//       // @ts-ignore
-//       return rejectWithValue(err?.response?.data)
-//     }
-//   },
-// )
+export const fetchActivation = createAsyncThunk<IToken, IDataFromForm>(
+  'userActivation/fetchActivation',
+  async (dataFromForm, { rejectWithValue }) => {
+    try {
+      const res = await instanceAxios({
+        method: 'POST',
+        url: 'auth/jwt/create/',
+        data: dataFromForm,
+      })
+      return res.data
+    } catch (err) {
+      // @ts-ignore
+      return rejectWithValue(err?.response?.data)
+    }
+  },
+)
 
 // авторизация пользователя, получение токенов
 // export const fetchAuthorization = createAsyncThunk<IToken, IDataFromForm>(
