@@ -9,7 +9,6 @@ interface ReactionsProps {
 
 const Reactions: FC<ReactionsProps> = ({ slug }) => {
   const { data } = useGetRecipeReactionsQuery(slug)
-  const { reactions } = data ?? {}
 
   const onHeartClick = () => {
     console.log('heart')
@@ -26,9 +25,14 @@ const Reactions: FC<ReactionsProps> = ({ slug }) => {
   const onAngryFaceClick = () => {
     console.log('angry_face')
   }
+
   const onFireClick = () => {
     console.log('fire')
   }
+
+  if (!data) return <div className={styles.reactions}>загрузка...</div>
+
+  const { reactions } = data
 
   return (
     <div className={styles.reactions}>

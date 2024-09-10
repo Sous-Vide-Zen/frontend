@@ -125,7 +125,7 @@ export const axiosBaseQuery: BaseQueryFn<
       },
       unknown
     >
-    console.log(err)
+    // console.log(err)
 
     return {
       error: {
