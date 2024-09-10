@@ -1,19 +1,31 @@
-'use client'
+import { FC } from 'react'
+import { permanentRedirect } from 'next/navigation'
 
 import styles from '../../mutationRecipe.module.scss'
-import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
 import EditRecipeForm from '@/components/forms/recipe/EditRecipeForm'
+import { getRecipeData } from '@/ssr/api/recipe'
+import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
 
-export default function EditRecipe({ params }: { params: { slug: string } }) {
-  const { data, error } = useGetRecipeQuery(params.slug)
+type Props = {
+  params: { slug: string }
+}
 
-  if (error) return <div className={styles.wrongSlug}>Рецепт не найден</div>
+const EditRecipePage: FC<Props> = async ({ params }) => {
+  let data: IRecipeWithIngredients | undefined
 
-  console.log('recipe data', JSON.stringify(data, null, 2));
-  
+  try {
+    data = await getRecipeData(params.slug)
+  } catch (error) {
+    console.log({ error })
+  }
+
+  if (!data) permanentRedirect('/wrong_page')
+
   return (
     <div className={styles.wrapper}>
       <EditRecipeForm recipeData={data} />
     </div>
   )
 }
+
+export default EditRecipePage

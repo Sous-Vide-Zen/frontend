@@ -1,36 +1,46 @@
-'use client'
-
-import { useState, useEffect } from 'react'
-
-import styles from './recipe.module.scss'
-import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
-import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
+import { FC } from 'react'
 import Link from 'next/link'
+import { permanentRedirect } from 'next/navigation'
+
 import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
+import { getRecipeData } from '@/ssr/api/recipe'
+import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
 
-export default function Recipe({ params }: { params: { slug: string } }) {
-  const { data, isFetching, isLoading, error, status } = useGetRecipeQuery(
-    params.slug,
-  )
+/*
+  для ограничения списка рецептов можно использовать:
 
-  useEffect(() => {
-    console.log({ data, isFetching, isLoading, error, status })
-  }, [data, error, isFetching, isLoading, status])
-  if (error)
-    return (
-      <div className={styles.wrongSlug}>
-        Рецепт не найден
-        <ButtonBack />
-      </div>
-    )
+  export const dynamicParams = false
 
-  //todo поместить сюда форму просмотра рецепта params_slug={params.slug}
+  export async function generateStaticParams() {
+    // заполнить вручную, либо данными из БД
+    return [
+      { slug: 'ddie-folgenden-codes-sind-implementierungen' },
+      { slug: 'kakoj-to-recept' },
+    ]
+  }
+*/
+
+type Props = {
+  params: { slug: string }
+}
+
+const RecipePage: FC<Props> = async ({ params }) => {
+  let data: IRecipeWithIngredients | undefined
+
+  try {
+    data = await getRecipeData(params.slug)
+  } catch (error) {
+    console.log({ error })
+  }
+
+  if (!data) permanentRedirect('/wrong_page')
+
   return (
     <>
-      {/* <pre style={{ display: 'block', fontSize: '10pt' }}>
-        {JSON.stringify(data, null, 2)}
-      </pre> */}
-      {data && <RecipeModify recipe={data} slug={''} pub_date={''} />}
+      <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link>
+      <RecipeModify recipe={data} slug={''} pub_date={''}/>
     </>
   )
 }
+
+export default RecipePage

@@ -1,4 +1,6 @@
-import { FC, useState, useEffect } from 'react'
+'use client'
+
+import { FC, useState } from 'react'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
 import styles from './RecipeModify.module.scss'
