@@ -33,7 +33,7 @@ const getListParamsVariants: ListParams[] = [
 
 export const recipeApi = createApi({
   reducerPath: 'recipeApi',
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosBaseQuery,
   tagTypes: ['Recipes'],
   endpoints: (builder) => ({
     // Единый запрос для разных списков рецептов

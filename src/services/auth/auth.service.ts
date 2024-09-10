@@ -1,5 +1,10 @@
 import { SerializedError } from '@reduxjs/toolkit'
-import { BaseQueryFn } from '@reduxjs/toolkit/query'
+import {
+  BaseQueryFn,
+  FetchArgs,
+  fetchBaseQuery,
+  FetchBaseQueryError,
+} from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 export const BASE_URL =
@@ -88,45 +93,45 @@ instanceAxios.interceptors.response.use(
   },
 )
 
-//todo: проверить отработку ошибок
+// for example
+const rawBaseQuery = fetchBaseQuery({
+  baseUrl: BASE_URL,
+})
+
+export const baseQueryFetch: BaseQueryFn<
+  FetchArgs,
+  unknown,
+  FetchBaseQueryError
+> = async (args, _api, _extraOptions) => {
+  return rawBaseQuery(args, _api, _extraOptions)
+}
 
 // для использования в RTK
-export const axiosBaseQuery =
-  (): BaseQueryFn<
-    {
-      url: string
-      method?: AxiosRequestConfig['method']
-      data?: AxiosRequestConfig['data']
-      params?: AxiosRequestConfig['params']
-      headers?: AxiosRequestConfig['headers']
-    },
-    unknown,
-    SerializedError
-  > =>
-  async ({ url, method, data, params, headers }) => {
-    try {
-      const result = await instanceAxios({
-        url: BASE_URL + url,
-        method,
-        data,
-        params,
-        headers,
-      })
-      return { data: result.data }
-    } catch (axiosError) {
-      const err = axiosError as AxiosError<
-        {
-          detail: string
-        },
-        unknown
-      >
-      console.log('axiosBaseQuery error', err)
+// @ts-ignore
+export const axiosBaseQuery: BaseQueryFn<
+  AxiosRequestConfig,
+  unknown,
+  SerializedError
+> = async (args, _api, _extraOptions) => {
+  if (!args) return
 
-      return {
-        error: {
-          code: err.response?.status,
-          message: err.response?.data.detail,
-        },
-      } as SerializedError
+  try {
+    const result = await instanceAxios(args)
+    return { data: result.data }
+  } catch (axiosError) {
+    const err = axiosError as AxiosError<
+      {
+        detail: string
+      },
+      unknown
+    >
+    console.log(err)
+
+    return {
+      error: {
+        code: err.response?.status,
+        message: err.response?.data.detail,
+      },
     }
   }
+}

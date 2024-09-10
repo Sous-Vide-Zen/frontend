@@ -192,7 +192,7 @@ export const fetchDataUserName = createAsyncThunk<IResUserName, string>(
 // RTK замена
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosBaseQuery,
   endpoints: (builder) => ({
     getCurentUserData: builder.query<CurrentUserData, void>({
       query: () => ({ url: 'auth/users/me' }),

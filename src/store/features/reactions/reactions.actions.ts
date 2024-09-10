@@ -4,7 +4,7 @@ import { GetRecipeReactionsResult } from './reactions.types'
 
 export const recipeReactionsApi = createApi({
   reducerPath: 'recipeReactionsApi',
-  baseQuery: axiosBaseQuery(),
+  baseQuery: axiosBaseQuery,
   endpoints: (builder) => ({
     getRecipeReactions: builder.query<GetRecipeReactionsResult, string>({
       query: (slug) => ({ url: `recipe/${slug}/reactions/` }),
