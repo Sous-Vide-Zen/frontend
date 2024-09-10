@@ -4,6 +4,7 @@ import {
   FetchArgs,
   fetchBaseQuery,
   FetchBaseQueryError,
+  retry,
 } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
@@ -125,7 +126,10 @@ export const axiosBaseQuery: BaseQueryFn<
       },
       unknown
     >
-    // console.log(err)
+    
+    if (err.response?.status !== 429) {
+      retry.fail(err.response?.data.detail)
+    }
 
     return {
       error: {
