@@ -1,14 +1,16 @@
+import { FC, PropsWithChildren, Suspense } from 'react'
 import styles from './recipe.module.scss'
 import Layout from '@/components/layout/layout'
+import { RecipeSkeleton } from '@/components/ui/Skeletons/skeletons'
 
-export default function RecipeLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+const RecipeLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <Layout isSearch={true}>
-      <div className={styles.container}>{children}</div>
+      <div className={styles.container}>
+        <Suspense fallback={<RecipeSkeleton />}>{children}</Suspense>
+      </div>
     </Layout>
   )
 }
+
+export default RecipeLayout

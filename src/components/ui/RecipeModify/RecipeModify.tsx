@@ -1,6 +1,4 @@
-'use client'
-
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { IRecipe } from '@/store/features/recipes/recipes.types'
 import Image from 'next/image'
 import styles from './RecipeModify.module.scss'
@@ -18,11 +16,11 @@ interface IRecipeWithIngredients extends IRecipe {
   full_text: string
 }
 interface RecipeCardProps {
-  recipe: IRecipeWithIngredients
-  readonly?: boolean
-  onClose?: () => void
-  slug: string
-  pub_date: string
+  recipe?: IRecipeWithIngredients
+  // readonly?: boolean
+  // onClose?: () => void
+  // slug?: string
+  // pub_date:? string
 }
 
 const RecipeModify: FC<RecipeCardProps> = ({ recipe }) => {
@@ -175,6 +173,7 @@ const RecipeModify: FC<RecipeCardProps> = ({ recipe }) => {
         </div>
       </div>
     )
+  else return 'no - data'
 }
 
 export default RecipeModify
