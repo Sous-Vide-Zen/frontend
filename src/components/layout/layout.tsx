@@ -13,7 +13,7 @@ type Props = {
 
 const Layout: FC<Props> = ({ children, sidebar = true, isSearch = false }) => (
   <div className={styles.layout}>
-    <div className="container" style={{ flexDirection: 'column' }}>
+    <div className={styles.container} style={{ flexDirection: 'column' }}>
       <Header isSearch={isSearch} />
       {sidebar ? (
         <div className={styles.layoutTwo}>
