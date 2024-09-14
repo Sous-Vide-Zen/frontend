@@ -1,4 +1,3 @@
-// сделай типизацию
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import {
   CurrentUserData,
@@ -11,13 +10,22 @@ import {
   RegisterUserResponse,
   UserData,
 } from './user.types'
-import {
-  BASE_URL,
-  instanceAxios,
-} from '@/services/auth/auth.service'
+import { BASE_URL, instanceAxios } from '@/services/auth/auth.service'
 import { authBaseQuery } from '@/services/apiQueries'
 import axios from 'axios'
 import { createApi } from '@reduxjs/toolkit/query/react'
+
+/*
+  todo переделать на userApi:
+  fetchRegistration, 
+  fetchActivation ,
+  fetchDataUser,
+  fetchActivationUserToEmail,
+  fetchFormDataUser,
+  fetchDataUserName
+
+  и сделать тесты для всех методов
+*/
 
 // регистрация пользователя
 export const fetchRegistration = createAsyncThunk<
@@ -226,5 +234,5 @@ export const {
   useLazyGetCurentUserDataQuery,
   useLazyGetUserDataQuery,
   useRegisterMutation,
-  useLoginMutation
+  useLoginMutation,
 } = userApi

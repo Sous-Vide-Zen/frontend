@@ -8,8 +8,8 @@ export interface IInitialState {
 
 const defaultState: IInitialState = {
   isAuth: false,
-  access_token: localStorage.getItem('access_token_svd'),
-  refresh_token: localStorage.getItem('refresh_token_svd'),
+  access_token: null,
+  refresh_token: null,
 }
 
 export const userSettings = createSlice({
