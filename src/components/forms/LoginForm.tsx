@@ -1,4 +1,5 @@
 'use client'
+
 import Link from 'next/link'
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
@@ -21,6 +22,8 @@ type FormValues = {
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
   const [doLogin, { data, status, isLoading, error }] = useLoginMutation()
+  
+  // @ts-ignore
   const errorText = error?.message
   const {
     register,

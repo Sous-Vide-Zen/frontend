@@ -1,15 +1,15 @@
 'use client'
 
 import { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { useRouter } from 'next/navigation'
 
 import styles from './RecipeList.module.scss'
-import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import { RecipeListDispatcher } from '@/hooks/useFavorites'
-import EmptyRecipeList from './EmptyRecipeList'
+import { RecipeView } from '@/store/features/recipes/recipes.slice'
+import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import ListLoader from '@/components/ui/ListLoader/ListLoader'
 import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
-import { RecipeView } from '@/store/features/recipes/recipes.slice'
-import { useRouter } from 'next/navigation'
+import EmptyRecipeList from './EmptyRecipeList'
 
 const RecipeList: FC<{
   dispatcher: RecipeListDispatcher
@@ -20,7 +20,8 @@ const RecipeList: FC<{
     styles.wrapper,
   ])
   const router = useRouter()
-  const { recipies, loadNextPageRef, isFetching, error } = dispatcher()
+  const { recipies, loadNextPageRef, isFetching, isLoading, error } =
+    dispatcher()
 
   const toggleIngredients = (slug: string) => {
     console.log(`/recipe/${slug}`)
@@ -58,7 +59,10 @@ const RecipeList: FC<{
     setContainerStyles(newStyles)
   }, [view])
 
-  if (error) return <ListLoadingError error={error} />
+  if (error) return <ListLoadingError error={error.data.detail} />
+
+  //todo может сделать тут скелетон?
+  if (isLoading) return <ListLoader />
 
   return (
     <div className={styles.container}>

@@ -8,7 +8,7 @@ interface ReactionsProps {
 }
 
 const Reactions: FC<ReactionsProps> = ({ slug }) => {
-  const { data } = useGetRecipeReactionsQuery(slug)
+  const { data, error } = useGetRecipeReactionsQuery(slug)
 
   const onHeartClick = () => {
     console.log('heart')
@@ -30,7 +30,13 @@ const Reactions: FC<ReactionsProps> = ({ slug }) => {
     console.log('fire')
   }
 
-  if (!data) return <div className={styles.reactions}>загрузка...</div>
+  //todo можно придумать дазайн для этого, например скелетоны
+  if (!data)
+    return error ? (
+      <div className={styles.reactions}>ошибка</div>
+    ) : (
+      <div className={styles.reactions}>загрузка...</div>
+    )
 
   const { reactions } = data
 

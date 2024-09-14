@@ -2,15 +2,17 @@ import { createSlice } from '@reduxjs/toolkit'
 
 export interface IInitialState {
   isAuth: boolean
-  access_token?: string
-  refresh_token?: string
+  access_token: string | null
+  refresh_token: string | null
 }
 
 const defaultState: IInitialState = {
   isAuth: false,
+  access_token: localStorage.getItem('access_token_svd'),
+  refresh_token: localStorage.getItem('refresh_token_svd'),
 }
 
-const userSettings = createSlice({
+export const userSettings = createSlice({
   name: 'userSettings',
   initialState: defaultState,
   reducers: {
@@ -31,7 +33,7 @@ const userSettings = createSlice({
       localStorage.removeItem('refresh_token_svd')
       state.isAuth = false
     },
-    setAccessTokens: (state, action) => {
+    setAccessToken: (state, action) => {
       localStorage.setItem('access_token_svd', action.payload)
       state.isAuth = true
     },
@@ -43,9 +45,10 @@ const userSettings = createSlice({
       localStorage.setItem('refresh_token_svd', refresh)
       state.isAuth = true
     },
-    clearTokens: (state, action) => {
+    clearTokens: (state, _action) => {
       localStorage.removeItem('access_token_svd')
       localStorage.removeItem('refresh_token_svd')
+      state.isAuth = false
     },
   },
 })
@@ -54,7 +57,7 @@ export const {
   checkLoginStatus,
   loginUser,
   logoutUser,
-  setAccessTokens,
+  setAccessToken,
   setTokens,
   clearTokens,
 } = userSettings.actions
