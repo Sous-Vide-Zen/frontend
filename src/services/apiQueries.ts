@@ -1,9 +1,8 @@
-//todo все операции с localStorage перенести в слайс userSettings
-import { useAppSelector } from '@/store/features/hooks'
 import {
+  ACCESS_TOKEN_NAME,
   clearTokens,
+  REFRESH_TOKEN_NAME,
   setAccessToken,
-  userSettings,
 } from '@/store/features/user/user.slice'
 import {
   FetchArgs,
@@ -45,9 +44,8 @@ export const authBaseQuery: BaseQueryFn<
   await mutex.waitForUnlock()
 
   // здесь надо напрямую брать из localStorage, как взять отсюда актуальные данные из слайса пока непонятно
-  const access_token = userSettings.getInitialState()
-  const authToken = localStorage.getItem('access_token_svd')
-  const refreshToken = localStorage.getItem('refresh_token_svd')
+  const authToken = localStorage.getItem(ACCESS_TOKEN_NAME)
+  const refreshToken = localStorage.getItem(REFRESH_TOKEN_NAME)
 
   args = injectAuth(args, authToken)
   let result = await baseQuery(args, api, extraOptions)

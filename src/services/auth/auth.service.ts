@@ -6,6 +6,7 @@ import {
 } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
+import { ACCESS_TOKEN_NAME, REFRESH_TOKEN_NAME } from '@/store/features/user/user.slice'
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
@@ -18,13 +19,13 @@ let refresh = {}
 
 if (typeof window !== 'undefined') {
   refresh = {
-    refresh: localStorage.getItem('refresh_token_svd'),
+    refresh: localStorage.getItem(REFRESH_TOKEN_NAME),
   }
 }
 
 export const clearTokensAndGoToLogin = () => {
-  localStorage.removeItem('access_token_svd')
-  localStorage.removeItem('refresh_token_svd')
+  localStorage.removeItem(ACCESS_TOKEN_NAME)
+  localStorage.removeItem(REFRESH_TOKEN_NAME)
 }
 
 const urlsSkipAuth = ['auth/users/', 'auth/jwt/create/', 'feed/']
@@ -40,7 +41,7 @@ instanceAxios.interceptors.request.use(
       return config
     }
 
-    const authToken = localStorage.getItem('access_token_svd')
+    const authToken = localStorage.getItem(ACCESS_TOKEN_NAME)
     if (authToken) {
       config.headers.Authorization = `Bearer ${authToken}`
       // console.log("сработал перехватчик на POST устанавливает токен");
@@ -78,7 +79,7 @@ instanceAxios.interceptors.response.use(
           refresh,
         )
         // case 2.1: refreshing success -> set access token and refetch original query
-        localStorage.setItem('access_token_svd', response.data.access)
+        localStorage.setItem(ACCESS_TOKEN_NAME, response.data.access)
 
         return instanceAxios.request(originalRequest)
       } catch (error) {
