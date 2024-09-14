@@ -25,26 +25,26 @@ const Avatar: FC = () => {
   )
 
   return (
-    <div>
-      <PopupArrow
-        position="bottom"
-        tooltipStyles={{
-          minWidth: '140px',
-          textAlign: 'left',
-          fontSize: 16,
-        }}
-        Content={() => (
-          <Image
-            src="/img/profile.png"
-            width={30}
-            height={30}
-            alt="profile"
-            draggable={false}
-          />
-        )}
-        Tooltip={() => (isAuth ? AuthMenu : NoAuthMenu)}
-      />
-    </div>
+    <PopupArrow
+      position="bottom"
+      tooltipStyles={{
+        minWidth: '140px',
+        textAlign: 'left',
+        fontSize: 16,
+      }}
+      Content={() => (
+        // todo сделвть доступным для управления с клавиатуры
+        <Image
+          className={styles.profile}
+          src="/img/profile.png"
+          width={30}
+          height={30}
+          alt="profile"
+          draggable={false}
+        />
+      )}
+      Tooltip={() => (isAuth ? AuthMenu : NoAuthMenu)}
+    />
   )
 }
 

@@ -36,9 +36,7 @@ export default function Header({ isSearch }: { isSearch: boolean | undefined }) 
                                 className={styles.input}
                             />
                         </div>
-                        <button className={styles.profile}>
-                            <Avatar/>
-                        </button>
+                        <Avatar/>
                     </>
                 }
             </div>
