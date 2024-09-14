@@ -17,7 +17,7 @@ const defaultState: IInitialState = {
   sortMyRecipes: 'date',
 }
 
-const saveSlice = (state: IInitialState) => {
+const saveSliceToLocalStorage = (state: IInitialState) => {
   localStorage.setItem('userSettings', JSON.stringify(state))
 }
 
@@ -35,19 +35,19 @@ const recipesSettings = createSlice({
     },
     setViewMode: (state, action) => {
       state.view = action.payload
-      saveSlice(state)
+      saveSliceToLocalStorage(state)
     },
     setSortMode: (state, action) => {
       state.sort = action.payload
-      saveSlice({ ...state, sort: action.payload })
+      saveSliceToLocalStorage({ ...state, sort: action.payload })
     },
     setSortMyRecipesMode: (state, action) => {
       state.sortMyRecipes = action.payload
-      saveSlice(state)
+      saveSliceToLocalStorage(state)
     },
     setDateSortMyRecipes: (state, action) => {
       state.sortMyRecipesDate = action.payload
-      saveSlice(state)
+      saveSliceToLocalStorage(state)
     },
   },
 })

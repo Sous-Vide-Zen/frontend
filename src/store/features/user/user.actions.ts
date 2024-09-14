@@ -12,10 +12,10 @@ import {
   UserData,
 } from './user.types'
 import {
-  axiosBaseQuery,
   BASE_URL,
   instanceAxios,
 } from '@/services/auth/auth.service'
+import { authBaseQuery } from '@/services/apiQueries'
 import axios from 'axios'
 import { createApi } from '@reduxjs/toolkit/query/react'
 
@@ -192,7 +192,7 @@ export const fetchDataUserName = createAsyncThunk<IResUserName, string>(
 // RTK замена
 export const userApi = createApi({
   reducerPath: 'userApi',
-  baseQuery: axiosBaseQuery,
+  baseQuery: authBaseQuery,
   endpoints: (builder) => ({
     getCurentUserData: builder.query<CurrentUserData, void>({
       query: () => ({ url: 'auth/users/me' }),
@@ -201,20 +201,20 @@ export const userApi = createApi({
       query: (username: string) => ({ url: `user/${username}` }),
     }),
     register: builder.mutation<RegisterUserResponse, RegisterUserForm>({
-      query: (data) => {
+      query: (body) => {
         return {
           url: 'auth/users/',
           method: 'POST',
-          data,
+          body,
         }
       },
     }),
     login: builder.mutation<LoginUserResponse, LoginUserForm>({
-      query: (data) => {
+      query: (body) => {
         return {
           url: 'auth/jwt/create/',
           method: 'POST',
-          data,
+          body,
         }
       },
     }),

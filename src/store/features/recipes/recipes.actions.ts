@@ -1,12 +1,13 @@
-import { axiosBaseQuery } from '@/services/auth/auth.service'
-import { BaseQueryFn, createApi, FetchArgs } from '@reduxjs/toolkit/query/react'
+import { createApi } from '@reduxjs/toolkit/query/react'
+import { current } from '@reduxjs/toolkit'
+
+import { authBaseQuery } from '@/services/apiQueries'
 import { convertObjectToQueryParams } from '@/helpers/url'
 import {
   IFetchListData,
   IPatchRecipeParams,
   IRecipeWithIngredients,
 } from './recipes.types'
-import { current } from '@reduxjs/toolkit'
 
 export type ListParams = {
   pathname: string
@@ -33,8 +34,8 @@ const getListParamsVariants: ListParams[] = [
 
 export const recipeApi = createApi({
   reducerPath: 'recipeApi',
-  baseQuery: axiosBaseQuery,
-  tagTypes: ['Recipes'],
+  baseQuery: authBaseQuery,
+  tagTypes: ['Recipes', 'Favorites'],
   endpoints: (builder) => ({
     // Единый запрос для разных списков рецептов
     getRecipes: builder.query<IFetchListData, ListParams>({
@@ -148,6 +149,7 @@ export const recipeApi = createApi({
         url: `recipe/${slug}/favorite/`,
         method: 'DELETE',
       }),
+      invalidatesTags: ['Recipes'], //todo не работает(
       async onQueryStarted(slug, { dispatch, queryFulfilled }) {
         await queryFulfilled
 
@@ -211,11 +213,11 @@ export const recipeApi = createApi({
     }),
 
     createRecipe: builder.mutation<any, IPatchRecipeParams>({
-      query: ({ slug, data }) => {
+      query: ({ slug, data: body }) => {
         return {
           url: `recipe/${slug}/`,
           method: 'POST',
-          data,
+          body,
         }
       },
     }),
@@ -231,5 +233,5 @@ export const {
   useRemoveFromFavoritesMutation,
   useGetRecipeQuery,
   useSaveRecipeMutation,
-  useCreateRecipeMutation
+  useCreateRecipeMutation,
 } = recipeApi

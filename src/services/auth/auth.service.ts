@@ -1,11 +1,10 @@
+// заменено на baseQuery и authBaseQuery. Это оставлено для истории
+
 import { SerializedError } from '@reduxjs/toolkit'
 import {
-  BaseQueryFn,
-  FetchArgs,
-  fetchBaseQuery,
-  FetchBaseQueryError,
   retry,
 } from '@reduxjs/toolkit/query'
+import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
 export const BASE_URL =
@@ -23,13 +22,13 @@ if (typeof window !== 'undefined') {
   }
 }
 
-const clearTokensAndGoToLogin = () => {
+export const clearTokensAndGoToLogin = () => {
   localStorage.removeItem('access_token_svd')
   localStorage.removeItem('refresh_token_svd')
 }
 
 const urlsSkipAuth = ['auth/users/', 'auth/jwt/create/', 'feed/']
-const clitical401Errors = [
+export const clitical401Errors = [
   'Не найдено активной учетной записи с указанными данными',
   'Пользователь не найден',
 ]
@@ -61,6 +60,7 @@ instanceAxios.interceptors.response.use(
     return response
   },
   async (error) => {
+    console.log('instanceAxios.interceptors', error)
     const originalRequest = error.config
 
     if (error.response.status == 401) {
@@ -94,19 +94,6 @@ instanceAxios.interceptors.response.use(
   },
 )
 
-// for example
-const rawBaseQuery = fetchBaseQuery({
-  baseUrl: BASE_URL,
-})
-
-export const baseQueryFetch: BaseQueryFn<
-  FetchArgs,
-  unknown,
-  FetchBaseQueryError
-> = async (args, _api, _extraOptions) => {
-  return rawBaseQuery(args, _api, _extraOptions)
-}
-
 // для использования в RTK
 // @ts-ignore
 export const axiosBaseQuery: BaseQueryFn<
@@ -126,7 +113,7 @@ export const axiosBaseQuery: BaseQueryFn<
       },
       unknown
     >
-    
+
     if (err.response?.status !== 429) {
       retry.fail(err.response?.data.detail)
     }

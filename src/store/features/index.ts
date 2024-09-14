@@ -26,8 +26,6 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
-      // todo: добавить контроль минимального времени между запросами - очередью, или встроенными средствами redux
-      // .concat(timerMiddleware)
       .concat(recipeReactionsApi.middleware)
       .concat(userApi.middleware)
       .concat(recipeApi.middleware),
