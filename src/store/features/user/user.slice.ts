@@ -1,75 +1,51 @@
 import { createSlice } from '@reduxjs/toolkit'
+import { RecipeListFilter, RecipeListOrdering as RecipeListSort } from '@/hooks/dispatcher.types'
+
+export type RecipeListView = 'feed' | 'tile'
+export type MyRecipeSort = 'date' | 'ingredients'
 
 export interface IInitialState {
-  isAuth: boolean
-  access_token: string | null
-  refresh_token: string | null
+  view: RecipeListView
+  filter?: RecipeListFilter
+  sort: RecipeListSort
+  myRecipesSort: MyRecipeSort
+  myRecipesFromDate?: string // date with format 'yyyy-mm-dd'
 }
-
-const ACCESS_TOKEN_NAME = 'access_token_svd'
-const REFRESH_TOKEN_NAME = 'refresh_token_svd'
-
-export const getAcessToken = () => localStorage.getItem(ACCESS_TOKEN_NAME)
-export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN_NAME)
-export const setAcessToken = (token: string) => localStorage.setItem(ACCESS_TOKEN_NAME, token)
-export const setRefreshToken = (token: string) => localStorage.setItem(REFRESH_TOKEN_NAME, token)
-export const delAcessToken = () => localStorage.removeItem(ACCESS_TOKEN_NAME)
-export const delRefreshToken = () => localStorage.removeItem(REFRESH_TOKEN_NAME)
 
 const defaultState: IInitialState = {
-  isAuth: false,
-  access_token: null,
-  refresh_token: null,
+  view: 'feed',
+  sort: 'default',
+  myRecipesSort: 'date',
 }
 
-export const userSettings = createSlice({
+const userSettingsSlice = createSlice({
   name: 'userSettings',
   initialState: defaultState,
   reducers: {
-    checkLoginStatus: (state, _action) => {
-      const token = getAcessToken()
-      state.isAuth = !!token
+    setViewMode: (state, action) => {
+      state.view = action.payload
     },
-    loginUser: (state, action) => {
-      const { access, refresh } = action.payload
-      state.access_token = access
-      setAcessToken(access)
-      state.refresh_token = refresh
-      setRefreshToken(refresh)
-      state.isAuth = true
+    setFilterMode: (state, action) => {
+      state.filter = action.payload
     },
-    logoutUser: (state, _action) => {
-      delAcessToken()
-      delRefreshToken()
-      state.isAuth = false
+    setSortMode: (state, action) => {
+      state.sort = action.payload
     },
-    setAccessToken: (state, action) => {
-      setAcessToken(action.payload)
-      state.isAuth = true
+    setSortMyRecipesMode: (state, action) => {
+      state.myRecipesSort = action.payload
     },
-    setTokens: (state, action) => {
-      const { access, refresh } = action.payload
-      state.access_token = access
-      setAcessToken(access)
-      state.refresh_token = refresh
-      setRefreshToken(refresh)
-      state.isAuth = true
-    },
-    clearTokens: (state, _action) => {
-      delAcessToken()
-      delRefreshToken()
-      state.isAuth = false
+    setDateSortMyRecipes: (state, action) => {
+      state.myRecipesFromDate = action.payload
     },
   },
 })
 
 export const {
-  checkLoginStatus,
-  loginUser,
-  logoutUser,
-  setAccessToken,
-  setTokens,
-  clearTokens,
-} = userSettings.actions
+  setViewMode,
+  setFilterMode,
+  setSortMode,
+  setSortMyRecipesMode,
+  setDateSortMyRecipes,
+} = userSettingsSlice.actions
 
-export default userSettings.reducer
+export default userSettingsSlice.reducer

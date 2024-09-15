@@ -11,7 +11,14 @@ import {
 
 export type ListParams = {
   pathname: string
-  params: Record<string, string>
+  params: getRecipesParams
+}
+
+export type getRecipesParams = {
+  filter?: string | null
+  ordering?: string
+  page?: string
+  username?: string
 }
 
 /*
@@ -40,8 +47,9 @@ export const recipeApi = createApi({
     // Единый запрос для разных списков рецептов
     getRecipes: builder.query<IFetchListData, ListParams>({
       query: ({ pathname, params }) => {
+        const fixedParams = params as Record<string, string>
         return {
-          url: `${pathname}/?${convertObjectToQueryParams(params)}`,
+          url: `${pathname}/?${convertObjectToQueryParams(fixedParams)}`,
           method: 'GET',
           providesTags: ['Recipes'],
         }
@@ -68,8 +76,9 @@ export const recipeApi = createApi({
     // пришлось добавить, потому что необходимо добавлять в результат запроса поле 'is_favorite: true' для корректного отображения
     getFavorites: builder.query<IFetchListData, ListParams>({
       query: ({ pathname, params }) => {
+        const fixedParams = params as Record<string, string>
         return {
-          url: `${pathname}/?${convertObjectToQueryParams(params)}`,
+          url: `${pathname}/?${convertObjectToQueryParams(fixedParams)}`,
           method: 'GET',
           providesTags: ['Favorites'],
         }

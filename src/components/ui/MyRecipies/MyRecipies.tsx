@@ -1,27 +1,30 @@
 'use client'
 
 import { FC } from 'react'
-import { getUseRecipes } from '@/hooks/useRecipes'
 
 import styles from './MyRecipies.module.scss'
-import RecipeList from '@/components/ui/RecipeList/RecipeList'
-import Button from '@/components/ui/Button/Button'
-import DatePicker from '@/components/ui/DatePicker/DatePicker'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import {
   setDateSortMyRecipes,
   setSortMyRecipesMode,
-} from '@/store/features/recipes/recipes.slice'
+} from '@/store/features/user/user.slice'
+import { useRecipes } from '@/hooks/useRecipes'
+import RecipeList from '@/components/ui/RecipeList/RecipeList'
+import Button from '@/components/ui/Button/Button'
+import DatePicker from '@/components/ui/DatePicker/DatePicker'
 
 type MyRecipiesProps = {
   username?: string
 }
 
 const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
-  const { sortMyRecipes, sortMyRecipesDate } = useAppSelector(
-    (state) => state.recipesFeed,
+  //todo: еще не реализовано в запросе на бэке
+  const { myRecipesSort, myRecipesFromDate } = useAppSelector(
+    (state) => state.userSettings,
   )
   const dispatch = useAppDispatch()
+  const ordering = myRecipesSort === 'ingredients' ? undefined : undefined //todo: после реализации изменить
+  const dispatcher = useRecipes('feed', { username, ordering })
 
   return (
     <div className={styles.container}>
@@ -30,7 +33,7 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
           <Button
             color="secondary"
             size="big"
-            className={sortMyRecipes === 'date' ? styles.active : ''}
+            className={myRecipesSort === 'date' ? styles.active : ''}
             onClick={() => dispatch(setSortMyRecipesMode('date'))}
           >
             По дате
@@ -38,18 +41,18 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
           <Button
             color="secondary"
             size="big"
-            className={sortMyRecipes === 'ingredients' ? styles.active : ''}
+            className={myRecipesSort === 'ingredients' ? styles.active : ''}
             onClick={() => dispatch(setSortMyRecipesMode('ingredients'))}
           >
             По ингредиентам
           </Button>
         </div>
 
-        {sortMyRecipes === 'date' && (
+        {myRecipesSort === 'date' && (
           <DatePicker
             placeholder="Выберите нужную дату"
             value={
-              (sortMyRecipesDate && new Date(sortMyRecipesDate)) || undefined
+              (myRecipesFromDate && new Date(myRecipesFromDate)) || undefined
             }
             onChange={(date) =>
               dispatch(setDateSortMyRecipes(date?.toISOString().split('T')[0]))
@@ -58,12 +61,7 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
         )}
       </div>
 
-      {username && (
-        <RecipeList
-          dispatcher={getUseRecipes('feed', { username })}
-          view="feed"
-        />
-      )}
+      {username && <RecipeList dispatcher={dispatcher} view="feed" />}
     </div>
   )
 }

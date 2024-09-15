@@ -5,7 +5,7 @@ import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
 import styles from './forms.module.scss'
-import { loginUser } from '@/store/features/user/user.slice'
+import { loginUser } from '@/store/features/auth/auth.slice'
 import { useAppDispatch } from '@/store/features/hooks'
 import { useLoginMutation } from '@/store/features/user/user.actions'
 import { Field, FieldSet, InputEmail, InputPassword } from './items'

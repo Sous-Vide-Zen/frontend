@@ -1,32 +1,28 @@
 'use client'
 
-import { FC, Fragment, useEffect, useRef, useState } from 'react'
+import { FC, Fragment, useEffect, useRef } from 'react'
 import { useRouter } from 'next/navigation'
+import cn from 'clsx'
 
 import styles from './RecipeList.module.scss'
-import { RecipeListDispatcher } from '@/hooks/useFavorites'
-import { RecipeView } from '@/store/features/recipes/recipes.slice'
+import { RecipeListView } from '@/store/features/user/user.slice'
+import { RecipeListResult } from '@/hooks/dispatcher.types'
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import ListLoader from '@/components/ui/ListLoader/ListLoader'
 import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
 import EmptyRecipeList from './EmptyRecipeList'
+import { RecipeSkeleton } from '../Skeletons/skeletons'
 
 const RecipeList: FC<{
-  dispatcher: RecipeListDispatcher
-  view: RecipeView
+  dispatcher: RecipeListResult
+  view: RecipeListView
 }> = ({ dispatcher, view }) => {
   const loaderRef = useRef(null)
-  const [containerStyles, setContainerStyles] = useState<string[]>([
-    styles.wrapper,
-  ])
-  const router = useRouter()
-  const { recipies, loadNextPageRef, isFetching, isLoading, error } =
-    dispatcher()
 
-  const toggleIngredients = (slug: string) => {
-    console.log(`/recipe/${slug}`)
-    router.push(`/recipe/${slug}`)
-  }
+  const router = useRouter()
+  const { recipies, loadNextPageRef, isFetching, isLoading, error } = dispatcher
+
+  const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
 
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
@@ -51,35 +47,39 @@ const RecipeList: FC<{
     }
   }, [loadNextPageRef])
 
-  useEffect(() => {
-    const newStyles = [styles.wrapper]
-    if (view === 'tile') {
-      newStyles.push('tile')
-    }
-    setContainerStyles(newStyles)
-  }, [view])
-
+  const ListSkeleton = (
+    <>
+      <RecipeSkeleton />
+      <RecipeSkeleton />
+      <RecipeSkeleton />
+    </>
+  )
   if (error) return <ListLoadingError error={error.data?.detail} />
-
-  //todo может сделать тут скелетон?
-  if (isLoading) return <ListLoader />
 
   return (
     <div className={styles.container}>
-      <div className={containerStyles.join(' ')}>
-        {recipies?.length
-          ? recipies?.map((recipe) => (
-              <Fragment key={recipe.id}>
-                <RecipeCard
-                  key={recipe.id}
-                  recipe={recipe}
-                  onPreview={toggleIngredients}
-                />
-              </Fragment>
-            ))
-          : !isFetching && <EmptyRecipeList />}
+      <div
+        className={cn(styles.wrapper, {
+          ['tile']: view !== 'feed',
+        })}
+      >
+        {isLoading
+          ? ListSkeleton
+          : recipies?.length
+            ? recipies?.map((recipe) => (
+                <Fragment key={recipe.id}>
+                  <RecipeCard
+                    key={recipe.id}
+                    recipe={recipe}
+                    onPreview={toggleIngredients}
+                  />
+                </Fragment>
+              ))
+            : !isFetching && <EmptyRecipeList />}
 
-        <div ref={loaderRef}>{isFetching && <ListLoader />}&nbsp;</div>
+        <div ref={loaderRef}>
+          {!isLoading && isFetching && <ListLoader />}&nbsp;
+        </div>
       </div>
     </div>
   )

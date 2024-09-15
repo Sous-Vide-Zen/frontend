@@ -1,12 +1,13 @@
 'use client'
+
 import styles from './favorites.module.scss'
-import { useFavorites } from '@/hooks/useFavorites'
+import { useAppSelector } from '@/store/features/hooks'
+import { useRecipes } from '@/hooks/useRecipes'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
-import { useAppSelector } from '@/store/features/hooks'
 
 export default function Favorites() {
-  const { view } = useAppSelector((state) => state.recipesFeed)
+  const { view } = useAppSelector((state) => state.userSettings)
 
   return (
     <>
@@ -15,7 +16,10 @@ export default function Favorites() {
       >
         {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
         <div>
-          <RecipeList dispatcher={useFavorites} view={view} />
+          <RecipeList
+            dispatcher={useRecipes('recipe/favorites', {})}
+            view={view} 
+          />
         </div>
       </div>
       <div className={styles.rightbar}>

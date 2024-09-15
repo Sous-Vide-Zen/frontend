@@ -1,11 +1,13 @@
-"use client";
+'use client'
 
-import { useRef } from "react";
-import { Provider } from "react-redux";
-import { AppStore, makeStore } from ".";
-import UserSettingsInitializer from "./userSettingsInitializer";
+import { useRef } from 'react'
+import { Provider } from 'react-redux'
+import { PersistGate } from 'redux-persist/integration/react'
+
+import { AppStore, makeStore, persistor } from '.'
 
 // переделано по рекомендации из https://redux-toolkit.js.org/usage/nextjs#introduction
+// добавлен PersistGate для сохранения состояния стейта
 
 export function Providers({ children }: { children: React.ReactNode }) {
   const storeRef = useRef<AppStore>()
@@ -13,10 +15,12 @@ export function Providers({ children }: { children: React.ReactNode }) {
   if (!storeRef.current) {
     storeRef.current = makeStore()
   }
-  
+
   return (
     <Provider store={storeRef.current}>
-      <UserSettingsInitializer>{children}</UserSettingsInitializer>
+      <PersistGate loading={null} persistor={persistor}>
+        {children}
+      </PersistGate>
     </Provider>
   )
 }

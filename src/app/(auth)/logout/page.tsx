@@ -3,7 +3,7 @@ import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { useAppDispatch } from '@/store/features/hooks'
-import { logoutUser } from '@/store/features/user/user.slice'
+import { logoutUser } from '@/store/features/auth/auth.slice'
 
 export default function Logout() {
   const router = useRouter()

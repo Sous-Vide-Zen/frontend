@@ -1,23 +1,22 @@
 import {
-  clearTokens,
-  getAcessToken,
-  getRefreshToken,
-  setAccessToken,
-} from '@/store/features/user/user.slice'
-import { ThunkAction, UnknownAction } from '@reduxjs/toolkit'
-import {
   FetchArgs,
   fetchBaseQuery,
   type BaseQueryFn,
   FetchBaseQueryError,
-  QueryActionCreatorResult,
-  QueryDefinition,
 } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
+
+import {
+  clearTokens,
+  getAcessToken,
+  getRefreshToken,
+  setAccessToken,
+} from '@/store/features/auth/auth.slice'
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
 
+// при 401 ошибках только с таким текстом будет обновляться access_token
 export const clitical401Errors = [
   'Не найдено активной учетной записи с указанными данными',
   'Пользователь не найден',
@@ -48,7 +47,6 @@ export const authBaseQuery: BaseQueryFn<
 
   const authToken = getAcessToken()
   const refreshToken = getRefreshToken()
-  // promise.unsubscribe()
 
   args = injectAuth(args, authToken)
   let result = await baseQuery(args, api, extraOptions)
@@ -108,22 +106,4 @@ export const authBaseQuery: BaseQueryFn<
     await mutex.waitForUnlock()
     result = await baseQuery(args, api, extraOptions)
   }
-}
-function dispatch(
-  arg0: ThunkAction<
-    QueryActionCreatorResult<
-      QueryDefinition<
-        void,
-        BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError>,
-        never,
-        any,
-        'userApi'
-      >
-    >,
-    any,
-    any,
-    UnknownAction
-  >,
-) {
-  throw new Error('Function not implemented.')
 }

@@ -1,29 +1,15 @@
 'use client'
 
-import { useMemo } from 'react'
-import { useAppSelector } from '@/store/features/hooks'
 import styles from './page.module.scss'
+import { useAppSelector } from '@/store/features/hooks'
+import { useRecipes } from '@/hooks/useRecipes'
 import Layout from '@/components/layout/layout'
-import {
-  getUseRecipes,
-  RecipeListDispatcher,
-  RecipeListVariant,
-} from '@/hooks/useRecipes'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 
 export default function Home() {
-  const { view, sort } = useAppSelector((state) => state.recipesFeed)
-
-  const dispatcherByVariant: Record<RecipeListVariant, RecipeListDispatcher> =
-    useMemo(
-      () => ({
-        top: getUseRecipes('feed', { ordering: '-activity_count' }),
-        default: getUseRecipes('feed'),
-        subscribe: getUseRecipes('feed', { filter: 'subscriptions' }),
-      }),
-      [],
-    )
+  const { view, sort, filter } = useAppSelector((state) => state.userSettings)
+  const ordering = sort === 'top' ? '-activity_count' : undefined
 
   return (
     <Layout isSearch={true}>
@@ -34,9 +20,10 @@ export default function Home() {
         >
           {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
           <div>
-            {dispatcherByVariant[sort] && (
-              <RecipeList dispatcher={dispatcherByVariant[sort]} view={view} />
-            )}
+            <RecipeList
+              dispatcher={useRecipes('feed', { ordering, filter })}
+              view={view}
+            />
           </div>
         </div>
         <Rightbar />

@@ -6,48 +6,56 @@ import { usePathname, useRouter } from 'next/navigation'
 import NavLink, { LinkItem } from '@/components/ui/NavLink/NavLink'
 import { useEffect, useState } from 'react'
 import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
+import { useAppSelector } from '@/store/features/hooks'
 
 type MenuItem = LinkItem & {
   path: string
 }
 
-const menu: MenuItem[] = [
-  {
-    text: 'Домой',
-    img: '/img/sidebar/home.svg',
-    alt: 'home',
-    path: '/',
-  },
-  {
-    text: 'Уведомления',
-    img: '/img/sidebar/notifications.svg',
-    alt: 'notifications',
-    path: '/notifications',
-  },
-  {
-    text: 'Закладки',
-    img: '/img/sidebar/favorites.svg',
-    alt: 'favorites',
-    path: '/favorites',
-  },
-  {
-    text: 'Профиль',
-    img: '/img/sidebar/user.svg',
-    alt: 'profile',
-    path: '/profile',
-  },
-  {
-    text: 'Настройки',
-    img: '/img/sidebar/settings.svg',
-    alt: 'setting',
-    path: '/setting',
-  },
-]
-
 export default function Sidebar() {
   const { isAuth } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
+  const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
+
+  const homeParams = new URLSearchParams()
+  homeParams.set('sort', sort)
+  if (filter && homeParams.get('filter') !== filter) {
+    homeParams.set('filter', filter)
+  }
+
+  const menu: MenuItem[] = [
+    {
+      text: 'Домой',
+      img: '/img/sidebar/home.svg',
+      alt: 'home',
+      path: `/?${homeParams.toString()}`,
+    },
+    {
+      text: 'Уведомления',
+      img: '/img/sidebar/notifications.svg',
+      alt: 'notifications',
+      path: '/notifications',
+    },
+    {
+      text: 'Закладки',
+      img: '/img/sidebar/favorites.svg',
+      alt: 'favorites',
+      path: '/favorites',
+    },
+    {
+      text: 'Профиль',
+      img: '/img/sidebar/user.svg',
+      alt: 'profile',
+      path: '/profile',
+    },
+    {
+      text: 'Настройки',
+      img: '/img/sidebar/settings.svg',
+      alt: 'setting',
+      path: '/setting',
+    },
+  ]
 
   // требуется задержка на получения isAuth, чтобы оно успело обновиться из хранилища после загрузки.
   // и пока таймаут не прошел - рисуем скелетон меню

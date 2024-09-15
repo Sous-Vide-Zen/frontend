@@ -1,16 +1,17 @@
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
 import {
   checkLoginStatus,
   loginUser,
   logoutUser,
-} from '@/store/features/user/user.slice'
-import { useRouter } from 'next/navigation'
-import { useEffect } from 'react'
+} from '@/store/features/auth/auth.slice'
 
 export const useAuth = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { isAuth } = useAppSelector((state) => state.userSettings)
+  const { isAuth } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
     dispatch(checkLoginStatus({}))

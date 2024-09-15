@@ -1,10 +1,15 @@
 'use client'
+
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useCallback, useEffect } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import { setSortMode } from '@/store/features/recipes/recipes.slice'
+import {
+  setFilterMode,
+  setSortMode,
+} from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
 import Button from '@/components/ui/Button/Button'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
@@ -12,14 +17,52 @@ import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 export default function Rightbar() {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const { sort } = useAppSelector((state) => state.recipesFeed)
+  const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
   const { isAuth } = useAuth()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
 
-  const handleSortBySubscribe = () => {
+  // восстанавливаем параметры поиска (в url) из хранилища
+  useEffect(() => {
+    let isChanged = false
+    const params = new URLSearchParams(searchParams.toString())
+    
+    if (params.get('sort') !== sort) {
+      params.set('sort', sort)
+      isChanged = true
+    }
+
     if (isAuth) {
-      dispatch(setSortMode('subscribe'))
+      if (filter && isAuth && params.get('filter') !== filter) {
+        params.set('filter', filter)
+        isChanged = true
+      }
+    } else {
+      dispatch(setFilterMode(null))
+      params.delete('filter')
+    }
+
+    router.replace(pathname + '?' + params.toString())
+  }, [dispatch, filter, isAuth, pathname, router, searchParams, sort])
+
+  const changeSearchParams = useCallback(
+    (name: string, value: string | null) => {
+      const params = new URLSearchParams(searchParams.toString())
+      value ? params.set(name, value) : params.delete(name)
+      router.replace(pathname + '?' + params.toString())
+    },
+    [pathname, router, searchParams],
+  )
+
+  const handleFilterBySubscribe = () => {
+    if (isAuth) {
+      const what = !filter ? 'subscribe' : null
+      dispatch(setFilterMode(what))
+      changeSearchParams('filter', what)
     } else {
       alert('Для доступа к этой функции надо авторизоваться')
+      dispatch(setFilterMode(null))
+      changeSearchParams('filter', null)
     }
   }
 
@@ -49,7 +92,10 @@ export default function Rightbar() {
             color="secondary"
             size="medium"
             className={sort === 'top' ? styles.active : ''}
-            onClick={() => dispatch(setSortMode('top'))}
+            onClick={() => {
+              dispatch(setSortMode('top'))
+              changeSearchParams('sort', 'top')
+            }}
           >
             Популярное
           </Button>
@@ -57,15 +103,18 @@ export default function Rightbar() {
             color="secondary"
             size="medium"
             className={sort === 'default' ? styles.active : ''}
-            onClick={() => dispatch(setSortMode('default'))}
+            onClick={() => {
+              dispatch(setSortMode('default'))
+              changeSearchParams('sort', 'default')
+            }}
           >
             По времени
           </Button>
           <Button
             color="secondary"
             size="medium"
-            className={sort === 'subscribe' ? styles.active : ''}
-            onClick={handleSortBySubscribe}
+            className={!!filter ? styles.active : ''}
+            onClick={handleFilterBySubscribe}
           >
             По подпискам
           </Button>
