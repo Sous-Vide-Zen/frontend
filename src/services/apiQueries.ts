@@ -1,14 +1,17 @@
 import {
-  ACCESS_TOKEN_NAME,
   clearTokens,
-  REFRESH_TOKEN_NAME,
+  getAcessToken,
+  getRefreshToken,
   setAccessToken,
 } from '@/store/features/user/user.slice'
+import { ThunkAction, UnknownAction } from '@reduxjs/toolkit'
 import {
   FetchArgs,
   fetchBaseQuery,
   type BaseQueryFn,
   FetchBaseQueryError,
+  QueryActionCreatorResult,
+  QueryDefinition,
 } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 
@@ -43,9 +46,9 @@ export const authBaseQuery: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
 
-  // здесь надо напрямую брать из localStorage, как взять отсюда актуальные данные из слайса пока непонятно
-  const authToken = localStorage.getItem(ACCESS_TOKEN_NAME)
-  const refreshToken = localStorage.getItem(REFRESH_TOKEN_NAME)
+  const authToken = getAcessToken()
+  const refreshToken = getRefreshToken()
+  // promise.unsubscribe()
 
   args = injectAuth(args, authToken)
   let result = await baseQuery(args, api, extraOptions)
@@ -105,4 +108,22 @@ export const authBaseQuery: BaseQueryFn<
     await mutex.waitForUnlock()
     result = await baseQuery(args, api, extraOptions)
   }
+}
+function dispatch(
+  arg0: ThunkAction<
+    QueryActionCreatorResult<
+      QueryDefinition<
+        void,
+        BaseQueryFn<FetchArgs, unknown, FetchBaseQueryError>,
+        never,
+        any,
+        'userApi'
+      >
+    >,
+    any,
+    any,
+    UnknownAction
+  >,
+) {
+  throw new Error('Function not implemented.')
 }

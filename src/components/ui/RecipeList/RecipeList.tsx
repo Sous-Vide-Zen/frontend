@@ -59,7 +59,7 @@ const RecipeList: FC<{
     setContainerStyles(newStyles)
   }, [view])
 
-  if (error) return <ListLoadingError error={error.data.detail} />
+  if (error) return <ListLoadingError error={error.data?.detail} />
 
   //todo может сделать тут скелетон?
   if (isLoading) return <ListLoader />

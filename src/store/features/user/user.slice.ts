@@ -6,8 +6,15 @@ export interface IInitialState {
   refresh_token: string | null
 }
 
-export const ACCESS_TOKEN_NAME = 'access_token_svd'
-export const REFRESH_TOKEN_NAME = 'refresh_token_svd'
+const ACCESS_TOKEN_NAME = 'access_token_svd'
+const REFRESH_TOKEN_NAME = 'refresh_token_svd'
+
+export const getAcessToken = () => localStorage.getItem(ACCESS_TOKEN_NAME)
+export const getRefreshToken = () => localStorage.getItem(REFRESH_TOKEN_NAME)
+export const setAcessToken = (token: string) => localStorage.setItem(ACCESS_TOKEN_NAME, token)
+export const setRefreshToken = (token: string) => localStorage.setItem(REFRESH_TOKEN_NAME, token)
+export const delAcessToken = () => localStorage.removeItem(ACCESS_TOKEN_NAME)
+export const delRefreshToken = () => localStorage.removeItem(REFRESH_TOKEN_NAME)
 
 const defaultState: IInitialState = {
   isAuth: false,
@@ -20,37 +27,37 @@ export const userSettings = createSlice({
   initialState: defaultState,
   reducers: {
     checkLoginStatus: (state, _action) => {
-      const token = localStorage.getItem(ACCESS_TOKEN_NAME)
+      const token = getAcessToken()
       state.isAuth = !!token
     },
     loginUser: (state, action) => {
       const { access, refresh } = action.payload
       state.access_token = access
-      localStorage.setItem(ACCESS_TOKEN_NAME, access)
+      setAcessToken(access)
       state.refresh_token = refresh
-      localStorage.setItem(REFRESH_TOKEN_NAME, refresh)
+      setRefreshToken(refresh)
       state.isAuth = true
     },
     logoutUser: (state, _action) => {
-      localStorage.removeItem(ACCESS_TOKEN_NAME)
-      localStorage.removeItem(REFRESH_TOKEN_NAME)
+      delAcessToken()
+      delRefreshToken()
       state.isAuth = false
     },
     setAccessToken: (state, action) => {
-      localStorage.setItem(ACCESS_TOKEN_NAME, action.payload)
+      setAcessToken(action.payload)
       state.isAuth = true
     },
     setTokens: (state, action) => {
       const { access, refresh } = action.payload
       state.access_token = access
-      localStorage.setItem(ACCESS_TOKEN_NAME, access)
+      setAcessToken(access)
       state.refresh_token = refresh
-      localStorage.setItem(REFRESH_TOKEN_NAME, refresh)
+      setRefreshToken(refresh)
       state.isAuth = true
     },
     clearTokens: (state, _action) => {
-      localStorage.removeItem(ACCESS_TOKEN_NAME)
-      localStorage.removeItem(REFRESH_TOKEN_NAME)
+      delAcessToken()
+      delRefreshToken()
       state.isAuth = false
     },
   },
