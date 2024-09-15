@@ -9,13 +9,15 @@ import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
 import { useAppSelector } from '@/store/features/hooks'
 
 type MenuItem = LinkItem & {
-  path: string
+  path: string,
+  url: string
 }
 
 export default function Sidebar() {
   const { isAuth } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
+  
   const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
 
   const homeParams = new URLSearchParams()
@@ -29,31 +31,36 @@ export default function Sidebar() {
       text: 'Домой',
       img: '/img/sidebar/home.svg',
       alt: 'home',
-      path: `/?${homeParams.toString()}`,
+      path: '/',
+      url: `/?${homeParams.toString()}`,
     },
     {
       text: 'Уведомления',
       img: '/img/sidebar/notifications.svg',
       alt: 'notifications',
       path: '/notifications',
+      url: '/notifications',
     },
     {
       text: 'Закладки',
       img: '/img/sidebar/favorites.svg',
       alt: 'favorites',
       path: '/favorites',
+      url: '/favorites',
     },
     {
       text: 'Профиль',
       img: '/img/sidebar/user.svg',
       alt: 'profile',
       path: '/profile',
+      url: '/profile',
     },
     {
       text: 'Настройки',
       img: '/img/sidebar/settings.svg',
       alt: 'setting',
       path: '/setting',
+      url: '/setting',
     },
   ]
 
