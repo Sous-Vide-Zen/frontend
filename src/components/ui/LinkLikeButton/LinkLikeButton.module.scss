@@ -1,0 +1,37 @@
+.link {
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.primary {
+  background: var(--primary-color);
+  color: var(--base-color);
+  border: none;
+}
+
+.secondary {
+  background: var(--base-color);
+  color: var(--base-color-dark);
+  border: 1px solid var(--primary-color-light);
+}
+
+.clear {
+  padding: 0;
+  background: transparent;
+  border: none;
+}
+
+.small {
+  padding: 4px 20px;
+}
+
+.medium {
+  padding: 8px 16px;
+}
+
+.big {
+  padding: 12px 60px;
+}

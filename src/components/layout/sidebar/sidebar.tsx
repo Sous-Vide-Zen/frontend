@@ -1,15 +1,18 @@
 'use client'
-import { useAuth } from '@/hooks/useAuth'
-import styles from './sidebar.module.scss'
+
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
-import NavLink, { LinkItem } from '@/components/ui/NavLink/NavLink'
-import { useEffect, useState } from 'react'
-import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
+
+import styles from './sidebar.module.scss'
 import { useAppSelector } from '@/store/features/hooks'
+import { useAuth } from '@/hooks/useAuth'
+import NavLink, { LinkItem } from '@/components/ui/NavLink/NavLink'
+import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
+import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
 
 type MenuItem = LinkItem & {
-  path: string,
+  path: string
   url: string
 }
 
@@ -17,7 +20,7 @@ export default function Sidebar() {
   const { isAuth } = useAuth()
   const router = useRouter()
   const pathname = usePathname()
-  
+
   const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
 
   const homeParams = new URLSearchParams()
@@ -93,15 +96,12 @@ export default function Sidebar() {
 
   const jsxIsNotAuth = (
     <div className={styles.notAuth}>
-      <button className={styles.button} onClick={() => router.push('login')}>
+      <LinkLikeButton color="primary" size="medium" href="login">
         Войти
-      </button>
-      <button
-        className={styles.button}
-        onClick={() => router.push('registration')}
-      >
+      </LinkLikeButton>
+      <LinkLikeButton color="secondary" size="medium" href="registration">
         Регистрация
-      </button>
+      </LinkLikeButton>
     </div>
   )
 
