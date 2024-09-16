@@ -32,6 +32,7 @@ export type getRecipesParams = {
 */
 
 // массив со всеми вариантами параметров для запроса getList. Необходим для правки кеша при изменении даннных рецептов
+//todo:  это реализовано неправильно - надо сделать отдельный список избранного в слайсе и добавлть/удалять его в/из общего списка
 const getListParamsVariants: ListParams[] = [
   { pathname: 'feed', params: { ordering: '-activity_count' } },
   { pathname: 'feed', params: {} },

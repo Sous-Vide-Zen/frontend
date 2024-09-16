@@ -61,7 +61,6 @@ export const useRecipes = (pathname: string, params: getRecipesParams): RecipeLi
         const page = url ? String(url.searchParams.get('page')) : '0'
         // eslint-disable-next-line react-hooks/exhaustive-deps
         params = { ...params, page }
-        console.log({ page, params })
 
         trigger({
           pathname,

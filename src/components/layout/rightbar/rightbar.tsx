@@ -22,7 +22,7 @@ export default function Rightbar() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  // восстанавливаем параметры поиска (в url) из хранилища
+  // восстанавливаем параметры поиска (в url) из стейта
   useEffect(() => {
     let isChanged = false
     const params = new URLSearchParams(searchParams.toString())
@@ -73,7 +73,7 @@ export default function Rightbar() {
           color="secondary"
           size="big"
           className={sort === 'top' ? styles.active : ''}
-          onClick={() => router.push('add-new-recipe')}
+          onClick={() => router.push('recipe/new')}
         >
           Опубликовать
           <Image

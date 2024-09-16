@@ -60,8 +60,6 @@ export const authBaseQuery: BaseQueryFn<
 
     try {
       // ошибка авторизации - разбираемся с ней
-      console.log('authBaseQuery err 401', result.error)
-
       const { detail } = result.error.data as { detail: string }
 
       // case 1: error in login process -> incorrect login/password -> show error
