@@ -46,11 +46,20 @@ export const getUseRecipes = (
   return useMyRecipies
 }
 
-export const useRecipes = (pathname: string, params: getRecipesParams): RecipeListResult => {
-  const { data, isFetching, isLoading, error, status } = useGetRecipesQuery({
-    pathname,
-    params: params ?? {},
-  })
+export const useRecipes = (
+  pathname: string,
+  params: getRecipesParams,
+  options?: {
+    refetchOnMountOrArgChange?: boolean | number
+  },
+): RecipeListResult => {
+  const { data, isFetching, isLoading, error, status } = useGetRecipesQuery(
+    {
+      pathname,
+      params: params ?? {},
+    },
+    options,
+  )
   const [trigger] = useLazyGetRecipesQuery()
   const loadNextPageRef = useRef(() => {})
 

@@ -17,8 +17,14 @@ export default function Favorites() {
         {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
         <div>
           <RecipeList
-            dispatcher={useRecipes('recipe/favorites', {})}
-            view={view} 
+            dispatcher={useRecipes(
+              'recipe/favorites',
+              {},
+              {
+                refetchOnMountOrArgChange: true, // выключение кэширования результата запроса
+              },
+            )}
+            view={view}
           />
         </div>
       </div>
