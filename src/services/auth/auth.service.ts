@@ -1,4 +1,4 @@
-// заменено на baseQuery и authBaseQuery. Это оставлено для истории. 
+// заменено на baseQuery и authBaseQuery. Это оставлено для истории.
 // Еще есть использование в старых заготовках компонентов - там надо заменить на authBaseQuery
 
 import { SerializedError } from '@reduxjs/toolkit'
@@ -6,13 +6,12 @@ import { retry } from '@reduxjs/toolkit/query'
 import type { BaseQueryFn } from '@reduxjs/toolkit/query'
 import axios, { AxiosError, AxiosRequestConfig } from 'axios'
 
-import {
-  delAcessToken,
-  delRefreshToken,
-  getAcessToken,
-  getRefreshToken,
-  setAcessToken,
-} from '@/store/features/auth/auth.slice'
+// заглушки, чтоб не было ошибок
+const getAcessToken = () => ''
+const getRefreshToken = () => ''
+const setAcessToken = (token: string) => {}
+const delAcessToken = () => {}
+const delRefreshToken = () => {}
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'

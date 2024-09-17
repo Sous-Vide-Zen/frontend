@@ -1,15 +1,23 @@
-'use client'
-
 import styles from './page.module.scss'
-import { useAppSelector } from '@/store/features/hooks'
-import { useRecipes } from '@/hooks/useRecipes'
 import Layout from '@/components/layout/layout'
-import RecipeList from '@/components/ui/RecipeList/RecipeList'
 import Rightbar from '@/components/layout/rightbar/rightbar'
+import Recipes from '@/components/ui/RecipeList/Recipes'
 
-export default function Home() {
-  const { view, sort, filter } = useAppSelector((state) => state.userSettings)
-  const ordering = sort === 'top' ? '-activity_count' : undefined
+export default async function HomePage() {
+  /* 
+  WIP: предварительный запрос для сохранение результата в кэше. Как его получить - еще не решено
+  const store = makeStore()
+  const result = await store.dispatch<any>(
+    getRecipes.initiate({
+      pathname: 'feed',
+      params: { ordering: '-activity_count' },
+    }),
+  )
+  await Promise.all(
+    store.dispatch<any>(recipeApi.util.getRunningQueriesThunk()),
+  )
+  // console.log({ result })
+ */
 
   return (
     <Layout isSearch={true}>
@@ -18,16 +26,13 @@ export default function Home() {
           className={`${styles.recipes} scroll scroll--left scroll__thin`}
           id="wrapper"
         >
-          {/* div нужен для предотвращения зеркалирования компонента (если есть скрол слева у parent) при ошибке загрузки с сервера */}
-          <div>
-            <RecipeList
-              dispatcher={useRecipes('feed', { ordering, filter })}
-              view={view}
-            />
-          </div>
+          <Recipes />
         </div>
         <Rightbar />
       </div>
     </Layout>
   )
+}
+function dispatch(arg0: any): any {
+  throw new Error('Function not implemented.')
 }

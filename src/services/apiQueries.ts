@@ -6,12 +6,8 @@ import {
 } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 
-import {
-  clearTokens,
-  getAcessToken,
-  getRefreshToken,
-  setAccessToken,
-} from '@/store/features/auth/auth.slice'
+import { clearTokens, setAccessToken } from '@/store/features/auth/auth.slice'
+import { makeStore } from '@/store/features'
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
@@ -45,8 +41,9 @@ export const authBaseQuery: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
 
-  const authToken = getAcessToken()
-  const refreshToken = getRefreshToken()
+  const store = makeStore()
+  const { access_token: authToken, refresh_token: refreshToken } =
+    store.getState().auth
 
   args = injectAuth(args, authToken)
   let result = await baseQuery(args, api, extraOptions)
