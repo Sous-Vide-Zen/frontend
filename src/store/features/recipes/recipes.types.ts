@@ -50,26 +50,6 @@ export interface IFetchListData {
   detail?: string
 }
 
-export interface IRecipe {
-  id: number
-  title: string
-  slug: string
-  category: any[]
-  short_text: string
-  preview_image: null
-  author: Author
-  // ingredients: any[]
-  pub_date: string
-  tag: any[]
-  cooking_time: number
-  comments_count: number
-  views_count: number
-  reactions_count: number
-  reactions: any[]
-  activity_count: number
-  is_favorite: boolean
-}
-
 export interface IRecipeWithIngredients extends IRecipe {
   ingredients: any[]
   full_text: string
