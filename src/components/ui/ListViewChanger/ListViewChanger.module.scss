@@ -10,16 +10,5 @@
     flex-wrap: wrap;
     row-gap: 16px;
     column-gap: 12px;
-
-      // может перенести эти стили в src/components/ui/Button/Button.module.scss ?
-      button {
-      padding: 8px 16px;
-      border: 2px solid #000;
-      border-radius: 14px;
-
-      &.active {
-        border-color: var(--primary-color-light);
-      }
-    }
   }
 }

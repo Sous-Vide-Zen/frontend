@@ -13,10 +13,20 @@ export default function ListViewChanger() {
     <div className={styles.view}>
       <h3>Вид ленты</h3>
       <div>
-        <Button color='secondary' size='medium' className={view === 'feed' ? styles.active : ''} onClick={() => dispatch(setViewMode('feed'))}>
+        <Button
+          color="secondary"
+          size="medium"
+          pressed={view === 'feed'}
+          onClick={() => dispatch(setViewMode('feed'))}
+        >
           Лента
         </Button>
-        <Button color='secondary' size='medium' className={view === 'tile' ? styles.active : ''} onClick={() => dispatch(setViewMode('tile'))}>
+        <Button
+          color="secondary"
+          size="medium"
+          pressed={view === 'tile'}
+          onClick={() => dispatch(setViewMode('tile'))}
+        >
           Плитка
         </Button>
       </div>

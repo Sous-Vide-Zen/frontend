@@ -6,10 +6,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import {
-  setFilterMode,
-  setSortMode,
-} from '@/store/features/user/user.slice'
+import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
 import Button from '@/components/ui/Button/Button'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
@@ -26,7 +23,7 @@ export default function Rightbar() {
   useEffect(() => {
     let isChanged = false
     const params = new URLSearchParams(searchParams.toString())
-    
+
     if (params.get('sort') !== sort) {
       params.set('sort', sort)
       isChanged = true
@@ -70,7 +67,7 @@ export default function Rightbar() {
     <div className={styles.rightbar}>
       <div className={styles.publish}>
         <Button
-          color="secondary"
+          color="primary"
           size="big"
           className={sort === 'top' ? styles.active : ''}
           onClick={() => router.push('recipe/new')}
@@ -91,7 +88,7 @@ export default function Rightbar() {
           <Button
             color="secondary"
             size="medium"
-            className={sort === 'top' ? styles.active : ''}
+            pressed={sort === 'top'}
             onClick={() => {
               dispatch(setSortMode('top'))
               changeSearchParams('sort', 'top')
@@ -102,7 +99,7 @@ export default function Rightbar() {
           <Button
             color="secondary"
             size="medium"
-            className={sort === 'default' ? styles.active : ''}
+            pressed={sort === 'default'}
             onClick={() => {
               dispatch(setSortMode('default'))
               changeSearchParams('sort', 'default')
@@ -113,7 +110,7 @@ export default function Rightbar() {
           <Button
             color="secondary"
             size="medium"
-            className={!!filter ? styles.active : ''}
+            pressed={!!filter}
             onClick={handleFilterBySubscribe}
           >
             По подпискам
