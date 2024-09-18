@@ -9,7 +9,7 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist'
-import storage from 'redux-persist/lib/storage'
+import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import { createWrapper } from 'next-redux-wrapper'
 
 import userRegistrationReducer from './user/user-registration.slice'
@@ -23,6 +23,26 @@ import { recipeReactionsApi } from './reactions/reactions.actions'
 import { userApi } from './user/user.actions'
 import { recipeApi } from './recipes/recipes.actions'
 
+const createNoopStorage = () => {
+  return {
+    getItem(_key: any) {
+      return Promise.resolve(null)
+    },
+    setItem(_key: any, value: any) {
+      return Promise.resolve(value)
+    },
+    removeItem(_key: any) {
+      return Promise.resolve()
+    },
+  }
+}
+
+const storage =
+  typeof window !== 'undefined'
+    ? createWebStorage('local')
+    : createNoopStorage()
+
+export default storage
 const authPersistConfig = {
   key: 'auth',
   storage,
