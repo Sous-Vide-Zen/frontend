@@ -20,17 +20,15 @@ export default async function HomePage() {
  */
 
   return (
-    <Layout isSearch={true}>
-      <div className={styles.container}>
-        <div
-          className={`${styles.recipes} scroll scroll--left scroll__thin`}
-          id="wrapper"
-        >
-          <Recipes />
-        </div>
-        <Rightbar />
+    <div className={styles.container}>
+      <div
+        className={`${styles.recipes} scroll scroll--left scroll__thin`}
+        id="wrapper"
+      >
+        <Recipes />
       </div>
-    </Layout>
+      <Rightbar />
+    </div>
   )
 }
 function dispatch(arg0: any): any {

@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation'
 
 import styles from './login.module.scss'
 import { useAuth } from '@/hooks/useAuth'
-import Layout from '@/components/layout/layout'
 import LoginForm from '@/components/forms/LoginForm'
 
 export default function Login() {
@@ -18,11 +17,9 @@ export default function Login() {
   }, [isAuth, router])
 
   return (
-    <Layout sidebar={false} isSearch={false}>
-      <div className={styles.container}>
-        <h1>Добро пожаловать в мир су-вид.</h1>
-        <LoginForm />
-      </div>
-    </Layout>
+    <div className={styles.container}>
+      <h1>Добро пожаловать в мир су-вид.</h1>
+      <LoginForm />
+    </div>
   )
 }
