@@ -14,9 +14,11 @@
   justify-content: center;
   align-items: center;
 
-  img {
-    filter: invert(59%) sepia(75%) saturate(314%) hue-rotate(97deg)
-      brightness(97%) contrast(89%); // for color var(--primary-color-light)
+  .loader {
+    img {
+      filter: invert(59%) sepia(75%) saturate(314%) hue-rotate(97deg)
+        brightness(97%) contrast(89%); // for color var(--primary-color-light)
+    }
   }
 
   &:hover {

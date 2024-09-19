@@ -46,6 +46,7 @@ const Button: FC<IButton> = ({
     >
       {loading ? (
         <Image
+        className={styles.loader}
           src="/img/loader.svg"
           alt="loader"
           width={30}
