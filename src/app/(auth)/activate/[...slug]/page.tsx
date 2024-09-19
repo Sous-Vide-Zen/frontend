@@ -51,14 +51,14 @@ export default function ActivationPage() {
     const { data: errorData } = error as { data: any }
     const { uid: errorText } = errorData
 
-    console.log({ errorData, errorText })
-
     return (
       <div className={styles.container}>
-        {errorText !== 'Stale token for given user.' ? (
+        {errorText === 'Stale token for given user.' ? (
           <AlreadyActivatedForm />
         ) : (
-          errorMessages[errorText] ?? JSON.stringify(errorData)
+          <div className={styles.error}>
+            {errorMessages[errorText] ?? JSON.stringify(errorData)}
+          </div>
         )}
       </div>
     )
