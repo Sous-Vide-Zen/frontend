@@ -1,69 +1,73 @@
 'use client'
-// чекни какая ошибка прилетает с бека при активации аккаунта, если уже был использован токен
-import { useParams, useRouter } from 'next/navigation'
+
 import { useEffect } from 'react'
-import { fetchActivationUserToEmail, fetchActivation } from '@/store/features/user/user.actions'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
-import styles from "./activate.module.scss"
-import Button from '@/components/ui/Button/Button'
+import { useParams, useRouter } from 'next/navigation'
 
+import styles from './activate.module.scss'
+import { useActivationMutation } from '@/store/features/auth/auth.actions'
+import { ActivationUserData } from '@/store/features/user/user.types'
+import ActivateSucessForm from '@/components/forms/auth/ActivateSucessForm'
+import AlreadyActivatedForm from '@/components/forms/auth/AlreadyActivatedForm'
 
-export default function VerifyPage() {
-    const params = useParams()
-    const dispatch = useAppDispatch();
-    const { isError, success, isLoaded } = useAppSelector(state => state.userActivation)
-    const router = useRouter();
-    // console.log("ошибка из странички инструкции по активации", isError)
+const errorMessages: Record<string, string> = {
+  "Invalid user id or user doesn't exist.": 'Некорректный ID',
+  'Stale token for given user.':
+    'Данная ссылка уже была использована для активации',
+}
 
-    useEffect(() => {
-        const dataFromUrl = {
-            uid: '', token: ''
-        };
-        dataFromUrl.uid = params.slug[0];
-        dataFromUrl.token = params.slug[1];
-        const dataFromLocalStorage = {
-            email: localStorage.getItem("email") || "",
-            password: localStorage.getItem("password") || ""
-        }
-        // console.log("данные перед отправкой", dataFromLocalStorage)
-        /* код ниже - успешная автоизация */
-        const fetchDataFromLocalStorage = async () => {
-            try {
-                await dispatch(fetchActivationUserToEmail(dataFromUrl)); // пользователь активен
-                await dispatch(fetchActivation(dataFromLocalStorage));
-            } catch (error) {
-                // Обработка ошибок
-                // console.error("Ошибка при выполнении асинхронных действий:", error);
-            }
-        }
-        /* код ниже - успешная автоизация */
-        if (success === false && isError === null) {
-            fetchDataFromLocalStorage()
-            // console.log("success >>>>", success, "isError>>>>", isError)
-        } else if (success === true && isError === null) {
-            // console.log("success === true && isError === null")
-            localStorage.removeItem("email")
-            localStorage.removeItem("password")
-            router.push("/activate-success");
-        }
-    }, [success, isError, params.slug, dispatch, router])
+export default function ActivationPage() {
+  const params = useParams()
+  const router = useRouter()
+  const [doActivation, { status, isLoading, isError, error }] =
+    useActivationMutation()
+
+  useEffect(() => {
+    const dataFromUrl: ActivationUserData = {
+      uid: params.slug[0],
+      token: params.slug[1],
+    }
+
+    doActivation(dataFromUrl)
+  }, [doActivation, params.slug])
+
+  useEffect(() => {
+    if (status === 'fulfilled') {
+      const timer = setTimeout(() => {
+        router.push('user-data-form')
+      }, 4000)
+
+      return () => clearTimeout(timer)
+    }
+  }, [router, status])
+
+  if (isLoading)
+    return (
+      <div className={styles.container}>
+        <p>Получение данных...</p>
+      </div>
+    )
+
+  if (isError) {
+    const { data: errorData } = error as { data: any }
+    const { uid: errorText } = errorData
+
+    console.log({ errorData, errorText })
 
     return (
-        <div className={styles.container}>
-            {isLoaded === true ? <p>Получение данны....</p>
-                :
-                <>
-                    {/* @ts-ignore */}
-                    {isError?.detail === 'Stale token for given user.' ?
-                        <div>
-                            <p>Данная ссылка уже была использована для активации, </p>
-                            <Button color={"purple"} size={"small"} onClick={() => router.push('/activate-page')}>Войти в систему?</Button>
-                        </div>
-                        :
-                        null}
-                </>}
+      <div className={styles.container}>
+        {errorText !== 'Stale token for given user.' ? (
+          <AlreadyActivatedForm />
+        ) : (
+          errorMessages[errorText] ?? JSON.stringify(errorData)
+        )}
+      </div>
+    )
+  }
 
-
-        </div>
+  if (status === 'fulfilled')
+    return (
+      <div className={styles.container}>
+        <ActivateSucessForm />
+      </div>
     )
 }

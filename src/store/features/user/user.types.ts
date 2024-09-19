@@ -69,3 +69,32 @@ export interface LoginUserResponse {
   access: string
   refresh: string
 }
+
+export interface ActivationUserData {
+  uid: string
+  token: string
+}
+
+export interface UserEmailData {
+  email: string
+}
+
+export interface UserNewEmailData {
+  new_email: string
+}
+
+export interface ResetPasswordData {
+  uid: string
+  token: string
+  new_password: string
+}
+
+export interface SetEmailData {
+  current_password: string
+  new_email: string
+}
+
+export interface SetPasswordData {
+  new_password: string
+  current_password: string
+}

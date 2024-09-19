@@ -2,7 +2,7 @@
 
 import { useMemo } from 'react'
 import styles from './profile.module.scss'
-import { useGetCurentUserDataQuery } from '@/store/features/user/user.actions'
+import { useGetCurentUserDataQuery } from '@/store/features/auth/auth.actions'
 import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
 import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
 import Subscriptions from '@/components/ui/Subscriptions/Subscriptions'

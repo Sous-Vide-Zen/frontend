@@ -1,10 +1,11 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 
 import styles from './authForms.module.scss'
 
-export default function ActivateInstructionForm() {
+export default function AlreadyActivatedForm() {
   return (
     <>
       <div className={styles.wrapper}>
@@ -17,11 +18,8 @@ export default function ActivateInstructionForm() {
           priority
         />
         <div className={styles.inner_text}>
-          <h2>Вам отправлено письмо!</h2>
-          <p>
-            Для завершения регистрации перейдите по ссылке, которую мы отправили
-            вам в письме на электронную почту.
-          </p>
+          <h2>Данная ссылка уже была использована для активации</h2>
+          <p><Link href="/login">Войти в систему?</Link></p>
         </div>
       </div>
     </>

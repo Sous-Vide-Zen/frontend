@@ -4,7 +4,7 @@ import Image from 'next/image'
 
 import styles from './authForms.module.scss'
 
-export default function ActivateInstructionForm() {
+export default function ActivateSucessForm() {
   return (
     <>
       <div className={styles.wrapper}>
@@ -17,11 +17,8 @@ export default function ActivateInstructionForm() {
           priority
         />
         <div className={styles.inner_text}>
-          <h2>Вам отправлено письмо!</h2>
-          <p>
-            Для завершения регистрации перейдите по ссылке, которую мы отправили
-            вам в письме на электронную почту.
-          </p>
+          <h2>Ваш аккаунт успешно зарегистрирован!</h2>
+          <p>Добро пожаловать в мир су-вид.</p>
         </div>
       </div>
     </>
