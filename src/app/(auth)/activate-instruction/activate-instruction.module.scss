@@ -2,30 +2,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
-  .wrapper {
-    max-width: 729px;
-    padding: 64px 96px;
-    border: 1px solid black;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 36px;
-
-    .inner_text {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 24px;
-      h2 {
-        font-size: 23px;
-        font-weight: 500;
-      }
-      p {
-        text-align: center;
-        font-size: 18px;
-        font-weight: 400;
-      }
-    }
-  }
 }
