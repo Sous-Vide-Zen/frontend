@@ -6,7 +6,7 @@ import Link from 'next/link'
 import cn from 'clsx'
 
 import styles from './forms.module.scss'
-import { useRegisterMutation } from '@/store/features/user/user.actions'
+import { useRegisterMutation } from '@/store/features/auth/auth.actions'
 import { Field, FieldSet, InputEmail, InputPassword } from './items'
 import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'

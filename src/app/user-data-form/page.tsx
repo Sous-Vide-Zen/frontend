@@ -16,7 +16,7 @@ import { customStyles } from "@/helpers/customStylesFromReactSelect"
 import { Loader } from "@/components/ui/Loader/Loader"
 import { PatternFormat } from 'react-number-format'
 import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
-import { fetchDataUser, fetchFormDataUser } from "@/store/features/user/user.actions";
+// import { fetchDataUser, fetchFormDataUser } from "@/store/features/user/user.actions";
 import { IDataForm } from "./user-data-form.types";
 
 
@@ -26,8 +26,13 @@ export default function Registration() {
 
     const router = useRouter()
     const dispatch = useAppDispatch()
-    const { username } = useAppSelector(state => state.userDateMe.user)
-    const { isError, isLoaded, success } = useAppSelector(state => state.userFormDataEdit)
+    // тут надо использовать userApi
+    // const { username } = useAppSelector(state => state.userDateMe.user)
+    // const { isError, isLoaded, success } = useAppSelector(state => state.userFormDataEdit)
+    const username = ''
+    const isError = false
+    const isLoaded = false
+    const success = false
 
     const ref = useRef<HTMLInputElement>(null);
     /* блок для теста монтирования */
@@ -68,7 +73,7 @@ export default function Registration() {
     useEffect(() => {
         setMount(true)
         // понаблюдай за первой загрузкой, как будто там не авторизованный пользователь прилетает
-        dispatch(fetchDataUser())
+        // dispatch(fetchDataUser())
     }, [dispatch, mount])
     /* end */
 
@@ -97,7 +102,7 @@ export default function Registration() {
         mode: "onBlur"
     });
     const onSubmit = (dataFromInput: IDataForm) => {
-        dispatch(fetchFormDataUser({ username: username, dataFromInput, avatar: file }))
+        // dispatch(fetchFormDataUser({ username: username, dataFromInput, avatar: file }))
     };
 
     return (

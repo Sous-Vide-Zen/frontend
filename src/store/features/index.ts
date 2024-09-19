@@ -12,8 +12,6 @@ import {
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import { createWrapper } from 'next-redux-wrapper'
 
-import userRegistrationReducer from './user/user-registration.slice'
-import userDateMeReducer from './user/user-data-me.slice'
 import userActivateAccountReducer from './user/user-activation.slice'
 import authReducer from './auth/auth.slice'
 import userSettingsReducer from './user/user.slice'
@@ -60,8 +58,6 @@ const userSettingsPersistedReducer = persistReducer(
 
 export const Store = configureStore({
   reducer: {
-    userRegistration: userRegistrationReducer,
-    userDateMe: userDateMeReducer,
     userActivation: userActivateAccountReducer,
     userFormDataEdit: userFormDataEdit,
     auth: authPersistedReducer,
