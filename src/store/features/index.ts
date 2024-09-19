@@ -12,7 +12,6 @@ import {
 import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import { createWrapper } from 'next-redux-wrapper'
 
-import userActivateAccountReducer from './user/user-activation.slice'
 import authReducer from './auth/auth.slice'
 import userSettingsReducer from './user/user.slice'
 import { recipeReactionsApi } from './reactions/reactions.actions'
@@ -56,7 +55,6 @@ const userSettingsPersistedReducer = persistReducer(
 
 export const Store = configureStore({
   reducer: {
-    userActivation: userActivateAccountReducer,
     auth: authPersistedReducer,
     userSettings: userSettingsPersistedReducer,
     [recipeReactionsApi.reducerPath]: recipeReactionsApi.reducer,
