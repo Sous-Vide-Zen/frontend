@@ -21,8 +21,9 @@ type FormValues = {
 
 const RegisterForm: FC = () => {
   const router = useRouter()
-  const [doRegister, { status, isLoading }] = useRegisterMutation()
-
+  const [doRegister, { status, isLoading, error }] = useRegisterMutation()
+  // @ts-ignore
+  const errorText = error?.data.email
   const {
     register,
     handleSubmit,
@@ -108,6 +109,12 @@ const RegisterForm: FC = () => {
         >
           Зарегистрироваться
         </Button>
+
+        {errorText && (
+          <span role="alert" className={styles.error}>
+            {errorText}
+          </span>
+        )}
       </form>
 
       <p className={styles.center}>
