@@ -33,7 +33,7 @@ export default function ActivationPage() {
   useEffect(() => {
     if (status === 'fulfilled') {
       const timer = setTimeout(() => {
-        router.push('user-data-form')
+        router.push('activate-page')
       }, 4000)
 
       return () => clearTimeout(timer)
