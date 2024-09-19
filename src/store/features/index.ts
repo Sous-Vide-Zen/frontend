@@ -15,8 +15,6 @@ import { createWrapper } from 'next-redux-wrapper'
 import userActivateAccountReducer from './user/user-activation.slice'
 import authReducer from './auth/auth.slice'
 import userSettingsReducer from './user/user.slice'
-import userFormDataEdit from './user/user-data-form-edit.slice'
-import getUserNameWithoutToken from './user/user-getData-username.slice'
 import { recipeReactionsApi } from './reactions/reactions.actions'
 import { userApi } from './user/user.actions'
 import { recipeApi } from './recipes/recipes.actions'
@@ -59,10 +57,8 @@ const userSettingsPersistedReducer = persistReducer(
 export const Store = configureStore({
   reducer: {
     userActivation: userActivateAccountReducer,
-    userFormDataEdit: userFormDataEdit,
     auth: authPersistedReducer,
     userSettings: userSettingsPersistedReducer,
-    userName: getUserNameWithoutToken,
     [recipeReactionsApi.reducerPath]: recipeReactionsApi.reducer,
     [recipeApi.reducerPath]: recipeApi.reducer,
     [userApi.reducerPath]: userApi.reducer,
