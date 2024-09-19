@@ -11,6 +11,7 @@ interface Props {
   color?: 'purple' | 'white' | 'gray' | 'primary' | 'secondary' | 'clear'
   size?: 'big' | 'medium' | 'small'
   className?: string
+  pressed?: boolean
   loading?: boolean
 }
 
@@ -20,6 +21,7 @@ const LinkLikeButton: FC<Props> = ({
   className,
   color,
   size,
+  pressed,
   loading,
   ...props
 }) => {
@@ -30,6 +32,7 @@ const LinkLikeButton: FC<Props> = ({
     [styles.big]: size === 'big',
     [styles.medium]: size === 'medium',
     [styles.small]: size === 'small',
+    [styles.pressed]: pressed === true,
   })
 
   return (

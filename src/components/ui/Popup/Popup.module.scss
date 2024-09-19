@@ -16,7 +16,7 @@ $border-color: rgba(0, 0, 0, 1);
     left: calc(50% - 54px);
 
     background-color: #fff;
-    color: black;
+    color: var(--base-color-dark);
     text-align: center;
     padding: 16px;
     border-radius: 16px;

@@ -7,7 +7,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import styles from './sidebar.module.scss'
 import { useAppSelector } from '@/store/features/hooks'
 import { useAuth } from '@/hooks/useAuth'
-import NavLink, { LinkItem } from '@/components/ui/NavLink/NavLink'
+import { LinkItem } from '@/components/ui/NavLink/NavLink'
 import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
 import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
 
@@ -82,14 +82,16 @@ export default function Sidebar() {
   const jsxIsAuth = (
     <div className={styles.auth}>
       {menu.map(({ text, img, alt, path }, key) => (
-        <NavLink
+        <LinkLikeButton
           key={key}
-          text={text}
-          img={img}
-          alt={alt}
-          url={path}
-          active={pathname === path}
-        />
+          color="clear"
+          size="medium"
+          href={path}
+          pressed={pathname === path}
+        >
+          {text}
+          {img && <Image src={img} alt={alt} width={22} height={22} />}
+        </LinkLikeButton>
       ))}
     </div>
   )

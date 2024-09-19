@@ -40,7 +40,7 @@
 }
 
 .clear {
-  padding: 0;
+  padding: 0 !important;
   background: transparent;
   border: none;
 }
@@ -54,9 +54,9 @@
 }
 
 .small {
-  padding: 4px 20px;
+  padding: 4px 14px;
   border-radius: 12px;
-  font-size: 16px;
+  font-size: 12px;
 }
 
 .medium {
@@ -69,5 +69,6 @@
   padding: 16px 24px;
   border-radius: 18px;
   font-weight: 400;
+  font-size: 16px;
   gap: 8px;
 }

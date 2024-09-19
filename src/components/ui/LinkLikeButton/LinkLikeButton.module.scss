@@ -1,27 +1,47 @@
 .link {
   border-radius: 20px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   justify-content: center;
+  transition: all 0.2s ease-in-out;
 }
 
 .primary {
   background: var(--primary-color);
   color: var(--base-color);
   border: none;
+  &:hover {
+    background: var(--button-hover);
+  }
 }
 
 .secondary {
   background: var(--base-color);
   color: var(--base-color-dark);
   border: 1px solid var(--primary-color-light);
+  &:hover {
+    background: var(--button-hover);
+    color: var(--base-color);
+  }
 }
 
+// используется в пунктах главного меню в sidebar
 .clear {
-  padding: 0;
+  padding: 0 !important;
+  justify-content: space-between;
   background: transparent;
-  border: none;
+
+  color: var(--base-color-dark);
+  font-size: 14px;
+  font-weight: 500;
+  &.pressed {
+    color: var(--primary-color-light);
+    img {
+      filter: invert(59%) sepia(75%) saturate(314%) hue-rotate(97deg)
+        brightness(97%) contrast(89%); // for color var(--primary-color-light)
+    }
+  }
 }
 
 .small {

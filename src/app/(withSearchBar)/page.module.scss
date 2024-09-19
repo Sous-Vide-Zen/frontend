@@ -1,16 +1,15 @@
 .container {
-  padding: 0 20px 0 10px;
   width: 100%;
   display: flex;
   flex-direction: row;
   justify-content: flex-end;
-  gap: 10px;
+  gap: 8px;
 }
 
 .recipes {
   width: 100%;
   min-height: 100%;
-  padding: 0 20px;
+  padding: 0 16px;
 }
 
 .wrapper {
