@@ -9,7 +9,6 @@ import {
   REGISTER,
   REHYDRATE,
 } from 'redux-persist'
-import createWebStorage from 'redux-persist/lib/storage/createWebStorage'
 import { createWrapper } from 'next-redux-wrapper'
 
 import authReducer from './auth/auth.slice'
@@ -17,27 +16,31 @@ import userSettingsReducer from './user/user.slice'
 import { recipeReactionsApi } from './reactions/reactions.actions'
 import { userApi } from './user/user.actions'
 import { recipeApi } from './recipes/recipes.actions'
+import storage from 'redux-persist/lib/storage'
 
-const createNoopStorage = () => {
-  return {
-    getItem(_key: any) {
-      return Promise.resolve(null)
-    },
-    setItem(_key: any, value: any) {
-      return Promise.resolve(value)
-    },
-    removeItem(_key: any) {
-      return Promise.resolve()
-    },
-  }
-}
 
-const storage =
-  typeof window !== 'undefined'
-    ? createWebStorage('local')
-    : createNoopStorage()
+// todo: это решение из инернета для решения ошибки в консоли "redux-persist failed to create sync storage. falling back to noop storage."
+// но это вызывает 500 ошибку "ReferenceError: Cannot access 'authBaseQuery' before initialization"
+// вопрос открытый...
+// const createNoopStorage = () => {
+//   return {
+//     getItem(_key: any) {
+//       return Promise.resolve(null)
+//     },
+//     setItem(_key: any, value: any) {
+//       return Promise.resolve(value)
+//     },
+//     removeItem(_key: any) {
+//       return Promise.resolve()
+//     },
+//   }
+// }
 
-export default storage
+// const storage =
+//   typeof window !== 'undefined'
+//     ? createWebStorage('local')
+//     : createNoopStorage()
+
 const authPersistConfig = {
   key: 'auth',
   storage,
