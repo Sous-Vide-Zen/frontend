@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
-import { usePathname, useRouter } from 'next/navigation'
+import { usePathname } from 'next/navigation'
 
 import styles from './sidebar.module.scss'
 import { useAppSelector } from '@/store/hooks'
@@ -18,7 +18,6 @@ type MenuItem = LinkItem & {
 
 export default function Sidebar() {
   const { isAuth } = useAuth()
-  const router = useRouter()
   const pathname = usePathname()
 
   const { sort: sort, filter } = useAppSelector((state) => state.userSettings)

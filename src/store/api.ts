@@ -1,5 +1,5 @@
 import { createApi } from '@reduxjs/toolkit/query/react'
-import { staggeredAuthBaseQuery } from '@/store/apiQueries'
+import { authBaseQuery, staggeredAuthBaseQuery } from '@/store/apiQueries'
 
 export const mainApi = createApi({
   reducerPath: 'mainApi',

@@ -66,7 +66,7 @@ export const authApi = mainApi.injectEndpoints({
     resetEmail: builder.mutation<UserEmailData, UserEmailData>({
       query: (body) => {
         return {
-          url: 'auth/users/resend_email/',
+          url: 'auth/users/reset_email/',
           method: 'POST',
           body,
         }
@@ -75,7 +75,7 @@ export const authApi = mainApi.injectEndpoints({
     resetEmailConfirm: builder.mutation<UserNewEmailData, UserNewEmailData>({
       query: (body) => {
         return {
-          url: 'auth/users/resend_email/',
+          url: 'auth/users/reset_email_confirm/',
           method: 'POST',
           body,
         }
@@ -84,7 +84,7 @@ export const authApi = mainApi.injectEndpoints({
     resetPassword: builder.mutation<UserEmailData, UserEmailData>({
       query: (body) => {
         return {
-          url: 'auth/users/resend_email/',
+          url: 'auth/users/reset_password/',
           method: 'POST',
           body,
         }
@@ -96,7 +96,7 @@ export const authApi = mainApi.injectEndpoints({
     >({
       query: (body) => {
         return {
-          url: 'auth/users/resend_email/',
+          url: 'auth/users/reset_password_confirm/',
           method: 'POST',
           body,
         }

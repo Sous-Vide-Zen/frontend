@@ -26,7 +26,9 @@ type FormValues = {
 
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
-  const [doLogin, { data, status, isLoading, error }] = useLoginMutation()
+  const [doLogin, { data, status, isLoading, isError, error }] =
+    useLoginMutation()
+
   // @ts-ignore
   const errorText = error?.message
   const {
@@ -39,8 +41,6 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     if (status === 'fulfilled') {
-      console.log('login data', data)
-
       dispatch(loginUser(data))
     }
   }, [data, dispatch, status])
@@ -87,9 +87,9 @@ const LoginForm: FC = () => {
           Войти
         </Button>
 
-        {errorText && (
+        {isError && (
           <span role="alert" className={styles.error}>
-            {errorText}
+            {String(error)}
           </span>
         )}
       </form>
