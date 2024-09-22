@@ -24,9 +24,10 @@
     justify-content: space-between;
   }
 
-  button[type='submit'] {
+  button {
     width: 100%;
     height: 40px;
+    border-radius: 18px;
   }
 
   .center {
@@ -73,7 +74,7 @@
 }
 
 .field {
-  .label{
+  .label {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -82,10 +83,16 @@
   label {
     display: flex;
     margin-bottom: 12px;
-}
+  }
 
   .error {
     color: var(--input-invalid);
     text-align: left;
   }
+}
+
+.centerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

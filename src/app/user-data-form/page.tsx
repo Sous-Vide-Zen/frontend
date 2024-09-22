@@ -22,7 +22,7 @@ import { IDataForm } from "./user-data-form.types";
 
 
 
-export default function RegistrationPage() {
+export default function Registration() {
 
     const router = useRouter()
     const dispatch = useAppDispatch()

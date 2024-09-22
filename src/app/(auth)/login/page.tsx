@@ -4,9 +4,9 @@ import { useRouter } from 'next/navigation'
 
 import styles from './login.module.scss'
 import { useAuth } from '@/hooks/useAuth'
-import LoginForm from '@/components/forms/LoginForm'
+import LoginForm from '@/components/forms/auth/LoginForm'
 
-export default function Login() {
+export default function LoginPage() {
   const router = useRouter()
   const { isAuth } = useAuth()
 

@@ -2,15 +2,15 @@
 
 import { useMemo } from 'react'
 import styles from './profile.module.scss'
-import { useGetCurentUserDataQuery } from '@/store/features/auth/auth.actions'
+import { authApi, useGetCurentUserDataQuery } from '@/store/features/auth/auth.actions'
 import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
 import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
 import Subscriptions from '@/components/ui/Subscriptions/Subscriptions'
 import Subscribers from '@/components/ui/Subscribers/Subscribers'
 import UserCard from '@/components/ui/UserCard/UserCard'
 
-export default function Profile() {
-  const { data, isLoading, error } = useGetCurentUserDataQuery()
+export default function ProfilePage() {
+  const { data, isLoading, error, status } = authApi.useGetCurentUserDataQuery() //useGetCurentUserDataQuery()
 
   const tabs: TabData[] = useMemo(
     () =>
@@ -35,12 +35,9 @@ export default function Profile() {
 
   if (error) return <div>{String(error)}</div>
 
-  if (isLoading)
-    return (
-      <div className={styles.loader}>
-        Loading...
-      </div>
-    )
+  if (isLoading) return <div className={styles.loader}>Loading...</div>
+
+  console.log({ data, isLoading, error, status })
 
   return (
     <div className={styles.container}>

@@ -4,11 +4,16 @@ import Link from 'next/link'
 import { FC, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 
-import styles from './forms.module.scss'
+import styles from '../forms.module.scss'
 import { loginUser } from '@/store/features/auth/auth.slice'
-import { useAppDispatch } from '@/store/features/hooks'
+import { useAppDispatch } from '@/store/hooks'
 import { useLoginMutation } from '@/store/features/auth/auth.actions'
-import { Field, FieldSet, InputEmail, InputPassword } from './items'
+import {
+  Field,
+  FieldSet,
+  InputEmail,
+  InputPassword,
+} from '@/components/forms/items'
 import Button from '@/components/ui/Button/Button'
 import Input from '@/components/ui/Input/Input'
 import SocialForm from '@/components/ui/Socials/SocialForm'
@@ -34,6 +39,8 @@ const LoginForm: FC = () => {
 
   useEffect(() => {
     if (status === 'fulfilled') {
+      console.log('login data', data)
+
       dispatch(loginUser(data))
     }
   }, [data, dispatch, status])
@@ -52,9 +59,7 @@ const LoginForm: FC = () => {
 
           <Field
             label="Пароль"
-            toTheRightLabel={
-              <Link href="/todo-resetpassword">Забыли пароль?</Link>
-            }
+            toTheRightLabel={<Link href="/resetpassword">Забыли пароль?</Link>}
             error={errors.password?.message}
           >
             <InputPassword
@@ -76,7 +81,7 @@ const LoginForm: FC = () => {
           disabled={!isDirty || !isValid}
           type="submit"
           color="primary"
-          size="big"
+          size="medium"
           loading={isLoading}
         >
           Войти

@@ -47,14 +47,31 @@ const RecipeList: FC<{
     }
   }, [loadNextPageRef])
 
-  const ListSkeleton = (
-    <>
-      <RecipeSkeleton />
-      <RecipeSkeleton />
-      <RecipeSkeleton />
-    </>
-  )
-  if (error) return <ListLoadingError error={error.data?.detail} />
+  let content: React.ReactNode = null
+
+  if (isLoading)
+    content = (
+      <>
+        <RecipeSkeleton />
+        <RecipeSkeleton />
+        <RecipeSkeleton />
+      </>
+    )
+
+  if (error) content = <ListLoadingError error={error.data?.detail} />
+
+  if (!recipies?.length && !isFetching) content = <EmptyRecipeList />
+
+  if (recipies?.length)
+    content = recipies?.map((recipe) => (
+      <Fragment key={recipe.id}>
+        <RecipeCard
+          key={recipe.id}
+          recipe={recipe}
+          onPreview={toggleIngredients}
+        />
+      </Fragment>
+    ))
 
   return (
     <div className={styles.container}>
@@ -63,20 +80,7 @@ const RecipeList: FC<{
           ['tile']: view !== 'feed',
         })}
       >
-        {isLoading
-          ? ListSkeleton
-          : recipies?.length
-            ? recipies?.map((recipe) => (
-                <Fragment key={recipe.id}>
-                  <RecipeCard
-                    key={recipe.id}
-                    recipe={recipe}
-                    onPreview={toggleIngredients}
-                  />
-                </Fragment>
-              ))
-            : !isFetching && <EmptyRecipeList />}
-
+        {content}
         <div ref={loaderRef}>
           {!isLoading && isFetching && <ListLoader />}&nbsp;
         </div>

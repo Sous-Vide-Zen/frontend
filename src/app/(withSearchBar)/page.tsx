@@ -1,5 +1,4 @@
 import styles from './page.module.scss'
-import Layout from '@/components/layout/layout'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 import Recipes from '@/components/ui/RecipeList/Recipes'
 
@@ -30,7 +29,4 @@ export default async function HomePage() {
       <Rightbar />
     </div>
   )
-}
-function dispatch(arg0: any): any {
-  throw new Error('Function not implemented.')
 }
