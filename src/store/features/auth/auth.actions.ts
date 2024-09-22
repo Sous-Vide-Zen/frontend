@@ -1,6 +1,3 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
-
-import { authBaseQuery } from '@/services/apiQueries'
 import {
   RegisterUserResponse,
   RegisterUserForm,
@@ -14,10 +11,9 @@ import {
   SetEmailData,
   SetPasswordData,
 } from '@/store/features/user/user.types'
+import { mainApi } from '@/store/api'
 
-export const authApi = createApi({
-  reducerPath: 'userApi',
-  baseQuery: authBaseQuery,
+export const authApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     login: builder.mutation<LoginUserResponse, LoginUserForm>({
       query: (body) => {
@@ -94,7 +90,10 @@ export const authApi = createApi({
         }
       },
     }),
-    resetPasswordConfirm: builder.mutation<ResetPasswordData, ResetPasswordData>({
+    resetPasswordConfirm: builder.mutation<
+      ResetPasswordData,
+      ResetPasswordData
+    >({
       query: (body) => {
         return {
           url: 'auth/users/resend_email/',

@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { usePathname, useRouter } from 'next/navigation'
 
 import styles from './sidebar.module.scss'
-import { useAppSelector } from '@/store/features/hooks'
+import { useAppSelector } from '@/store/hooks'
 import { useAuth } from '@/hooks/useAuth'
 import { LinkItem } from '@/components/ui/NavLink/NavLink'
 import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'

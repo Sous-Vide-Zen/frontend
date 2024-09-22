@@ -5,7 +5,7 @@ import { useCallback, useEffect } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
 import Button from '@/components/ui/Button/Button'

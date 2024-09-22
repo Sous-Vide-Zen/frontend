@@ -3,7 +3,7 @@
 import { FC } from 'react'
 
 import styles from './MyRecipies.module.scss'
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   setDateSortMyRecipes,
   setSortMyRecipesMode,

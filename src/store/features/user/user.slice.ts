@@ -1,5 +1,8 @@
-import { createSlice } from '@reduxjs/toolkit'
-import { RecipeListFilter, RecipeListOrdering as RecipeListSort } from '@/hooks/dispatcher.types'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import {
+  RecipeListFilter,
+  RecipeListOrdering as RecipeListSort,
+} from '@/hooks/dispatcher.types'
 
 export type RecipeListView = 'feed' | 'tile'
 export type MyRecipeSort = 'date' | 'ingredients'
@@ -22,19 +25,19 @@ const userSettingsSlice = createSlice({
   name: 'userSettings',
   initialState: defaultState,
   reducers: {
-    setViewMode: (state, action) => {
+    setViewMode: (state, action: PayloadAction<RecipeListView>) => {
       state.view = action.payload
     },
     setFilterMode: (state, action) => {
       state.filter = action.payload
     },
-    setSortMode: (state, action) => {
+    setSortMode: (state, action: PayloadAction<RecipeListSort>) => {
       state.sort = action.payload
     },
-    setSortMyRecipesMode: (state, action) => {
+    setSortMyRecipesMode: (state, action: PayloadAction<MyRecipeSort>) => {
       state.myRecipesSort = action.payload
     },
-    setDateSortMyRecipes: (state, action) => {
+    setDateSortMyRecipes: (state, action: PayloadAction<string>) => {
       state.myRecipesFromDate = action.payload
     },
   },

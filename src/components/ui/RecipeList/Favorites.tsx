@@ -1,6 +1,6 @@
 'use client'
 
-import { useAppSelector } from '@/store/features/hooks'
+import { useAppSelector } from '@/store/hooks'
 import { useFavorites } from '@/hooks/useFavorites'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
 

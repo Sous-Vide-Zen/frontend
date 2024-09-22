@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 
-import { useAppDispatch, useAppSelector } from '@/store/features/hooks'
+import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   checkLoginStatus,
   loginUser,

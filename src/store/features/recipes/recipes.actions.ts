@@ -1,8 +1,5 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
-import { Action, current, PayloadAction } from '@reduxjs/toolkit'
-import { HYDRATE } from 'next-redux-wrapper'
+import { Action, current } from '@reduxjs/toolkit'
 
-import { authBaseQuery } from '@/services/apiQueries'
 import { convertObjectToQueryParams } from '@/helpers/url'
 import {
   IFetchListData,
@@ -10,6 +7,7 @@ import {
   IRecipeWithIngredients,
 } from './recipes.types'
 import { REHYDRATE } from 'redux-persist'
+import { mainApi } from '@/store/api'
 
 export type ListParams = {
   pathname: string
@@ -58,30 +56,30 @@ function isRehydrateAction(action: Action): action is Action<
   return action.type === REHYDRATE
 }
 
-export const recipeApi = createApi({
-  reducerPath: 'recipeApi',
-  baseQuery: authBaseQuery,
-  tagTypes: ['Recipes', 'Favorites'],
-  extractRehydrationInfo(action, { reducerPath }): any {
-    // WIP: тут надо отловить гадратированные данные и выдать их вместо реального запроса
-    // console.log({ t: action.type, r: REHYDRATE })
-    // if (isRehydrateAction(action)) {
-    //   console.log('=====isHydrateAction', action)
-    //   // // if (action.type === HYDRATE) {
-    //   //   return action.payload[reducerPath]
-    // }
-    // if (action.type === 'recipeApi/executeQuery/fulfilled') {
-    //   console.log({ i: REHYDRATE, a: action.type, p: action.payload, action })
-    // }
-    // if (isHydrateAction(action)) {
-    //   // console.log({ i: isHydrateAction(action), a: action.type, p: recipeApi.reducerPath, action })
-    //   if (action.key === 'key used with redux-persist') {
-    //     return action.payload
-    //   }
-    //   // When persisting the root reducer
-    //   // return action.payload[recipeApi.reducerPath]
-    // }
-  },
+export const recipeApi = mainApi.injectEndpoints({
+  // reducerPath: 'recipeApi',
+  // baseQuery: authBaseQuery,
+  // tagTypes: ['Recipes', 'Favorites'],
+  // extractRehydrationInfo(action, { reducerPath }): any {
+  // WIP: тут надо отловить гадратированные данные и выдать их вместо реального запроса
+  // console.log({ t: action.type, r: REHYDRATE })
+  // if (isRehydrateAction(action)) {
+  //   console.log('=====isHydrateAction', action)
+  //   // // if (action.type === HYDRATE) {
+  //   //   return action.payload[reducerPath]
+  // }
+  // if (action.type === 'recipeApi/executeQuery/fulfilled') {
+  //   console.log({ i: REHYDRATE, a: action.type, p: action.payload, action })
+  // }
+  // if (isHydrateAction(action)) {
+  //   // console.log({ i: isHydrateAction(action), a: action.type, p: recipeApi.reducerPath, action })
+  //   if (action.key === 'key used with redux-persist') {
+  //     return action.payload
+  //   }
+  //   // When persisting the root reducer
+  //   // return action.payload[recipeApi.reducerPath]
+  // }
+  // },
   endpoints: (builder) => ({
     // Единый запрос для разных списков рецептов
     getRecipes: builder.query<IFetchListData, ListParams>({
@@ -157,7 +155,7 @@ export const recipeApi = createApi({
         url: `recipe/${slug}/favorite/`,
         method: 'POST',
       }),
-      invalidatesTags: ['Recipes'], //todo не работает(
+      // invalidatesTags: ['Recipes'], //todo не работает(
       async onQueryStarted(slug, { dispatch, queryFulfilled }) {
         await queryFulfilled
 
@@ -204,7 +202,7 @@ export const recipeApi = createApi({
         url: `recipe/${slug}/favorite/`,
         method: 'DELETE',
       }),
-      invalidatesTags: ['Recipes'], //todo не работает(
+      // invalidatesTags: ['Recipes'], //todo не работает(
       async onQueryStarted(slug, { dispatch, queryFulfilled }) {
         await queryFulfilled
 
@@ -290,6 +288,3 @@ export const {
   useSaveRecipeMutation,
   useCreateRecipeMutation,
 } = recipeApi
-
-// export endpoints for use in SSR
-export const { getRecipes } = recipeApi.endpoints

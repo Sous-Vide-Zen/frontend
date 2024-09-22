@@ -3,11 +3,11 @@ import {
   fetchBaseQuery,
   type BaseQueryFn,
   FetchBaseQueryError,
+  retry,
 } from '@reduxjs/toolkit/query'
 import { Mutex } from 'async-mutex'
 
 import { clearTokens, setAccessToken } from '@/store/features/auth/auth.slice'
-import { makeStore } from '@/store/features'
 
 export const BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
@@ -18,7 +18,10 @@ export const clitical401Errors = [
   'Пользователь не найден',
 ]
 
-const injectAuth = (args: FetchArgs, authToken?: string | null): FetchArgs => {
+export const injectAuth = (
+  args: FetchArgs,
+  authToken?: string | null,
+): FetchArgs => {
   if (authToken) {
     args.headers = { ...args.headers, Authorization: `Bearer ${authToken}` }
   }
@@ -26,7 +29,7 @@ const injectAuth = (args: FetchArgs, authToken?: string | null): FetchArgs => {
   return args
 }
 
-const mutex = new Mutex()
+export const mutex = new Mutex()
 
 export const baseQuery = fetchBaseQuery({
   baseUrl: BASE_URL,
@@ -41,11 +44,18 @@ export const authBaseQuery: BaseQueryFn<
   // wait until the mutex is available without locking it
   await mutex.waitForUnlock()
 
-  const store = makeStore()
-  const { access_token: authToken, refresh_token: refreshToken } =
-    store.getState().auth
+  //todo: это вызывает циклический импорт и 500 ошибку. Пока токены получаются напрямую из хранилища
+  // const store = makeStore()
+  // const { access_token: authToken, refresh_token: refreshToken } =
+  //   store.getState().auth
+  const auth: { accessToken: string; refreshToken: string } = JSON.parse(
+    localStorage.getItem('persist:auth') ?? '{}',
+  )
 
-  args = injectAuth(args, authToken)
+  const accessToken = JSON.parse(auth.accessToken)
+  const refreshToken = JSON.parse(auth.refreshToken)
+
+  args = injectAuth(args, accessToken)
   let result = await baseQuery(args, api, extraOptions)
 
   // получен ответ
@@ -102,3 +112,18 @@ export const authBaseQuery: BaseQueryFn<
     result = await baseQuery(args, api, extraOptions)
   }
 }
+
+export const staggeredAuthBaseQuery = retry(
+  async (args: FetchArgs, api, extraOptions) => {
+    const result = await authBaseQuery(args, api, extraOptions)
+
+    if (result.error?.status === 401) {
+      retry.fail(result.error)
+    }
+
+    return result
+  },
+  {
+    maxRetries: 1,
+  },
+)

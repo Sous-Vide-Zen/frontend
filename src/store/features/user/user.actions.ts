@@ -1,11 +1,7 @@
-import { createApi } from '@reduxjs/toolkit/query/react'
-
-import { authBaseQuery } from '@/services/apiQueries'
+import { mainApi } from '@/store/api'
 import { CurrentUserData, UserData } from './user.types'
 
-export const userApi = createApi({
-  reducerPath: 'userApi',
-  baseQuery: authBaseQuery,
+export const userApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<CurrentUserData, void>({
       query: () => ({ url: 'users' }),

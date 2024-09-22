@@ -15,14 +15,14 @@ import { resultCountry } from "@/helpers/setCountries"
 import { customStyles } from "@/helpers/customStylesFromReactSelect"
 import { Loader } from "@/components/ui/Loader/Loader"
 import { PatternFormat } from 'react-number-format'
-import { useAppDispatch, useAppSelector } from "@/store/features/hooks";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
 // import { fetchDataUser, fetchFormDataUser } from "@/store/features/user/user.actions";
 import { IDataForm } from "./user-data-form.types";
 
 
 
 
-export default function Registration() {
+export default function RegistrationPage() {
 
     const router = useRouter()
     const dispatch = useAppDispatch()

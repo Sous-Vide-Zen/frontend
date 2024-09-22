@@ -1,15 +1,15 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IInitialState {
   isAuth: boolean
-  access_token: string | null
-  refresh_token: string | null
+  accessToken: string | null
+  refreshToken: string | null
 }
 
 const defaultState: IInitialState = {
   isAuth: false,
-  access_token: null,
-  refresh_token: null,
+  accessToken: null,
+  refreshToken: null,
 }
 
 export const authSlice = createSlice({
@@ -17,33 +17,39 @@ export const authSlice = createSlice({
   initialState: defaultState,
   reducers: {
     checkLoginStatus: (state, _action) => {
-      const token = state.access_token
+      const token = state.accessToken
       state.isAuth = !!token
     },
-    loginUser: (state, action) => {
+    loginUser: (
+      state,
+      action: PayloadAction<{ access: string; refresh: string }>,
+    ) => {
       const { access, refresh } = action.payload
-      state.access_token = access
-      state.refresh_token = refresh
+      state.accessToken = access
+      state.refreshToken = refresh
       state.isAuth = true
     },
     logoutUser: (state, _action) => {
-      state.access_token = null
-      state.refresh_token = null
+      state.accessToken = null
+      state.refreshToken = null
       state.isAuth = false
     },
-    setAccessToken: (state, action) => {
-      state.access_token = action.payload
+    setAccessToken: (state, action: PayloadAction<string>) => {
+      state.accessToken = action.payload
       state.isAuth = true
     },
-    setTokens: (state, action) => {
+    setTokens: (
+      state,
+      action: PayloadAction<{ access: string; refresh: string }>,
+    ) => {
       const { access, refresh } = action.payload
-      state.access_token = access
-      state.refresh_token = refresh
+      state.accessToken = access
+      state.refreshToken = refresh
       state.isAuth = true
     },
     clearTokens: (state, _action) => {
-      state.access_token = null
-      state.refresh_token = null
+      state.accessToken = null
+      state.refreshToken = null
       state.isAuth = false
     },
   },
