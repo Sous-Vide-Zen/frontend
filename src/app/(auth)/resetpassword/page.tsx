@@ -1,99 +1,29 @@
 'use client'
 
-import { useCallback, useEffect } from 'react'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
-import styles from './activate.module.scss'
-import {
-  useActivationMutation,
-  useResetPasswordMutation,
-} from '@/store/features/auth/auth.actions'
-import { ActivationUserData } from '@/store/features/user/user.types'
-import ActivateSucessForm from '@/components/forms/auth/ActivateSucessForm'
-import AlreadyActivatedForm from '@/components/forms/auth/AlreadyActivatedForm'
+import styles from './resetPassword.module.scss'
+import { useResetPasswordMutation } from '@/store/features/auth/auth.actions'
 import ResetPasswordForm from '@/components/forms/auth/ResetPasswordForm'
-
-const errorMessages: Record<string, string> = {
-  "Invalid user id or user doesn't exist.": 'Некорректный ID',
-  'Stale token for given user.':
-    'Данная ссылка уже была использована для активации',
-}
+import ResetPasswordEmailedForm from '@/components/forms/auth/ResetPasswordEmailedForm'
 
 export default function ActivationPage() {
   const router = useRouter()
-  const [doReset, { data, status, isLoading, isError, error }] =
-    useResetPasswordMutation()
+  const [doReset, { status, isLoading, error }] = useResetPasswordMutation()
 
-  console.log({ status })
-
-  // useEffect(() => {
-  //   doActivation(dataFromUrl)
-  // }, [doActivation, params.slug])
-
-  // useEffect(() => {
-  //   if (status === 'fulfilled') {
-  //     const timer = setTimeout(() => {
-  //       router.push('activate-page')
-  //     }, 4000)
-
-  //     return () => clearTimeout(timer)
-  //   }
-  // }, [router, status])
-
-  const onSubmit = (formValues: any) => {
-    doReset(formValues)
-  }
-
-  const onCancel = () => {
-    router.back()
-  }
-
-  // @ts-ignore
-  const errorText = error?.message
-
-  useCallback(() => {
-    console.log({ status })
-    if (status === 'fulfilled') {
-      // dispatch(loginUser(data))
-    }
-  }, [status])
-
-  if (isLoading)
+  if (status === 'fulfilled')
     return (
       <div className={styles.container}>
-        <p>Получение данных...</p>
+        <ResetPasswordEmailedForm />
       </div>
     )
-
-  if (isError) {
-    const { data: errorData } = error as { data: any }
-    const { uid: errorText } = errorData
-
-    return (
-      <div className={styles.container}>
-        {errorText === 'Stale token for given user.' ? (
-          <AlreadyActivatedForm />
-        ) : (
-          <div className={styles.error}>
-            {errorMessages[errorText] ?? JSON.stringify(errorData)}
-          </div>
-        )}
-      </div>
-    )
-  }
-
-  // if (status === 'fulfilled')
-  //   return (
-  //     <div className={styles.container}>
-  //       <ActivateSucessForm />
-  //     </div>
-  //   )
 
   return (
     <ResetPasswordForm
       isLoading={isLoading}
-      onSubmit={onSubmit}
-      onCancel={onCancel}
+      onSubmit={(formValues) => doReset(formValues)}
+      onCancel={() => router.back()}
+      errorText={error ? String(error) : undefined}
     />
   )
 }

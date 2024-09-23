@@ -54,7 +54,6 @@ const ResetPasswordForm: FC<Props> = ({
             type="button"
             color="clear"
             size="medium"
-            loading={isLoading}
             onClick={onCancel}
           >
             Отменить
