@@ -23,7 +23,7 @@ export const injectAuth = (
   args: FetchArgs | string,
   authToken?: string | null,
 ): FetchArgs | string => {
-  if (typeof args !== 'string' && args.headers && authToken) {
+  if (typeof args !== 'string' && authToken) {
     args.headers = { ...args.headers, Authorization: `Bearer ${authToken}` }
     // const requestHeaders = new Headers(args.headers)
     // requestHeaders.set('Authorization', `Bearer ${authToken}`)
