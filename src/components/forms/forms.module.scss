@@ -96,3 +96,42 @@
   align-items: center;
   justify-content: center;
 }
+
+.input {
+  border-radius: 12px;
+  border: 1px solid var(--input-stroke);
+  outline: none;
+  padding: 12px 14px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  color: var(--base-color-dark);
+
+  &:focus {
+    border: 1px solid var(--base-color-dark);
+    color: var(--base-color-dark);
+  }
+
+  &:hover {
+    border: 1px solid var(--base-color-dark);
+  }
+}
+
+// стили для Select from 'react-select'
+.selector > div > div {
+  border-radius: 12px;
+  border: 1px solid var(--input-stroke);
+  outline: none;
+  padding: 3px 4px;
+  transition: all 0.3s ease-in-out;
+  width: 100%;
+  color: var(--base-color-dark);
+
+  &:focus {
+    border: 1px solid var(--base-color-dark);
+    color: var(--base-color-dark);
+  }
+
+  &:hover {
+    border: 1px solid var(--base-color-dark);
+  }
+}

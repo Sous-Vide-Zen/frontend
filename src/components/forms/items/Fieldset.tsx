@@ -3,7 +3,7 @@ import styles from '../forms.module.scss'
 
 interface FieldSetProps {
   label?: string
-  children: ReactElement[]
+  children: ReactElement | ReactElement[]
 }
 export const FieldSet = ({ label, children }: FieldSetProps) => {
   return (

@@ -35,7 +35,8 @@ export interface UserData {
   username: string
   display_name: string
   email: string
-  avatar: string
+  avatar?: string
+  phone?: string
   city: string
   country: string
   bio: string

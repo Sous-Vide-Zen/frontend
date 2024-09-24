@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation'
 import Layout from "@/components/layout/layout"
 import { useEffect, useRef, useState } from "react"
 import Select from 'react-select'
-import { resultCountry } from "@/helpers/setCountries"
+import { COUNTRIES } from "@/helpers/countries"
 import { customStyles } from "@/helpers/customStylesFromReactSelect"
 import { Loader } from "@/components/ui/Loader/Loader"
 import { PatternFormat } from 'react-number-format'
@@ -185,7 +185,7 @@ export default function Registration() {
                                         name="country"
                                         render={({ field }) => (
                                             <Select {...field}
-                                                options={resultCountry}
+                                                options={COUNTRIES}
                                                 placeholder="Россия"
                                                 styles={customStyles}
                                                 inputId={Date.now().toString()}
