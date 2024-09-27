@@ -1,23 +1,27 @@
 import { mainApi } from '@/store/api'
-import { CurrentUserData, UserData } from './user.types'
+import { CurrentUserData, UserData, UserPatchData } from './user.types'
 
 export const userApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     getUsers: builder.query<CurrentUserData, void>({
-      query: () => ({ url: 'users' }),
+      query: () => ({ url: 'users/' }),
     }),
     getUserData: builder.query<UserData, string>({
-      query: (username: string) => ({ url: `user/${username}` }),
+      query: (username: string) => ({ url: `user/${username}/` }),
     }),
-    patchUserData: builder.query<UserData, string>({
-      query: (username: string) => ({
-        url: `user/${username}`,
+    patchUserData: builder.mutation<
+      UserData,
+      { userName: string; body: Partial<UserPatchData> }
+    >({
+      query: ({ userName, body }) => ({
+        url: `user/${userName}/`,
         method: 'PATCH',
+        body,
       }),
     }),
-    deleteUser: builder.query<null, string>({
+    deleteUser: builder.mutation<null, string>({
       query: (username: string) => ({
-        url: `user/${username}`,
+        url: `user/${username}/`,
         method: 'DELETE',
       }),
     }),
@@ -27,6 +31,6 @@ export const userApi = mainApi.injectEndpoints({
 export const {
   useGetUsersQuery,
   useLazyGetUserDataQuery,
-  useLazyPatchUserDataQuery,
-  useDeleteUserQuery,
+  usePatchUserDataMutation,
+  useDeleteUserMutation,
 } = userApi

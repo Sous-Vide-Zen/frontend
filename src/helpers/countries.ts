@@ -249,7 +249,7 @@ const COUNTRY: string[] = [
 ]
 
 export const COUNTRIES: { value: string; label: string }[] = COUNTRY.map(
-  (item: string) => ({
+  (item) => ({
     value: item.toLowerCase(),
     label: item,
   }),

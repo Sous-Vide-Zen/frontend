@@ -1,10 +1,11 @@
-import { FC, useRef, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 
 import styles from '../forms.module.scss'
 
 interface InputProps {
   name: string
+  value: string
   setValue: UseFormSetValue<any>
   register: UseFormRegister<any>
   autoComplete?: string
@@ -12,6 +13,7 @@ interface InputProps {
 
 export const InputPhone: FC<InputProps> = ({
   name,
+  value,
   setValue,
   register,
   ...rest
@@ -19,26 +21,37 @@ export const InputPhone: FC<InputProps> = ({
   const [card, setCard] = useState<string>()
   const inputCard = useRef<HTMLInputElement>(null)
 
-  const handleChange = () => {
-    if (!inputCard.current) return
+  const setNewCardValue = (currentValue: string) => {
+    if (!currentValue) return
 
-    const cardValue = inputCard.current.value
+    const cardValue = currentValue
       .replace(/\D/g, '')
       .match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/) ?? ['', '', '', '', '']
 
-    inputCard.current.value = !(cardValue[2] ?? '')
+    const newCardValue = !(cardValue[2] ?? '')
       ? cardValue[1]
       : `+${cardValue[1]} (${cardValue[2]}) ${`${
           cardValue[3] ? `-${cardValue[3]}` : ''
         }`}${`${cardValue[4] ? `-${cardValue[4]}` : ''}`}`
+    setCard(newCardValue)
+  }
+
+  const handleChange = () => {
+    if (!inputCard.current) return
+
+    setNewCardValue(inputCard.current.value)
     const numbers = inputCard.current.value.replace(/(\D)/g, '')
 
-    setCard(numbers)
-    setValue(name, numbers)
+    setValue(name, numbers, { shouldValidate: true })
   }
+
+  useEffect(() => {
+    setNewCardValue(value)
+  }, [value])
 
   return (
     <input
+      className={styles.input}
       type="tel"
       inputMode="numeric"
       placeholder="+7 (841) "
@@ -47,14 +60,14 @@ export const InputPhone: FC<InputProps> = ({
           value: /^[0-9]/i,
           message: 'Введите корректный телефон',
         },
+        required: 'Обязательное поле',
         minLength: {
-          value: 10,
-          message: 'Минимум 10 цифр',
+          value: 11,
+          message: 'Минимум 11 цифр',
         },
       })}
-      // autoComplete={autocomplete}
-      className={styles.input}
       ref={inputCard}
+      defaultValue={card}
       onChange={handleChange}
       {...rest}
     />

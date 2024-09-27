@@ -1,76 +1,121 @@
 'use client'
 
 import { FC, useEffect } from 'react'
-import { SubmitHandler, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form'
+import cn from 'clsx'
+import Select from 'react-select'
 
-import styles from '../forms.module.scss'
-import { useLazyGetUserDataQuery } from '@/store/features/user/user.actions'
-import { Field, FieldSet, InputPhone, Selector } from '@/components/forms/items'
+import formStyles from '../forms.module.scss'
+import styles from './AboutMeForm.module.scss'
+import {
+  useLazyGetUserDataQuery,
+  usePatchUserDataMutation,
+} from '@/store/features/user/user.actions'
+import { UserPatchData } from '@/store/features/user/user.types'
+import { Field, FieldSet, InputPhone } from '@/components/forms/items'
 import { useGetCurentUserDataQuery } from '@/store/features/auth/auth.actions'
 import { AvatarImage } from '@/components/ui/imageLoaders/AvatarImage'
 import Input from '@/components/ui/Input/Input'
 import Button from '@/components/ui/Button/Button'
-
-export interface IDataForm {
-  username: string
-  display_name: string
-  first_name: string
-  last_name: string
-  phone: string
-  country: string
-  city: string
-  bio: string
-  avatar: string
-}
+import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
+import { Loader } from '@/components/ui/Loader/Loader'
+import UserDataSaveSuccessfullForm from '@/components/forms/auth/UserDataSaveSuccessfullForm'
+import { COUNTRIES } from '@/helpers/countries'
 
 type Props = {
-  isLoading?: boolean
-  onSubmit?: SubmitHandler<IDataForm>
-  onCancel?: () => void
-  errorText?: string
+  // isLoading?: boolean
+  // errorText?: string
 }
 
-const AboutMeForm: FC<Props> = ({
-  isLoading,
-  onSubmit,
-  onCancel,
-  errorText,
-}) => {
-  const { data: currentUserData } = useGetCurentUserDataQuery()
-  const [trigger, { data }] = useLazyGetUserDataQuery()
+const AboutMeForm: FC<Props> = ({}) => {
+  const {
+    data: currentUserData,
+    isLoading,
+    error,
+  } = useGetCurentUserDataQuery()
+
+  //todo: после реализации хранения токенов доступа перенести заполнение данных пользователя в страницу
+  const [getUserData, { data, isLoading: isLoading2, error: error2 }] =
+    useLazyGetUserDataQuery()
+
+  const [
+    patchUserData,
+    { data: patchData, isLoading: isPatchLoading, error: patchError },
+  ] = usePatchUserDataMutation()
 
   const {
     register,
+    control,
     handleSubmit,
     setValue,
-    formState: { errors, isDirty, isValid },
-  } = useForm<IDataForm>({
+    getValues,
+    formState: { errors, isValid },
+  } = useForm<UserPatchData>({
     mode: 'onBlur',
   })
+
+  // @ts-ignore
+  const patchErrorText = patchError?.data ?? {}
 
   useEffect(() => {
     const username = currentUserData?.username
     if (username) {
-      trigger(username)
+      getUserData(username)
     }
-  }, [currentUserData?.username, trigger])
+  }, [currentUserData?.username, getUserData])
 
   useEffect(() => {
     if (data) {
-      setValue('username', data.username)
+      const {
+        id,
+        username,
+        email,
+        avatar,
+        date_joined,
+        is_active,
+        is_admin,
+        is_banned,
+        is_staff,
+        ...userData
+      } = data
+      for (let u in userData) {
+        //@ts-ignore
+        setValue(u, data[u])
+      }
+      setValue('phone', data.phone.split('+').join(''))
     }
   }, [data, setValue])
 
+  const onSubmit = (dataFromInput: UserPatchData) => {
+    if (dataFromInput) {
+      patchUserData({
+        userName: currentUserData?.username ?? '',
+        body: { ...dataFromInput, phone: `+${dataFromInput.phone}` },
+      })
+    }
+  }
+
+  if (error) return `error ${error}`
+
+  if (error2) return `error ${error2}`
+
+  if (isLoading || isLoading || !data) return <Loader />
+
+  //todo: форму поместить в модальное окно
+  if (patchData) return <UserDataSaveSuccessfullForm />
+
   return (
-    <div className={styles.container} style={{ width: '450px' }}>
+    <div className={cn(formStyles.container, { [styles.condensedForm]: true })}>
       <form onSubmit={onSubmit && handleSubmit(onSubmit)}>
         <FieldSet label="Расскажите о себе">
-          {/* это возможно возможно 'display_name' */}
-          <Field label="Никнейм" error={errors?.username?.message}>
+          <Field
+            label="Никнейм"
+            error={errors?.display_name?.message || patchErrorText.display_name}
+          >
             <Input
               register={register}
-              name="username"
-              autocomplete="username"
+              name="display_name"
+              autocomplete="display_name"
               options={{
                 maxLength: {
                   message: 'Поле не должно содержать более 30 символов',
@@ -81,7 +126,10 @@ const AboutMeForm: FC<Props> = ({
             />
           </Field>
 
-          <Field label="Имя" error={errors?.first_name?.message}>
+          <Field
+            label="Имя"
+            error={errors?.first_name?.message || patchErrorText.first_name}
+          >
             <Input
               register={register}
               name="first_name"
@@ -96,7 +144,10 @@ const AboutMeForm: FC<Props> = ({
             />
           </Field>
 
-          <Field label="Фамилия" error={errors?.last_name?.message}>
+          <Field
+            label="Фамилия"
+            error={errors?.last_name?.message || patchErrorText.last_name}
+          >
             <Input
               register={register}
               name="last_name"
@@ -111,26 +162,45 @@ const AboutMeForm: FC<Props> = ({
             />
           </Field>
 
-          <Field label="Телефон" error={errors?.phone?.message}>
+          <Field
+            label="Телефон"
+            error={errors?.phone?.message || patchErrorText.phone}
+          >
             <InputPhone
               register={register}
+              value={getValues()['phone']}
               setValue={setValue}
               name="phone"
               autoComplete="phone"
             />
           </Field>
 
-          <Field label="Страна" error={errors?.country?.message}>
-            <Selector
-              register={register}
-              name="country"
-              autoComplete="country"
-              placeholder="Россия"
-              className={styles.selector}
+          <Field
+            label="Страна"
+            error={errors?.country?.message || patchErrorText.country}
+          >
+            <Controller
+              name={'country'}
+              control={control}
+              render={({ field: { onChange, value, name } }) => (
+                <Select
+                  name={name}
+                  options={COUNTRIES}
+                  placeholder="Россия"
+                  inputId={Date.now().toString()}
+                  value={COUNTRIES.find((c) => c.value === value)}
+                  onChange={(selectedOption) => {
+                    onChange(selectedOption?.value)
+                  }}
+                />
+              )}
             />
           </Field>
 
-          <Field label="Город" error={errors?.city?.message}>
+          <Field
+            label="Город"
+            error={errors?.city?.message || patchErrorText.city}
+          >
             <Input
               register={register}
               name="city"
@@ -145,7 +215,10 @@ const AboutMeForm: FC<Props> = ({
             />
           </Field>
 
-          <Field label="О себе" error={errors?.bio?.message}>
+          <Field
+            label="О себе"
+            error={errors?.bio?.message || patchErrorText.bio}
+          >
             <Input
               register={register}
               name="bio"
@@ -163,24 +236,18 @@ const AboutMeForm: FC<Props> = ({
         </FieldSet>
 
         <Button
-          disabled={!isDirty || !isValid}
+          disabled={!isValid}
           type="submit"
           color="primary"
           size="medium"
-          loading={isLoading}
+          loading={isPatchLoading}
         >
           Сохранить
         </Button>
 
-        <Button size={'medium'} color={'secondary'} onClick={onCancel}>
+        <LinkLikeButton href="/" size="medium" color="secondary">
           Заполнить позже
-        </Button>
-
-        {errorText && (
-          <span role="alert" className={styles.error}>
-            {errorText}
-          </span>
-        )}
+        </LinkLikeButton>
       </form>
     </div>
   )

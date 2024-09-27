@@ -1,5 +1,5 @@
 import { FC, HTMLInputTypeAttribute } from 'react'
-import { UseFormRegister } from 'react-hook-form'
+import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
 import Select from 'react-select'
 
 import { COUNTRIES } from '@/helpers/countries'
@@ -8,6 +8,8 @@ interface InputProps {
   placeholder?: string
   type?: HTMLInputTypeAttribute
   name: string
+  value: string
+  setValue: UseFormSetValue<any>
   className?: string
   register: UseFormRegister<any>
   autoComplete?: string
@@ -17,6 +19,8 @@ export const Selector: FC<InputProps> = ({
   placeholder,
   type = 'text',
   name,
+  value,
+  setValue,
   className,
   register,
   ...rest
@@ -25,9 +29,13 @@ export const Selector: FC<InputProps> = ({
     <div className={className}>
       <Select
         options={COUNTRIES}
-        placeholder="Россия"
-        inputId={Date.now().toString()}
-        {...rest}
+        // placeholder="Россия"
+        // inputId={Date.now().toString()}
+        // value={value}
+        // //@ts-error
+        // onChange={(selectedOption: { value: string; label: string })=>setValue(name, v?.value)}
+
+        // {...rest}
       />
     </div>
   )
