@@ -117,47 +117,80 @@
       }
     }
   }
-  
-  .preview {
+  .container_button{
+    display: flex;
+    justify-content: flex-end;
     position: relative;
+    bottom: 50px;
+  }
+  .button_wrapper{
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    right: 40px;
+    z-index: 10;
+    max-width: 250px;
+    margin-bottom: 80px;
+	border-radius: 12px;
+	border: 1px solid var(--input-stroke);
+	outline: none;
+	padding: 12px 14px;
+	// width: 100%;
+	color: var(--base-color-dark);
+  background-color: white;
+  font-size: 18px;
+    font-weight: 500;
+  }
+
+  .preview {
+    // position: relative;
     border-radius: 12px;
     cursor: pointer;
-  
-    .notPreview {
-      width: 100%;
-      height: 300px;
-      background: #8b8b8b;
-      border-radius: 12px;
+    margin-bottom: -50px;
+    .wrapper_icon{
+      display: flex;
+    justify-content: space-between;
     }
-  
-    .previewSave {
+    
+    .previewLink {
       background: transparent;
       outline: none;
       border: none;
       cursor: pointer;
-      position: absolute;
-      top: 16px;
+      position: relative;
+      bottom: 20px;
       left: 18px;
+      z-index: 10;
     }
-  
+
     .previewPrinter {
       background: transparent;
       outline: none;
       border: none;
       cursor: pointer;
-      position: absolute;
-      top: 16px;
+      position: relative;
+      bottom: 20px;
       right: 18px;
+      z-index: 10;
     }
-  
-    .previewTime {
-      position: absolute;
-      left: 16px;
-      bottom: 18px;
-      background: #fff;
-      padding: 12px 24px;
+
+    .notPreview {
+      width: 100%;
+      height: 300px;
+      background: #8b8b8b;
       border-radius: 12px;
+      position: relative;
+    bottom: 70px;
     }
+      
+    // .previewTime {
+    //   position: absolute;
+    //   left: 16px;
+    //   bottom: 18px;
+    //   background: #fff;
+    //   padding: 12px 24px;
+    //   border-radius: 12px;
+    // }
   }
   
 .nameRecipe {

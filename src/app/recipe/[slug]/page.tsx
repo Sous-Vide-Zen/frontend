@@ -24,10 +24,9 @@ export default function Recipe({ params }: { params: { slug: string } }) {
       </div>
     )
 
-  //todo поместить сюда форму просмотра рецепта
+  //todo поместить сюда форму просмотра рецепта params_slug={params.slug}
   return (
     <>
-      <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link>
       {/* <pre style={{ display: 'block', fontSize: '10pt' }}>
         {JSON.stringify(data, null, 2)}
       </pre> */}

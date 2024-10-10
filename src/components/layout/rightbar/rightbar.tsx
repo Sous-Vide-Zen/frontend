@@ -30,7 +30,7 @@ export default function Rightbar() {
           color="secondary"
           size="big"
           className={sort === 'top' ? styles.active : ''}
-          onClick={() => router.push('recipe/new')}
+          onClick={() => router.push('add-new-recipe')}
         >
           Опубликовать
           <Image
