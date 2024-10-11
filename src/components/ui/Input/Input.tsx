@@ -6,6 +6,7 @@ import cn from 'clsx'
 import styles from './Input.module.scss'
 
 interface InputProps {
+  disabled?: boolean
   placeholder?: string
   type?: HTMLInputTypeAttribute
   name: string
@@ -19,9 +20,11 @@ interface InputProps {
   options?: RegisterOptions<any>
   register: UseFormRegister<any>
   autocomplete?: string
+  onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 const Input: FC<InputProps> = ({
+  disabled = false,
   placeholder,
   error,
   type = 'text',
@@ -54,6 +57,7 @@ const Input: FC<InputProps> = ({
       <div className={styles.input__wrapper}>
         <input
           placeholder={placeholder}
+          disabled={disabled}
           type={isPassword ? typeInput : type}
           {...optionsForm}
           {...rest}

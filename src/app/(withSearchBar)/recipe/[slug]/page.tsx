@@ -38,7 +38,7 @@ const RecipePage: FC<Props> = async ({ params }) => {
   return (
     <>
       <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link>
-      <RecipeModify recipe={data} />
+      <RecipeModify recipe={data}/>
     </>
   )
 }
