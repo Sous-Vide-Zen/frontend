@@ -27,7 +27,7 @@ interface RecipeCardProps {
 
 const RecipeModify: FC<RecipeCardProps> = ({ recipe }) => {
   // const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
-  const { timeAgo, formattedDate } = useData(recipe.pub_date)
+  const { timeAgo, formattedDate } = useData(recipe?.pub_date ?? '')
   const [active, setActive] = useState(false)
   // const [register2, setRegister2] = useState<any>(null)
 
