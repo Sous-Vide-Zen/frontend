@@ -1,7 +1,7 @@
 'use client'
 
 import { FC, useEffect } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, RegisterOptions, useForm } from 'react-hook-form'
 import cn from 'clsx'
 import Select from 'react-select'
 
@@ -21,6 +21,18 @@ import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
 import { Loader } from '@/components/ui/Loader/Loader'
 import UserDataSaveSuccessfullForm from '@/components/forms/auth/UserDataSaveSuccessfullForm'
 import { COUNTRIES } from '@/helpers/countries'
+
+const textOptions: RegisterOptions<any> = {
+  maxLength: {
+    message: 'Поле не должно содержать более 30 символов',
+    value: 30,
+  },
+  required: 'Обязательное поле',
+  pattern: {
+    value: /^[A-Za-zА-Яа-яЁё/ -]+$/i,
+    message: 'Введите корректное значение (буквы, "-", " ")',
+  },
+}
 
 type Props = {
   // isLoading?: boolean
@@ -116,13 +128,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               register={register}
               name="display_name"
               autocomplete="display_name"
-              options={{
-                maxLength: {
-                  message: 'Поле не должно содержать более 30 символов',
-                  value: 30,
-                },
-                required: 'Обязательное поле',
-              }}
+              options={textOptions}
             />
           </Field>
 
@@ -135,12 +141,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               name="first_name"
               autocomplete="first_name"
               placeholder="Иван"
-              options={{
-                maxLength: {
-                  message: 'Поле не должно содержать более 30 символов',
-                  value: 30,
-                },
-              }}
+              options={textOptions}
             />
           </Field>
 
@@ -153,12 +154,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               name="last_name"
               autocomplete="last_name"
               placeholder="Иванов"
-              options={{
-                maxLength: {
-                  message: 'Поле не должно содержать более 30 символов',
-                  value: 30,
-                },
-              }}
+              options={textOptions}
             />
           </Field>
 
@@ -206,12 +202,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               name="city"
               autocomplete="city"
               placeholder="Москва"
-              options={{
-                maxLength: {
-                  message: 'Поле не должно содержать более 30 символов',
-                  value: 30,
-                },
-              }}
+              options={textOptions}
             />
           </Field>
 
