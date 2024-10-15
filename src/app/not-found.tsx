@@ -6,7 +6,7 @@ import NotFound from '@/components/ui/NotFound/NotFound'
 export default function NotFoundPage() {
   return (
     <Layout>
-        <NotFound/>
+      <NotFound />
     </Layout>
   )
 }

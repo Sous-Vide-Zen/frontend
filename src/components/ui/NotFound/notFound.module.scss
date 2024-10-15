@@ -3,7 +3,52 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  font-size: 24px;
-  color: red;
+  margin: auto;
   gap: 24px;
+}
+
+.error {
+  border-radius: 16px;
+  border: 10px solid #4bc185;
+  text-align: center;
+  padding: 128px;
+  width: 100%;
+  max-width: 863px;
+}
+
+.title_text {
+  font-size: 184px;
+  background: linear-gradient(129.67deg, #273526 22.89%, #4bc185 64.07%);
+  color: transparent;
+  background-clip: text;
+  margin-bottom: 48px;
+}
+
+.full_text {
+  font-size: 26px;
+  font-weight: 600;
+  color: #273526;
+  margin-bottom: 80px;
+}
+
+.error_btn {
+  padding: 10px 24px;
+  border-radius: 18px;
+  font-size: 16px;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  background: var(--button-default);
+  color: #fff;
+}
+
+.error_btn:hover {
+  background: var(--button-hover);
+  color: #fff;
+}
+
+.error_btn:active {
+  color: var(--button-press);
+  color: #fff;
 }
