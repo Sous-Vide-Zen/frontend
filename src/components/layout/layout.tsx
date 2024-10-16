@@ -3,7 +3,7 @@ import { FC, ReactNode } from 'react'
 import Header from '@/components/layout/header/header'
 import Sidebar from '@/components/layout/sidebar/sidebar'
 import styles from './layout.module.scss'
-import ButtonBack from '../ui/ButtonBack/ButtonBack'
+// import ButtonBack from '../ui/ButtonBack/ButtonBack'
 
 type Props = {
   children: ReactNode
@@ -11,7 +11,7 @@ type Props = {
   isSearch?: boolean
 }
 
-const Layout: FC<Props> = ({ children, sidebar = true, isSearch = false }) => (
+const Layout: FC<Props> = ({ children, sidebar = false, isSearch = true }) => (
   <div className={styles.layout}>
     <div className={styles.container} style={{ flexDirection: 'column' }}>
       <Header isSearch={isSearch} />
@@ -22,9 +22,7 @@ const Layout: FC<Props> = ({ children, sidebar = true, isSearch = false }) => (
         </div>
       ) : (
         <div className={styles.layoutOne}>
-          <div className={styles.left}>
-            <ButtonBack />
-          </div>
+          {/* <div className={styles.left}><ButtonBack /></div> */}
           <div className={styles.center}>{children}</div>
         </div>
       )}
