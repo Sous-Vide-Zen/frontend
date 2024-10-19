@@ -17,7 +17,6 @@ export default function NotFound() {
           </LinkLikeButton>
         </div>
       </div>
-      {/* <ButtonBack /> */}
     </div>
   )
 }
