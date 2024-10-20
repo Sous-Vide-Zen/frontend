@@ -79,3 +79,12 @@
   font-size: 16px;
   gap: 8px;
 }
+
+.link {
+  border-radius: 20px;
+  display: inline;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
+}
