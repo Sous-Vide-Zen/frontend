@@ -19,7 +19,7 @@ const EditRecipePage: FC<Props> = async ({ params }) => {
     console.log({ error })
   }
 
-  if (!data) permanentRedirect('/wrong_page')
+  if (!data) permanentRedirect('/error404')
 
   return (
     <div className={styles.wrapper}>
