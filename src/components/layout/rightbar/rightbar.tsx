@@ -89,6 +89,7 @@ export default function Rightbar() {
             size="medium"
             pressed={sort === 'top'}
             onClick={() => {
+              if (sort === 'top') return
               dispatch(setSortMode('top'))
               changeSearchParams('sort', 'top')
             }}
@@ -100,6 +101,7 @@ export default function Rightbar() {
             size="medium"
             pressed={sort === 'default'}
             onClick={() => {
+              if (sort === 'default') return
               dispatch(setSortMode('default'))
               changeSearchParams('sort', 'default')
             }}
