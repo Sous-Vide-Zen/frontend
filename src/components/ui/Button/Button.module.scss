@@ -1,6 +1,12 @@
 .button {
   cursor: pointer;
   transition: background-color 0.1s ease-in-out;
+  &:disabled {
+    color: var(--base-color);
+    background: var(--button-disabled);
+    border: none;
+    cursor: default;
+  }
 }
 
 .primary {
@@ -50,14 +56,6 @@
   padding: 0 !important;
   background: transparent;
   border: none;
-}
-
-.disabled,
-.disabled:hover {
-  color: var(--base-color);
-  background: var(--button-disabled);
-  border: none;
-  cursor: default;
 }
 
 .small {
