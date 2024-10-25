@@ -50,9 +50,15 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
             <div className={styles.name}>Название</div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
-                <p className={`${styles.name} ${styles.fromInput}`} key={index}>
-                  {ingredient.name}
-                </p>
+                <>
+                  <p
+                    className={`${styles.name} ${styles.fromInput}`}
+                    key={index}
+                  >
+                    {ingredient.name}
+                  </p>
+                  <div className={styles.line}></div>
+                </>
               ))}
             </div>
           </div>
@@ -60,9 +66,15 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
             <div className={styles.unit}>Количество</div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
-                <p className={`${styles.unit} ${styles.fromInput}`} key={index}>
-                  {ingredient.amount}
-                </p>
+                <>
+                  <p
+                    className={`${styles.unit} ${styles.fromInput}`}
+                    key={index}
+                  >
+                    {ingredient.amount}
+                  </p>
+                  <div className={styles.line}></div>
+                </>
               ))}
             </div>
           </div>
@@ -70,12 +82,15 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
             <div className={styles.amount}>Единица измерения</div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
-                <p
-                  className={`${styles.amount} ${styles.fromInput}`}
-                  key={index}
-                >
-                  {ingredient.unit}
-                </p>
+                <>
+                  <p
+                    className={`${styles.amount} ${styles.fromInput}`}
+                    key={index}
+                  >
+                    {ingredient.unit}
+                  </p>
+                  <div className={styles.line}></div>
+                </>
               ))}
             </div>
           </div>

@@ -1,4 +1,10 @@
 /* блок ингредиенты */
+.component_container{
+  border-radius: 12px;
+	border: 1px solid var(--input-stroke);
+  padding: 20px 20px 0 20px;
+}
+
 .cockingTime {
     font-size: 24px;
     font-weight: 500;
@@ -7,8 +13,8 @@
 .fromInput{
     max-width: 225px;
     margin-bottom: 80px;
-	border-radius: 12px;
-	border: 1px solid var(--input-stroke);
+	// border-radius: 12px;
+	// border: 1px solid var(--input-stroke);
 	outline: none;
 	padding: 12px 14px;
 	transition: all 0.3s ease-in-out;
@@ -58,17 +64,26 @@
     flex-direction: row;
     font-size: 16px;
     font-weight: 500;
+    
   }
   .name {
     min-width: 300px;
     margin: 0 12px 12px 0;
     font-size: 14px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
   }
   .unit,
   .amount {
     min-width: 182px;
     margin: 0 12px 12px 0;
     font-size: 14px;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
   }
   
   .ingredientsButton {
@@ -87,6 +102,9 @@
     &:active {
       background: var(--button-press);
     }
+  }
+  .line{
+    border: 1px solid var(--input-stroke);
   }
   
   /* */
