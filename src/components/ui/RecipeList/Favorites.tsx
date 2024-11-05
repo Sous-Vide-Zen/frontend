@@ -13,6 +13,7 @@ export default function Favorites() {
       <RecipeList
         dispatcher={useFavorites('recipe/favorites', {})}
         view={view}
+        removeItemsOnRemoveFromFavorites={true}
       />
     </div>
   )

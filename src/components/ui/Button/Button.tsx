@@ -13,7 +13,6 @@ interface IButton
   color?: 'purple' | 'white' | 'gray' | 'primary' | 'secondary' | 'clear'
   size?: 'big' | 'medium' | 'small'
   pressed?: boolean
-  disabled?: boolean
   loading?: boolean
 }
 
@@ -23,12 +22,10 @@ const Button: FC<IButton> = ({
   color,
   size,
   pressed,
-  disabled,
   loading,
   ...props
 }) => {
   const buttonClasses = cn(styles.button, className, {
-    [styles.disabled]: disabled === true,
     [styles.pressed]: pressed === true,
     [styles.primary]: color === 'primary',
     [styles.secondary]: color === 'secondary',
@@ -39,14 +36,10 @@ const Button: FC<IButton> = ({
   })
 
   return (
-    <button
-      className={buttonClasses}
-      disabled={disabled || !!loading}
-      {...props}
-    >
+    <button className={buttonClasses} disabled={!!loading} {...props}>
       {loading ? (
         <Image
-        className={styles.loader}
+          className={styles.loader}
           src="/img/loader.svg"
           alt="loader"
           width={30}

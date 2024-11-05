@@ -83,6 +83,7 @@ export const recipeApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     // Единый запрос для разных списков рецептов
     getRecipes: builder.query<IFetchListData, ListParams>({
+      keepUnusedDataFor: 1, // кэш сохраняется 1 сек
       query: ({ pathname, params }) => {
         const fixedParams = params as Record<string, string>
         // console.log(
@@ -115,10 +116,8 @@ export const recipeApi = mainApi.injectEndpoints({
       },
     }),
 
-    // кэш сохраняется 1 сек
-    // пришлось добавить, потому что необходимо добавлять в результат запроса поле 'is_favorite: true' для корректного отображения
     getFavorites: builder.query<IFetchListData, ListParams>({
-      keepUnusedDataFor: 1,
+      keepUnusedDataFor: 1, // кэш сохраняется 1 сек
       query: ({ pathname, params }) => {
         const fixedParams = params as Record<string, string>
         return {

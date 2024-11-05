@@ -1,6 +1,12 @@
 .button {
   cursor: pointer;
   transition: background-color 0.1s ease-in-out;
+  &:disabled {
+    color: var(--base-color);
+    background: var(--button-disabled);
+    border: none;
+    cursor: default;
+  }
 }
 
 .primary {
@@ -52,14 +58,6 @@
   border: none;
 }
 
-.disabled,
-.disabled:hover {
-  color: var(--base-color);
-  background: var(--button-disabled);
-  border: none;
-  cursor: default;
-}
-
 .small {
   padding: 4px 14px;
   border-radius: 12px;
@@ -78,4 +76,13 @@
   font-weight: 400;
   font-size: 16px;
   gap: 8px;
+}
+
+.link {
+  border-radius: 20px;
+  display: inline;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease-in-out;
 }
