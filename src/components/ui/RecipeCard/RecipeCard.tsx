@@ -34,6 +34,11 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
     onPreview && onPreview(recipe.slug)
   }
 
+  // Вычисляем часы и минуты
+  const cookingTime = recipe.cooking_time || 0
+  const hours = Math.floor(cookingTime / 60)
+  const minutes = cookingTime % 60
+
   return (
     <div className={styles.recipe}>
       <div className={styles.user}>
@@ -97,18 +102,20 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
           })}
           onClick={handlerOnTap}
         >
-          {recipe.cooking_time} мин.
+          {hours > 0
+            ? `${hours} ${hours === 1 || hours === 21 ? 'час' : (hours >= 2 && hours <= 4) || (hours >= 22 && hours <= 24) ? 'часа' : 'часов'} и ${minutes} ${minutes === 1 ? 'минута' : minutes >= 2 && minutes <= 4 ? 'минуты' : 'минут'}`
+            : `${minutes} ${minutes === 1 || (minutes % 10 === 1 && minutes % 100 !== 11) ? 'минута' : (minutes >= 2 && minutes <= 4) || (minutes % 10 >= 2 && minutes % 10 <= 4 && minutes % 100 < 10) || minutes % 100 >= 20 ? 'минуты' : 'минут'}`}
           <span
             className={cn(styles.tooltiptext, {
               [styles.tooltipTop]: true,
             })}
           >
-            нажмите для предварительного просмотра
+            Hажмите для предварительного просмотра
           </span>
         </button>
         {/* <Popup
           Content={() => (
-            <button className={cn(styles.previewTime, 
+            <button className={cn(styles.previewTime,
               'tooltip': true
             )} onClick={handlerOnTap}>
               {`${recipe.cooking_time} мин.`}
