@@ -69,7 +69,7 @@ export default function Rightbar() {
         <Button
           color="primary"
           size="big"
-          onClick={() => router.push('recipe/new')}
+          onClick={() => router.push('/recipe/new')}
         >
           Опубликовать
           <Image
