@@ -92,6 +92,7 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
                   </p>
                   {recipe.ingredients.length - 1 > index && (
                     <div className={styles.lineAmount}></div>
+                  )}
                 </Fragment>
               ))}
             </div>
