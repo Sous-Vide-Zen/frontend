@@ -1,5 +1,5 @@
 'use client'
-import { FC } from 'react'
+import { FC, Fragment } from 'react'
 import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
 import styles from './ingredientsShowEndAdd.module.scss'
 
@@ -50,15 +50,12 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
             <div className={styles.name}>Название</div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
-                <>
-                  <p
-                    className={`${styles.name} ${styles.fromInput}`}
-                    key={index}
-                  >
+                <Fragment key={index}>
+                  <p className={`${styles.name} ${styles.fromInput}`}>
                     {ingredient.name}
                   </p>
                   <div className={styles.line}></div>
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
@@ -66,15 +63,12 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
             <div className={styles.unit}>Количество</div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
-                <>
-                  <p
-                    className={`${styles.unit} ${styles.fromInput}`}
-                    key={index}
-                  >
+                <Fragment key={index}>
+                  <p className={`${styles.unit} ${styles.fromInput}`}>
                     {ingredient.amount}
                   </p>
                   <div className={styles.line}></div>
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
@@ -82,15 +76,12 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
             <div className={styles.amount}>Единица измерения</div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
-                <>
-                  <p
-                    className={`${styles.amount} ${styles.fromInput}`}
-                    key={index}
-                  >
+                <Fragment key={index}>
+                  <p className={`${styles.amount} ${styles.fromInput}`}>
                     {ingredient.unit}
                   </p>
                   <div className={styles.line}></div>
-                </>
+                </Fragment>
               ))}
             </div>
           </div>
