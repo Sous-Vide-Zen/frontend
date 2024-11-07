@@ -94,7 +94,7 @@ const AboutMeForm: FC<Props> = ({}) => {
         //@ts-ignore
         setValue(u, data[u])
       }
-      setValue('phone', data.phone.split('+').join(''))
+      setValue('phone', data.phone?.split('+').join(''))
     }
   }, [data, setValue])
 

@@ -47,7 +47,9 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
         {/* <p className={styles.ingredients}>Ингредиенты</p> */}
         <div className={styles.inner_descriptionIngredients}>
           <div>
-            <div className={styles.name}>Название</div>
+            <div className={`${styles.name} ${styles.columnName}`}>
+              Название
+            </div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
                 <>
@@ -57,13 +59,17 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
                   >
                     {ingredient.name}
                   </p>
-                  <div className={styles.line}></div>
+                  {recipe.ingredients.length - 1 > index && (
+                    <div className={styles.line}></div>
+                  )}
                 </>
               ))}
             </div>
           </div>
           <div>
-            <div className={styles.unit}>Количество</div>
+            <div className={`${styles.unit} ${styles.columnName}`}>
+              Количество
+            </div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
                 <>
@@ -73,13 +79,17 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
                   >
                     {ingredient.amount}
                   </p>
-                  <div className={styles.line}></div>
+                  {recipe.ingredients.length - 1 > index && (
+                    <div className={styles.line}></div>
+                  )}
                 </>
               ))}
             </div>
           </div>
           <div>
-            <div className={styles.amount}>Единица измерения</div>
+            <div className={`${styles.amount} ${styles.columnName}`}>
+              Единица измерения
+            </div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
                 <>
@@ -89,7 +99,9 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
                   >
                     {ingredient.unit}
                   </p>
-                  <div className={styles.line}></div>
+                  {recipe.ingredients.length - 1 > index && (
+                    <div className={styles.lineAmount}></div>
+                  )}
                 </>
               ))}
             </div>

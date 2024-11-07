@@ -39,6 +39,7 @@
 }
 /* */
 /* стандартный инпут */
+
 .standardInput {
   border: none;
   width: 100%;
@@ -72,15 +73,26 @@
 .hours {
   min-width: 142px;
   margin-right: 12px;
+  input{
+    font-size: 14px;
+    font-weight: 400;
+    height: 34px;
+  }
+}
+.displayNone{
+  display: none;
 }
 .minutes {
   min-width: 142px;
+  input{
+    height: 34px;
+  }
 }
 /* */
 
 /* блок ингредиенты */
 .ingredients_container {
-  margin-bottom: 16px;
+  margin-bottom: 48px;
 }
 .ingredients {
   font-size: 24px;
@@ -134,6 +146,8 @@
   margin-bottom: 24px;
 }
 .textArea {
+  font-size: 16px;
+  font-weight: 400;
   width: 100%;
   min-height: 240px;
   border-radius: 12px;

@@ -19,7 +19,7 @@ const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {
   }
 
   return (
-    <div className={styles.bottom}>
+    <div className={styles.actions}>
       <div className={styles.footer}>
         <div className={styles.footerLeft}>
           <button>
@@ -59,18 +59,20 @@ const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {
           </button>
         </div>
       </div>
-      <div className={styles.container_button}>
-        <div className={styles.dropdownIcon} onClick={() => handleToggle()}>
-          &#8942;
-        </div>
+      <div className={styles.linkForRecipe}>
         {active && (
-          <div className={styles.button_wrapper}>
+          <div>
             <Link href={`/recipe/edit/${recipe.slug}`}>
               Редактировать рецепт.
             </Link>
-            <span>test string</span>
+            <p>Удалить рецепт</p>
           </div>
         )}
+      </div>
+      <div className={styles.containerButton}>
+        <div className={styles.dropdownIcon} onClick={() => handleToggle()}>
+          &#8942;
+        </div>
       </div>
     </div>
   )
