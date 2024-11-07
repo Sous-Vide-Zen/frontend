@@ -17,7 +17,7 @@ export default function ListViewChanger() {
           color="secondary"
           size="medium"
           pressed={view === 'feed'}
-          onClick={() => dispatch(setViewMode('feed'))}
+          onClick={() => view !== 'feed' && dispatch(setViewMode('feed'))}
         >
           Лента
         </Button>
@@ -25,7 +25,7 @@ export default function ListViewChanger() {
           color="secondary"
           size="medium"
           pressed={view === 'tile'}
-          onClick={() => dispatch(setViewMode('tile'))}
+          onClick={() => view !== 'tile' && dispatch(setViewMode('tile'))}
         >
           Плитка
         </Button>

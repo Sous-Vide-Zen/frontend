@@ -31,24 +31,18 @@
   margin-bottom: 80px;
 }
 
-.error_btn {
-  padding: 10px 24px;
-  border-radius: 18px;
-  font-size: 16px;
-  border: none;
-  text-align: center;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  background: var(--button-default);
-  color: #fff;
-}
-
-.error_btn:hover {
+.LinkLikeButton:hover {
   background: var(--button-hover);
   color: #fff;
 }
 
-.error_btn:active {
-  color: var(--button-press);
+.LinkLikeButton:active {
+  background: var(--button-press);
   color: #fff;
+}
+
+.like_button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }

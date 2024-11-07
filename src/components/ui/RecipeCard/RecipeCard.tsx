@@ -1,4 +1,4 @@
-import { FC } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
 import cn from 'clsx'
 
@@ -15,18 +15,46 @@ import Popup from '@/components/ui/Popup/Popup'
 interface RecipeCardProps {
   recipe: IRecipe
   onPreview?: (slug: string) => void
+  onRemoveFromFavorites?: (id: number) => void
 }
 
-const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
+const RecipeCard: FC<RecipeCardProps> = ({
+  recipe,
+  onPreview,
+  onRemoveFromFavorites,
+}) => {
   const { timeAgo, formattedDate } = useData(recipe.pub_date)
-  const [addToFavorites] = useAddToFavoritesMutation()
-  const [removeFromFavorites] = useRemoveFromFavoritesMutation()
+  const [udpateFavorite, setUpdateFavorite] = useState<boolean>(false)
+  const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
+  const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
+
+  const [addToFavorites, { status }] = useAddToFavoritesMutation()
+  const [removeFromFavorites, { status: status2 }] =
+    useRemoveFromFavoritesMutation()
+
+  useEffect(() => {
+    if (statusIsFavoriteUpdate.current === 'set' && status === 'fulfilled') {
+      setIsFavorite(true)
+      setUpdateFavorite(false)
+      statusIsFavoriteUpdate.current = undefined
+    }
+    if (statusIsFavoriteUpdate.current === 'reset' && status2 === 'fulfilled') {
+      setIsFavorite(false)
+      setUpdateFavorite(false)
+      statusIsFavoriteUpdate.current = undefined
+    }
+  }, [isFavorite, status, status2])
 
   const changeIsFavoriteHandler = () => {
-    if (recipe.is_favorite) {
+    if (isFavorite) {
       removeFromFavorites(recipe.slug)
+      statusIsFavoriteUpdate.current = 'reset'
+      setUpdateFavorite(true)
+      onRemoveFromFavorites && onRemoveFromFavorites(recipe.id)
     } else {
       addToFavorites(recipe.slug)
+      statusIsFavoriteUpdate.current = 'set'
+      setUpdateFavorite(true)
     }
   }
 
@@ -82,14 +110,26 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
         <button
           className={styles.previewSave}
           onClick={changeIsFavoriteHandler}
+          disabled={udpateFavorite}
         >
-          <Image
-            src={`/img/recipe-card/${recipe.is_favorite ? 'save-filled.svg' : 'save.svg'}`}
-            alt={`save ${recipe.id}`}
-            width={26}
-            height={26}
-            draggable={false}
-          />
+          {udpateFavorite ? (
+            <Image
+              src="/img/loader.svg"
+              alt="loader"
+              width={26}
+              height={26}
+              draggable={false}
+              priority
+            />
+          ) : (
+            <Image
+              src={`/img/recipe-card/${isFavorite ? 'save-filled.svg' : 'save.svg'}`}
+              alt={`save ${recipe.id}`}
+              width={26}
+              height={26}
+              draggable={false}
+            />
+          )}
         </button>
         <button
           className={cn(styles.previewTime, {

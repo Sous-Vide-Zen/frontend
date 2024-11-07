@@ -28,7 +28,7 @@ export default function RecoveryPasswordSuccessfullForm() {
               color="primary"
               size="big"
               onClick={() => {
-                router.push('welcomeback')
+                router.push('/welcomeback')
               }}
             >
               Продолжить

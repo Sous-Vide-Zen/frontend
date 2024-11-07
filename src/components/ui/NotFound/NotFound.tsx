@@ -1,8 +1,7 @@
 'use client'
 
 import styles from './notFound.module.scss'
-import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
-import LinkLikeButton from '../LinkLikeButton/LinkLikeButton'
+import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
 
 export default function NotFound() {
   return (
@@ -12,12 +11,13 @@ export default function NotFound() {
         <p className={styles.full_text}>
           Страница не найдена. Что-то пошло не так...
         </p>
-        <LinkLikeButton size="big" color="primary" href="/">
-          На главную
-        </LinkLikeButton>
+        <div className={styles.like_button}>
+          <LinkLikeButton size="big" color="primary" href="/">
+            На главную
+          </LinkLikeButton>
+        </div>
       </div>
-
-      <ButtonBack />
     </div>
   )
 }
+

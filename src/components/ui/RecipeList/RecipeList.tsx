@@ -1,28 +1,37 @@
 'use client'
 
-import { FC, Fragment, useEffect, useRef } from 'react'
+import { FC, Fragment, useEffect, useRef, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import cn from 'clsx'
 
 import styles from './RecipeList.module.scss'
+import EmptyRecipeList from './EmptyRecipeList'
 import { RecipeListView } from '@/store/features/user/user.slice'
 import { RecipeListResult } from '@/hooks/dispatcher.types'
 import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
 import ListLoader from '@/components/ui/ListLoader/ListLoader'
 import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
-import EmptyRecipeList from './EmptyRecipeList'
-import { RecipeSkeleton } from '../Skeletons/skeletons'
+import { RecipeSkeleton } from '@/components/ui/Skeletons/skeletons'
 
 const RecipeList: FC<{
   dispatcher: RecipeListResult
   view: RecipeListView
-}> = ({ dispatcher, view }) => {
+  removeItemsOnRemoveFromFavorites: boolean
+}> = ({ dispatcher, view, removeItemsOnRemoveFromFavorites }) => {
   const loaderRef = useRef(null)
+  const [removedItems, setRemovedItems] = useState<number[]>([])
 
   const router = useRouter()
   const { recipies, loadNextPageRef, isFetching, isLoading, error } = dispatcher
 
   const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
+
+  const onRemoveFromFavorites = (id: number) => {
+    if (!removeItemsOnRemoveFromFavorites) return
+
+    removedItems.push(id)
+    setRemovedItems(removedItems)
+  }
 
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
@@ -62,16 +71,19 @@ const RecipeList: FC<{
 
   if (!recipies?.length && !isFetching) content = <EmptyRecipeList />
 
-  if (recipies?.length)
-    content = recipies?.map((recipe) => (
-      <Fragment key={recipe.id}>
-        <RecipeCard
-          key={recipe.id}
-          recipe={recipe}
-          onPreview={toggleIngredients}
-        />
-      </Fragment>
-    ))
+  if (recipies && recipies.length)
+    content = recipies
+      .filter((e) => !removedItems.includes(e.id))
+      .map((recipe) => (
+        <Fragment key={recipe.id}>
+          <RecipeCard
+            key={recipe.id}
+            recipe={recipe}
+            onPreview={toggleIngredients}
+            onRemoveFromFavorites={onRemoveFromFavorites}
+          />
+        </Fragment>
+      ))
 
   return (
     <div className={styles.container}>
