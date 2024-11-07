@@ -5,6 +5,7 @@ import { permanentRedirect } from 'next/navigation'
 import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
 import { getRecipeData } from '@/ssr/api/recipe'
 import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import Rightbar from '@/components/layout/rightbar/rightbar'
 
 /*
   для ограничения списка рецептов можно использовать:
@@ -37,8 +38,9 @@ const RecipePage: FC<Props> = async ({ params }) => {
 
   return (
     <>
-      <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link>
-      <RecipeModify recipe={data}/>
+      {/* <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link> */}
+      <RecipeModify recipe={data} />
+      <Rightbar />
     </>
   )
 }

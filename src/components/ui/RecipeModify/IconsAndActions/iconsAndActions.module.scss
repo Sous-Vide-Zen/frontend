@@ -1,0 +1,81 @@
+.bottom{
+  display: flex;
+    justify-content: space-between;
+}
+
+
+.footer {
+  container: footer / inline-size;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .footerLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+
+    button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: none;
+      font-size: 18px;
+      gap: 8px;
+    }
+  }
+
+  .footerRight {
+    display: flex;
+    flex-direction: column;
+
+    button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      color: #818181;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: none;
+      font-size: 18px;
+      gap: 6px;
+    }
+  }
+
+  .container_button{
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+    bottom: 50px;
+  }
+  .button_wrapper{
+    display: flex;
+    flex-flow: column;
+    position: absolute;
+    right: 40px;
+    z-index: 10;
+    max-width: 250px;
+    margin-bottom: 80px;
+	border-radius: 12px;
+	border: 1px solid var(--input-stroke);
+	outline: none;
+	padding: 12px 14px;
+	// width: 100%;
+	color: var(--base-color-dark);
+  background-color: white;
+  font-size: 18px;
+    font-weight: 500;
+  }
+
+  // правила для рецептов в режиме 3х колонок
+  @container footer (width < 600px) {
+    div:first-child {
+      gap: 12px;
+    }
+  }
+}
