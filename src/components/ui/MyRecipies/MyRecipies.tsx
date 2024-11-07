@@ -55,13 +55,19 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
               (myRecipesFromDate && new Date(myRecipesFromDate)) || undefined
             }
             onChange={(date) =>
-              dispatch(setDateSortMyRecipes(date?.toISOString().split('T')[0]))
+              date && dispatch(setDateSortMyRecipes(date?.toISOString().split('T')[0]))
             }
           />
         )}
       </div>
 
-      {username && <RecipeList dispatcher={dispatcher} view="feed" />}
+      {username && (
+        <RecipeList
+          dispatcher={dispatcher}
+          view="feed"
+          removeItemsOnRemoveFromFavorites={false}
+        />
+      )}
     </div>
   )
 }
