@@ -54,8 +54,8 @@ export default function NewRecipePage({
     control,
   } = useForm({
     defaultValues: {
-      hours: Math.floor(recipe?.cooking_time / 60) || '',
-      cooking_time: recipe?.cooking_time % 60 || '',
+      hours: `${Math.floor(recipe?.cooking_time / 60)} часов` || '',
+      cooking_time: `${recipe?.cooking_time % 60} минут` || '0 минут',
       full_text: recipe?.full_text || '',
       category:
         recipe?.category.map((c: { name: string }) => ({
@@ -68,6 +68,8 @@ export default function NewRecipePage({
   const onSubmit = (dataFromInput: any) => {
     console.log(dataFromInput)
   }
+  let displayNoneClass =
+    recipe?.cooking_time < 60 ? styles.displayNone : styles.background4
   /* */
   return (
     <div>
@@ -90,7 +92,7 @@ export default function NewRecipePage({
         <div className={styles.cockingTime_container}>
           <p className={styles.cockingTime}>Время приготовления*</p>
           <div className={styles.hourPlusMinutes}>
-            <div className={styles.hours}>
+            <div className={`${styles.hours} ${displayNoneClass}`}>
               <Input
                 register={register}
                 name="hours"
@@ -247,11 +249,11 @@ export default function NewRecipePage({
             <Controller
               control={control}
               name="category"
-              disabled={notShow}
               render={({ field }) => (
                 <Select
                   {...field}
                   options={options}
+                  isDisabled={notShow}
                   isMulti
                   placeholder={notShow ? '' : 'Выберите категорию'}
                   styles={stylesFromCategory}
@@ -289,6 +291,7 @@ export default function NewRecipePage({
                   {...field}
                   isMulti
                   options={options}
+                  isDisabled={notShow}
                   placeholder={null}
                   styles={stylesFromTag}
                   inputId={Date.now().toString()}

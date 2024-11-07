@@ -47,40 +47,51 @@ const ingredientsShowEndAdd: FC<RecipeCardProps> = ({ change, recipe }) => {
         {/* <p className={styles.ingredients}>Ингредиенты</p> */}
         <div className={styles.inner_descriptionIngredients}>
           <div>
-            <div className={styles.name}>Название</div>
+            <div className={`${styles.name} ${styles.columnName}`}>
+              Название
+            </div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
                 <Fragment key={index}>
                   <p className={`${styles.name} ${styles.fromInput}`}>
                     {ingredient.name}
                   </p>
-                  <div className={styles.line}></div>
+                  {recipe.ingredients.length - 1 > index && (
+                    <div className={styles.line}></div>
+                  )}
                 </Fragment>
               ))}
             </div>
           </div>
           <div>
-            <div className={styles.unit}>Количество</div>
+            <div className={`${styles.unit} ${styles.columnName}`}>
+              Количество
+            </div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
                 <Fragment key={index}>
                   <p className={`${styles.unit} ${styles.fromInput}`}>
                     {ingredient.amount}
                   </p>
-                  <div className={styles.line}></div>
+                  {recipe.ingredients.length - 1 > index && (
+                    <div className={styles.line}></div>
+                  )}
                 </Fragment>
               ))}
             </div>
           </div>
           <div>
-            <div className={styles.amount}>Единица измерения</div>
+            <div className={`${styles.amount} ${styles.columnName}`}>
+              Единица измерения
+            </div>
             <div>
               {recipe.ingredients.map((ingredient: any, index: any) => (
                 <Fragment key={index}>
                   <p className={`${styles.amount} ${styles.fromInput}`}>
                     {ingredient.unit}
                   </p>
-                  <div className={styles.line}></div>
+                  {recipe.ingredients.length - 1 > index && (
+                    <div className={styles.lineAmount}></div>
                 </Fragment>
               ))}
             </div>

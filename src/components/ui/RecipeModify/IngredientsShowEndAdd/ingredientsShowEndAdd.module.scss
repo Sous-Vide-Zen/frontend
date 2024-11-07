@@ -66,10 +66,13 @@
     font-weight: 500;
     
   }
+  
   .name {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0;
     min-width: 300px;
-    margin: 0 12px 12px 0;
-    font-size: 14px;
+    margin: 20px 12px 20px 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
@@ -77,15 +80,22 @@
   }
   .unit,
   .amount {
-    min-width: 182px;
-    margin: 0 12px 12px 0;
-    font-size: 14px;
+    font-size: 16px;
+    font-weight: 400;
+    padding: 0;
+    min-width: 179px;
+    margin: 20px 12px 20px 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 1;
     overflow: hidden;
   }
-  
+  .columnName{
+    padding-bottom: 20px;
+    color: green;
+    font-size: 18px;
+    font-weight: 500;
+  }
   .ingredientsButton {
     border-radius: 20px;
     width: 35px;
@@ -104,6 +114,10 @@
     }
   }
   .line{
+    border: 1px solid var(--input-stroke);
+  }
+  .lineAmount{
+    width: 179px;
     border: 1px solid var(--input-stroke);
   }
   
