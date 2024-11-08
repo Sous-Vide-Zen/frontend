@@ -23,10 +23,12 @@ const RecipeCard: FC<RecipeCardProps> = ({
   onPreview,
   onRemoveFromFavorites,
 }) => {
-  const { timeAgo, formattedDate } = useData(recipe.pub_date)
+  const { fancyDate } = useData(recipe.pub_date)
   const [udpateFavorite, setUpdateFavorite] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
   const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
+  const [iLike, setILike] = useState(false)
+  const [iShare, setIShare] = useState(false)
 
   const [addToFavorites, { status }] = useAddToFavoritesMutation()
   const [removeFromFavorites, { status: status2 }] =
@@ -87,8 +89,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.author.username}</p>
           </div>
           <div className={styles.userRight}>
-            <p>{formattedDate}</p>
-            <p>{timeAgo}</p>
+            <p>{fancyDate}</p>
           </div>
         </div>
       </div>
@@ -171,7 +172,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>
-          <div className={styles.hash}>#hash #hash #hash #hash</div>
+          <div className={styles.hash}>
+            {recipe.tag.map((e: { name: string }) => (
+              <span key={e.name}>{`#${e.name}`}</span>
+            ))}
+          </div>
         </div>
 
         <div className={styles.footer}>
@@ -183,7 +188,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
               Content={() => (
                 <button className={styles.like}>
                   <Image
-                    src="/img/recipe-card/like.svg"
+                    src={
+                      iLike
+                        ? '/img/recipe-card/fluent-emoji_heart-suit.svg'
+                        : '/img/recipe-card/like.svg'
+                    }
                     alt={`like button ${recipe.id}`}
                     width={24}
                     height={24}
@@ -206,7 +215,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
             </button>
             <button>
               <Image
-                src="/img/recipe-card/share.svg"
+                src={
+                  iShare
+                    ? '/img/recipe-card/ri_share-forward-fill.svg'
+                    : '/img/recipe-card/share.svg'
+                }
                 alt={`share button ${recipe.id}`}
                 width={24}
                 height={24}

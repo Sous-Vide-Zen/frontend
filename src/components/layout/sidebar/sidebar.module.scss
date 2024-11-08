@@ -8,7 +8,7 @@
   .more {
     display: flex;
     flex-direction: column;
-    gap: 29px;
+    gap: 24px;
   }
 
   .more {
@@ -27,6 +27,10 @@
     display: flex;
     flex-direction: column;
     gap: 16px;
+
+    a {
+      padding: 10px 16px;
+    }
   }
 
   .mobileApp {
