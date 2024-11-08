@@ -5,7 +5,36 @@
 }
 
 .scroll__thin {
-  scrollbar-width: thin;
+  /* габариты */
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  /* фон */
+  &::-webkit-scrollbar-track {
+    width: 1px;
+    background: #f3f3f3;
+    border: none;
+    border-radius: 8px;
+  }
+
+  /* центральный подвижный элемент */
+  &::-webkit-scrollbar-thumb {
+    background-color: #6c8777;
+    border-radius: 8px;
+  }
+
+  /* самый нижний слой - для фона под скругленными углами */
+  &::-webkit-scrollbar {
+    background-color: inherit;
+  }
+
+  /* кнопки на концах скролов */
+  &::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+  }
 }
 
 .scroll--left {
