@@ -16,7 +16,7 @@ import { RecipeSkeleton } from '@/components/ui/Skeletons/skeletons'
 type Props = {
   dispatcher: RecipeListResult
   view: RecipeListView
-  removeItemsOnRemoveFromFavorites: boolean
+  removeItemsOnRemoveFromFavorites?: boolean
   onChangeTotal?: (count?: number) => void
 }
 

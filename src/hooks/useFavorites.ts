@@ -47,7 +47,7 @@ export const useFavorites = (
     status,
     error,
     fetchData: data,
-    recipies: data?.results.map((e: IRecipe) => ({ ...e, is_favorite: true })),
+    recipies: data?.results?.map((e: IRecipe) => ({ ...e, is_favorite: true })),
     loadNextPageRef,
   }
 }
