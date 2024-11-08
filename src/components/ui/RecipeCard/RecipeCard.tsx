@@ -170,7 +170,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>
-          <div className={styles.hash}>#hash #hash #hash #hash</div>
+          <div className={styles.hash}>
+            {recipe.tag.map((e: { name: string }) => (
+              <span key={e.name}>{`#${e.name}`}</span>
+            ))}
+          </div>
         </div>
 
         <div className={styles.footer}>
