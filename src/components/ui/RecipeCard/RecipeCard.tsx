@@ -27,6 +27,8 @@ const RecipeCard: FC<RecipeCardProps> = ({
   const [udpateFavorite, setUpdateFavorite] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
   const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
+  const [iLike, setILike] = useState(false)
+  const [iShare, setIShare] = useState(false)
 
   const [addToFavorites, { status }] = useAddToFavoritesMutation()
   const [removeFromFavorites, { status: status2 }] =
@@ -186,7 +188,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
               Content={() => (
                 <button className={styles.like}>
                   <Image
-                    src="/img/recipe-card/like.svg"
+                    src={
+                      iLike
+                        ? '/img/recipe-card/fluent-emoji_heart-suit.svg'
+                        : '/img/recipe-card/like.svg'
+                    }
                     alt={`like button ${recipe.id}`}
                     width={24}
                     height={24}
@@ -209,7 +215,11 @@ const RecipeCard: FC<RecipeCardProps> = ({
             </button>
             <button>
               <Image
-                src="/img/recipe-card/share.svg"
+                src={
+                  iShare
+                    ? '/img/recipe-card/ri_share-forward-fill.svg'
+                    : '/img/recipe-card/share.svg'
+                }
                 alt={`share button ${recipe.id}`}
                 width={24}
                 height={24}
