@@ -73,6 +73,7 @@ const Input: FC<InputProps> = ({
               type="button"
               onMouseDown={handleMouseDown}
               onMouseUp={handleMouseUp}
+              onMouseOut={handleMouseUp}
             >
               <Image
                 alt="eye"
