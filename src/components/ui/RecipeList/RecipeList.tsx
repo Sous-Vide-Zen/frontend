@@ -13,16 +13,25 @@ import ListLoader from '@/components/ui/ListLoader/ListLoader'
 import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
 import { RecipeSkeleton } from '@/components/ui/Skeletons/skeletons'
 
-const RecipeList: FC<{
+type Props = {
   dispatcher: RecipeListResult
   view: RecipeListView
   removeItemsOnRemoveFromFavorites: boolean
-}> = ({ dispatcher, view, removeItemsOnRemoveFromFavorites }) => {
+  onChangeTotal?: (count?: number) => void
+}
+
+const RecipeList: FC<Props> = ({
+  dispatcher,
+  view,
+  removeItemsOnRemoveFromFavorites,
+  onChangeTotal,
+}) => {
   const loaderRef = useRef(null)
   const [removedItems, setRemovedItems] = useState<number[]>([])
 
   const router = useRouter()
-  const { recipies, loadNextPageRef, isFetching, isLoading, error } = dispatcher
+  const { recipies, loadNextPageRef, isFetching, isLoading, error, total } =
+    dispatcher
 
   const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
 
@@ -55,6 +64,10 @@ const RecipeList: FC<{
       if (observerRefValue) observer.unobserve(observerRefValue)
     }
   }, [loadNextPageRef])
+
+  useEffect(() => {
+    onChangeTotal && onChangeTotal(total)
+  }, [onChangeTotal, total])
 
   let content: React.ReactNode = null
 

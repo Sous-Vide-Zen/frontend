@@ -87,5 +87,6 @@ export const useRecipes = (
     fetchData: data,
     recipies: data?.results,
     loadNextPageRef,
+    total: data?.count
   }
 }
