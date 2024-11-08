@@ -16,6 +16,7 @@ import createWebStorage from 'redux-persist/es/storage/createWebStorage'
 
 import { mainApi } from '@/store/api'
 import authReducer from './features/auth/auth.slice'
+import countersReducer from './features/counters/counters.slice'
 import userSettingsReducer from './features/user/user.slice'
 
 // todo: это решение из инернета для решения ошибки в консоли "redux-persist failed to create sync storage. falling back to noop storage."
@@ -57,6 +58,7 @@ const Store = configureStore({
   reducer: {
     auth: authPersistedReducer,
     userSettings: userSettingsPersistedReducer,
+    counters: countersReducer,
     [mainApi.reducerPath]: mainApi.reducer,
   },
   devTools: process.env.NODE_ENV !== 'production',

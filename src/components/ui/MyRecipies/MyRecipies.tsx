@@ -8,6 +8,7 @@ import {
   setDateSortMyRecipes,
   setSortMyRecipesMode,
 } from '@/store/features/user/user.slice'
+import { setMyRecipiesCount } from '@/store/features/counters/counters.slice'
 import { useRecipes } from '@/hooks/useRecipes'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
 import Button from '@/components/ui/Button/Button'
@@ -55,13 +56,21 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
               (myRecipesFromDate && new Date(myRecipesFromDate)) || undefined
             }
             onChange={(date) =>
+              date &&
               dispatch(setDateSortMyRecipes(date?.toISOString().split('T')[0]))
             }
           />
         )}
       </div>
 
-      {username && <RecipeList dispatcher={dispatcher} view="feed" />}
+      {username && (
+        <RecipeList
+          dispatcher={dispatcher}
+          view="feed"
+          removeItemsOnRemoveFromFavorites={false}
+          onChangeTotal={(value) => dispatch(setMyRecipiesCount(value))}
+        />
+      )}
     </div>
   )
 }

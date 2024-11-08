@@ -21,6 +21,7 @@
         background: none;
         font-size: 18px;
         padding: 0;
+        white-space: nowrap;
 
         &.active, &:hover {
           color: var(--primary-color-light);

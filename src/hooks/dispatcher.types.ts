@@ -15,6 +15,7 @@ export type RecipeListResult = {
   fetchData?: IFetchListData
   recipies?: IRecipe[]
   loadNextPageRef: MutableRefObject<() => void>
+  total?: number
 }
 
 export type RecipeListDispatcher = (

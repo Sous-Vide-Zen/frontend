@@ -1,6 +1,24 @@
 'use client'
+
+import { FC } from 'react'
 import styles from './skeletons.module.scss'
 
-export const NavLinkSkeleton = () => <div className={`${styles.skeletonBox} ${styles.navLink}`} />
+type AnySkeletonProps = {
+  width?: number
+  height?: number
+}
 
-export const RecipeSkeleton = () => <div className={`${styles.skeletonBox} ${styles.recipe}`} />
+export const Skeleton: FC<AnySkeletonProps> = ({ width, height }) => (
+  <div
+    className={`${styles.skeletonBox} ${styles.anyBox}`}
+    style={{ width, height }}
+  />
+)
+
+export const NavLinkSkeleton = () => (
+  <div className={`${styles.skeletonBox} ${styles.navLink}`} />
+)
+
+export const RecipeSkeleton = () => (
+  <div className={`${styles.skeletonBox} ${styles.recipe}`} />
+)
