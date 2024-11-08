@@ -1,4 +1,4 @@
-$border-color: rgba(0, 0, 0, 1);
+$border-color: var(--primary-color-dark);
 
 .wrapper {
   display: inline-block;
@@ -21,7 +21,7 @@ $border-color: rgba(0, 0, 0, 1);
 
     visibility: hidden;
     opacity: 0;
-    transition: all ease-out .3s;
+    transition: all ease-out 0.3s;
 
     &::after {
       content: '';
@@ -30,6 +30,10 @@ $border-color: rgba(0, 0, 0, 1);
       height: 10px;
       background-color: #fff;
       border-color: $border-color;
+    }
+
+    & a {
+      color: var(--base-color-dark);
     }
   }
 
