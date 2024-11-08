@@ -23,7 +23,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
   onPreview,
   onRemoveFromFavorites,
 }) => {
-  const { timeAgo, formattedDate } = useData(recipe.pub_date)
+  const { fancyDate } = useData(recipe.pub_date)
   const [udpateFavorite, setUpdateFavorite] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
   const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
@@ -87,8 +87,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.author.username}</p>
           </div>
           <div className={styles.userRight}>
-            <p>{formattedDate}</p>
-            <p>{timeAgo}</p>
+            <p>{fancyDate}</p>
           </div>
         </div>
       </div>
