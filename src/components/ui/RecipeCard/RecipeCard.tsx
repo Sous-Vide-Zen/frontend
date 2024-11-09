@@ -104,7 +104,7 @@ const RecipeCard: FC<RecipeCardProps> = ({ recipe, onPreview }) => {
         >
           {hours > 0
             ? `${hours} ${hours === 1 || hours === 21 ? 'час' : (hours >= 2 && hours <= 4) || (hours >= 22 && hours <= 24) ? 'часа' : 'часов'} и ${minutes} ${minutes === 1 ? 'минута' : minutes >= 2 && minutes <= 4 ? 'минуты' : 'минут'}`
-            : `${minutes} ${minutes === 1 || (minutes % 10 === 1 && minutes % 100 !== 11) ? 'минута' : (minutes >= 2 && minutes <= 4) || (minutes % 10 >= 2 && minutes % 10 <= 4 && minutes % 100 < 10) || minutes % 100 >= 20 ? 'минуты' : 'минут'}`}
+            : `${minutes} ${minutes === 1 || (minutes % 10 === 1 && minutes % 100 !== 11) ? 'минута' : (minutes >= 2 && minutes <= 4) || (minutes % 10 >= 2 && minutes % 10 <= 4 && (minutes % 100 < 10 || minutes % 100 >= 20)) ? 'минуты' : 'минут'}`}
           <span
             className={cn(styles.tooltiptext, {
               [styles.tooltipTop]: true,
