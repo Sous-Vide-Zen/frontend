@@ -26,7 +26,7 @@ const UserCard: FC<Props> = ({ username }) => {
     if (data) {
       const newDisplayName: string =
         data.first_name || data.last_name
-          ? `${data.first_name} ${data.last_name}`
+          ? `${data.first_name ?? ''} ${data.last_name ?? ''}`
           : data.display_name
       setDisplayName(newDisplayName || username)
     }
