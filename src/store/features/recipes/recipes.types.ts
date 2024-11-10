@@ -65,6 +65,7 @@ export interface GetRecipesResponse {
 export interface Author {
   id: number
   username: string
+  display_name: string
   avatar: string
 }
 
