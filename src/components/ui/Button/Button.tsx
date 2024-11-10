@@ -36,7 +36,12 @@ const Button: FC<IButton> = ({
   })
 
   return (
-    <button className={buttonClasses} disabled={!!loading} {...props}>
+    <button
+      className={buttonClasses}
+      disabled={!!loading}
+      type="button"
+      {...props}
+    >
       {loading ? (
         <Image
           className={styles.loader}

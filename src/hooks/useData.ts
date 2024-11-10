@@ -10,7 +10,6 @@ export const useData = (dateString: string) => {
   })
 
   const dateDiff = Date.now() - new Date(dateString).getTime()
-  console.log({ dateDiff })
 
   return {
     formattedDate,
