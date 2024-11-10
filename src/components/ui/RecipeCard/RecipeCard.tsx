@@ -86,7 +86,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
               height={30}
               draggable={false}
             />
-            <p>{recipe.author.username}</p>
+            <p>{recipe.author.display_name ?? recipe.author.username}</p>
           </div>
           <div className={styles.userRight}>
             <p>{fancyDate}</p>
