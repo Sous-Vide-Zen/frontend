@@ -1,0 +1,58 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 8px;
+
+  .wrapper {
+    padding: 0 16px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .userContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+
+      .userFooter {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+
+        button {
+          align-self: flex-start;
+          border: none;
+          background: none;
+        }
+      }
+
+      .userCard {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        h2 {
+          font-size: 18px;
+        }
+      }
+
+      .userInfo {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        font-size: 14px;
+      }
+    }
+  }
+
+  .rightbar {
+    flex: 1 0 216px;
+  }
+}
+
+.loader {
+  width: 100%;
+}
