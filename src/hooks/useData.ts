@@ -1,20 +1,24 @@
 import { format, formatDistanceToNowStrict } from 'date-fns'
 import { ru } from 'date-fns/locale'
+import { differenceInHours } from 'date-fns'
 
-export const useData = (dateString: string) => {
+export const useData = (
+  dateString: string,
+  addSuffix?: boolean,
+  fancyDaysEdge?: number,
+) => {
   const date = new Date(dateString)
   const formattedDate = format(date, 'dd.MM.yyyy')
   const timeAgo = formatDistanceToNowStrict(date, {
     locale: ru,
-    addSuffix: true,
+    addSuffix: addSuffix ?? true,
   })
 
-  const dateDiff = Date.now() - new Date(dateString).getTime()
-  console.log({ dateDiff })
+  const hoursDiff = differenceInHours(Date.now(), new Date(dateString))
 
   return {
     formattedDate,
     timeAgo,
-    fancyDate: dateDiff < 3 * 24 * 3600 ? timeAgo : formattedDate,
+    fancyDate: hoursDiff < (fancyDaysEdge || 1) * 24 ? timeAgo : formattedDate,
   }
 }

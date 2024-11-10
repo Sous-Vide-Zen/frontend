@@ -98,7 +98,7 @@ export default function Sidebar() {
   const jsxIsNotAuth = (
     <div className={styles.notAuth}>
       <LinkLikeButton color="primary" size="medium" href="login">
-        Войти
+        Вход
       </LinkLikeButton>
       <LinkLikeButton color="secondary" size="medium" href="registration">
         Регистрация
