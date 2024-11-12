@@ -10,7 +10,7 @@ interface IButton
     HTMLButtonElement
   > {
   children: ReactNode
-  color?: 'purple' | 'white' | 'gray' | 'primary' | 'secondary' | 'clear'
+  color?: 'primary' | 'secondary' | 'clear'
   size?: 'big' | 'medium' | 'small'
   pressed?: boolean
   loading?: boolean
