@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import '@/app/globals.scss'
 import { LinkLikeButton } from '@/components/ui'
 
 const meta: Meta<typeof LinkLikeButton> = {
@@ -24,7 +23,6 @@ const meta: Meta<typeof LinkLikeButton> = {
   },
 }
 
-export default meta
 type Story = StoryObj<typeof LinkLikeButton>
 
 export const Primary: Story = {
@@ -53,3 +51,5 @@ export const Clear: Story = {
     size: 'big',
   },
 }
+
+export default meta

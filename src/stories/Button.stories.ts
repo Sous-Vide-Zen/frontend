@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Button } from '@/components/ui'
 
-const meta = {
+const meta: Meta<typeof Button> = {
   title: 'UI/Button',
   component: Button,
   parameters: {
@@ -21,11 +21,9 @@ const meta = {
       control: 'boolean',
     },
   },
-  // args: { onClick: fn() },
-} satisfies Meta<typeof Button>
+}
 
-export default meta
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof Button>
 
 export const Primary: Story = {
   args: {
@@ -33,8 +31,10 @@ export const Primary: Story = {
     color: 'primary',
     size: 'big',
   },
+  parameters: {
+    theme: 'dark',
+  },
 }
-
 export const Secondary: Story = {
   args: {
     children: 'Big Button',
@@ -42,7 +42,6 @@ export const Secondary: Story = {
     size: 'big',
   },
 }
-
 export const Clear: Story = {
   args: {
     children: 'Button',
@@ -50,3 +49,5 @@ export const Clear: Story = {
     size: 'big',
   },
 }
+
+export default meta
