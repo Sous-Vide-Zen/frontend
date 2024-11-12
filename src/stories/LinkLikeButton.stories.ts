@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react'
 import '@/app/globals.scss'
-import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton';
+import { LinkLikeButton } from '@/components/ui'
 
 const meta: Meta<typeof LinkLikeButton> = {
   title: 'UI/LinkLikeButton',
@@ -22,10 +22,10 @@ const meta: Meta<typeof LinkLikeButton> = {
       options: ['big', 'medium', 'small'],
     },
   },
-};
+}
 
-export default meta;
-type Story = StoryObj<typeof LinkLikeButton>;
+export default meta
+type Story = StoryObj<typeof LinkLikeButton>
 
 export const Primary: Story = {
   args: {
