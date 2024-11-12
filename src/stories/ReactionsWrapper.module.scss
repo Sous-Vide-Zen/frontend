@@ -14,8 +14,15 @@ $border-color: rgba(0, 0, 0, 1);
   border: 1px solid $border-color;
 
   button {
-    background: none;
-    border: none;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     cursor: pointer;
+    border: none;
+    outline: none;
+    background: none;
+    font-size: 18px;
+    gap: 8px;
+    white-space: nowrap;
   }
 }

@@ -10,37 +10,42 @@ const meta = {
     layout: 'centered',
   },
   tags: ['autodocs'],
+  argTypes: { 
+    slug: { 
+      control: 'text' 
+    } 
+  },
 } satisfies Meta<typeof Reactions>
 
 export default meta
 type Story = StoryObj<typeof Reactions>
 
-const MockedState = {
+// моки
+const slug = '123'
+const MockedReactions = {
   reactions: {
-    reactions: {
-      Heart: 1,
-      Like: 2,
-      Dislike: 3,
-      Angry_Face: 4,
-      Fire: 5,
-    },
-    user_reactions: [],
+    Heart: 1,
+    Like: 2,
+    Dislike: 3,
+    Angry_Face: 4,
+    Fire: 5,
   },
+  user_reactions: [],
 }
 
 export const Default: Story = {
-  args: {},
+  args: { slug },
   parameters: {
     msw: {
       handlers: [
         http.get(
-          'http://localhost:8000/api/v1/recipe/undefined/reactions/',
+          `http://localhost:8000/api/v1/recipe/${slug}/reactions/`,
           () => {
-            return HttpResponse.json(MockedState.reactions)
+            return HttpResponse.json(MockedReactions)
           },
         ),
       ],
     },
   },
-  decorators: [(story) => <div className={styles.tooltip}>{story()}</div>],
+  decorators: [(story) => <div className={styles.tooltip}>{story()}</div>], // рамка
 }
