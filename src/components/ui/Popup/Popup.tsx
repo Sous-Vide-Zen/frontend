@@ -8,7 +8,7 @@ interface IPopupProps {
   tooltipStyles?: CSSProperties
 }
 
-const Popup: FC<IPopupProps> = ({
+export const Popup: FC<IPopupProps> = ({
   Content,
   Tooltip,
   constentStyles,

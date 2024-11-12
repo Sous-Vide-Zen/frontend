@@ -18,7 +18,7 @@ interface RecipeCardProps {
   onRemoveFromFavorites?: (id: number) => void
 }
 
-const RecipeCard: FC<RecipeCardProps> = ({
+export const RecipeCard: FC<RecipeCardProps> = ({
   recipe,
   onPreview,
   onRemoveFromFavorites,

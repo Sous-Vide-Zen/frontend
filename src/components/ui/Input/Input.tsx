@@ -23,7 +23,7 @@ interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Input: FC<InputProps> = ({
+export const Input: FC<InputProps> = ({
   disabled = false,
   placeholder,
   error,

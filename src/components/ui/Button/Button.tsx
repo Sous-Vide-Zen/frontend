@@ -16,7 +16,7 @@ interface IButton
   loading?: boolean
 }
 
-const Button: FC<IButton> = ({
+export const Button: FC<IButton> = ({
   children,
   className,
   color,
