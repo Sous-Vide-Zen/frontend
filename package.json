@@ -45,8 +45,15 @@
     "eslint": "^8",
     "eslint-config-next": "14.0.2",
     "eslint-plugin-storybook": "^0.11.0",
+    "msw": "^2.6.4",
+    "msw-storybook-addon": "^2.0.4",
     "prettier": "^3.2.5",
     "storybook": "^8.4.2",
     "typescript": "^5"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }
