@@ -22,15 +22,25 @@ import { Loader } from '@/components/ui/Loader/Loader'
 import UserDataSaveSuccessfullForm from '@/components/forms/auth/UserDataSaveSuccessfullForm'
 import { COUNTRIES } from '@/helpers/countries'
 
+const displayNameOptions: RegisterOptions<any> ={
+  maxLength: {
+    message: 'Поле не должно содержать более 30 символов',
+    value: 30,
+  },
+  pattern: {
+    value: /^[\wа-яА-ЯЁё@.+\-_]+$/i,
+    message: 'Введите корректное значение (буквы, цифры, "@ + - _")',
+  },
+}
+
 const textOptions: RegisterOptions<any> = {
   maxLength: {
     message: 'Поле не должно содержать более 30 символов',
     value: 30,
   },
-  required: 'Обязательное поле',
   pattern: {
-    value: /^[A-Za-zА-Яа-яЁё/ -]+$/i,
-    message: 'Введите корректное значение (буквы, "-", " ")',
+    value: /^[\A-Za-zА-Яа-яЁё\u00C0-\u017F\s\'\-]+$/i,
+    message: 'Введите корректное значение (буквы, \u00C0 - \u017F, "-", " ", "\'")',
   },
 }
 
@@ -63,7 +73,7 @@ const AboutMeForm: FC<Props> = ({}) => {
     getValues,
     formState: { errors, isValid },
   } = useForm<UserPatchData>({
-    mode: 'onBlur',
+    mode: 'all',
   })
 
   // @ts-ignore
@@ -128,7 +138,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               register={register}
               name="display_name"
               autocomplete="display_name"
-              options={textOptions}
+              options={displayNameOptions}
             />
           </Field>
 
