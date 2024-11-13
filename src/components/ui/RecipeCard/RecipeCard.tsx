@@ -9,7 +9,9 @@ import {
   useRemoveFromFavoritesMutation,
 } from '@/store/features/recipes/recipes.actions'
 import { useData } from '@/hooks/useData'
-import { Popup, Reactions, Button } from '@/components/ui'
+import Popup from '@/components/ui/Popup/Popup'
+import Button from '@/components/ui/Button/Button'
+import Reactions from '@/components/ui/Reactions/Reactions'
 
 interface RecipeCardProps {
   recipe: IRecipe
