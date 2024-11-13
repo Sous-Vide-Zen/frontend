@@ -9,8 +9,7 @@ import {
   useRemoveFromFavoritesMutation,
 } from '@/store/features/recipes/recipes.actions'
 import { useData } from '@/hooks/useData'
-import Reactions from '@/components/ui/Reactions/Reactions'
-import Popup from '@/components/ui/Popup/Popup'
+import { Popup, Reactions, Button } from '@/components/ui'
 
 interface RecipeCardProps {
   recipe: IRecipe
@@ -68,6 +67,35 @@ const RecipeCard: FC<RecipeCardProps> = ({
   const cookingTime = recipe.cooking_time || 0
   const hours = Math.floor(cookingTime / 60)
   const minutes = cookingTime % 60
+
+  const hashLength =
+    recipe.tag.length * 2 +
+    recipe.tag.reduce((len, e) => {
+      return len + e.name.length
+    }, 0)
+
+  const Hash = () => (
+    <div className={styles.hash}>
+      <div className={styles.crop}>
+        {recipe.tag.map((e: { name: string }) => (
+          <span key={e.name}>{`#${e.name}`}</span>
+        ))}
+      </div>
+      {hashLength > 90 && (
+        <Popup
+          tooltipStyles={{
+            maxWidth: '350px',
+          }}
+          Content={() => (
+            <Button color="clear" size="small">
+              Ещё
+            </Button>
+          )}
+          Tooltip={() => 'todo todo todo'}
+        />
+      )}
+    </div>
+  )
 
   return (
     <div className={styles.recipe}>
@@ -172,11 +200,8 @@ const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>
-          <div className={styles.hash}>
-            {recipe.tag.map((e: { name: string }) => (
-              <span key={e.name}>{`#${e.name}`}</span>
-            ))}
-          </div>
+
+          <Hash />
         </div>
 
         <div className={styles.footer}>
