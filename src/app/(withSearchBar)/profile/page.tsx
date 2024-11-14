@@ -41,7 +41,12 @@ export default function ProfilePage() {
     },
   ]
 
-  if (error) return <div>{String(error)}</div>
+  if (error)
+    return (
+      <div className={styles.container}>
+        <div className={styles.wrapper}></div>
+      </div>
+    )
 
   return (
     <div className={styles.container}>
