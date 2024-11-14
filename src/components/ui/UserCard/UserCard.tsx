@@ -7,6 +7,7 @@ import { useLazyGetUserDataQuery } from '@/store/features/user/user.actions'
 import ProfileAvatar from '@/components/ui/ProfileAvatar/ProfileAvatar'
 import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
 import { Skeleton } from '@/components/ui/Skeletons/skeletons'
+import { COUNTRIES } from '@/helpers/countries'
 
 type Props = {
   username: string
@@ -61,7 +62,12 @@ const UserCard: FC<Props> = ({ username }) => {
         <h2>{displayName}</h2>
         <div className={styles.userInfo}>
           <p>
-            город {data.city}, {data.country}
+            город {data.city},{' '}
+            {
+              COUNTRIES.find(
+                ({ value }: { value: string }) => value === data.country,
+              )?.label
+            }
           </p>
           <p>{data.bio}</p>
         </div>
