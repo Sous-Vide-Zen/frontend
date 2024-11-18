@@ -1,13 +1,18 @@
-import { FC, useEffect, useRef, useState } from 'react'
-import { UseFormRegister, UseFormSetValue } from 'react-hook-form'
+import { ChangeEvent, FC, useCallback, useEffect } from 'react'
+import {
+  UseFormGetValues,
+  UseFormRegister,
+  UseFormSetValue,
+} from 'react-hook-form'
 
 import styles from '../forms.module.scss'
 
 interface InputProps {
   name: string
-  value: string
-  setValue: UseFormSetValue<any>
+  value?: string // нужно для первоначального форматирования номера
+  setValue?: UseFormSetValue<any>
   register: UseFormRegister<any>
+  getValues: UseFormGetValues<any>
   autoComplete?: string
 }
 
@@ -16,38 +21,38 @@ export const InputPhone: FC<InputProps> = ({
   value,
   setValue,
   register,
+  getValues,
   ...rest
 }) => {
-  const [card, setCard] = useState<string>()
-  const inputCard = useRef<HTMLInputElement>(null)
+  const optionsForm = { ...register(name) }
 
-  const setNewCardValue = (currentValue: string) => {
-    if (!currentValue) return
+  const setNewCardValue = useCallback(
+    (currentValue: string) => {
+      if (!currentValue) return
 
-    const cardValue = currentValue
-      .replace(/\D/g, '')
-      .match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/) ?? ['', '', '', '', '']
+      const cardValue = currentValue
+        .replace(/\D/g, '')
+        .match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/) ?? ['', '', '', '', '']
 
-    const newCardValue = !(cardValue[2] ?? '')
-      ? cardValue[1]
-      : `+${cardValue[1]} (${cardValue[2]}) ${`${
-          cardValue[3] ? `-${cardValue[3]}` : ''
-        }`}${`${cardValue[4] ? `-${cardValue[4]}` : ''}`}`
-    setCard(newCardValue)
-  }
+      const newCardValue = !(cardValue[2] ?? '')
+        ? cardValue[1]
+        : `+${cardValue[1]} (${cardValue[2]}) ${`${
+            cardValue[3] ? `-${cardValue[3]}` : ''
+          }`}${`${cardValue[4] ? `-${cardValue[4]}` : ''}`}`
+      setValue && setValue(name, newCardValue, { shouldValidate: true })
+    },
+    [name, setValue],
+  )
 
-  const handleChange = () => {
-    if (!inputCard.current) return
-
-    setNewCardValue(inputCard.current.value)
-    const numbers = inputCard.current.value.replace(/(\D)/g, '')
-
-    setValue(name, numbers, { shouldValidate: true })
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value
+    setNewCardValue(val)
+    const numbers = '+'.concat(val.replace(/(\D)/g, ''))
   }
 
   useEffect(() => {
-    setNewCardValue(value)
-  }, [value])
+    value && setNewCardValue(value)
+  }, [setNewCardValue, value])
 
   return (
     <input
@@ -55,19 +60,17 @@ export const InputPhone: FC<InputProps> = ({
       type="tel"
       inputMode="numeric"
       placeholder="+7 (841) "
+      {...optionsForm}
       {...register(name, {
         pattern: {
-          value: /^[0-9]/i,
-          message: 'Введите корректный телефон',
+          value: /^\+{1}[\d\-\ \(\)]/,
+          message: 'Введите корректный телефон +7 (841) -...-....',
         },
-        required: 'Обязательное поле',
         minLength: {
-          value: 11,
-          message: 'Минимум 11 цифр',
+          value: 18,
+          message: 'слишком короткий номер',
         },
       })}
-      ref={inputCard}
-      defaultValue={card}
       onChange={handleChange}
       {...rest}
     />

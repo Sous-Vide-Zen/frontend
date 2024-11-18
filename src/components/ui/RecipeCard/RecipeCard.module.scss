@@ -75,7 +75,6 @@ $name-text-max-line: 7;
     height: 300px;
     background: #8b8b8b;
     border-radius: 12px;
-    width: 100%;
   }
 
   .previewSave {
@@ -151,7 +150,16 @@ $name-text-max-line: 7;
       display: flex;
       gap: 12px;
       font-size: 12px;
-      overflow: hidden;
+
+      .crop {
+        width: 700px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        span {
+          padding-right: 12px;
+        }
+      }
     }
   }
 

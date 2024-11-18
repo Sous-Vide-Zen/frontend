@@ -1,6 +1,6 @@
 'use client'
 
-import { FC, useEffect } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { Controller, RegisterOptions, useForm } from 'react-hook-form'
 import cn from 'clsx'
 import Select from 'react-select'
@@ -22,15 +22,31 @@ import { Loader } from '@/components/ui/Loader/Loader'
 import UserDataSaveSuccessfullForm from '@/components/forms/auth/UserDataSaveSuccessfullForm'
 import { COUNTRIES } from '@/helpers/countries'
 
+/*
+ с телефоном пришлось "изобретать велосипед" с допонительнми полями {setValue, getValues},
+ т.к. не получилось получить доступ к register.ref и отследить его изменение
+*/
+
+const displayNameOptions: RegisterOptions<any> = {
+  maxLength: {
+    message: 'Поле не должно содержать более 30 символов',
+    value: 30,
+  },
+  pattern: {
+    value: /^[\wа-яА-ЯЁё@.+\-_]+$/i,
+    message: 'Введите корректное значение (буквы, цифры, "@ + - _")',
+  },
+}
+
 const textOptions: RegisterOptions<any> = {
   maxLength: {
     message: 'Поле не должно содержать более 30 символов',
     value: 30,
   },
-  required: 'Обязательное поле',
   pattern: {
-    value: /^[A-Za-zА-Яа-яЁё/ -]+$/i,
-    message: 'Введите корректное значение (буквы, "-", " ")',
+    value: /^[\A-Za-zА-Яа-яЁё\u00C0-\u017F\s\'\-]+$/i,
+    message:
+      'Введите корректное значение (буквы, \u00C0 - \u017F, "-", " ", "\'")',
   },
 }
 
@@ -40,6 +56,9 @@ type Props = {
 }
 
 const AboutMeForm: FC<Props> = ({}) => {
+  const [phone, setPhone] = useState<string>()
+  const [formChanged, setFormChanged] = useState(false)
+
   const {
     data: currentUserData,
     isLoading,
@@ -56,6 +75,7 @@ const AboutMeForm: FC<Props> = ({}) => {
   ] = usePatchUserDataMutation()
 
   const {
+    watch,
     register,
     control,
     handleSubmit,
@@ -63,7 +83,7 @@ const AboutMeForm: FC<Props> = ({}) => {
     getValues,
     formState: { errors, isValid },
   } = useForm<UserPatchData>({
-    mode: 'onBlur',
+    mode: 'all',
   })
 
   // @ts-ignore
@@ -77,33 +97,44 @@ const AboutMeForm: FC<Props> = ({}) => {
   }, [currentUserData?.username, getUserData])
 
   useEffect(() => {
-    if (data) {
-      const {
-        id,
-        username,
-        email,
-        avatar,
-        date_joined,
-        is_active,
-        is_admin,
-        is_banned,
-        is_staff,
-        ...userData
-      } = data
-      for (let u in userData) {
-        //@ts-ignore
-        setValue(u, data[u])
-      }
-      setValue('phone', data.phone?.split('+').join(''))
+    if (!data) return
+
+    const {
+      id,
+      username,
+      email,
+      avatar,
+      date_joined,
+      is_active,
+      is_admin,
+      is_banned,
+      is_staff,
+      ...userData
+    } = data
+    for (let u in userData) {
+      //@ts-ignore
+      setValue(u, data[u])
     }
-  }, [data, setValue])
+    setPhone(data.phone) // триггер для изменения телефона
+
+    // подписываемся на изменение формы, чтоб не показывать ошибки сервера после изменения поля
+    const { unsubscribe } = watch((_value, { name }) => {
+      name === 'phone' && setFormChanged(true)
+    })
+
+    return () => unsubscribe()
+  }, [data, getValues, setValue, watch])
 
   const onSubmit = (dataFromInput: UserPatchData) => {
     if (dataFromInput) {
       patchUserData({
         userName: currentUserData?.username ?? '',
-        body: { ...dataFromInput, phone: `+${dataFromInput.phone}` },
+        body: {
+          ...dataFromInput,
+          phone: '+'.concat(dataFromInput.phone.replace(/(\D)/g, '')),
+        },
       })
+      setFormChanged(false)
     }
   }
 
@@ -128,7 +159,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               register={register}
               name="display_name"
               autocomplete="display_name"
-              options={textOptions}
+              options={displayNameOptions}
             />
           </Field>
 
@@ -160,12 +191,15 @@ const AboutMeForm: FC<Props> = ({}) => {
 
           <Field
             label="Телефон"
-            error={errors?.phone?.message || patchErrorText.phone}
+            error={
+              errors?.phone?.message || (!formChanged && patchErrorText.phone)
+            }
           >
             <InputPhone
               register={register}
-              value={getValues()['phone']}
+              value={phone}
               setValue={setValue}
+              getValues={getValues}
               name="phone"
               autoComplete="phone"
             />
