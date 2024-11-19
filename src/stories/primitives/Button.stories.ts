@@ -1,17 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { LinkLikeButton } from '@/components/ui'
+import { Button } from '@/components/ui'
 
-const meta: Meta<typeof LinkLikeButton> = {
-  title: 'UI/LinkLikeButton',
-  component: LinkLikeButton,
+const meta: Meta<typeof Button> = {
+  title: 'Primitives/Button',
+  component: Button,
   parameters: {
     layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {
-    href: {
-      control: 'text',
-    },
     color: {
       control: 'select',
       options: ['primary', 'secondary', 'clear'],
@@ -20,32 +17,33 @@ const meta: Meta<typeof LinkLikeButton> = {
       control: 'select',
       options: ['big', 'medium', 'small'],
     },
+    disabled: {
+      control: 'boolean',
+    },
   },
 }
 
-type Story = StoryObj<typeof LinkLikeButton>
+type Story = StoryObj<typeof Button>
 
 export const Primary: Story = {
   args: {
-    href: '/',
     children: 'Big Button',
     color: 'primary',
     size: 'big',
   },
+  parameters: {
+    theme: 'dark',
+  },
 }
-
 export const Secondary: Story = {
   args: {
-    href: '/',
     children: 'Big Button',
     color: 'secondary',
     size: 'big',
   },
 }
-
 export const Clear: Story = {
   args: {
-    href: '/',
     children: 'Button',
     color: 'clear',
     size: 'big',
