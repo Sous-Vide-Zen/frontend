@@ -1,18 +1,18 @@
 'use client'
 import { FC } from 'react'
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
-import Input from '@/components/ui/Input/Input'
+import { UseFormRegister } from 'react-hook-form'
+import { FormInput } from '@/components/forms/items'
 
 type Props = {
   register: UseFormRegister<any>
   id: string
 }
 
-export const InputEmail: FC<Props> = ({ register, id }) => {
+export const EmailFormInput: FC<Props> = ({ register, id }) => {
   return (
-    <Input
+    <FormInput
       register={register}
-      name={id}
+      id={id}
       type="email"
       autocomplete="email"
       placeholder="ivanov@gmail.com"

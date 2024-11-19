@@ -2,14 +2,12 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { useForm } from 'react-hook-form'
 
 import styles from './header.module.scss'
-import Input from '@/components/ui/Input/Input'
+import {Input} from '@/components/ui'
 import Avatar from './avatar/avatar'
 
 export default function Header({ isSearch }: { isSearch: boolean | undefined }) {
-    const { register } = useForm()
     return (
         <div className={styles.header}>
             <div className="container">
@@ -30,8 +28,6 @@ export default function Header({ isSearch }: { isSearch: boolean | undefined }) 
                                 draggable={false}
                             />
                             <Input
-                                register={register}
-                                name="search"
                                 placeholder="Искать..."
                                 className={styles.input}
                             />

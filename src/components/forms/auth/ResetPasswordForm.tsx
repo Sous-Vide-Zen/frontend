@@ -4,7 +4,7 @@ import { FC } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from '../forms.module.scss'
-import { Field, FieldSet, InputEmail } from '@/components/forms/items'
+import { Field, FieldSet, EmailFormInput } from '@/components/forms/items'
 import Button from '@/components/ui/Button/Button'
 
 type FormValues = {
@@ -37,7 +37,7 @@ const ResetPasswordForm: FC<Props> = ({
       <form onSubmit={onSubmit && handleSubmit(onSubmit)}>
         <FieldSet label="Восстановление пароля">
           <Field label="Email" error={errors.email?.message}>
-            <InputEmail register={register} id="email" />
+            <EmailFormInput register={register} id="email" />
           </Field>
 
           <Button

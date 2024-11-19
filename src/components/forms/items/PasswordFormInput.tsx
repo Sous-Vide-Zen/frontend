@@ -1,7 +1,7 @@
 'use client'
 import { FC } from 'react'
-import { FieldErrors, UseFormRegister } from 'react-hook-form'
-import Input from '@/components/ui/Input/Input'
+import { UseFormRegister } from 'react-hook-form'
+import { FormInput } from '@/components/forms/items'
 
 type Props = {
   register: UseFormRegister<any>
@@ -9,11 +9,15 @@ type Props = {
   autocomplete?: string
 }
 
-export const InputPassword: FC<Props> = ({ register, id, autocomplete }) => {
+export const PasswordFormInput: FC<Props> = ({
+  register,
+  id,
+  autocomplete,
+}) => {
   return (
-    <Input
+    <FormInput
       register={register}
-      name={id}
+      id={id}
       type="password"
       autocomplete={autocomplete}
       placeholder="*********"
