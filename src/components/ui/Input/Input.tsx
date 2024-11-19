@@ -5,6 +5,11 @@ import cn from 'clsx'
 
 import styles from './Input.module.scss'
 
+/*
+  todo: отрефакторить - выделить ...register в отдельный элемент
+  использующие его элементы (InputPassword и пр) соответственно тоже поправить
+*/
+
 interface InputProps {
   disabled?: boolean
   placeholder?: string
@@ -23,7 +28,7 @@ interface InputProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
-const Input: FC<InputProps> = ({
+export const Input: FC<InputProps> = ({
   disabled = false,
   placeholder,
   error,

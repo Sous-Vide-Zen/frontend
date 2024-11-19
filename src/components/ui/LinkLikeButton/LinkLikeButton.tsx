@@ -15,7 +15,7 @@ interface Props {
   loading?: boolean
 }
 
-const LinkLikeButton: FC<Props> = ({
+export const LinkLikeButton: FC<Props> = ({
   href,
   children,
   className,

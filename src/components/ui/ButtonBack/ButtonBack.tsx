@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation'
 import styles from './ButtonBack.module.scss'
 import { FC } from 'react'
 
-const ButtonBack: FC = () => {
+export const ButtonBack: FC = () => {
   const router = useRouter()
 
   return (

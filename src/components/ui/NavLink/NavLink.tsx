@@ -19,7 +19,7 @@ type Props = LinkItem & {
   height?: number
 }
 
-const NavLink: FC<Props> = ({
+export const NavLink: FC<Props> = ({
   text,
   url,
   img,

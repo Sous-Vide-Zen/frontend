@@ -1,15 +1,17 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
-import Button from '@/components/ui/Button/Button'
+import { Button } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
+import DayRecipe from '@/components/ui/DayRecipe'
+import TopAuthor from '@/components/ui/TopAuthor'
 
 export default function Rightbar() {
   const dispatch = useAppDispatch()
@@ -18,6 +20,7 @@ export default function Rightbar() {
   const { isAuth } = useAuth()
   const pathname = usePathname()
   const searchParams = useSearchParams()
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   // восстанавливаем параметры поиска (в url) из стейта
   useEffect(() => {
@@ -58,6 +61,7 @@ export default function Rightbar() {
       changeSearchParams('filter', what)
     } else {
       alert('Для доступа к этой функции надо авторизоваться')
+      // setIsModalOpen(true)
       dispatch(setFilterMode(null))
       changeSearchParams('filter', null)
     }
@@ -80,7 +84,9 @@ export default function Rightbar() {
           />
         </Button>
       </div>
+
       <ListViewChanger />
+
       <div className={styles.sort}>
         <h3>Сортировка</h3>
         <div>
@@ -118,52 +124,18 @@ export default function Rightbar() {
           </Button>
         </div>
       </div>
-      <div className={styles.topRecipe}>
-        <h2>Рецепт дня</h2>
-        {/*<Image src={} alt={}/>*/}
-        <div>
-          <div className={styles.zaglushka}></div>
-          <span>Тыква с мёдом, чесноком, горчицей и лавровыми листами</span>
-        </div>
-      </div>
-      <div className={styles.topAuthor}>
-        <h2>Авторы дня</h2>
-        <div className={styles.authors}>
-          <div className={styles.author}>
-            <div
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#333',
-              }}
-            ></div>
-            <span>username</span>
-          </div>
-          <div className={styles.author}>
-            <div
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#333',
-              }}
-            ></div>
-            <span>username</span>
-          </div>
-          <div className={styles.author}>
-            <div
-              style={{
-                width: '40px',
-                height: '40px',
-                borderRadius: '50%',
-                background: '#333',
-              }}
-            ></div>
-            <span>username</span>
-          </div>
-        </div>
-      </div>
+
+      <DayRecipe />
+
+      <TopAuthor />
+
+      {/* <Modal2 isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+        <p>
+          Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
+          оценивать рецепты других пользователей. Вход Регистрация
+        </p>
+        todo: add buttons
+      </Modal2> */}
     </div>
   )
 }

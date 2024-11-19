@@ -10,13 +10,13 @@ interface IButton
     HTMLButtonElement
   > {
   children: ReactNode
-  color?: 'purple' | 'white' | 'gray' | 'primary' | 'secondary' | 'clear'
+  color?: 'primary' | 'secondary' | 'clear'
   size?: 'big' | 'medium' | 'small'
   pressed?: boolean
   loading?: boolean
 }
 
-const Button: FC<IButton> = ({
+export const Button: FC<IButton> = ({
   children,
   className,
   color,
@@ -36,7 +36,12 @@ const Button: FC<IButton> = ({
   })
 
   return (
-    <button className={buttonClasses} disabled={!!loading} {...props}>
+    <button
+      className={buttonClasses}
+      disabled={!!loading}
+      type="button"
+      {...props}
+    >
       {loading ? (
         <Image
           className={styles.loader}

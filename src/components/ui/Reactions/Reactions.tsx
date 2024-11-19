@@ -7,7 +7,7 @@ interface ReactionsProps {
   slug: string
 }
 
-const Reactions: FC<ReactionsProps> = ({ slug }) => {
+export const Reactions: FC<ReactionsProps> = ({ slug }) => {
   const { data, error } = useGetRecipeReactionsQuery(slug)
 
   const onHeartClick = () => {
