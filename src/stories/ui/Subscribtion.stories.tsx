@@ -1,34 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/react'
 import { Subscribtion } from '@/components/ui'
-import { SubscribtionProps } from '@/components/ui/Subscribtion'
 
-const meta: Meta<typeof Subscribtion> = {
+const meta = {
   title: 'UI/Subscribtion',
   component: Subscribtion,
   parameters: {
     layout: 'centered',
   },
   // tags: ['autodocs'],
-  argTypes: {
-    user: {
-      id: {
-        control: 'number',
-      },
-      username: {
-        control: 'text',
-      },
-      avatar: {
-        control: 'text',
-      },
-      bio: {
-        control: 'text',
-      },
-    },
-    subscribers_count: {
-      control: 'number',
-    },
-  },
-}
+} satisfies Meta<typeof Subscribtion>
 
 type Story = StoryObj<typeof Subscribtion>
 
