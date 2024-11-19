@@ -11,11 +11,11 @@ import { useLoginMutation } from '@/store/features/auth/auth.actions'
 import {
   Field,
   FieldSet,
-  InputEmail,
-  InputPassword,
+  EmailFormInput,
+  PasswordFormInput,
+  FormInput,
 } from '@/components/forms/items'
-import Button from '@/components/ui/Button/Button'
-import Input from '@/components/ui/Input/Input'
+import { Button } from '@/components/ui'
 import SocialForm from '@/components/ui/Socials/SocialForm'
 
 type FormValues = {
@@ -54,7 +54,7 @@ const LoginForm: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet>
           <Field label="Email" error={errors.email?.message}>
-            <InputEmail register={register} id="email" />
+            <EmailFormInput register={register} id="email" />
           </Field>
 
           <Field
@@ -62,7 +62,7 @@ const LoginForm: FC = () => {
             toTheRightLabel={<Link href="/resetpassword">Забыли пароль?</Link>}
             error={errors.password?.message}
           >
-            <InputPassword
+            <PasswordFormInput
               register={register}
               id="password"
               autocomplete="current-password"
@@ -71,7 +71,7 @@ const LoginForm: FC = () => {
 
           <Field>
             <span className={styles.left}>
-              <Input register={register} name="isAlien" type="checkbox" />
+              <FormInput register={register} id="isAlien" type="checkbox" />
               Чужой компьютер
             </span>
           </Field>

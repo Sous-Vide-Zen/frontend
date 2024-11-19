@@ -1,54 +1,42 @@
 import Image from 'next/image'
 import { FC, HTMLInputTypeAttribute, useState } from 'react'
-import { RegisterOptions, UseFormRegister } from 'react-hook-form'
+import { RefCallBack, RegisterOptions } from 'react-hook-form'
 import cn from 'clsx'
 
 import styles from './Input.module.scss'
 
-/*
-  todo: отрефакторить - выделить ...register в отдельный элемент
-  использующие его элементы (InputPassword и пр) соответственно тоже поправить
-*/
-
-interface InputProps {
+export interface InputProps {
+  refX?: RefCallBack
   disabled?: boolean
   placeholder?: string
   type?: HTMLInputTypeAttribute
-  name: string
   className?: string
-  error?: any
-  touchedFields?: Partial<
-    Readonly<{
-      [x: string]: any
-    }>
-  >
+  // error?: any
+  // touchedFields?: Partial<
+  //   Readonly<{
+  //     [x: string]: any
+  //   }>
+  // >
   options?: RegisterOptions<any>
-  register: UseFormRegister<any>
   autocomplete?: string
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void
 }
 
 export const Input: FC<InputProps> = ({
+  refX,
   disabled = false,
   placeholder,
-  error,
+  // error,
   type = 'text',
-  name,
   className,
-  touchedFields,
-  register,
+  // touchedFields,
   options,
   autocomplete,
   ...rest
 }) => {
-  // console.log("error", error, "touchedFields", touchedFields)
-  const optionsForm = options
-    ? { ...register(name, options) }
-    : { ...register(name) }
-
   const isPassword = type === 'password'
-
   const [typeInput, setTypeInput] = useState(type)
+
   const handleMouseDown = () => {
     setTypeInput('text')
   }
@@ -64,11 +52,11 @@ export const Input: FC<InputProps> = ({
           placeholder={placeholder}
           disabled={disabled}
           type={isPassword ? typeInput : type}
-          {...optionsForm}
           {...rest}
+          ref={refX}
           autoComplete={autocomplete}
           className={cn(styles.input, {
-            [styles.borderError]: error !== undefined,
+            // [styles.borderError]: error !== undefined,
           })}
         />
         {isPassword && (
@@ -91,7 +79,7 @@ export const Input: FC<InputProps> = ({
           </div>
         )}
       </div>
-      {error && <span className={styles.error}>{error}</span>}
+      {/* {error && <span className={styles.error}>{error}</span>} */}
     </div>
   )
 }

@@ -1,113 +1,60 @@
 import type { Meta, StoryObj } from '@storybook/react'
-import { useForm, UseFormRegister } from 'react-hook-form'
 import { Input } from '@/components/ui'
-import { FieldSet, Field } from '@/components/forms/items'
 
-const meta: Meta<typeof Input> = {
+const meta = {
   title: 'Primitives/Input',
   component: Input,
   parameters: {
     layout: 'centered',
   },
-  tags: ['autodocs'],
+  // tags: ['autodocs'],
   argTypes: {
-    name: {
-      control: 'text',
-    },
-    register: {
-      control: 'object',
-    },
     type: {
       control: 'select',
       options: [
-        // 'button',
-        // 'checkbox',
-        // 'color',
-        'date',
-        'datetime-local',
+        'text',
         'email',
+        'password',
+        'checkbox',
+        'date',
+        // 'button',
+        // 'color',
+        // 'datetime-local',
         // 'file',
         // 'hidden',
-        'image',
+        // 'image',
         // 'month',
-        'number',
-        'password',
+        // 'number',
         // 'radio',
         // 'range',
         // 'reset',
         // 'search',
         // 'submit',
-        'tel',
-        'text',
-        'time',
+        // 'tel',
+        // 'time',
         // 'url',
         // 'week',
       ],
     },
-    // placeholder: {
-    //   control: 'text',
-    // },
-    // error: {
-    //   control: 'text',
-    // },
   },
-}
+} satisfies Meta<typeof Input>
 
 type Story = StoryObj<typeof Input>
 
 const name = 'test'
-type FormValues = {
-  [name]: string
-}
-// const { register, handleSubmit } = useForm<FormValues>({
-//   mode: 'onBlur',
-// })
 
-const register = {
-  // onChange: ()=>{}
-  // onBlur: ChangeHandler;
-  // ref: RefCallBack;
-  // name: string;
-  // min?: string | number;
-  // ... 5 more ...;
-  // disabled?: boolean;
-} as UseFormRegister<FormValues>
-
-// const handleSubmit = ()=>{}
-// const onSubmit = (formValues: FormValues) => {}
-
-const Primary: Story = {
+export const Text: Story = {
   args: {
-    name,
-    register,
-    type: 'email',
+    type: 'text',
+    placeholder: 'placeholder',
   },
-  // parameters: {
-  //   theme: 'dark',
-  // },
-  decorators: [
-    (story) => (
-      <form>
-        <FieldSet>
-          <Field label={name}>{story()}</Field>
-        </FieldSet>
-      </form>
-    ),
-  ],
 }
-// export const Secondary: Story = {
-//   args: {
-//     children: 'Big Button',
-//     color: 'secondary',
-//     size: 'big',
-//   },
-// }
-// export const Clear: Story = {
-//   args: {
-//     children: 'Button',
-//     color: 'clear',
-//     size: 'big',
-//   },
-// }
+
+export const Password: Story = {
+  args: {
+    type: 'password',
+    placeholder: 'placeholder',
+  },
+}
 
 export default meta

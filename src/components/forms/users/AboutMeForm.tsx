@@ -12,12 +12,15 @@ import {
   usePatchUserDataMutation,
 } from '@/store/features/user/user.actions'
 import { UserPatchData } from '@/store/features/user/user.types'
-import { Field, FieldSet, InputPhone } from '@/components/forms/items'
+import {
+  Field,
+  FieldSet,
+  FormInput,
+  PhoneFormInput,
+} from '@/components/forms/items'
 import { useGetCurentUserDataQuery } from '@/store/features/auth/auth.actions'
 import { AvatarImage } from '@/components/ui/imageLoaders/AvatarImage'
-import Input from '@/components/ui/Input/Input'
-import Button from '@/components/ui/Button/Button'
-import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
+import { Button, LinkLikeButton } from '@/components/ui/'
 import { Loader } from '@/components/ui/Loader/Loader'
 import UserDataSaveSuccessfullForm from '@/components/forms/auth/UserDataSaveSuccessfullForm'
 import { COUNTRIES } from '@/helpers/countries'
@@ -155,9 +158,9 @@ const AboutMeForm: FC<Props> = ({}) => {
             label="Никнейм"
             error={errors?.display_name?.message || patchErrorText.display_name}
           >
-            <Input
+            <FormInput
               register={register}
-              name="display_name"
+              id="display_name"
               autocomplete="display_name"
               options={displayNameOptions}
             />
@@ -167,9 +170,9 @@ const AboutMeForm: FC<Props> = ({}) => {
             label="Имя"
             error={errors?.first_name?.message || patchErrorText.first_name}
           >
-            <Input
+            <FormInput
               register={register}
-              name="first_name"
+              id="first_name"
               autocomplete="first_name"
               placeholder="Иван"
               options={textOptions}
@@ -180,9 +183,9 @@ const AboutMeForm: FC<Props> = ({}) => {
             label="Фамилия"
             error={errors?.last_name?.message || patchErrorText.last_name}
           >
-            <Input
+            <FormInput
               register={register}
-              name="last_name"
+              id="last_name"
               autocomplete="last_name"
               placeholder="Иванов"
               options={textOptions}
@@ -195,7 +198,7 @@ const AboutMeForm: FC<Props> = ({}) => {
               errors?.phone?.message || (!formChanged && patchErrorText.phone)
             }
           >
-            <InputPhone
+            <PhoneFormInput
               register={register}
               value={phone}
               setValue={setValue}
@@ -231,9 +234,9 @@ const AboutMeForm: FC<Props> = ({}) => {
             label="Город"
             error={errors?.city?.message || patchErrorText.city}
           >
-            <Input
+            <FormInput
               register={register}
-              name="city"
+              id="city"
               autocomplete="city"
               placeholder="Москва"
               options={textOptions}
@@ -244,9 +247,9 @@ const AboutMeForm: FC<Props> = ({}) => {
             label="О себе"
             error={errors?.bio?.message || patchErrorText.bio}
           >
-            <Input
+            <FormInput
               register={register}
-              name="bio"
+              id="bio"
               autocomplete="bio"
               options={{
                 maxLength: {

@@ -3,8 +3,9 @@ import Layout from '@/components/layout/layout'
 import { useState, useEffect } from 'react'
 // import styles from './addRecipe.module.scss'
 import { useRouter } from 'next/navigation'
-import Button from '@/components/ui/Button/Button'
-import Input from '@/components/ui/Input/Input'
+
+import {Button} from '@/components/ui/'
+import { FormInput } from '@/components/forms/items'
 import { Controller, useForm } from 'react-hook-form'
 import { Loader } from '@/components/ui/Loader/Loader'
 import Image from 'next/image'
@@ -93,9 +94,9 @@ export default function NewRecipePage({
           <p className={styles.cockingTime}>Время приготовления*</p>
           <div className={styles.hourPlusMinutes}>
             <div className={`${styles.hours} ${displayNoneClass}`}>
-              <Input
+              <FormInput
                 register={register}
-                name="hours"
+                id="hours"
                 type="text"
                 placeholder="часы"
                 disabled={notShow}
@@ -109,9 +110,9 @@ export default function NewRecipePage({
               />
             </div>
             <div className={styles.minutes}>
-              <Input
+              <FormInput
                 register={register}
-                name="cooking_time"
+                id="cooking_time"
                 type="text"
                 placeholder="минуты"
                 disabled={notShow}
@@ -135,9 +136,9 @@ export default function NewRecipePage({
             {!notShow && (
               <>
                 <div className={styles.name}>
-                  <Input
+                  <FormInput
                     register={register}
-                    name="name"
+                    id="name"
                     type="text"
                     placeholder="название"
                     // options={{
@@ -150,9 +151,9 @@ export default function NewRecipePage({
                   />
                 </div>
                 <div className={styles.unit}>
-                  <Input
+                  <FormInput
                     register={register}
-                    name="unit"
+                    id="unit"
                     type="text"
                     placeholder="количество"
                     // options={{
@@ -165,9 +166,9 @@ export default function NewRecipePage({
                   />
                 </div>
                 <div className={styles.amount}>
-                  <Input
+                  <FormInput
                     register={register}
-                    name="amount"
+                    id="amount"
                     type="text"
                     placeholder="кг"
                     // options={{
@@ -198,10 +199,10 @@ export default function NewRecipePage({
             {notShow && <p className={styles.textArea}>{recipe.full_text}</p>}
             {!notShow && (
               <>
-                <Input
+                <FormInput
                   className={styles.textArea}
                   register={register}
-                  name="full_text"
+                  id="full_text"
                   type="textarea"
                   placeholder="впишите сюда текст рецепта"
                   disabled={notShow}

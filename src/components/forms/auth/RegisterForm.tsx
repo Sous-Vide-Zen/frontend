@@ -1,5 +1,5 @@
 'use client'
-import { FC, useEffect } from 'react'
+import { FC } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
@@ -10,11 +10,11 @@ import { useRegisterMutation } from '@/store/features/auth/auth.actions'
 import {
   Field,
   FieldSet,
-  InputEmail,
-  InputPassword,
+  EmailFormInput,
+  PasswordFormInput,
+  FormInput,
 } from '@/components/forms/items'
-import Button from '@/components/ui/Button/Button'
-import Input from '@/components/ui/Input/Input'
+import { Button } from '@/components/ui/'
 import SocialForm from '@/components/ui/Socials/SocialForm'
 import ActivateInstructionForm from './ActivateInstructionForm'
 
@@ -60,11 +60,11 @@ const RegisterForm: FC = () => {
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldSet label="Регистрация">
             <Field label="Email" error={errors.email?.message}>
-              <InputEmail register={register} id="email" />
+              <EmailFormInput register={register} id="email" />
             </Field>
 
             <Field label="Пароль" error={errors.password?.message}>
-              <InputPassword
+              <PasswordFormInput
                 register={register}
                 id="password"
                 autocomplete="new-password"
@@ -75,15 +75,16 @@ const RegisterForm: FC = () => {
               label="Введите пароль еще раз"
               error={errors.password2?.message}
             >
-              <Input
+              <FormInput
                 register={register}
-                name="password2"
+                id="password2"
                 type="password"
                 autocomplete="new-password"
                 placeholder="*********"
                 options={{
                   required: 'Обязательное поле',
-                  validate: (value) => value === pswd || 'Пароли не совпадают',
+                  validate: (value: string) =>
+                    value === pswd || 'Пароли не совпадают',
                 }}
               />
             </Field>

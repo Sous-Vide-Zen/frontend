@@ -16,7 +16,7 @@ interface InputProps {
   autoComplete?: string
 }
 
-export const InputPhone: FC<InputProps> = ({
+export const PhoneFormInput: FC<InputProps> = ({
   name,
   value,
   setValue,

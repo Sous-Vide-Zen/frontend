@@ -5,9 +5,13 @@ import { useRouter } from 'next/navigation'
 
 import styles from '../forms.module.scss'
 import { useResetPasswordConfirmMutation } from '@/store/features/auth/auth.actions'
-import { Field, FieldSet, InputPassword } from '@/components/forms/items'
-import Button from '@/components/ui/Button/Button'
-import Input from '@/components/ui/Input/Input'
+import {
+  Field,
+  FieldSet,
+  FormInput,
+  PasswordFormInput,
+} from '@/components/forms/items'
+import { Button } from '@/components/ui'
 import ActivateInstructionForm from './ActivateInstructionForm'
 
 type FormValues = {
@@ -52,7 +56,7 @@ const RecoveryPasswordForm: FC = () => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <FieldSet label="Восстановление пароля">
           <Field label="Новый пароль" error={errors.password?.message}>
-            <InputPassword
+            <PasswordFormInput
               register={register}
               id="password"
               autocomplete="new-password"
@@ -63,9 +67,9 @@ const RecoveryPasswordForm: FC = () => {
             label="Введите пароль еще раз"
             error={errors.password2?.message}
           >
-            <Input
+            <FormInput
               register={register}
-              name="password2"
+              id="password2"
               type="password"
               autocomplete="new-password"
               placeholder="*********"
