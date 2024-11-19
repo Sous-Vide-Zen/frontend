@@ -7,6 +7,4 @@ export { NavLink } from './NavLink/NavLink'
 export { RecipeCard } from './RecipeCard/RecipeCard'
 export { Reactions } from './Reactions/Reactions'
 export { Popup } from './Popup/Popup'
-
-
-
+export { Subscribtion } from './Subscribtion'
