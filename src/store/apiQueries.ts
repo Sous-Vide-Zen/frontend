@@ -153,6 +153,11 @@ export const staggeredAuthBaseQuery = retry(
     }
   },
   {
-    maxRetries: 1,
+    /* 
+    по умолчанию при ошибках запрос не будет повторяться. Если надо разрешить повторные запрросы, то надо добавить 
+    `extraOptions: { maxRetries: 1 }` в код самого запроса (mainApi.injectEndpoints) после `query`
+    пример - getRecipeReactions
+    */
+    maxRetries: 0,
   },
 )
