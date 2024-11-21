@@ -9,8 +9,7 @@ import {
   useRemoveFromFavoritesMutation,
 } from '@/store/features/recipes/recipes.actions'
 import { useData } from '@/hooks/useData'
-import Reactions from '@/components/ui/Reactions/Reactions'
-import Popup from '@/components/ui/Popup/Popup'
+import { Reactions, Popup, RecipeHash } from '@/components/ui'
 
 interface RecipeCardProps {
   recipe: IRecipe
@@ -18,7 +17,7 @@ interface RecipeCardProps {
   onRemoveFromFavorites?: (id: number) => void
 }
 
-const RecipeCard: FC<RecipeCardProps> = ({
+export const RecipeCard: FC<RecipeCardProps> = ({
   recipe,
   onPreview,
   onRemoveFromFavorites,
@@ -122,7 +121,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
               height={30}
               draggable={false}
             />
-            <p>{recipe.author.username}</p>
+            <p>{recipe.author.display_name ?? recipe.author.username}</p>
           </div>
           <div className={styles.userRight}>
             <p>{fancyDate}</p>
@@ -197,9 +196,7 @@ const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.short_text}</p>
           </div>
           <div className={styles.hash}>
-            {recipe.tag.map((e: { name: string }) => (
-              <span key={e.name}>{`#${e.name}`}</span>
-            ))}
+            <RecipeHash tag={recipe.tag} />
           </div>
         </div>
 

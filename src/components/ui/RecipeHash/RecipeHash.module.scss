@@ -1,0 +1,15 @@
+.hash {
+  display: flex;
+  gap: 12px;
+  font-size: 12px;
+
+  .crop {
+    width: 700px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    span {
+      padding-right: 12px;
+    }
+  }
+}
