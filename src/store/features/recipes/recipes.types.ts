@@ -14,7 +14,10 @@ export interface IRecipe {
   preview_image: null
   author: Author
   pub_date: string
-  tag: any[]
+  tag: {
+    name: string
+    slug: string
+  }[]
   cooking_time: number
   comments_count: number
   views_count: number

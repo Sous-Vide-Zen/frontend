@@ -8,15 +8,16 @@ import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
-import { Button } from '@/components/ui'
+import { Button, LinkLikeButton } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
+import { Modal } from '@/components/ui/Modal'
 
 export default function Rightbar() {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
+  const { sort, filter } = useAppSelector((state) => state.userSettings)
   const { isAuth } = useAuth()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -60,8 +61,7 @@ export default function Rightbar() {
       dispatch(setFilterMode(what))
       changeSearchParams('filter', what)
     } else {
-      alert('Для доступа к этой функции надо авторизоваться')
-      // setIsModalOpen(true)
+      setIsModalOpen(true)
       dispatch(setFilterMode(null))
       changeSearchParams('filter', null)
     }
@@ -126,16 +126,17 @@ export default function Rightbar() {
       </div>
 
       <DayRecipe />
-
       <TopAuthor />
 
-      {/* <Modal2 isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      {}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <p>
           Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
-          оценивать рецепты других пользователей. Вход Регистрация
+          оценивать рецепты других пользователей.
         </p>
-        todo: add buttons
-      </Modal2> */}
+        <LinkLikeButton href="/login">Вход</LinkLikeButton>
+        <LinkLikeButton href="/registration">Регистрация</LinkLikeButton>
+      </Modal>
     </div>
   )
 }

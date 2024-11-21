@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 // import styles from './addRecipe.module.scss'
 import { useRouter } from 'next/navigation'
 
-import {Button} from '@/components/ui/'
+import { Button } from '@/components/ui/'
 import { FormInput } from '@/components/forms/items'
 import { Controller, useForm } from 'react-hook-form'
 import { Loader } from '@/components/ui/Loader/Loader'
