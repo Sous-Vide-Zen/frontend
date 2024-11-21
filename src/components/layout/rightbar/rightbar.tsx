@@ -23,16 +23,6 @@ export default function Rightbar() {
   const searchParams = useSearchParams()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  useEffect(() => {}, [
-    dispatch,
-    filter,
-    isAuth,
-    pathname,
-    router,
-    searchParams,
-    sort,
-  ])
-
   // восстанавливаем параметры поиска (в url) из стейта
   useEffect(() => {
     let isChanged = false
