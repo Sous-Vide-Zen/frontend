@@ -130,11 +130,12 @@ const AboutMeForm: FC<Props> = ({}) => {
 
   const onSubmit = (dataFromInput: UserPatchData) => {
     if (dataFromInput) {
+      const filteredPhone = dataFromInput.phone.replace(/(\D)/g, '')
       patchUserData({
         userName: currentUserData?.username ?? '',
         body: {
           ...dataFromInput,
-          phone: '+'.concat(dataFromInput.phone.replace(/(\D)/g, '')),
+          phone: filteredPhone.length ? `+${filteredPhone}` : '',
         },
       })
       setFormChanged(false)

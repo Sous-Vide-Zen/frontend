@@ -28,8 +28,6 @@ export const PhoneFormInput: FC<InputProps> = ({
 
   const setNewCardValue = useCallback(
     (currentValue: string) => {
-      if (!currentValue) return
-
       const cardValue = currentValue
         .replace(/\D/g, '')
         .match(/(\d{0,1})(\d{0,3})(\d{0,3})(\d{0,4})/) ?? ['', '', '', '', '']
