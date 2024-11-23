@@ -8,7 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",
@@ -40,17 +42,23 @@
     "@storybook/react": "^8.4.2",
     "@storybook/test": "^8.4.2",
     "@svgr/webpack": "^8.1.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.0.1",
+    "@types/jest": "^29.5.14",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "@vitest/coverage-v8": "^2.1.5",
     "eslint": "^8",
     "eslint-config-next": "14.0.2",
     "eslint-plugin-storybook": "^0.11.0",
+    "jsdom": "^25.0.1",
     "msw": "^2.6.4",
     "msw-storybook-addon": "^2.0.4",
     "prettier": "^3.2.5",
     "storybook": "^8.4.2",
-    "typescript": "^5"
+    "typescript": "^5",
+    "vitest": "^2.1.5"
   },
   "msw": {
     "workerDirectory": [
