@@ -24,17 +24,15 @@ const RecipeModify: FC<RecipeCardProps> = ({ recipe }) => {
     return 'no - data'
   } else
     return (
-      <div>
-        <div className={styles.recipe}>
-          {/* <div className={styles.content}> */}
-          <UserNameShow recipe={recipe} />
-          {/* string of views likes and need to add edit and delete */}
-          <IconsAndActions recipe={recipe} />
-          {/* photo of the dishes that you need to add an icon in the lower left corner */}
-          <Preview recipe={recipe} />
-          <AddNewRecipe recipe={recipe} notShowProps={true} />
-          {/* </div> */}
-        </div>
+      <div className={styles.recipe}>
+        {/* <div className={styles.content}> */}
+        <UserNameShow recipe={recipe} />
+        {/* string of views likes and need to add edit and delete */}
+        <IconsAndActions recipe={recipe} />
+        {/* photo of the dishes that you need to add an icon in the lower left corner */}
+        <Preview recipe={recipe} />
+        <AddNewRecipe recipe={recipe} notShowProps={true} />
+        {/* </div> */}
       </div>
     )
 }
