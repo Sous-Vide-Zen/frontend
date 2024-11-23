@@ -18,6 +18,9 @@
   --input-invalid: #da0000;
   --input-advices: #4bc185;
   --forms-placeholder: var(--input-stroke);
+  // размеры
+  --global-padding: 20px;
+  --headbar-height: 100px;
 }
 * {
   box-sizing: border-box;

@@ -1,6 +1,6 @@
 .scroll {
-  /* высота экрана за вычетом шапки (~140px) */
-  height: calc(100vh - 140px);
+  /* высота экрана за вычетом шапки и глобальных отступов */
+  height: calc(100vh - var(--headbar-height) - 2 * var(--global-padding));
   overflow-y: scroll;
 }
 
@@ -38,8 +38,11 @@
 }
 
 .scroll--left {
-  transform: rotateY(180deg);
+  /* 2 варианта реализовать скролбар слева: 2 раза переворачивать все, либо 2 раза "зеркалить" */
+  /* transform: rotateY(180deg); */
+  direction: rtl;
   & > div {
-    transform: rotateY(-180deg);
+    /* transform: rotateY(-180deg); */
+    direction: ltr;
   }
 }
