@@ -59,3 +59,15 @@
     transform: translateY(0);
   }
 }
+
+.modal_btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.modal_login {
+  width: 150px;
+  height: 36px;
+  margin-right: 24px;
+}

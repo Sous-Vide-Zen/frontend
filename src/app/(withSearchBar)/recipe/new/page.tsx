@@ -48,15 +48,45 @@ export default function NewRecipePage({
         }))
       : []
   /* RHF data */
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, touchedFields },
-    control,
-  } = useForm({
+  // const {
+  //   register,
+  //   handleSubmit,
+  //   formState: { errors, touchedFields },
+  //   control,
+  // } = useForm({
+  //   defaultValues: {
+  //     hours: `${Math.floor(recipe?.cooking_time / 60)} часов` || '',
+  //     cooking_time: `${recipe?.cooking_time % 60} минут` || '0 минут',
+  //     full_text: recipe?.full_text || '',
+  //     category:
+  //       recipe?.category.map((c: { name: string }) => ({
+  //         label: c.name,
+  //       })) || [],
+  //     tag: defaultTag,
+  //   },
+  //   mode: 'onBlur',
+  // })
+
+  const getCorrectDeclension = (count: number, wordForms: string[]) => {
+    return count % 10 === 1 && count % 100 !== 11
+      ? wordForms[0]
+      : count % 10 >= 2 &&
+          count % 10 <= 4 &&
+          (count % 100 < 10 || count % 100 >= 20)
+        ? wordForms[1]
+        : wordForms[2]
+  }
+
+  //внутри самой карточки отображается корректное время приготовления рецепта.
+  const { register, handleSubmit, control } = useForm({
     defaultValues: {
-      hours: `${Math.floor(recipe?.cooking_time / 60)} часов` || '',
-      cooking_time: `${recipe?.cooking_time % 60} минут` || '0 минут',
+      hours:
+        `${Math.floor(recipe?.cooking_time / 60)} ${getCorrectDeclension(Math.floor(recipe?.cooking_time / 60), ['час', 'часа', 'часов'])}` ||
+        '',
+      cooking_time:
+        recipe?.cooking_time % 60 > 0
+          ? `${recipe?.cooking_time % 60} ${getCorrectDeclension(recipe?.cooking_time % 60, ['минута', 'минуты', 'минут'])}`
+          : '', // Если минут 0, то поле будет пустым
       full_text: recipe?.full_text || '',
       category:
         recipe?.category.map((c: { name: string }) => ({
