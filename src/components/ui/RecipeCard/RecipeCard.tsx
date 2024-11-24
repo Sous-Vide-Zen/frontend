@@ -138,16 +138,17 @@ export const RecipeCard: FC<RecipeCardProps> = ({
             draggable={false}
           />
         </button>
-        <Image
-          src={recipe.preview_image || '/img/recipe-card/empty-recipe.svg'}
-          height={300}
-          width={768}
-          alt={`recipe image ${recipe.id}`}
-          draggable={false}
-          className={cn(styles.notPreview, {
-            recipePreviewImg: true,
-          })}
-        />
+        {recipe.preview_image ? (
+          <Image
+            src={recipe.preview_image}
+            height={300}
+            alt="recipe image"
+            draggable={false}
+            className={styles.notPreview}
+          />
+        ) : (
+          <div className={styles.notPreview}>Фото отсутствует</div>
+        )}
         <button
           className={styles.previewSave}
           onClick={changeIsFavoriteHandler}
@@ -175,6 +176,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
         <button
           className={cn(styles.previewTime, {
             [styles.tooltip]: true,
+            [styles.withBorder]: !recipe.preview_image
           })}
           onClick={handlerOnTap}
         >

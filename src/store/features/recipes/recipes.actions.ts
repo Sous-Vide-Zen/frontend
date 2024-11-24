@@ -185,7 +185,7 @@ export const recipeApi = mainApi.injectEndpoints({
               },
               (draft) => {
                 const currentDraft = current(draft)
-                const results = currentDraft.results.map((e) =>
+                const results = currentDraft.results?.map((e) =>
                   e.slug === slug ? { ...e, is_favorite: true } : e,
                 )
                 Object.assign(draft, { ...currentDraft, results })
@@ -215,7 +215,7 @@ export const recipeApi = mainApi.injectEndpoints({
             },
             (draft) => {
               const currentDraft = current(draft)
-              const results = currentDraft.results.filter(
+              const results = currentDraft.results?.filter(
                 (e) => e.slug !== slug,
               )
               Object.assign(draft, { ...currentDraft, results })
@@ -234,7 +234,7 @@ export const recipeApi = mainApi.injectEndpoints({
               },
               (draft) => {
                 const currentDraft = current(draft)
-                const results = currentDraft.results.map((e) =>
+                const results = currentDraft.results?.map((e) =>
                   e.slug === slug ? { ...e, is_favorite: false } : e,
                 )
                 Object.assign(draft, { ...currentDraft, results })

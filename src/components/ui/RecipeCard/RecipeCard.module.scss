@@ -73,8 +73,15 @@ $name-text-max-line: 7;
 
   .notPreview {
     height: 300px;
-    background: #8b8b8b;
+    // background: #8b8b8b;
+    background-image: url('/img/recipe-card/no-photo.png');
+    border: 1px solid #bcbcbc;
     border-radius: 12px;
+    // текст в центре
+    color: #010b00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .previewSave {
@@ -105,6 +112,9 @@ $name-text-max-line: 7;
     padding: 12px 24px;
     border-radius: 12px;
     border: none;
+    &.withBorder {
+      border: 1px solid #010B00
+    }
   }
 }
 
@@ -251,3 +261,4 @@ $name-text-max-line: 7;
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
+
