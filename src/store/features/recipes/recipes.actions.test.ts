@@ -31,7 +31,7 @@ const mocks = {
       detail: 'Рецепт добавлен в избранное.',
     },
   },
-  delFromFavorites: {
+  removeFromFavorites: {
     slug: 'test-recipe',
   },
 }
@@ -57,9 +57,9 @@ export const restHandlers = [
       status: 201,
     })
   }),
-  // delFromFavorites
+  // removeFromFavorites
   http.delete(
-    `${BASE_URL}recipe/${mocks.delFromFavorites.slug}/favorite`,
+    `${BASE_URL}recipe/${mocks.removeFromFavorites.slug}/favorite`,
     () => {
       return new HttpResponse(null, {
         status: 204,
@@ -77,6 +77,15 @@ afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
 describe('recipeApi', () => {
+  it('should have the correct endpoints', () => {
+    const endpoints = recipeApi.endpoints
+
+    expect(endpoints.getRecipes).toBeDefined()
+    expect(endpoints.getFavorites).toBeDefined()
+    expect(endpoints.addToFavorites).toBeDefined()
+    expect(endpoints.removeFromFavorites).toBeDefined()
+  })
+
   it('should fetch recipes', async () => {
     const result = await apiStore.dispatch(
       getRecipes.initiate({
@@ -110,7 +119,7 @@ describe('recipeApi', () => {
 
   it('should remove a recipe from favorites', async () => {
     const result = await apiStore.dispatch(
-      removeFromFavorites.initiate(mocks.delFromFavorites.slug),
+      removeFromFavorites.initiate(mocks.removeFromFavorites.slug),
     )
     expect(result).toBeDefined()
   })

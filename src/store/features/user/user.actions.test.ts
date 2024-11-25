@@ -133,6 +133,15 @@ afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
 describe('userApi', () => {
+  it('should have the correct endpoints', () => {
+    const endpoints = userApi.endpoints
+
+    expect(endpoints.getUsers).toBeDefined()
+    expect(endpoints.getUserData).toBeDefined()
+    expect(endpoints.patchUserData).toBeDefined()
+    expect(endpoints.deleteUser).toBeDefined()
+  })
+
   it('should fetch users', async () => {
     const result = await apiStore.dispatch(getUsers.initiate())
     // @ts-ignore
