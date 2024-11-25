@@ -62,12 +62,12 @@ export const PhoneFormInput: FC<InputProps> = ({
       placeholder="+7 (841) "
       {...optionsForm}
       {...register(name, {
-        pattern: {
-          value: /^\+{1}[\d\-\ \(\)]/,
-          message: 'Введите корректный телефон +7 (841) -...-....',
-        },
+        // pattern: {
+        //   value: /^\+{1}[\d\-\ \(\)]/,
+        //   message: 'Введите корректный телефон +7 (841) -...-....',
+        // },
         minLength: {
-          value: 18,
+          value: 0,
           message: 'слишком короткий номер',
         },
       })}

@@ -134,7 +134,7 @@ const AboutMeForm: FC<Props> = ({}) => {
         userName: currentUserData?.username ?? '',
         body: {
           ...dataFromInput,
-          phone: '+'.concat(dataFromInput.phone.replace(/(\D)/g, '')),
+          phone: '+'.concat(dataFromInput.phone.replace(/(\D)/g, '')) || '',
         },
       })
       setFormChanged(false)
