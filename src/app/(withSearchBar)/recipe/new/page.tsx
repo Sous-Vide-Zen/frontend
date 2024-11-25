@@ -15,8 +15,9 @@ import CreatableSelect from 'react-select/creatable'
 import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
 import { stylesFromTag } from './addNewRecipeTagSelectStyles'
 import IngredientsShowEndAdd from '@/components/ui/RecipeModify/IngredientsShowEndAdd/ingredientsShowEndAdd'
-
+import hoursToMinutes from '@/helpers/hoursOrMinutes'
 import styles from '../mutationRecipe.module.scss'
+import { cookies } from 'next/headers'
 
 export default function NewRecipePage({
   recipe,
@@ -55,8 +56,16 @@ export default function NewRecipePage({
     control,
   } = useForm({
     defaultValues: {
-      hours: `${Math.floor(recipe?.cooking_time / 60)} часов` || '',
-      cooking_time: `${recipe?.cooking_time % 60} минут` || '0 минут',
+      hours: hoursToMinutes(Math.floor(recipe?.cooking_time / 60) || 0, [
+        'час',
+        'часа',
+        'часов',
+      ]),
+      cooking_time: hoursToMinutes(recipe?.cooking_time % 60 || 0, [
+        'минута',
+        'минуты',
+        'минут',
+      ]),
       full_text: recipe?.full_text || '',
       category:
         recipe?.category.map((c: { name: string }) => ({

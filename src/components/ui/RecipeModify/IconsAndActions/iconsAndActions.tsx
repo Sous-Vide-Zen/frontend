@@ -59,20 +59,18 @@ const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {
           </button>
         </div>
       </div>
-      <div className={styles.linkForRecipe}>
-        {active && (
-          <div>
-            <Link href={`/recipe/edit/${recipe.slug}`}>
-              Редактировать рецепт.
-            </Link>
-            <p>Удалить рецепт</p>
-          </div>
-        )}
-      </div>
       <div className={styles.containerButton}>
         <div className={styles.dropdownIcon} onClick={() => handleToggle()}>
           &#8942;
         </div>
+        {active && (
+          <div className={styles.linkForRecipe}>
+            <Link href={`/recipe/edit/${recipe.slug}`}>
+              Редактировать рецепт
+            </Link>
+            <p>Удалить рецепт</p>
+          </div>
+        )}
       </div>
     </div>
   )
