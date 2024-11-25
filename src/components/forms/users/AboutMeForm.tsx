@@ -32,12 +32,12 @@ import { COUNTRIES } from '@/helpers/countries'
 
 const displayNameOptions: RegisterOptions<any> = {
   maxLength: {
-    message: 'Поле не должно содержать более 30 символов',
-    value: 30,
+    message: 'Поле не должно содержать более 150 символов',
+    value: 150,
   },
   pattern: {
-    value: /^[\wа-яА-ЯЁё@.+\-_]+$/i,
-    message: 'Введите корректное значение (буквы, цифры, "@ + - _")',
+    value: /^[\wа-яА-ЯЁё@\!\#\$\%\^\&\*\(\)\_\-\+\=\,\.\ ]+$/i,
+    message: 'Введите корректное значение (буквы, цифры, "!@#$%^&*()_-+=,.")',
   },
 }
 
@@ -47,9 +47,9 @@ const textOptions: RegisterOptions<any> = {
     value: 30,
   },
   pattern: {
-    value: /^[\A-Za-zА-Яа-яЁё\u00C0-\u017F\s\'\-]+$/i,
+    value: /^[\A-Za-zА-Яа-яЁё\ \-]+$/i,
     message:
-      'Введите корректное значение (буквы, \u00C0 - \u017F, "-", " ", "\'")',
+      'Введите корректное значение (буквы, "-", " ")',
   },
 }
 
@@ -130,11 +130,12 @@ const AboutMeForm: FC<Props> = ({}) => {
 
   const onSubmit = (dataFromInput: UserPatchData) => {
     if (dataFromInput) {
+      const filteredPhone = dataFromInput.phone.replace(/(\D)/g, '')
       patchUserData({
         userName: currentUserData?.username ?? '',
         body: {
           ...dataFromInput,
-          phone: '+'.concat(dataFromInput.phone.replace(/(\D)/g, '')) || '',
+          phone: filteredPhone.length ? `+${filteredPhone}` : '',
         },
       })
       setFormChanged(false)

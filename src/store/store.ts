@@ -19,7 +19,7 @@ import authReducer from './features/auth/auth.slice'
 import countersReducer from './features/counters/counters.slice'
 import userSettingsReducer from './features/user/user.slice'
 
-// todo: это решение из инернета для решения ошибки в консоли "redux-persist failed to create sync storage. falling back to noop storage."
+// для устранения ошибки в консоли "redux-persist failed to create sync storage. falling back to noop storage."
 const createNoopStorage = () => {
   return {
     getItem(_key: any) {
@@ -39,6 +39,9 @@ const storage =
     ? createWebStorage('local')
     : createNoopStorage()
 
+/*
+  todo: при изменении хранения в storage надо поменять и все использования "localStorage.getItem('persist:auth')
+*/
 const authPersistConfig = {
   key: 'auth',
   storage,

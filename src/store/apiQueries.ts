@@ -49,10 +49,16 @@ export const authBaseQuery: BaseQueryFn<
 
   let refreshToken = null
   try {
-    //todo: это вызывает циклический импорт и 500 ошибку. Пока токены получаются напрямую из хранилища
-    // const store = makeStore()
-    // const { access_token: authToken, refresh_token: refreshToken } =
-    //   store.getState().auth
+    /*  
+      использование store в этом месте
+      ``` 
+      const store = makeStore()
+      const { access_token: authToken, refresh_token: refreshToken } =
+        store.getState().auth
+      ```
+      вызывает циклический импорт и 500 ошибку. 
+      Приходится получать токены  из localStorage напрямую
+    */
     const auth: { accessToken: string; refreshToken: string } = JSON.parse(
       localStorage.getItem('persist:auth') ?? '{}',
     )
@@ -147,6 +153,11 @@ export const staggeredAuthBaseQuery = retry(
     }
   },
   {
-    maxRetries: 1,
+    /* 
+    по умолчанию при ошибках запрос не будет повторяться. Если надо разрешить повторные запрросы, то надо добавить 
+    `extraOptions: { maxRetries: 1 }` в код самого запроса (mainApi.injectEndpoints) после `query`
+    пример - getRecipeReactions
+    */
+    maxRetries: 0,
   },
 )
