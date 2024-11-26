@@ -1,9 +1,6 @@
-export interface IRecipeContainer {
-  count: number
-  next: string
-  previous: null
-  results: IRecipe[]
-}
+import { Author, ListResponse } from '../common.types'
+
+export type IRecipeContainer = ListResponse<IRecipe>
 
 export interface IRecipe {
   id: number
@@ -27,12 +24,6 @@ export interface IRecipe {
   is_favorite: boolean
 }
 
-export interface Author {
-  id: number
-  username: string
-  avatar: string
-}
-
 export interface IRecipeInitialState {
   recipes: {
     feed: IRecipe
@@ -45,32 +36,14 @@ export interface IRecipeInitialState {
   flag: boolean
 }
 
-export interface IFetchListData {
-  count: number
-  next: string
-  previous: string
-  results: IRecipe[]
-  detail?: string
-}
+export type IFetchListData = ListResponse<IRecipe>
 
 export interface IRecipeWithIngredients extends IRecipe {
   ingredients: any[]
   full_text: string
 }
 
-export interface GetRecipesResponse {
-  count: number
-  next: string
-  previous: null
-  results: IRecipe[]
-}
-
-export interface Author {
-  id: number
-  username: string
-  display_name: string
-  avatar: string
-}
+export type GetRecipesResponse = ListResponse<IRecipe>
 
 export interface IRecipeInitialState {
   recipes: {

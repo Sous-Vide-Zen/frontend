@@ -1,26 +1,16 @@
+import { Author, DataResponse, ListResponse } from '../common.types'
+
 export type SubscribeData = {
-  user: {
-    id: number
-    username: string
-    avatar?: string
-    bio?: string
-  }
+  user: Author
   subscribers_count: number
 }
 
-export type SubscribtionsResponse = {
-  count: number
-  next: string
-  previous: string
-  results: SubscribeData[]
-}
+export type SubscribtionsResponse = ListResponse<SubscribeData>
 
 export type SubscribeRequest = {
   author: string
 }
 
-export type SubscribeResponse = {
-  message?: string
-  detail?: string
-}
-
+export type SubscribeResponse = DataResponse<{
+  message: string
+}>
