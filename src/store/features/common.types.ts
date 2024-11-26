@@ -4,13 +4,15 @@ export type DataResponse<T> =
       detail: string
     }
 
+export type ListResponseSuccess<T> = {
+  count: number
+  next?: string
+  previous?: string
+  results: T[]
+}
+
 export type ListResponse<T> =
-  | {
-      count: number
-      next?: string
-      previous?: string
-      results: T[]
-    }
+  | ListResponseSuccess<T>
   | {
       detail: string
     }

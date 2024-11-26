@@ -4,7 +4,7 @@ import { permanentRedirect } from 'next/navigation'
 import styles from '../mutationRecipe.module.scss'
 import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
 import { getRecipeData } from '@/ssr/api/recipe'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 
 /*
@@ -26,7 +26,7 @@ type Props = {
 }
 
 const RecipePage: FC<Props> = async ({ params }) => {
-  let data: IRecipeWithIngredients | undefined
+  let data: RecipeFull | undefined
 
   try {
     data = await getRecipeData(params.slug)

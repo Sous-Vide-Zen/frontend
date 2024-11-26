@@ -6,7 +6,7 @@ import {
   useLazyGetFavoritesQuery,
 } from '@/store/features/recipes/recipes.actions'
 import { RecipeListResult } from './dispatcher.types'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
+import { RecipeFeed } from '@/store/features/recipes/recipes.types'
 
 export const useFavorites = (
   pathname: string,
@@ -47,7 +47,10 @@ export const useFavorites = (
     status,
     error,
     fetchData: data,
-    recipies: data?.results?.map((e: IRecipe) => ({ ...e, is_favorite: true })),
+    recipies: data?.results?.map((e: RecipeFeed) => ({
+      ...e,
+      is_favorite: true,
+    })),
     loadNextPageRef,
   }
 }

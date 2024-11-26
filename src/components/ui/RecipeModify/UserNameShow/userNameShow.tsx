@@ -1,12 +1,12 @@
 'use client'
 import { FC } from 'react'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import styles from './userNameShow.module.scss'
 import Image from 'next/image'
 import { useData } from '@/hooks/useData'
 
 interface RecipeCardProps {
-  recipe: IRecipeWithIngredients
+  recipe: RecipeFull
 }
 
 const UserNameShow: FC<RecipeCardProps> = ({ recipe }) => {

@@ -3,6 +3,7 @@ import { setupServer } from 'msw/node'
 import { makeStore } from '@/store/store'
 import { BASE_URL } from '@/store/apiQueries'
 import { recipeApi } from './recipes.actions'
+import { RecipeFull } from './recipes.types'
 
 /**
  * нужно для доступности 'window' и пр. внутри тестов
@@ -33,6 +34,53 @@ const mocks = {
   },
   removeFromFavorites: {
     slug: 'test-recipe',
+  },
+  getRecipe: {
+    slug: 'delicious-recipe',
+    response: {
+      id: 1,
+      title: 'Delicious Recipe',
+      slug: 'delicious-recipe',
+      author: {
+        id: 1,
+        username: 'vvv',
+        display_name: 'vvv',
+      },
+      preview_image: 'path/to/image.jpg',
+      ingredients: [
+        {
+          name: 'Water',
+          unit: 'литр',
+          amount: 1,
+        },
+        {
+          name: 'Сахар',
+          unit: 'грамм',
+          amount: 500,
+        },
+      ],
+      full_text: 'Lorem ipsum dolor sit amet...',
+      tag: [
+        {
+          name: 'ужин',
+          slug: 'uzjin',
+        },
+        {
+          name: 'завтрак',
+          slug: 'zavtrak',
+        },
+        {
+          name: 'обед',
+          slug: 'obed',
+        },
+      ],
+      reactions_count: 3,
+      views_count: 1,
+      category: [{ id: 1, name: 'category1', slug: 'category1' }],
+      cooking_time: 30,
+      pub_date: '2022-01-01T00:00:00Z',
+      updated_at: '2022-01-01T00:00:00Z',
+    } satisfies RecipeFull,
   },
 }
 
@@ -84,6 +132,8 @@ describe('recipeApi', () => {
     expect(endpoints.getFavorites).toBeDefined()
     expect(endpoints.addToFavorites).toBeDefined()
     expect(endpoints.removeFromFavorites).toBeDefined()
+    expect(endpoints.getRecipe).toBeDefined()
+    expect(endpoints.saveRecipe).toBeDefined()
   })
 
   it('should fetch recipes', async () => {

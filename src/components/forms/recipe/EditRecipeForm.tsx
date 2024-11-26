@@ -5,12 +5,12 @@ import { useForm } from 'react-hook-form'
 import styles from '../forms.module.scss'
 import { Field, FieldSet, FormInput } from '../items'
 import { Button } from '@/components/ui'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { Loader } from '@/components/ui/Loader/Loader'
 import { useSaveRecipeMutation } from '@/store/features/recipes/recipes.actions'
 
 type Params = {
-  recipeData?: IRecipeWithIngredients
+  recipeData?: RecipeFull
 }
 const EditRecipeForm: FC<Params> = ({ recipeData }) => {
   const [saveRecipe, { data, isLoading, error }] = useSaveRecipeMutation()
@@ -21,11 +21,11 @@ const EditRecipeForm: FC<Params> = ({ recipeData }) => {
     handleSubmit,
     setValue,
     formState: { errors, isDirty, isValid },
-  } = useForm<IRecipeWithIngredients>({
+  } = useForm<RecipeFull>({
     mode: 'onBlur',
   })
 
-  const onSubmit = (formValues: IRecipeWithIngredients) => {
+  const onSubmit = (formValues: RecipeFull) => {
     recipeData?.slug && saveRecipe({ slug: recipeData.slug, data: formValues })
   }
 

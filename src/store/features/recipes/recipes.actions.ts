@@ -4,7 +4,7 @@ import { convertObjectToQueryParams } from '@/helpers/url'
 import {
   IFetchListData,
   IPatchRecipeParams,
-  IRecipeWithIngredients,
+  RecipeFull,
 } from './recipes.types'
 import { REHYDRATE } from 'redux-persist'
 import { mainApi } from '@/store/api'
@@ -245,7 +245,7 @@ export const recipeApi = mainApi.injectEndpoints({
       },
     }),
 
-    getRecipe: builder.query<IRecipeWithIngredients, string>({
+    getRecipe: builder.query<RecipeFull, string>({
       query: (slug) => {
         return {
           url: `recipe/${slug}/`,

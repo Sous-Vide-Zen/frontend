@@ -1,11 +1,11 @@
 import { FC } from 'react'
 
 import styles from './RecipeHash.module.scss'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
+import { RecipeFeed } from '@/store/features/recipes/recipes.types'
 import { Button, Popup } from '@/components/ui'
 
 interface RecipeCardProps {
-  tag: IRecipe['tag']
+  tag: RecipeFeed['tag']
 }
 
 export const RecipeHash: FC<RecipeCardProps> = ({ tag }) => {

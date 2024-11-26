@@ -1,63 +1,45 @@
-import { Author, ListResponse } from '../common.types'
+import { Author, ListResponse, ListResponseSuccess } from '../common.types'
 
-export type IRecipeContainer = ListResponse<IRecipe>
+export type Category = { id: number; name: string; slug: string }
 
-export interface IRecipe {
+export type Ingredient = {
+  name: string
+  unit: string
+  amount: number
+}
+
+interface RecipeCommon {
   id: number
   title: string
   slug: string
-  category: any[]
-  short_text: string
-  preview_image: null
   author: Author
-  pub_date: string
-  tag: {
-    name: string
-    slug: string
-  }[]
+  preview_image?: string
+  tag: { name: string; slug: string }[]
+  category: Category[]
   cooking_time: number
+  pub_date: string
+  reactions_count: number
+}
+
+// для рецептов, получаемых списком в ленте
+export interface RecipeFeed extends RecipeCommon {
+  short_text: string
   comments_count: number
   views_count: number
-  reactions_count: number
-  reactions: any[]
   activity_count: number
   is_favorite: boolean
 }
 
-export interface IRecipeInitialState {
-  recipes: {
-    feed: IRecipe
-    feedActivity: IRecipe
-    feedSubscriptions: IRecipe
-  }
-  isError: any
-
-  isLoading: boolean
-  flag: boolean
-}
-
-export type IFetchListData = ListResponse<IRecipe>
-
-export interface IRecipeWithIngredients extends IRecipe {
-  ingredients: any[]
+export interface RecipeFull extends RecipeCommon {
+  ingredients: Ingredient[]
   full_text: string
+  updated_at: string
+  views_count: number
 }
 
-export type GetRecipesResponse = ListResponse<IRecipe>
-
-export interface IRecipeInitialState {
-  recipes: {
-    feed: IRecipe
-    feedActivity: IRecipe
-    feedSubscriptions: IRecipe
-  }
-  isError: any
-
-  isLoading: boolean
-  flag: boolean
-}
+export type IFetchListData = ListResponseSuccess<RecipeFeed>
 
 export interface IPatchRecipeParams {
   slug: string
-  data: IRecipeWithIngredients
+  data: RecipeFull
 }
