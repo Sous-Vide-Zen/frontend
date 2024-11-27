@@ -3,67 +3,53 @@ import { setupServer } from 'msw/node'
 import { makeStore } from '@/store/store'
 import { BASE_URL } from '@/store/apiQueries'
 import { recipeApi } from './recipes.actions'
+import { ResipeDraftsElem } from './recipes.types'
+import { recipeMocks as mocks } from './recipes.actions.mocks'
 
 /**
  * нужно для доступности 'window' и пр. внутри тестов
  * @vitest-environment jsdom
  */
 
-const { getRecipes, getFavorites, addToFavorites, removeFromFavorites } =
-  recipeApi.endpoints
+const {
+  getRecipe,
+  getRecipeDrafts,
+  createRecipeDraft,
+  updateRecipe,
+  deleteRecipe,
+  publicate,
+} = recipeApi.endpoints
 
 const apiStore = makeStore()
 
-const mocks = {
-  getRecipes: {
-    pathname: 'feed',
-    params: {},
-    result: [],
-  },
-  getFavorites: {
-    pathname: 'recipe/favorites',
-    params: {},
-    result: [],
-  },
-  addToFavorites: {
-    slug: 'test-recipe',
-    result: {
-      detail: 'Рецепт добавлен в избранное.',
-    },
-  },
-  delFromFavorites: {
-    slug: 'test-recipe',
-  },
-}
-
 export const restHandlers = [
-  // getRecipes
-  http.get(`${BASE_URL}${mocks.getRecipes.pathname}`, () => {
-    return HttpResponse.json({
-      data: mocks.getRecipes.result,
-      error: undefined,
-    })
+  // getRecipe
+  http.get(`${BASE_URL}recipe/${mocks.getRecipe.slug}/`, () => {
+    return HttpResponse.json(mocks.getRecipe.response)
   }),
-  // getFavorites
-  http.get(`${BASE_URL}${mocks.getFavorites.pathname}`, () => {
-    return HttpResponse.json({
-      data: mocks.getFavorites.result,
-      error: undefined,
-    })
+  // getRecipeDrafts
+  http.get(`${BASE_URL}recipe/drafts/`, () => {
+    return HttpResponse.json(mocks.getRecipeDrafts)
   }),
-  // addToFavorites
-  http.post(`${BASE_URL}recipe/${mocks.addToFavorites.slug}/favorite`, () => {
-    return new HttpResponse(JSON.stringify(mocks.addToFavorites.result), {
+  // createRecipeDraft
+  http.post(`${BASE_URL}recipe/`, () => {
+    return new HttpResponse(JSON.stringify(mocks.createRecipeDraft), {
       status: 201,
     })
   }),
-  // delFromFavorites
-  http.delete(
-    `${BASE_URL}recipe/${mocks.delFromFavorites.slug}/favorite`,
+  // updateRecipe
+  http.patch(`${BASE_URL}recipe/${mocks.updateRecipe.params.slug}`, () => {
+    return new HttpResponse(JSON.stringify(mocks.updateRecipe.response))
+  }),
+  // deleteRecipe
+  http.delete(`${BASE_URL}recipe/${mocks.deleteRecipe.slug}`, () => {
+    return new HttpResponse(JSON.stringify(mocks.deleteRecipe.response))
+  }),
+  // deleteRecipe
+  http.post(
+    `${BASE_URL}recipe/drafts/${mocks.publicate.params.slug}/publicate`,
     () => {
-      return new HttpResponse(null, {
-        status: 204,
-      })
+      return new HttpResponse(JSON.stringify(mocks.publicate.response))
     },
   ),
 ]
@@ -77,41 +63,68 @@ afterAll(() => server.close())
 afterEach(() => server.resetHandlers())
 
 describe('recipeApi', () => {
-  it('should fetch recipes', async () => {
+  it('should have the correct endpoints', () => {
+    const endpoints = recipeApi.endpoints
+
+    expect(endpoints.getRecipe).toBeDefined()
+    expect(endpoints.getRecipeDrafts).toBeDefined()
+
+    // expect(endpoints.updateRecipe).toBeDefined()
+  })
+
+  it('should fetch recipe', async () => {
     const result = await apiStore.dispatch(
-      getRecipes.initiate({
-        pathname: mocks.getRecipes.pathname,
-        params: mocks.getRecipes.params,
-      }),
+      getRecipe.initiate(mocks.getRecipe.slug),
     )
 
     expect(result.data).toBeDefined()
-    expect(result.error).toBeUndefined()
+    expect(result.data?.slug).toBe(mocks.getRecipe.response.slug)
   })
 
-  it('should fetch favorites', async () => {
-    const result = await apiStore.dispatch(
-      getFavorites.initiate({
-        pathname: mocks.getFavorites.pathname,
-        params: mocks.getFavorites.params,
-      }),
-    )
+  it('should fetch recipe frafts', async () => {
+    const result = await apiStore.dispatch(getRecipeDrafts.initiate())
+
     expect(result.data).toBeDefined()
-    expect(result.error).toBeUndefined()
+    expect(result.data?.length).toBe(2)
+    const data: ResipeDraftsElem = result.data![0]
+    expect(data.id).toBe(mocks.getRecipeDrafts[0]['id'])
   })
 
-  it('should add a recipe to favorites', async () => {
+  it('should create recipe drafts', async () => {
+    const result = await apiStore.dispatch(createRecipeDraft.initiate())
+
+    //@ts-ignore
+    expect(result.data).toBeDefined()
+    //@ts-ignore
+    expect(result.data?.id).toBe(5)
+  })
+
+  it('should update recipe/draft', async () => {
     const result = await apiStore.dispatch(
-      addToFavorites.initiate(mocks.addToFavorites.slug),
+      updateRecipe.initiate(mocks.updateRecipe.params),
     )
+
+    //@ts-ignore
+    expect(result.data).toBeDefined()
+    //@ts-ignore
+    expect(result.data?.id).toBe(11)
+  })
+
+  it('should delete recipe/draft', async () => {
+    const result = await apiStore.dispatch(
+      deleteRecipe.initiate(mocks.deleteRecipe.slug),
+    )
+
     // @ts-ignore
-    expect(result.data.detail).toBe(mocks.addToFavorites.result.detail)
+    expect(result.data.message).toBe(mocks.deleteRecipe.response.message)
   })
 
-  it('should remove a recipe from favorites', async () => {
+  it('should publicate draft', async () => {
     const result = await apiStore.dispatch(
-      removeFromFavorites.initiate(mocks.delFromFavorites.slug),
+      publicate.initiate(mocks.publicate.params),
     )
-    expect(result).toBeDefined()
+
+    // @ts-ignore
+    expect(result.data.message).toBe(mocks.publicate.response.message)
   })
 })

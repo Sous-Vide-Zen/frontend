@@ -48,8 +48,7 @@ const textOptions: RegisterOptions<any> = {
   },
   pattern: {
     value: /^[\A-Za-zА-Яа-яЁё\ \-]+$/i,
-    message:
-      'Введите корректное значение (буквы, "-", " ")',
+    message: 'Введите корректное значение (буквы, "-", " ")',
   },
 }
 

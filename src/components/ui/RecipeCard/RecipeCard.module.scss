@@ -68,12 +68,12 @@ $name-text-max-line: 7;
 }
 
 .preview {
+  container: preview / inline-size;
   position: relative;
   border-radius: 12px;
 
   .notPreview {
     height: 300px;
-    // background: #8b8b8b;
     background-image: url('/img/recipe-card/no-photo.png');
     border: 1px solid #bcbcbc;
     border-radius: 12px;
@@ -113,7 +113,14 @@ $name-text-max-line: 7;
     border-radius: 12px;
     border: none;
     &.withBorder {
-      border: 1px solid #010B00
+      border: 1px solid #010b00;
+    }
+  }
+
+  // правила для рецептов в режиме 3х колонок
+  @container preview (width < 600px) {
+    .notPreview {
+      height: 220px;
     }
   }
 }
@@ -261,4 +268,3 @@ $name-text-max-line: 7;
 .tooltip:hover .tooltiptext {
   visibility: visible;
 }
-

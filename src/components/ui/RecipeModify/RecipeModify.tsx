@@ -1,22 +1,16 @@
 'use client'
 
-import { FC, useState, useEffect } from 'react'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
-import Image from 'next/image'
+import { FC } from 'react'
+
 import styles from './RecipeModify.module.scss'
-import { useData } from '@/hooks/useData'
-import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
+import AddNewRecipe from '@/app/(withSearchBar)/recipe/new/page'
 import UserNameShow from './UserNameShow/userNameShow'
 import IconsAndActions from './IconsAndActions/iconsAndActions'
 import Preview from './Preview/preview'
-import AddNewRecipe from '@/app/(withSearchBar)/recipe/new/page'
 
-interface IRecipeWithIngredients extends IRecipe {
-  ingredients: any[]
-  full_text: string
-}
 interface RecipeCardProps {
-  recipe?: IRecipeWithIngredients
+  recipe?: RecipeFull
 }
 
 const RecipeModify: FC<RecipeCardProps> = ({ recipe }) => {

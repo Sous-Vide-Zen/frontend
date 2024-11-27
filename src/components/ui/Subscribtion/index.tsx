@@ -1,13 +1,9 @@
 import { FC } from 'react'
 import styles from './Subscribtion.module.scss'
+import { Author } from '@/store/features/common.types'
 
 export interface SubscribtionProps {
-  user: {
-    id: number
-    username: string
-    avatar?: string
-    bio?: string
-  }
+  user: Author
   subscribers_count: number
 }
 

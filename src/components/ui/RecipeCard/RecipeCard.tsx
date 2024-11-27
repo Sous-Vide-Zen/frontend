@@ -3,16 +3,16 @@ import Image from 'next/image'
 import cn from 'clsx'
 
 import styles from './RecipeCard.module.scss'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
+import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 import {
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
-} from '@/store/features/recipes/recipes.actions'
+} from '@/store/features/feedAndFavorites/feedAndFavorites.actions'
 import { useData } from '@/hooks/useData'
 import { Reactions, Popup, RecipeHash } from '@/components/ui'
 
 interface RecipeCardProps {
-  recipe: IRecipe
+  recipe: RecipeFeed
   onPreview?: (slug: string) => void
   onRemoveFromFavorites?: (id: number) => void
 }
@@ -176,7 +176,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
         <button
           className={cn(styles.previewTime, {
             [styles.tooltip]: true,
-            [styles.withBorder]: !recipe.preview_image
+            [styles.withBorder]: !recipe.preview_image,
           })}
           onClick={handlerOnTap}
         >

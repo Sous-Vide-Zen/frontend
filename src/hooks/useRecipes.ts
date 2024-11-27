@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react'
 
 import {
-  getRecipesParams,
   useGetRecipesQuery,
   useLazyGetRecipesQuery,
-} from '@/store/features/recipes/recipes.actions'
+  getRecipesParams,
+} from '@/store/features/feedAndFavorites/feedAndFavorites.actions'
 import { getParamObjectFromURL } from '@/helpers/url'
 import { RecipeListDispatcher, RecipeListResult } from './dispatcher.types'
 
@@ -87,6 +87,6 @@ export const useRecipes = (
     fetchData: data,
     recipies: data?.results,
     loadNextPageRef,
-    total: data?.count
+    total: data?.count,
   }
 }

@@ -1,90 +1,54 @@
-export interface IRecipeContainer {
-  count: number
-  next: string
-  previous: null
-  results: IRecipe[]
+import { Author, ListResponse } from '../common.types'
+
+export type Category = { id: number; name: string; slug: string }
+
+export type Ingredient = {
+  name: string
+  unit: string
+  amount: number
 }
 
-export interface IRecipe {
+export interface RecipeCommon {
   id: number
   title: string
   slug: string
-  category: any[]
-  short_text: string
-  preview_image: null
   author: Author
-  pub_date: string
-  tag: {
-    name: string
-    slug: string
-  }[]
+  preview_image?: string
+  tag: { name: string; slug: string }[]
+  category: Category[]
   cooking_time: number
-  comments_count: number
-  views_count: number
+  pub_date: string
   reactions_count: number
-  reactions: any[]
-  activity_count: number
-  is_favorite: boolean
 }
 
-export interface Author {
-  id: number
-  username: string
-  avatar: string
-}
-
-export interface IRecipeInitialState {
-  recipes: {
-    feed: IRecipe
-    feedActivity: IRecipe
-    feedSubscriptions: IRecipe
-  }
-  isError: any
-
-  isLoading: boolean
-  flag: boolean
-}
-
-export interface IFetchListData {
-  count: number
-  next: string
-  previous: string
-  results: IRecipe[]
-  detail?: string
-}
-
-export interface IRecipeWithIngredients extends IRecipe {
-  ingredients: any[]
+export interface RecipeFull extends RecipeCommon {
+  ingredients: Ingredient[]
   full_text: string
+  updated_at: string
+  views_count: number
 }
 
-export interface GetRecipesResponse {
-  count: number
-  next: string
-  previous: null
-  results: IRecipe[]
+export type RecipeUpdate = Pick<
+  RecipeFull,
+  'title' | 'ingredients' | 'full_text' | 'cooking_time'
+> & {
+  preview: string
+  tags: string[]
+  category: number[]
 }
 
-export interface Author {
-  id: number
-  username: string
-  display_name: string
-  avatar: string
-}
-
-export interface IRecipeInitialState {
-  recipes: {
-    feed: IRecipe
-    feedActivity: IRecipe
-    feedSubscriptions: IRecipe
-  }
-  isError: any
-
-  isLoading: boolean
-  flag: boolean
-}
-
-export interface IPatchRecipeParams {
+export interface PatchRecipe {
   slug: string
-  data: IRecipeWithIngredients
+  data: Partial<RecipeUpdate>
+}
+
+export interface PublicateRecipe {
+  slug: string
+  data: Partial<RecipeUpdate> //todo: должен быть со всеми обзательными полями, возможно ошибки в документации
+}
+
+export interface ResipeDraftsElem {
+  id: number
+  draft_title: string
+  slug: string
 }
