@@ -4,9 +4,9 @@ import {
   getRecipesParams,
   useGetFavoritesQuery,
   useLazyGetFavoritesQuery,
-} from '@/store/features/recipes/recipes.actions'
+} from '@/store/features/feedAndFavorites/feedAndFavorites.actions'
 import { RecipeListResult } from './dispatcher.types'
-import { RecipeFeed } from '@/store/features/recipes/recipes.types'
+import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 
 export const useFavorites = (
   pathname: string,

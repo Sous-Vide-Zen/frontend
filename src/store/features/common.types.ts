@@ -24,3 +24,7 @@ export type Author = {
   avatar?: string
   bio?: string
 }
+
+export type RemoveRecipeResponse = DataResponse<{
+  message: string
+}>

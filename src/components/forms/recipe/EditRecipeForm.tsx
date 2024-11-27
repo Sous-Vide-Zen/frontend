@@ -5,15 +5,19 @@ import { useForm } from 'react-hook-form'
 import styles from '../forms.module.scss'
 import { Field, FieldSet, FormInput } from '../items'
 import { Button } from '@/components/ui'
-import { RecipeFull } from '@/store/features/recipes/recipes.types'
+import {
+  RecipeFull,
+  RecipeUpdate,
+} from '@/store/features/recipes/recipes.types'
 import { Loader } from '@/components/ui/Loader/Loader'
-import { useSaveRecipeMutation } from '@/store/features/recipes/recipes.actions'
+import { useUpdateRecipeMutation } from '@/store/features/recipes/recipes.actions'
 
 type Params = {
   recipeData?: RecipeFull
 }
+
 const EditRecipeForm: FC<Params> = ({ recipeData }) => {
-  const [saveRecipe, { data, isLoading, error }] = useSaveRecipeMutation()
+  const [saveRecipe, { data, isLoading, error }] = useUpdateRecipeMutation()
   //@ts-ignore
   const errorText = error?.message
   const {
@@ -21,11 +25,11 @@ const EditRecipeForm: FC<Params> = ({ recipeData }) => {
     handleSubmit,
     setValue,
     formState: { errors, isDirty, isValid },
-  } = useForm<RecipeFull>({
+  } = useForm<Partial<RecipeUpdate>>({
     mode: 'onBlur',
   })
 
-  const onSubmit = (formValues: RecipeFull) => {
+  const onSubmit = (formValues: Partial<RecipeUpdate>) => {
     recipeData?.slug && saveRecipe({ slug: recipeData.slug, data: formValues })
   }
 
@@ -42,7 +46,7 @@ const EditRecipeForm: FC<Params> = ({ recipeData }) => {
               register={register}
               id="title"
               options={{
-                value: recipeData.title,
+                value: recipeData?.title,
                 onChange: (e) => setValue('title', e.target.value),
               }}
             />
@@ -53,7 +57,7 @@ const EditRecipeForm: FC<Params> = ({ recipeData }) => {
               register={register}
               id="full_text"
               options={{
-                value: recipeData.full_text,
+                value: recipeData?.full_text,
                 onChange: (e) => setValue('full_text', e.target.value),
               }}
             />

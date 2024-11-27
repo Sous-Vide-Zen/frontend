@@ -1,7 +1,7 @@
 import { FC } from 'react'
 
 import styles from './RecipeHash.module.scss'
-import { RecipeFeed } from '@/store/features/recipes/recipes.types'
+import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 import { Button, Popup } from '@/components/ui'
 
 interface RecipeCardProps {

@@ -1,4 +1,4 @@
-import { Author, ListResponse, ListResponseSuccess } from '../common.types'
+import { Author, ListResponse } from '../common.types'
 
 export type Category = { id: number; name: string; slug: string }
 
@@ -8,7 +8,7 @@ export type Ingredient = {
   amount: number
 }
 
-interface RecipeCommon {
+export interface RecipeCommon {
   id: number
   title: string
   slug: string
@@ -21,15 +21,6 @@ interface RecipeCommon {
   reactions_count: number
 }
 
-// для рецептов, получаемых списком в ленте
-export interface RecipeFeed extends RecipeCommon {
-  short_text: string
-  comments_count: number
-  views_count: number
-  activity_count: number
-  is_favorite: boolean
-}
-
 export interface RecipeFull extends RecipeCommon {
   ingredients: Ingredient[]
   full_text: string
@@ -37,9 +28,27 @@ export interface RecipeFull extends RecipeCommon {
   views_count: number
 }
 
-export type IFetchListData = ListResponseSuccess<RecipeFeed>
+export type RecipeUpdate = Pick<
+  RecipeFull,
+  'title' | 'ingredients' | 'full_text' | 'cooking_time'
+> & {
+  preview: string
+  tags: string[]
+  category: number[]
+}
 
-export interface IPatchRecipeParams {
+export interface PatchRecipe {
   slug: string
-  data: RecipeFull
+  data: Partial<RecipeUpdate>
+}
+
+export interface PublicateRecipe {
+  slug: string
+  data: Partial<RecipeUpdate> //todo: должен быть со всеми обзательными полями, возможно ошибки в документации
+}
+
+export interface ResipeDraftsElem {
+  id: number
+  draft_title: string
+  slug: string
 }

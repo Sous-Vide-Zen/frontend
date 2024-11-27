@@ -9,14 +9,14 @@ export const subscribeApi = mainApi.injectEndpoints({
     getUserSubscribers: builder.query<SubscribtionsResponse, string>({
       query: (username) => ({ url: `user/${username}/subscribers/` }),
     }),
-    subscribe: builder.query<SubscribeResponse, string>({
+    subscribe: builder.mutation<SubscribeResponse, string>({
       query: (author) => ({
         url: `subscribe/`,
         method: 'POST',
         body: { author },
       }),
     }),
-    unsubscribe: builder.query<SubscribeResponse, string>({
+    unsubscribe: builder.mutation<SubscribeResponse, string>({
       query: (author) => ({
         url: `subscribe/`,
         method: 'DELETE',
@@ -31,6 +31,6 @@ export const {
   useLazyGetUserSubscriptionsQuery,
   useGetUserSubscribersQuery,
   useLazyGetUserSubscribersQuery,
-  useSubscribeQuery,
-  useLazySubscribeQuery
+  useSubscribeMutation,
+  useUnsubscribeMutation
 } = subscribeApi

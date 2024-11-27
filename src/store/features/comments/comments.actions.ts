@@ -11,7 +11,7 @@ export const commentsApi = mainApi.injectEndpoints({
     getRecipeComments: builder.query<RecipeCommentsResponse, number>({
       query: (recipeId) => ({ url: `recipe/${recipeId}/comments/` }),
     }),
-    addRecipeComment: builder.query<
+    addRecipeComment: builder.mutation<
       CreateCommenResponse,
       CreateCommentBody & { recipeId: number }
     >({
@@ -21,7 +21,7 @@ export const commentsApi = mainApi.injectEndpoints({
         body: { text, parent },
       }),
     }),
-    updateRecipeComment: builder.query<
+    updateRecipeComment: builder.mutation<
       CreateCommenResponse,
       CreateCommentBody & { recipeId: number; commentId: number }
     >({
@@ -31,7 +31,7 @@ export const commentsApi = mainApi.injectEndpoints({
         body: { text, parent },
       }),
     }),
-    deleteRecipeComment: builder.query<
+    deleteRecipeComment: builder.mutation<
       RemoveCommentResponse,
       { recipeId: number; commentId: number }
     >({
@@ -46,10 +46,7 @@ export const commentsApi = mainApi.injectEndpoints({
 export const {
   useGetRecipeCommentsQuery,
   useLazyGetRecipeCommentsQuery,
-  useAddRecipeCommentQuery,
-  useLazyAddRecipeCommentQuery,
-  useUpdateRecipeCommentQuery,
-  useLazyUpdateRecipeCommentQuery,
-  useDeleteRecipeCommentQuery,
-  useLazyDeleteRecipeCommentQuery,
+  useAddRecipeCommentMutation,
+  useUpdateRecipeCommentMutation,
+  useDeleteRecipeCommentMutation,
 } = commentsApi

@@ -1,8 +1,6 @@
 import { getRecipesParams } from '@/store/features/recipes/recipes.actions'
-import {
-  IFetchListData,
-  RecipeFeed,
-} from '@/store/features/recipes/recipes.types'
+import { FetchListData } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
+import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 import { QueryStatus } from '@reduxjs/toolkit/query'
 import { MutableRefObject } from 'react'
 
@@ -15,7 +13,7 @@ export type RecipeListResult = {
   isFetching?: boolean
   status?: QueryStatus
   error: any
-  fetchData?: IFetchListData
+  fetchData?: FetchListData
   recipies?: RecipeFeed[]
   loadNextPageRef: MutableRefObject<() => void>
   total?: number
