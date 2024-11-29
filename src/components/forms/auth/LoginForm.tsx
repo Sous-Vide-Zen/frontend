@@ -7,7 +7,7 @@ import { useForm } from 'react-hook-form'
 import styles from '../forms.module.scss'
 import { loginUser } from '@/store/features/auth/auth.slice'
 import { useAppDispatch } from '@/store/hooks'
-import { useLoginMutation } from '@/store/features/auth/auth.actions'
+import { useGetTokensMutation } from '@/store/features/auth/auth.actions'
 import {
   Field,
   FieldSet,
@@ -27,7 +27,7 @@ type FormValues = {
 const LoginForm: FC = () => {
   const dispatch = useAppDispatch()
   const [doLogin, { data, status, isLoading, isError, error }] =
-    useLoginMutation()
+    useGetTokensMutation()
 
   // @ts-ignore
   const errorText = error?.message

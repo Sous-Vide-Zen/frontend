@@ -1,8 +1,9 @@
 import { FC } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import Button from '../Button/Button'
 import axios from 'axios'
+
+import { Button } from '@/components/ui'
 
 const ButtonSocialYandex: FC = () => {
   const url = `${process.env.NEXT_PUBLIC_API_BASE_URL}${process.env.NEXT_PUBLIC_YANDEX_AUTH}`

@@ -28,3 +28,13 @@ export type Author = {
 export type RemoveRecipeResponse = DataResponse<{
   message: string
 }>
+
+export type CurrentUserData = {
+  id: number
+  username: string
+  display_name: string
+  avatar: string
+  is_active: boolean
+  is_stuff: boolean
+  is_admin: boolean
+}

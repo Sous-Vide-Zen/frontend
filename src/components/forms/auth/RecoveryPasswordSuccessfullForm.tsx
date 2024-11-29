@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import styles from './authForms.module.scss'
-import Button from '@/components/ui/Button/Button'
+import { Button } from '@/components/ui'
 
 export default function RecoveryPasswordSuccessfullForm() {
   const router = useRouter()

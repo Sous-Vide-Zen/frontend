@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './notFound.module.scss'
-import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
+import { LinkLikeButton } from '@/components/ui'
 
 export default function NotFound() {
   return (
@@ -20,4 +20,3 @@ export default function NotFound() {
     </div>
   )
 }
-

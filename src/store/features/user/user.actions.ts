@@ -1,5 +1,6 @@
 import { mainApi } from '@/store/api'
-import { CurrentUserData, UserData, UserPatchData } from './user.types'
+import { UserData, UserPatchData } from './user.types'
+import { CurrentUserData } from '../common.types';
 
 export const userApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({

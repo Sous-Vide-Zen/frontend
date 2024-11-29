@@ -4,7 +4,7 @@ import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
 import styles from './authForms.module.scss'
-import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
+import { LinkLikeButton } from '@/components/ui'
 
 export default function UserDataSaveSuccessfullForm() {
   const router = useRouter()

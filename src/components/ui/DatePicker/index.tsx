@@ -18,7 +18,11 @@ interface InputProps {
   https://github.com/arqex/react-datetime
 
 */
-const DatePicker: FC<InputProps> = ({ value, placeholder, onChange }) => {
+export const DatePicker: FC<InputProps> = ({
+  value,
+  placeholder,
+  onChange,
+}) => {
   //todo: попытка реализации текстовой надписи. Но надо переделать на нативный placeholder чтоб не было ошибки с смене неуправляемого режима на упраляемый
   const handleOnFocus = (event: FormEvent<HTMLInputElement>) => {
     event.currentTarget.type = 'date'
@@ -39,5 +43,3 @@ const DatePicker: FC<InputProps> = ({ value, placeholder, onChange }) => {
     </div>
   )
 }
-
-export default DatePicker
