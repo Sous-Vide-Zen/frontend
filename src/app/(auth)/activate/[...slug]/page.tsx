@@ -5,7 +5,7 @@ import { useParams, useRouter } from 'next/navigation'
 
 import styles from './activate.module.scss'
 import { useActivationMutation } from '@/store/features/auth/auth.actions'
-import { ActivationUserData } from '@/store/features/user/user.types'
+import { ActivationUserData } from '@/store/features/auth/auth.types'
 import ActivateSucessForm from '@/components/forms/auth/ActivateSucessForm'
 import AlreadyActivatedForm from '@/components/forms/auth/AlreadyActivatedForm'
 

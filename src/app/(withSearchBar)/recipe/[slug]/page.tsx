@@ -44,7 +44,7 @@ const RecipePage: FC<Props> = async ({ params }) => {
       >
         <RecipeModify recipe={data} />
       </div>
-      <Rightbar />
+      <Rightbar showListViewButtons={false} showSortButtons={false}/>
     </div>
   )
 }

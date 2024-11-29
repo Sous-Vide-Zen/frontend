@@ -1,11 +1,10 @@
-'use client'
 import { FC, useState } from 'react'
-import { RecipeFull } from '@/store/features/recipes/recipes.types'
-import styles from './iconsAndActions.module.scss'
 import Image from 'next/image'
-import Reactions from '@/components/ui/Reactions'
-import Popup from '@/components/ui/Popup/Popup'
 import Link from 'next/link'
+
+import styles from './iconsAndActions.module.scss'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
+import { Reactions, Popup } from '@/components/ui'
 
 interface RecipeCardProps {
   recipe: RecipeFull

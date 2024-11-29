@@ -91,40 +91,32 @@ describe('recipeApi', () => {
   })
 
   it('should create recipe drafts', async () => {
-    const result = await apiStore.dispatch(createRecipeDraft.initiate())
+    const result = await apiStore.dispatch<any>(createRecipeDraft.initiate())
 
-    //@ts-ignore
-    expect(result.data).toBeDefined()
-    //@ts-ignore
     expect(result.data?.id).toBe(5)
   })
 
   it('should update recipe/draft', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       updateRecipe.initiate(mocks.updateRecipe.params),
     )
 
-    //@ts-ignore
-    expect(result.data).toBeDefined()
-    //@ts-ignore
     expect(result.data?.id).toBe(11)
   })
 
   it('should delete recipe/draft', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       deleteRecipe.initiate(mocks.deleteRecipe.slug),
     )
 
-    // @ts-ignore
     expect(result.data.message).toBe(mocks.deleteRecipe.response.message)
   })
 
   it('should publicate draft', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       publicate.initiate(mocks.publicate.params),
     )
 
-    // @ts-ignore
-    expect(result.data.message).toBe(mocks.publicate.response.message)
+    expect(result.data.slug).toBe(mocks.publicate.response.slug)
   })
 })
