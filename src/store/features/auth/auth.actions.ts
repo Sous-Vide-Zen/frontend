@@ -1,21 +1,21 @@
+import { mainApi } from '@/store/api'
 import {
-  RegisterUserResponse,
-  RegisterUserForm,
   LoginUserResponse,
   LoginUserForm,
-  CurrentUserData,
-  ActivationUserData,
+  RegisterUserResponse,
+  RegisterUserForm,
   UserEmailData,
   UserNewEmailData,
   ResetPasswordData,
   SetEmailData,
   SetPasswordData,
-} from '@/store/features/user/user.types'
-import { mainApi } from '@/store/api'
+  ActivationUserData,
+  CurrentUserData
+} from './auth.types'
 
 export const authApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    login: builder.mutation<LoginUserResponse, LoginUserForm>({
+    getTokens: builder.mutation<LoginUserResponse, LoginUserForm>({
       query: (body) => {
         return {
           url: 'auth/jwt/create/',
@@ -24,15 +24,20 @@ export const authApi = mainApi.injectEndpoints({
         }
       },
     }),
+
+    // "auth/jwt/refresh" используется напрямую в apiQueries.ts
+
     verifyToken: builder.mutation<string, string>({
-      query: (body) => {
+      query: (token) => {
         return {
           url: 'auth/jwt/verify/',
           method: 'POST',
-          body,
+          body: { token },
         }
       },
     }),
+
+    // В документации 'auth/users' API помещены в раздел "2. Пользователь"
     getCurentUserData: builder.query<CurrentUserData, void>({
       query: () => ({ url: 'auth/users/me/' }),
     }),
@@ -124,7 +129,7 @@ export const authApi = mainApi.injectEndpoints({
 })
 
 export const {
-  useLoginMutation,
+  useGetTokensMutation,
   useVerifyTokenMutation,
   useGetCurentUserDataQuery,
   useRegisterMutation,

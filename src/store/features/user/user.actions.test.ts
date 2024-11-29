@@ -14,6 +14,8 @@ const { getUsers, getUserData, patchUserData, deleteUser } = userApi.endpoints
 
 const apiStore = makeStore()
 
+const prefix = `${BASE_URL}user/`
+
 export const restHandlers = [
   // getUsers
   http.get(`${BASE_URL}users/`, () => {
@@ -23,21 +25,15 @@ export const restHandlers = [
     })
   }),
   // getUserData
-  http.get(`${BASE_URL}user/${mocks.getUserData.username}`, () => {
-    return HttpResponse.json({
-      data: mocks.getUserData.result,
-      error: undefined,
-    })
+  http.get(`${prefix}${mocks.getUserData.username}`, () => {
+    return HttpResponse.json(mocks.getUserData.result)
   }),
   // patchUserData
-  http.patch(`${BASE_URL}user/${mocks.patchUserData.username}`, () => {
-    return HttpResponse.json({
-      data: mocks.patchUserData.result,
-      error: undefined,
-    })
+  http.patch(`${prefix}${mocks.patchUserData.username}`, () => {
+    return HttpResponse.json(mocks.patchUserData.result)
   }),
   // deleteUser
-  http.delete(`${BASE_URL}user/${mocks.deleteUser.username}`, () => {
+  http.delete(`${prefix}${mocks.deleteUser.username}`, () => {
     return new HttpResponse(null, {
       status: 204,
     })
@@ -63,8 +59,7 @@ describe('userApi', () => {
   })
 
   it('should fetch users', async () => {
-    const result = await apiStore.dispatch(getUsers.initiate())
-    // @ts-ignore
+    const result = await apiStore.dispatch<any>(getUsers.initiate())
     const { data } = result.data
 
     expect(data).toBeDefined()
@@ -72,33 +67,27 @@ describe('userApi', () => {
   })
 
   it('should fetch user data', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       getUserData.initiate(mocks.getUserData.username),
     )
-    // @ts-ignore
-    const { data } = result.data
-    expect(data).toBeDefined()
-    expect(data.username).toBe('user1')
+    expect(result.data?.username).toBe(mocks.getUserData.result.username)
   })
 
   it('should patch user data', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       patchUserData.initiate({
         userName: mocks.patchUserData.username,
         body: mocks.patchUserData.reqquestBody,
       }),
     )
-    // @ts-ignore
-    const { data } = result.data
-    expect(data).toBeDefined()
-    expect(data.phone).toBe('+79261112233')
+    expect(result.data.phone).toBe(mocks.patchUserData.result.phone)
   })
 
   it('should delete user', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       deleteUser.initiate(mocks.deleteUser.username),
     )
-    // @ts-ignore
-    expect(result.data).toBeNull() // Add your specific assertions here
+
+    expect(result.data).toBeNull()
   })
 })
