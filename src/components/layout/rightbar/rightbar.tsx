@@ -134,8 +134,18 @@ export default function Rightbar() {
           Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
           оценивать рецепты других пользователей.
         </p>
-        <LinkLikeButton href="/login">Вход</LinkLikeButton>
-        <LinkLikeButton href="/registration">Регистрация</LinkLikeButton>
+        <div className={styles.modal_btns}>
+          <div className={styles.modal_login}>
+            <LinkLikeButton color="primary" size="big" href="/login">
+              Вход
+            </LinkLikeButton>
+          </div>
+          <div className={styles.modal_registration}>
+            <LinkLikeButton color="secondary" size="big" href="/registration">
+              Регистрация
+            </LinkLikeButton>
+          </div>
+        </div>
       </Modal>
     </div>
   )
