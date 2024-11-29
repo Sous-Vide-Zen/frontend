@@ -5,8 +5,7 @@ import { FC, useEffect, useState } from 'react'
 import styles from './UserCard.module.scss'
 import { useLazyGetUserDataQuery } from '@/store/features/user/user.actions'
 import ProfileAvatar from '@/components/ui/ProfileAvatar/ProfileAvatar'
-import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
-import { Skeleton } from '@/components/ui/Skeletons/skeletons'
+import { Skeleton, LinkLikeButton } from '@/components/ui'
 import { COUNTRIES } from '@/helpers/countries'
 
 type Props = {

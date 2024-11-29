@@ -268,5 +268,3 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     </div>
   )
 }
-
-export default RecipeCard

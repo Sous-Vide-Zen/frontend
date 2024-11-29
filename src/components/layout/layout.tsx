@@ -4,7 +4,7 @@ import { FC, ReactNode } from 'react'
 import styles from './layout.module.scss'
 import Header from '@/components/layout/header/header'
 import Sidebar from '@/components/layout/sidebar/sidebar'
-import ButtonBack from '@/components/ui/ButtonBack/ButtonBack'
+import { ButtonBack } from '@/components/ui'
 
 type Props = {
   children: ReactNode

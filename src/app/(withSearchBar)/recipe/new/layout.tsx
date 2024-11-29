@@ -1,6 +1,6 @@
 import { FC, PropsWithChildren, Suspense } from 'react'
 import styles from '../recipe.module.scss'
-import { RecipeSkeleton } from '@/components/ui/Skeletons/skeletons'
+import { RecipeSkeleton } from '@/components/ui/Skeletons'
 
 const RecipeLayout: FC<PropsWithChildren> = ({ children }) => {
   return (

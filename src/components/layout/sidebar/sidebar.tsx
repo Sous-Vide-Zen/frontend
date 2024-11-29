@@ -7,9 +7,7 @@ import { usePathname } from 'next/navigation'
 import styles from './sidebar.module.scss'
 import { useAppSelector } from '@/store/hooks'
 import { useAuth } from '@/hooks/useAuth'
-import { LinkItem } from '@/components/ui/NavLink/NavLink'
-import { NavLinkSkeleton } from '@/components/ui/Skeletons/skeletons'
-import LinkLikeButton from '@/components/ui/LinkLikeButton/LinkLikeButton'
+import { LinkItem, NavLinkSkeleton, LinkLikeButton } from '@/components/ui'
 
 type MenuItem = LinkItem & {
   path: string

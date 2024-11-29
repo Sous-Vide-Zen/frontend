@@ -1,5 +1,3 @@
-'use client'
-
 import { useRouter } from 'next/navigation'
 import styles from './ButtonBack.module.scss'
 import { FC } from 'react'
@@ -13,5 +11,3 @@ export const ButtonBack: FC = () => {
     </button>
   )
 }
-
-export default ButtonBack

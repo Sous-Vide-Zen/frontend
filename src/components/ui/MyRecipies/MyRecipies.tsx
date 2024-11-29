@@ -11,8 +11,7 @@ import {
 import { setMyRecipiesCount } from '@/store/features/counters/counters.slice'
 import { useRecipes } from '@/hooks/useRecipes'
 import RecipeList from '@/components/ui/RecipeList/RecipeList'
-import Button from '@/components/ui/Button/Button'
-import DatePicker from '@/components/ui/DatePicker/DatePicker'
+import { Button, DatePicker } from '@/components/ui'
 
 type MyRecipiesProps = {
   username?: string

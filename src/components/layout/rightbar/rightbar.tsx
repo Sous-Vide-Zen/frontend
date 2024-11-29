@@ -8,11 +8,10 @@ import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
-import { Button, LinkLikeButton } from '@/components/ui'
+import { Button, LinkLikeButton, Modal } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
-import { Modal } from '@/components/ui/Modal'
 
 export default function Rightbar() {
   const dispatch = useAppDispatch()
