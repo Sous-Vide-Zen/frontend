@@ -45,18 +45,20 @@ const mocks = {
   },
 }
 
+const apiPath = process.env.NEXT_PUBLIC_API_BASE_URL
+
 export const Default: Story = {
   args: {},
   parameters: {
     msw: {
       handlers: [
-        http.get('http://localhost:8000/api/v1/auth/users/me/', () => {
+        http.get(`${apiPath}auth/users/me/`, () => {
           return HttpResponse.json(mocks.me)
         }),
-        http.get(`http://localhost:8000/api/v1/user/${name}/`, () => {
+        http.get(`${apiPath}user/${name}/`, () => {
           return HttpResponse.json(mocks.data)
         }),
-        http.patch(`http://localhost:8000/api/v1/user/${name}/`, () => {
+        http.patch(`${apiPath}user/${name}/`, () => {
           return new HttpResponse(null)
         }),
       ],
