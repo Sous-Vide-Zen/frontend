@@ -40,7 +40,7 @@ const LoginForm: FC = () => {
   })
 
   useEffect(() => {
-    if (status === 'fulfilled') {
+    if (status === 'fulfilled' && data) {
       dispatch(loginUser(data))
     }
   }, [data, dispatch, status])

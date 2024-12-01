@@ -47,7 +47,7 @@ const RecipeList: FC<Props> = ({
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
     // хранит ссылку на обсервер, чтоб потом отписаться при удалении компонента
-    let observerRefValue = null
+    let observerRefValue: Element | null = null
 
     // здесь отслеживается момент достижения скролом элемента с loaderRef
     const observer = new IntersectionObserver((entries) => {

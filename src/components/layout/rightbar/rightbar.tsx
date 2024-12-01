@@ -1,7 +1,7 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
@@ -13,7 +13,15 @@ import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
 
-export default function Rightbar() {
+type Props = {
+  showListViewButtons?: boolean
+  showSortButtons?: boolean
+}
+
+const Rightbar: FC<Props> = ({
+  showListViewButtons = true,
+  showSortButtons = true,
+}) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
   const { sort, filter } = useAppSelector((state) => state.userSettings)
@@ -84,45 +92,47 @@ export default function Rightbar() {
         </Button>
       </div>
 
-      <ListViewChanger />
+      {showListViewButtons && <ListViewChanger />}
 
-      <div className={styles.sort}>
-        <h3>Сортировка</h3>
-        <div>
-          <Button
-            color="secondary"
-            size="medium"
-            pressed={sort === 'top'}
-            onClick={() => {
-              if (sort === 'top') return
-              dispatch(setSortMode('top'))
-              changeSearchParams('sort', 'top')
-            }}
-          >
-            Популярное
-          </Button>
-          <Button
-            color="secondary"
-            size="medium"
-            pressed={sort === 'default'}
-            onClick={() => {
-              if (sort === 'default') return
-              dispatch(setSortMode('default'))
-              changeSearchParams('sort', 'default')
-            }}
-          >
-            По времени
-          </Button>
-          <Button
-            color="secondary"
-            size="medium"
-            pressed={!!filter}
-            onClick={handleFilterBySubscribe}
-          >
-            По подпискам
-          </Button>
+      {showSortButtons && (
+        <div className={styles.sort}>
+          <h3>Сортировка</h3>
+          <div>
+            <Button
+              color="secondary"
+              size="medium"
+              pressed={sort === 'top'}
+              onClick={() => {
+                if (sort === 'top') return
+                dispatch(setSortMode('top'))
+                changeSearchParams('sort', 'top')
+              }}
+            >
+              Популярное
+            </Button>
+            <Button
+              color="secondary"
+              size="medium"
+              pressed={sort === 'default'}
+              onClick={() => {
+                if (sort === 'default') return
+                dispatch(setSortMode('default'))
+                changeSearchParams('sort', 'default')
+              }}
+            >
+              По времени
+            </Button>
+            <Button
+              color="secondary"
+              size="medium"
+              pressed={!!filter}
+              onClick={handleFilterBySubscribe}
+            >
+              По подпискам
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <DayRecipe />
       <TopAuthor />
@@ -139,3 +149,5 @@ export default function Rightbar() {
     </div>
   )
 }
+
+export default Rightbar

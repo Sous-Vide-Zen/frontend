@@ -110,10 +110,10 @@ describe('recipeApi', () => {
   })
 
   it('should add a recipe to favorites', async () => {
-    const result = await apiStore.dispatch(
+    const result = await apiStore.dispatch<any>(
       addToFavorites.initiate(mocks.addToFavorites.slug),
     )
-    // @ts-ignore
+
     expect(result.data.detail).toBe(mocks.addToFavorites.result.detail)
   })
 

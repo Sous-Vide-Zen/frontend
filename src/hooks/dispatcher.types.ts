@@ -1,4 +1,4 @@
-import { getRecipesParams } from '@/store/features/recipes/recipes.actions'
+import { getRecipesParams } from '@/store/features/feedAndFavorites/feedAndFavorites.actions'
 import { FetchListData } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 import { QueryStatus } from '@reduxjs/toolkit/query'
