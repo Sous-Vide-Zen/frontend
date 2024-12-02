@@ -9,8 +9,7 @@ import { Mutex } from 'async-mutex'
 
 import { clearTokens, setAccessToken } from '@/store/features/auth/auth.slice'
 
-export const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 // при 401 ошибках только с таким текстом будет обновляться access_token
 export const ignore401ErrorMessages = [

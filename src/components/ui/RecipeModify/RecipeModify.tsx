@@ -8,6 +8,7 @@ import AddNewRecipe from '@/app/(withSearchBar)/recipe/new/page'
 import UserNameShow from './UserNameShow/userNameShow'
 import IconsAndActions from './IconsAndActions/iconsAndActions'
 import Preview from './Preview/preview'
+import RecipeBody from './RecipeBody/RecipeBody'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -25,7 +26,7 @@ const RecipeModify: FC<RecipeCardProps> = ({ recipe }) => {
         <IconsAndActions recipe={recipe} />
         {/* photo of the dishes that you need to add an icon in the lower left corner */}
         <Preview recipe={recipe} />
-        <AddNewRecipe recipe={recipe} notShowProps={true} />
+        <RecipeBody recipe={recipe} notShowProps={true} />
         {/* </div> */}
       </div>
     )

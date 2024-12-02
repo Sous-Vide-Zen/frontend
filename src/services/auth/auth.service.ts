@@ -13,8 +13,7 @@ const setAcessToken = (token: string) => {}
 const delAcessToken = () => {}
 const delRefreshToken = () => {}
 
-export const BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL ?? 'http://127.0.0.1:8000/api/v1/'
+export const BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL
 
 export const instanceAxios = axios.create({
   baseURL: BASE_URL,
