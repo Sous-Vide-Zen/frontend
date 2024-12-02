@@ -8,10 +8,11 @@ import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
-import { Button, LinkLikeButton, Modal } from '@/components/ui'
+import { Button, LinkLikeButton } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
+import { Modal } from '@/components/ui/Modal'
 
 type Props = {
   showListViewButtons?: boolean
@@ -143,8 +144,19 @@ const Rightbar: FC<Props> = ({
           Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
           оценивать рецепты других пользователей.
         </p>
-        <LinkLikeButton href="/login">Вход</LinkLikeButton>
-        <LinkLikeButton href="/registration">Регистрация</LinkLikeButton>
+        <div className={styles.modal_btns}>
+          <div className={styles.modal_login}>
+            <LinkLikeButton color="primary" size="big" href="/login">
+              Вход
+            </LinkLikeButton>
+          </div>
+          <div className={styles.modal_registration}>
+            <LinkLikeButton color="secondary" size="big" href="/registration">
+              Регистрация
+            </LinkLikeButton>
+          </div>
+        </div>
+        <div />
       </Modal>
     </div>
   )

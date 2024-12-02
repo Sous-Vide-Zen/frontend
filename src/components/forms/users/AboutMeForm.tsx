@@ -134,7 +134,7 @@ const AboutMeForm: FC<Props> = ({}) => {
         userName: currentUserData?.username ?? '',
         body: {
           ...dataFromInput,
-          phone: filteredPhone.length ? `+${filteredPhone}` : '' || '',
+          phone: filteredPhone.length ? `+${filteredPhone}` : '',
         },
       })
       setFormChanged(false)
