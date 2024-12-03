@@ -31,8 +31,8 @@ const Preview: FC<RecipeCardProps> = ({ recipe }) => {
           <Image
             src="/img/recipe-card/link.png"
             alt="save"
-            width={28}
-            height={28}
+            width={40}
+            height={40}
             draggable={false}
           />
         </button>
@@ -40,8 +40,8 @@ const Preview: FC<RecipeCardProps> = ({ recipe }) => {
           <Image
             src="/img/recipe-card/printer.png"
             alt="printer"
-            width={26}
-            height={26}
+            width={40}
+            height={40}
             draggable={false}
           />
         </button>

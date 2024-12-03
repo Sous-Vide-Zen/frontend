@@ -24,7 +24,7 @@ const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {
         <div className={styles.footerLeft}>
           <button>
             <Image
-              src="/img/recipe-card/views.svg"
+              src="/img/recipe-card/viewsLight2.png"
               alt="views"
               width={24}
               height={24}
@@ -36,7 +36,7 @@ const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {
             Content={() => (
               <button className={styles.like}>
                 <Image
-                  src="/img/recipe-card/like.svg"
+                  src="/img/recipe-card/heartSuit.png"
                   alt="like button"
                   width={24}
                   height={24}
@@ -49,7 +49,7 @@ const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {
           />
           <button>
             <Image
-              src="/img/recipe-card/share.svg"
+              src="/img/recipe-card/shareForward.png"
               alt="share button"
               width={24}
               height={24}

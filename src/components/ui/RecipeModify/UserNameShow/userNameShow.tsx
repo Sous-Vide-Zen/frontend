@@ -24,8 +24,8 @@ const UserNameShow: FC<RecipeCardProps> = ({ recipe }) => {
         <Image
           src="/img/recipe-card/profile.svg"
           alt="avatar"
-          width={30}
-          height={30}
+          width={80}
+          height={80}
           draggable={false}
         />
         <p>{recipe.author.username}</p>
