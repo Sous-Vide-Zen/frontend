@@ -38,7 +38,7 @@
     cursor: pointer;
 
     * {
-      fill: #bcbcbc;
+      fill: var(--gray-element);
     }
   }
 }

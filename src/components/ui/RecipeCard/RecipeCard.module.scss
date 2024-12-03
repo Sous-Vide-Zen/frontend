@@ -58,7 +58,7 @@ $name-text-max-line: 7;
     .notPreview {
       height: 300px;
       background-image: url('/img/recipe-card/no-photo.png');
-      border: 1px solid #bcbcbc;
+      border: 1px solid var(--gray-element);
       border-radius: 12px;
       // текст в центре
       color: #010b00;
