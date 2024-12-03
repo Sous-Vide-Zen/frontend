@@ -13,14 +13,14 @@ export default function Header({ isSearch }: { isSearch: boolean | undefined }) 
             <div className="container">
                 <div className={styles.logo}>
                     <Link href="/">
-                        <Image src='/img/logo.png' alt='logo' draggable={false} width={94} height={52} priority={true} />
+                        <Image src='/img/logo.svg' alt='logo' draggable={false} width={94} height={52} priority={true} />
                     </Link>
                 </div>
                 {isSearch &&
                     <>
                         <div className={styles.inputContainer}>
                             <Image
-                                src="/img/search.png"
+                                src="/img/search.svg"
                                 width={24}
                                 height={24}
                                 alt="search"

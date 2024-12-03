@@ -39,7 +39,24 @@
   height: 22px;
 }
 
-.recipe {
+.recipeCard {
   height: 50vh;
   width: 100%;
+}
+.recipe {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+
+  div:first-child {
+    padding: 16px;
+    width: 100%;
+    height: 100vh;
+  }
+
+  div:last-child {
+    flex: 1 0 216px;
+    height: 100vh;
+  }
 }

@@ -1,11 +1,11 @@
 import { FC, PropsWithChildren, Suspense } from 'react'
 import styles from '../recipe.module.scss'
-import { RecipeSkeleton } from '@/components/ui/Skeletons'
+import { RecipeSkeletonWithRightbar } from '@/components/ui/Skeletons'
 
 const RecipeLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className={styles.container}>
-      <Suspense fallback={<RecipeSkeleton />}>{children}</Suspense>
+      <Suspense fallback={<RecipeSkeletonWithRightbar />}>{children}</Suspense>
     </div>
   )
 }
