@@ -3,18 +3,16 @@ import Image from 'next/image'
 import cn from 'clsx'
 
 import styles from './RecipeCard.module.scss'
-import { IRecipe } from '@/store/features/recipes/recipes.types'
+import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
 import {
   useAddToFavoritesMutation,
   useRemoveFromFavoritesMutation,
-} from '@/store/features/recipes/recipes.actions'
+} from '@/store/features/feedAndFavorites/feedAndFavorites.actions'
 import { useData } from '@/hooks/useData'
-import Popup from '@/components/ui/Popup/Popup'
-import Button from '@/components/ui/Button/Button'
-import Reactions from '@/components/ui/Reactions/Reactions'
+import { Reactions, Popup, RecipeHash } from '@/components/ui'
 
 interface RecipeCardProps {
-  recipe: IRecipe
+  recipe: RecipeFeed
   onPreview?: (slug: string) => void
   onRemoveFromFavorites?: (id: number) => void
 }
@@ -25,7 +23,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   onRemoveFromFavorites,
 }) => {
   const { fancyDate } = useData(recipe.pub_date)
-  const [udpateFavorite, setUpdateFavorite] = useState<boolean>(false)
+  const [updateFavorite, setUpdateFavorite] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
   const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
   const [iLike, setILike] = useState(false)
@@ -65,50 +63,57 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     onPreview && onPreview(recipe.slug)
   }
 
-  // Вычисляем часы и минуты
+  //Вычисляем часы и минуты приготовления
   const cookingTime = recipe.cooking_time || 0
   const hours = Math.floor(cookingTime / 60)
   const minutes = cookingTime % 60
 
-  const hashLength =
-    recipe.tag.length * 2 +
-    recipe.tag.reduce((len, e) => {
-      return len + e.name.length
-    }, 0)
+  const formatNumber = (num: number): string => {
+    return num > 0 ? num.toString() : ''
+  }
 
-  const Hash = () => (
-    <div className={styles.hash}>
-      <div className={styles.crop}>
-        {recipe.tag.map((e: { name: string }) => (
-          <span key={e.name}>{`#${e.name}`}</span>
-        ))}
-      </div>
-      {hashLength > 90 && (
-        <Popup
-          tooltipStyles={{
-            maxWidth: '350px',
-          }}
-          Content={() => (
-            <Button color="clear" size="small">
-              Ещё
-            </Button>
-          )}
-          Tooltip={() => 'todo todo todo'}
-        />
-      )}
-    </div>
-  )
+  const formatCookingTime = () => {
+    const hourLabel =
+      hours === 1 || hours === 21
+        ? 'час'
+        : (hours >= 2 && hours <= 4) || (hours >= 22 && hours <= 24)
+          ? 'часа'
+          : 'часов'
+
+    const minuteLabel =
+      minutes === 1 || (minutes % 10 === 1 && minutes % 100 !== 11)
+        ? 'минута'
+        : (minutes >= 2 && minutes <= 4) ||
+            (minutes % 10 >= 2 &&
+              minutes % 10 <= 4 &&
+              (minutes % 100 < 10 || minutes % 100 >= 20))
+          ? 'минуты'
+          : 'минут'
+
+    const hourPart = formatNumber(hours)
+    const minutePart = formatNumber(minutes)
+
+    let result = ''
+
+    if (hourPart) {
+      result += `${hourPart} ${hourLabel}`
+    }
+
+    if (minutePart) {
+      if (result) {
+        result += ' '
+      }
+      result += `${minutePart} ${minuteLabel}`
+    }
+
+    return result || '0 минут'
+  }
 
   return (
     <div className={styles.recipe}>
       <div className={styles.user}>
         <div className={styles.userWrapper}>
           <div className={styles.userLeft}>
-            {/*проверка на аватарку*/}
-            {/*{recipe?.author?.avatar ?*/}
-            {/*    <Image src={recipe.author.avatar} alt='avatar' width={30} height={30} draggable={false}/> :*/}
-            {/*    <Image src='/img/recipe-card/profile.png' alt='avatar' width={30} height={30}*/}
-            {/*           draggable={false}/>}*/}
             <Image
               src="/img/recipe-card/profile.svg"
               alt={`avatar ${recipe.id}`}
@@ -133,22 +138,23 @@ export const RecipeCard: FC<RecipeCardProps> = ({
             draggable={false}
           />
         </button>
-        <Image
-          src={recipe.preview_image || '/img/recipe-card/empty-recipe.svg'}
-          height={300}
-          width={768}
-          alt={`recipe image ${recipe.id}`}
-          draggable={false}
-          className={cn(styles.notPreview, {
-            recipePreviewImg: true,
-          })}
-        />
+        {recipe.preview_image ? (
+          <Image
+            src={recipe.preview_image}
+            height={300}
+            alt="recipe image"
+            draggable={false}
+            className={styles.notPreview}
+          />
+        ) : (
+          <div className={styles.notPreview}>Фото отсутствует</div>
+        )}
         <button
           className={styles.previewSave}
           onClick={changeIsFavoriteHandler}
-          disabled={udpateFavorite}
+          disabled={updateFavorite}
         >
-          {udpateFavorite ? (
+          {updateFavorite ? (
             <Image
               src="/img/loader.svg"
               alt="loader"
@@ -170,30 +176,19 @@ export const RecipeCard: FC<RecipeCardProps> = ({
         <button
           className={cn(styles.previewTime, {
             [styles.tooltip]: true,
+            [styles.withBorder]: !recipe.preview_image,
           })}
           onClick={handlerOnTap}
         >
-          {hours > 0
-            ? `${hours} ${hours === 1 || hours === 21 ? 'час' : (hours >= 2 && hours <= 4) || (hours >= 22 && hours <= 24) ? 'часа' : 'часов'} и ${minutes} ${minutes === 1 ? 'минута' : minutes >= 2 && minutes <= 4 ? 'минуты' : 'минут'}`
-            : `${minutes} ${minutes === 1 || (minutes % 10 === 1 && minutes % 100 !== 11) ? 'минута' : (minutes >= 2 && minutes <= 4) || (minutes % 10 >= 2 && minutes % 10 <= 4 && (minutes % 100 < 10 || minutes % 100 >= 20)) ? 'минуты' : 'минут'}`}
+          {formatCookingTime()}
           <span
             className={cn(styles.tooltiptext, {
               [styles.tooltipTop]: true,
             })}
           >
-            Hажмите для предварительного просмотра
+            Нажмите для предварительного просмотра
           </span>
         </button>
-        {/* <Popup
-          Content={() => (
-            <button className={cn(styles.previewTime,
-              'tooltip': true
-            )} onClick={handlerOnTap}>
-              {`${recipe.cooking_time} мин.`}
-            </button>
-          )}
-          Tooltip={() => <div>нажмите для предварительного просмотра</div>}
-        /> */}
       </div>
 
       <div className={styles.bottom}>
@@ -202,8 +197,9 @@ export const RecipeCard: FC<RecipeCardProps> = ({
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>
-
-          <Hash />
+          <div className={styles.hash}>
+            <RecipeHash tag={recipe.tag} />
+          </div>
         </div>
 
         <div className={styles.footer}>
@@ -252,7 +248,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
                 height={24}
                 draggable={false}
               />
-              0{/*тут должно быть количество репостов*/}
+              0{/* здесь должно быть количество репостов */}
             </button>
           </div>
           <div className={styles.footerRight}>
@@ -272,5 +268,3 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     </div>
   )
 }
-
-export default RecipeCard

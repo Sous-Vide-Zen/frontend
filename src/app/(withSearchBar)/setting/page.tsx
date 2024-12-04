@@ -1,7 +1,7 @@
 'use client'
 
 import styles from './setting.module.scss'
-import Button from '@/components/ui/Button/Button'
+import { Button } from '@/components/ui'
 import { useState } from 'react'
 
 export default function ProfilePage() {

@@ -1,10 +1,9 @@
-'use client'
-
 import { FC } from 'react'
-import styles from './NavLink.module.scss'
 import cn from 'clsx'
 import Image from 'next/image'
 import Link from 'next/link'
+
+import styles from './NavLink.module.scss'
 
 export type LinkItem = {
   text: string
@@ -42,5 +41,3 @@ export const NavLink: FC<Props> = ({
     </>
   )
 }
-
-export default NavLink

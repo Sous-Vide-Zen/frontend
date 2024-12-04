@@ -1,10 +1,10 @@
 import { FC } from 'react'
-import Link from 'next/link'
 import { permanentRedirect } from 'next/navigation'
 
+import styles from '../mutationRecipe.module.scss'
 import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
 import { getRecipeData } from '@/ssr/api/recipe'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 
 /*
@@ -26,7 +26,7 @@ type Props = {
 }
 
 const RecipePage: FC<Props> = async ({ params }) => {
-  let data: IRecipeWithIngredients | undefined
+  let data: RecipeFull | undefined
 
   try {
     data = await getRecipeData(params.slug)
@@ -37,11 +37,15 @@ const RecipePage: FC<Props> = async ({ params }) => {
   if (!data) permanentRedirect('/error404')
 
   return (
-    <>
-      {/* <Link href={`/recipe/edit/${params.slug}`}>Изменить</Link> */}
-      <RecipeModify recipe={data} />
-      <Rightbar />
-    </>
+    <div className={styles.container}>
+      <div
+        className={`${styles.wrapper} scroll scroll--left scroll__thin`}
+        id="wrapper"
+      >
+        <RecipeModify recipe={data} />
+      </div>
+      <Rightbar showListViewButtons={false} showSortButtons={false}/>
+    </div>
   )
 }
 

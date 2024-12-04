@@ -1,22 +1,31 @@
 'use client'
 
 import Image from 'next/image'
-import { useCallback, useEffect, useState } from 'react'
+import { FC, useCallback, useEffect, useState } from 'react'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
-import { Button } from '@/components/ui'
+import { Button, LinkLikeButton } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
+import { Modal } from '@/components/ui/Modal'
 
-export default function Rightbar() {
+type Props = {
+  showListViewButtons?: boolean
+  showSortButtons?: boolean
+}
+
+const Rightbar: FC<Props> = ({
+  showListViewButtons = true,
+  showSortButtons = true,
+}) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
+  const { sort, filter } = useAppSelector((state) => state.userSettings)
   const { isAuth } = useAuth()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -60,8 +69,7 @@ export default function Rightbar() {
       dispatch(setFilterMode(what))
       changeSearchParams('filter', what)
     } else {
-      alert('Для доступа к этой функции надо авторизоваться')
-      // setIsModalOpen(true)
+      setIsModalOpen(true)
       dispatch(setFilterMode(null))
       changeSearchParams('filter', null)
     }
@@ -85,57 +93,73 @@ export default function Rightbar() {
         </Button>
       </div>
 
-      <ListViewChanger />
+      {showListViewButtons && <ListViewChanger />}
 
-      <div className={styles.sort}>
-        <h3>Сортировка</h3>
-        <div>
-          <Button
-            color="secondary"
-            size="medium"
-            pressed={sort === 'top'}
-            onClick={() => {
-              if (sort === 'top') return
-              dispatch(setSortMode('top'))
-              changeSearchParams('sort', 'top')
-            }}
-          >
-            Популярное
-          </Button>
-          <Button
-            color="secondary"
-            size="medium"
-            pressed={sort === 'default'}
-            onClick={() => {
-              if (sort === 'default') return
-              dispatch(setSortMode('default'))
-              changeSearchParams('sort', 'default')
-            }}
-          >
-            По времени
-          </Button>
-          <Button
-            color="secondary"
-            size="medium"
-            pressed={!!filter}
-            onClick={handleFilterBySubscribe}
-          >
-            По подпискам
-          </Button>
+      {showSortButtons && (
+        <div className={styles.sort}>
+          <h3>Сортировка</h3>
+          <div>
+            <Button
+              color="secondary"
+              size="medium"
+              pressed={sort === 'top'}
+              onClick={() => {
+                if (sort === 'top') return
+                dispatch(setSortMode('top'))
+                changeSearchParams('sort', 'top')
+              }}
+            >
+              Популярное
+            </Button>
+            <Button
+              color="secondary"
+              size="medium"
+              pressed={sort === 'default'}
+              onClick={() => {
+                if (sort === 'default') return
+                dispatch(setSortMode('default'))
+                changeSearchParams('sort', 'default')
+              }}
+            >
+              По времени
+            </Button>
+            <Button
+              color="secondary"
+              size="medium"
+              pressed={!!filter}
+              onClick={handleFilterBySubscribe}
+            >
+              По подпискам
+            </Button>
+          </div>
         </div>
-      </div>
+      )}
 
       <DayRecipe />
-
       <TopAuthor />
 
-      {/* <Modal2 isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      {}
+      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <p>
           Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
-          оценивать рецепты других пользователей. Вход Регистрация
+          оценивать рецепты других пользователей.
         </p>
-        todo: add buttons
-      </Modal2> */}
+        <div className={styles.modal_btns}>
+          <div className={styles.modal_login}>
+            <LinkLikeButton color="primary" size="big" href="/login">
+              Вход
+            </LinkLikeButton>
+          </div>
+          <div className={styles.modal_registration}>
+            <LinkLikeButton color="secondary" size="big" href="/registration">
+              Регистрация
+            </LinkLikeButton>
+          </div>
+        </div>
+        <div />
+      </Modal>
     </div>
   )
 }
+
+export default Rightbar

@@ -1,14 +1,13 @@
-'use client'
 import { FC, useState } from 'react'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
-import styles from './iconsAndActions.module.scss'
 import Image from 'next/image'
-import Reactions from '@/components/ui/Reactions/Reactions'
-import Popup from '@/components/ui/Popup/Popup'
 import Link from 'next/link'
 
+import styles from './iconsAndActions.module.scss'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
+import { Reactions, Popup } from '@/components/ui'
+
 interface RecipeCardProps {
-  recipe: IRecipeWithIngredients
+  recipe: RecipeFull
 }
 
 const IconsAndActions: FC<RecipeCardProps> = ({ recipe }) => {

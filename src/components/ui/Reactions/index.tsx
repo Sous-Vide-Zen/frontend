@@ -100,5 +100,3 @@ export const Reactions: FC<ReactionsProps> = ({ slug }) => {
     </div>
   )
 }
-
-export default Reactions

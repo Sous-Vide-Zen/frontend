@@ -5,7 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form'
 
 import styles from '../forms.module.scss'
 import { Field, FieldSet, EmailFormInput } from '@/components/forms/items'
-import Button from '@/components/ui/Button/Button'
+import { Button } from '@/components/ui'
 
 type FormValues = {
   email: string
@@ -50,12 +50,7 @@ const ResetPasswordForm: FC<Props> = ({
             Продолжить
           </Button>
 
-          <Button
-            type="button"
-            color="clear"
-            size="medium"
-            onClick={onCancel}
-          >
+          <Button type="button" color="clear" size="medium" onClick={onCancel}>
             Отменить
           </Button>
         </FieldSet>

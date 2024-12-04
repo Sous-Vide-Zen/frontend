@@ -1,5 +1,7 @@
+'use client'
+
 import { FC, ReactNode } from 'react'
-import styles from './Modal2.module.scss'
+import styles from './Modal.module.scss'
 
 interface ModalProps {
   isOpen: boolean
@@ -7,7 +9,7 @@ interface ModalProps {
   children: ReactNode
 }
 
-export const Modal2: FC<ModalProps> = ({ isOpen, onClose, children }) => {
+export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null
 
   return (

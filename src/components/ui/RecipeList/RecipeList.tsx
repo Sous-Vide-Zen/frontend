@@ -5,13 +5,15 @@ import { useRouter } from 'next/navigation'
 import cn from 'clsx'
 
 import styles from './RecipeList.module.scss'
-import EmptyRecipeList from './EmptyRecipeList'
 import { RecipeListView } from '@/store/features/user/user.slice'
 import { RecipeListResult } from '@/hooks/dispatcher.types'
-import RecipeCard from '@/components/ui/RecipeCard/RecipeCard'
-import ListLoader from '@/components/ui/ListLoader/ListLoader'
-import { ListLoadingError } from '@/components/ui/ListLoadingError/ListLoadingError'
-import { RecipeSkeleton } from '@/components/ui/Skeletons/skeletons'
+import {
+  RecipeCard,
+  ListLoader,
+  ListLoadingError,
+  RecipeSkeleton,
+} from '@/components/ui'
+import EmptyRecipeList from './EmptyRecipeList'
 
 type Props = {
   dispatcher: RecipeListResult
@@ -45,7 +47,7 @@ const RecipeList: FC<Props> = ({
   // отслеживаем скроллинг и догружаем элементы списка
   useEffect(() => {
     // хранит ссылку на обсервер, чтоб потом отписаться при удалении компонента
-    let observerRefValue = null
+    let observerRefValue: Element | null = null
 
     // здесь отслеживается момент достижения скролом элемента с loaderRef
     const observer = new IntersectionObserver((entries) => {

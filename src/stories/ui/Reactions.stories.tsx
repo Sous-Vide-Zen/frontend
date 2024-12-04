@@ -39,7 +39,7 @@ export const Default: Story = {
     msw: {
       handlers: [
         http.get(
-          `http://localhost:8000/api/v1/recipe/${slug}/reactions/`,
+          `${process.env.NEXT_PUBLIC_API_BASE_URL}recipe/${slug}/reactions/`,
           () => {
             return HttpResponse.json(MockedReactions)
           },

@@ -34,3 +34,18 @@
     }
   }
 }
+
+.modal_btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+}
+
+.modal_login,
+.modal_registration {
+  width: 150px;
+}
+
+.modal_login {
+  margin-right: 24px;
+}

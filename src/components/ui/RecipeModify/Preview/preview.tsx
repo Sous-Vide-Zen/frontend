@@ -1,11 +1,11 @@
 'use client'
 import { FC, useState } from 'react'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import styles from './preview.module.scss'
 import Image from 'next/image'
 
 interface RecipeCardProps {
-  recipe: IRecipeWithIngredients
+  recipe: RecipeFull
 }
 
 const Preview: FC<RecipeCardProps> = ({ recipe }) => {
@@ -55,7 +55,7 @@ const Preview: FC<RecipeCardProps> = ({ recipe }) => {
           className={styles.notPreview}
         />
       ) : (
-        <div className={styles.notPreview}></div>
+        <div className={styles.notPreview}>Фото отсутствует</div>
       )}
     </div>
   )

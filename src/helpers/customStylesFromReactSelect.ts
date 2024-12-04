@@ -1,4 +1,5 @@
 export const customStyles = {
+	//@ts-ignore
 	control: (prevStyle, { isFocused }) => ({
 		...prevStyle,
 		borderColor: isFocused ? 'var(--base-color-dark)' : '#dbdade',
@@ -14,10 +15,12 @@ export const customStyles = {
 	indicatorSeparator: () => ({
 		display: 'none',
 	}),
+	//@ts-ignore
 	placeholder: (prevStyle) => ({
 		...prevStyle,
 		color: 'var(--base-color-dark)',
 	}),
+	//@ts-ignore
 	dropdownIndicator: (prevStyle) => ({
 		...prevStyle,
 		color: 'var(--base-color-dark)',

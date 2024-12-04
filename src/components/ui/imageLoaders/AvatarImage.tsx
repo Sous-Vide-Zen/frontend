@@ -1,5 +1,5 @@
 import styles from './avatarImage.module.scss'
-import Button from '../Button/Button'
+import { Button } from '@/components/ui'
 
 export const AvatarImage = () => {
   return (

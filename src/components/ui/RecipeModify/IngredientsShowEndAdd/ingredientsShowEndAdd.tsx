@@ -1,11 +1,11 @@
 'use client'
 import { FC, Fragment } from 'react'
-import { IRecipeWithIngredients } from '@/store/features/recipes/recipes.types'
+import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import styles from './ingredientsShowEndAdd.module.scss'
 
 interface RecipeCardProps {
   change: boolean
-  recipe: IRecipeWithIngredients
+  recipe: RecipeFull
   // readonly?: boolean
   // onClose?: () => void
   // slug: string

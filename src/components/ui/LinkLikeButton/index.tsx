@@ -52,5 +52,3 @@ export const LinkLikeButton: FC<Props> = ({
     </Link>
   )
 }
-
-export default LinkLikeButton
