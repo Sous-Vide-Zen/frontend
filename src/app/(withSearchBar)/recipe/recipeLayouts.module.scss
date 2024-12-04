@@ -5,13 +5,8 @@
   font-size: 24px;
   gap: 20px;
 
-  // div:first-child {
-  //   // width: 100%;
-  // }
-
-  div:last-child {
+  // фикс. размер второй колонки
+  & > div:last-child {
     flex: 1 0 216px;
   }
-  
-
 }

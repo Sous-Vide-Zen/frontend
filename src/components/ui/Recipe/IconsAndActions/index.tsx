@@ -2,7 +2,6 @@
 
 import { FC, useState } from 'react'
 import Image from 'next/image'
-import Link from 'next/link'
 
 import styles from './iconsAndActions.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
@@ -63,17 +62,6 @@ export const IconsAndActions: FC<RecipeCardProps> = ({
             0{/*тут должно быть количество репостов*/}
           </button>
         </div>
-      </div>
-      <div className={styles.containerButton}>
-        <div className={styles.dropdownIcon} onClick={() => handleToggle()}>
-          &#8942;
-        </div>
-        {active && (
-          <div className={styles.linkForRecipe}>
-            <Link href={`/recipe/edit/${slug}`}>Редактировать рецепт</Link>
-            <p>Удалить рецепт</p>
-          </div>
-        )}
       </div>
     </div>
   )

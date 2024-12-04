@@ -14,12 +14,12 @@ interface RecipeCardProps {
 
 const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const { slug, views_count, reactions_count, author, pub_date } = { ...recipe }
-  const userProps = { author, pub_date }
+  const userProps = { author, pub_date, slug, readOnly }
   const iconProps = { slug, views_count, reactions_count }
 
   return (
     <div className={styles.recipe}>
-      <UserNameShow {...userProps} />
+      <UserNameShow {...userProps} isMyRecipe={true}/>
       <IconsAndActions {...iconProps} />
       <RecipePhoto
         isNew={false}
