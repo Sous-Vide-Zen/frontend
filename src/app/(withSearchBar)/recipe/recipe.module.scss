@@ -2,19 +2,14 @@
   width: 100%;
   display: flex;
   font-size: 24px;
-  gap: 24px;
-}
+  gap: 4px;
 
-.wrongSlug {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  font-size: 24px;
-  color: red;
-  gap: 24px;
-
-  button {
-    position: unset;
+  // для выравнивания по высоте при наличии правой колонки
+  .wrapper {
+    width: 100%;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 }

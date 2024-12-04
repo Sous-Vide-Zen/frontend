@@ -1,7 +1,7 @@
 import { FC } from 'react'
 import { permanentRedirect } from 'next/navigation'
 
-import styles from '../mutationRecipe.module.scss'
+import styles from '../recipe.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { getRecipeData } from '@/ssr/api/recipe'
 import Recipe from '@/components/ui/Recipe/Recipe'
@@ -38,10 +38,7 @@ const RecipePage: FC<Props> = async ({ params }) => {
 
   return (
     <div className={styles.container}>
-      <div
-        className={`${styles.wrapper} scroll scroll--left scroll__thin`}
-        id="wrapper"
-      >
+      <div className={`${styles.wrapper} scroll scroll--left scroll__thin`}>
         <Recipe recipe={data} readOnly={true} />
       </div>
       <Rightbar showListViewButtons={false} showSortButtons={false} />
