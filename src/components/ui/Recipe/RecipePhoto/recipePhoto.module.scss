@@ -1,0 +1,58 @@
+.preview {
+  position: relative;
+  border-radius: 12px;
+  cursor: pointer;
+
+  .iconsWrapper {
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    top: 24px;
+    left: 32px;
+    right: 36px;
+  }
+
+  .previewLink {
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    //   bottom: 20px;
+    left: 18px;
+    z-index: 10;
+  }
+
+  .previewPrinter {
+    background: transparent;
+    outline: none;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    //   bottom: 20px;
+    right: 18px;
+    z-index: 10;
+  }
+
+  .notPreview {
+    position: relative;
+    height: 300px;
+    background-image: url('/img/recipe-card/no-photo.png');
+    border: 1px solid var(--gray-element);
+    border-radius: 12px;
+    // текст в центре
+    color: #010b00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // .previewTime {
+  //   position: absolute;
+  //   left: 16px;
+  //   bottom: 18px;
+  //   background: #fff;
+  //   padding: 12px 24px;
+  //   border-radius: 12px;
+  // }
+}

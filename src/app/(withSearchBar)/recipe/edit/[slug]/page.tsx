@@ -1,8 +1,8 @@
 import { FC } from 'react'
 import { permanentRedirect } from 'next/navigation'
 
-import styles from '../../mutationRecipe.module.scss'
-import EditRecipeForm from '@/components/forms/recipe/EditRecipeForm'
+import styles from '../../recipe.module.scss'
+import Recipe from '@/components/ui/Recipe/Recipe'
 import { getRecipeData } from '@/ssr/api/recipe'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 
@@ -22,8 +22,10 @@ const EditRecipePage: FC<Props> = async ({ params }) => {
   if (!data) permanentRedirect('/error404')
 
   return (
-    <div className={styles.wrapper}>
-      <EditRecipeForm recipeData={data} />
+    <div className={styles.container}>
+      <div className={`${styles.wrapper} scroll scroll--left scroll__thin`}>
+        <Recipe recipe={data} readOnly={false} />
+      </div>
     </div>
   )
 }

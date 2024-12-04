@@ -4,6 +4,10 @@
   gap: 24px;
   flex: 1 0 124px;
 
+  .underline {
+    text-decoration: underline;
+  }
+
   .auth,
   .more {
     display: flex;
@@ -13,13 +17,24 @@
 
   .more {
     gap: 24px;
-    font-size: 14px;
-    font-weight: 400;
+
+    a {
+      height: 10px;
+      font-size: 14px;
+      font-weight: 400;
+    }
+    
+    span {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      gap: 8px;
+    }
   }
 
   .more,
   .mobileApp {
-    border-top: 1px solid #bcbcbc;
+    border-top: 1px solid var(--gray-element);
     padding-top: 24px;
   }
 

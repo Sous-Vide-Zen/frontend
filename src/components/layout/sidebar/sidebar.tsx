@@ -117,9 +117,23 @@ export default function Sidebar() {
       {auth === false && jsxIsNotAuth}
 
       <div className={styles.more}>
-        <p>FAQ</p>
-        <p>Правила сайта</p>
-        <p>Еще</p>
+        <LinkLikeButton color="clear" size="medium" href="/error404">
+          FAQ
+        </LinkLikeButton>
+        <LinkLikeButton color="clear" size="medium" href="/error404">
+          Правила сайта
+        </LinkLikeButton>
+        <LinkLikeButton color="clear" size="medium" href="/error404">
+          <span>
+            <p className={styles.underline}>Ещё</p>
+            <Image
+              src="/img/arrow-up.svg"
+              alt="mobile app"
+              width={14}
+              height={14}
+            />
+          </span>
+        </LinkLikeButton>
       </div>
 
       <div className={styles.mobileApp}>

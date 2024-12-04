@@ -1,0 +1,29 @@
+.actions {
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .footerLeft {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+
+    button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      cursor: pointer;
+      border: none;
+      outline: none;
+      background: none;
+      font-size: 18px;
+      gap: 8px;
+    }
+  }
+}

@@ -1,0 +1,209 @@
+$name-title-max-line: 4;
+$name-text-max-line: 7;
+
+.recipe {
+  container: recipe / inline-size;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  border-radius: 12px;
+  border: 1px solid #6c8777;
+  padding: 16px;
+  width: 100%;
+
+  button {
+    cursor: pointer;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 16px;
+
+    > button {
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 0;
+    }
+  }
+
+  .user {
+    .userWrapper {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      .userLeft {
+        display: flex;
+        align-items: center;
+        font-size: 12px;
+        gap: 8px;
+      }
+
+      .userRight {
+        white-space: nowrap; // ограничить 1 линией
+        height: 9px;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .preview {
+    height: 300px;
+  }
+
+  .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: 36px;
+    justify-content: space-between;
+    flex-grow: 1;
+
+    .nameAndHash {
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+
+      .name {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+
+        p {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          &:first-child {
+            font-size: 24px;
+            -webkit-line-clamp: $name-title-max-line;
+            line-clamp: $name-title-max-line;
+          }
+
+          &:last-child {
+            font-size: 16px;
+            -webkit-line-clamp: $name-text-max-line;
+            line-clamp: $name-text-max-line;
+          }
+        }
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      height: 28px;
+
+      .footerLeft {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 24px;
+
+        button {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          cursor: pointer;
+          border: none;
+          outline: none;
+          background: none;
+          font-size: 18px;
+          gap: 8px;
+          white-space: nowrap;
+        }
+      }
+
+      .footerRight {
+        display: flex;
+        flex-direction: column;
+
+        button {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          color: #818181;
+          cursor: pointer;
+          border: none;
+          outline: none;
+          background: none;
+          font-size: 18px;
+          gap: 6px;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+
+  // правила для рецептов в режиме 3х колонок
+  @container recipe (width < 600px) {
+    .user {
+      .userWrapper {
+        align-items: baseline;
+        flex-direction: column;
+        gap: 16px;
+
+        .userLeft {
+          flex-direction: row;
+        }
+
+        .userRight {
+          flex-direction: row !important;
+          justify-content: space-between;
+        }
+      }
+    }
+
+    .preview {
+      height: 220px;
+    }
+
+    .bottom {
+      .nameAndHash {
+        gap: 24px;
+
+        .name p {
+          &:first-child {
+            font-size: 20px;
+          }
+
+          &:last-child {
+            font-size: 12px;
+          }
+        }
+
+        .hash {
+          height: 7px;
+
+          span {
+            font-size: 10px;
+          }
+        }
+      }
+
+      .footer {
+        height: 22px;
+
+        div:first-child {
+          gap: 12px;
+        }
+
+        .footerLeft button,
+        .footerRight button {
+          gap: 8px;
+          font-size: 12px;
+
+          img {
+            height: 18px;
+            width: 18px;
+          }
+        }
+      }
+    }
+  }
+}

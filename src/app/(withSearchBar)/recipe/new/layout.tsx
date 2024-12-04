@@ -1,11 +1,10 @@
-import { FC, PropsWithChildren, Suspense } from 'react'
-import styles from '../recipe.module.scss'
-import { RecipeSkeleton } from '@/components/ui/Skeletons'
+import { FC, PropsWithChildren } from 'react'
+import styles from '../recipeLayouts.module.scss'
 
 const RecipeLayout: FC<PropsWithChildren> = ({ children }) => {
   return (
     <div className={styles.container}>
-      <Suspense fallback={<RecipeSkeleton />}>{children}</Suspense>
+      {children} <div>{/* пустое место для второй колонки */}</div>
     </div>
   )
 }

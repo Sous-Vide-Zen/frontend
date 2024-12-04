@@ -7,3 +7,27 @@
     font-weight: 600;
   }
 }
+
+.container {
+  cursor: pointer;
+
+  .zaglushka {
+    width: 100%;
+    height: 180px;
+    background-image: url('/img/recipe-card/no-photo.png');
+    border: 1px solid var(--gray-element);
+    border-radius: 12px;
+    // текст в центре
+    color: #010b00;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    margin-bottom: 24px;
+  }
+
+  span {
+    font-size: 24px;
+    font-weight: 400;
+  }
+}
