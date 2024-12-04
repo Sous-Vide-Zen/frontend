@@ -2,7 +2,7 @@
 
 import { useAppSelector } from '@/store/hooks'
 import { useRecipes } from '@/hooks/useRecipes'
-import RecipeList from '@/components/ui/RecipeList/RecipeList'
+import { RecipeList } from '@/components/ui/RecipeList'
 
 export default function Recipes() {
   const { view, sort, filter } = useAppSelector((state) => state.userSettings)

@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { permanentRedirect } from 'next/navigation'
 
 import styles from '../mutationRecipe.module.scss'
-import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
+import Recipe from '@/components/ui/Recipe/Recipe'
 import { getRecipeData } from '@/ssr/api/recipe'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import Rightbar from '@/components/layout/rightbar/rightbar'
@@ -42,9 +42,9 @@ const RecipePage: FC<Props> = async ({ params }) => {
         className={`${styles.wrapper} scroll scroll--left scroll__thin`}
         id="wrapper"
       >
-        <RecipeModify recipe={data} />
+        <Recipe recipe={data} readOnly={true} />
       </div>
-      <Rightbar showListViewButtons={false} showSortButtons={false}/>
+      <Rightbar showListViewButtons={false} showSortButtons={false} />
     </div>
   )
 }

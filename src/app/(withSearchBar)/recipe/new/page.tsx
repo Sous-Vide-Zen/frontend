@@ -2,7 +2,7 @@
 
 import styles from '../mutationRecipe.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
-import RecipeModify from '@/components/ui/RecipeModify/RecipeModify'
+import NewRecipe from '@/components/ui/Recipe/NewRecipe'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 
 const recipeMock: RecipeFull = {
@@ -57,9 +57,9 @@ export default function NewRecipePage() {
         className={`${styles.wrapper} scroll scroll--left scroll__thin`}
         id="wrapper"
       >
-        <RecipeModify /* recipe={recipeMock} */ />
+        <NewRecipe />
       </div>
-      <Rightbar showListViewButtons={false} showSortButtons={false}/>
+      <Rightbar showListViewButtons={false} showSortButtons={false} />
     </div>
   )
 }

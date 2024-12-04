@@ -2,7 +2,7 @@ import { FC } from 'react'
 import { permanentRedirect } from 'next/navigation'
 
 import styles from '../../mutationRecipe.module.scss'
-import EditRecipeForm from '@/components/forms/recipe/EditRecipeForm'
+import Recipe from '@/components/ui/Recipe/Recipe'
 import { getRecipeData } from '@/ssr/api/recipe'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 
@@ -23,7 +23,7 @@ const EditRecipePage: FC<Props> = async ({ params }) => {
 
   return (
     <div className={styles.wrapper}>
-      <EditRecipeForm recipeData={data} />
+      <Recipe recipe={data} readOnly={false} />
     </div>
   )
 }

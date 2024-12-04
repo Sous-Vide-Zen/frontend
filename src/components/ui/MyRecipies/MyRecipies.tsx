@@ -10,7 +10,7 @@ import {
 } from '@/store/features/user/user.slice'
 import { setMyRecipiesCount } from '@/store/features/counters/counters.slice'
 import { useRecipes } from '@/hooks/useRecipes'
-import RecipeList from '@/components/ui/RecipeList/RecipeList'
+import RecipeList from '@/components/ui/RecipeList'
 import { Button, DatePicker } from '@/components/ui'
 
 type MyRecipiesProps = {
