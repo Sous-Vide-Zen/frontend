@@ -1,0 +1,52 @@
+.user {
+    container: header / inline-size;
+    display: flex;
+    flex-flow: column;
+    gap: 24px;
+  
+    // .userWrapper {
+    //   display: flex;
+    //   justify-content: space-between;
+  
+      .userLeft {
+        p{
+          font-size: 22px;
+    font-weight: 500;
+        }
+        height: 80px;
+    margin-top: 40px;
+        display: flex;
+        align-items: center;
+        font-size: 14px;
+        gap: 8px;
+      }
+  
+      .userRight {
+        p{
+          font-size: 18px;
+    font-weight: 400;
+        }
+        font-size: 12px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+    // }
+  
+    // правила для рецептов в режиме 3х колонок
+    @container header (width < 600px) {
+      div {
+        flex-direction: column;
+        gap: 16px;
+      }
+  
+      div div:first-child {
+        flex-direction: row;
+      }
+  
+      div div:last-child {
+        flex-direction: row !important;
+        justify-content: space-between;
+      }
+    }
+  }

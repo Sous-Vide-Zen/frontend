@@ -2,9 +2,9 @@ import { FC } from 'react'
 import { permanentRedirect } from 'next/navigation'
 
 import styles from '../mutationRecipe.module.scss'
-import Recipe from '@/components/ui/Recipe/Recipe'
-import { getRecipeData } from '@/ssr/api/recipe'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
+import { getRecipeData } from '@/ssr/api/recipe'
+import Recipe from '@/components/ui/Recipe/Recipe'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 
 /*
