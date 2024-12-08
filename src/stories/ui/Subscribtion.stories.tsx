@@ -16,10 +16,10 @@ export const Primary: Story = {
   args: {
     user: {
       id: 228,
-      username: 'admin',
-      bio: 'Привет, я Вася, и я профессиональный...',
+      username: 'Kira_Epifanova',
+      bio: 'Увлекаюсь кулинарией уже 8 лет! Буду рада найти единомышленников и\t\rсделать мир су-вид лучше)',
     },
-    subscribers_count: 1,
+    subscribers_count: 123,
   },
 }
 

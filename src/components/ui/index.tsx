@@ -9,6 +9,11 @@ export { Popup } from './Popup/Popup'
 export { Subscribtion } from './Subscribtion'
 export { ListLoader } from './ListLoader'
 export { ListLoadingError } from './ListLoadingError'
-export { Skeleton, NavLinkSkeleton, RecipeSkeleton, RecipeSkeletonWithRightbar } from './Skeletons'
+export {
+  Skeleton,
+  NavLinkSkeleton,
+  RecipeSkeleton,
+  RecipeSkeletonWithRightbar,
+} from './Skeletons'
 export { Modal } from '@/components/ui/Modal'
 export { DatePicker } from '@/components/ui/DatePicker'
