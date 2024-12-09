@@ -18,6 +18,10 @@ export const EmailFormInput: FC<Props> = ({ register, id }) => {
       placeholder="ivanov@gmail.com"
       options={{
         required: 'Обязательное поле',
+        maxLength: {
+          message: 'email не должен содержать более 150 символов',
+          value: 150,
+        },
         pattern: {
           value: /^[A-Z0-9._%+-]+@[A-Z0-9-]+.+.[A-Z]{2,4}$/i,
           message: 'Введите корректный ящик',

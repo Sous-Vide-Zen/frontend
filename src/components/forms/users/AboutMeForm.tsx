@@ -36,7 +36,7 @@ const displayNameOptions: RegisterOptions<any> = {
     value: 150,
   },
   pattern: {
-    value: /^[\wа-яА-ЯЁё@\!\#\$\%\^\&\*\(\)\_\-\+\=\,\.\ ]+$/i,
+    value: /^[\p{L}\d\s+\-*=@!#\$%\^&\(\)_,.]+$/u,
     message: 'Введите корректное значение (буквы, цифры, "!@#$%^&*()_-+=,.")',
   },
 }
@@ -129,7 +129,9 @@ const AboutMeForm: FC<Props> = ({}) => {
 
   const onSubmit = (dataFromInput: UserPatchData) => {
     if (dataFromInput) {
-      const filteredPhone = dataFromInput.phone.replace(/(\D)/g, '')
+      const filteredPhone = dataFromInput.phone
+        ? dataFromInput.phone.replace(/(\D)/g, '')
+        : ''
       patchUserData({
         userName: currentUserData?.username ?? '',
         body: {
@@ -253,8 +255,8 @@ const AboutMeForm: FC<Props> = ({}) => {
               autocomplete="bio"
               options={{
                 maxLength: {
-                  message: 'Поле не должно содержать более 30 символов',
-                  value: 30,
+                  message: 'Поле не должно содержать более 200 символов',
+                  value: 200,
                 },
               }}
             />
