@@ -1,7 +1,6 @@
 'use client'
-import { FC } from 'react'
+import { FC, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import cn from 'clsx'
 
@@ -17,6 +16,7 @@ import {
 import { Button } from '@/components/ui/'
 import SocialForm from '@/components/ui/Socials/SocialForm'
 import ActivateInstructionForm from './ActivateInstructionForm'
+import { parseSubmitErrors } from '@/helpers/forms'
 
 type FormValues = {
   email: string
@@ -26,21 +26,28 @@ type FormValues = {
 }
 
 const RegisterForm: FC = () => {
-  const router = useRouter()
+  const [formChanged, setFormChanged] = useState(false)
   const [doRegister, { status, isLoading, error }] = useRegisterMutation()
-  // @ts-ignore
-  const errorText = error?.data.email
+  const { fieldErrors, nonFieldErrors } = parseSubmitErrors(error)
+
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors, isDirty, isValid },
   } = useForm<FormValues>({
-    mode: 'onBlur',
+    mode: 'all',
   })
+
+  useEffect(() => {
+    const { unsubscribe } = watch(() => setFormChanged(true))
+
+    return () => unsubscribe()
+  }, [watch])
 
   const onSubmit = (formValues: FormValues) => {
     doRegister(formValues)
+    setFormChanged(false)
   }
 
   const pswd = watch('password')
@@ -59,11 +66,22 @@ const RegisterForm: FC = () => {
       <div className={styles.container}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <FieldSet label="Регистрация">
-            <Field label="Email" error={errors.email?.message}>
+            <Field
+              label="Email"
+              error={
+                errors.email?.message || (!formChanged && fieldErrors?.email)
+              }
+            >
               <EmailFormInput register={register} id="email" />
             </Field>
 
-            <Field label="Пароль" error={errors.password?.message}>
+            <Field
+              label="Пароль"
+              error={
+                errors.password?.message ||
+                (!formChanged && fieldErrors?.password)
+              }
+            >
               <PasswordFormInput
                 register={register}
                 id="password"
@@ -121,10 +139,14 @@ const RegisterForm: FC = () => {
             Зарегистрироваться
           </Button>
 
-          {errorText && (
-            <span role="alert" className={styles.error}>
-              {errorText}
-            </span>
+          {!formChanged && nonFieldErrors && nonFieldErrors.length > 0 && (
+            <ul className={styles.error}>
+              {nonFieldErrors.map((e, i) => (
+                <li role="alert" key={i}>
+                  {e}
+                </li>
+              ))}
+            </ul>
           )}
         </form>
 
