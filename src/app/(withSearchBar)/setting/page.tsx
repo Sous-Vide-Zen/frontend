@@ -1,8 +1,8 @@
 'use client'
 
 import styles from './setting.module.scss'
-import { Button } from '@/components/ui'
-import { useState } from 'react'
+import { useState } from 'react'    
+import Data from './data/data'
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState(false)
@@ -10,8 +10,10 @@ export default function ProfilePage() {
   return (
     <div className={styles.container}>
       <div className={styles.wrapper}>
-        <Button onClick={() => setIsOpen(true)}>Тест</Button>
+        <Data />
+        {/* notifications */}
       </div>
+
       <div className={styles.rightbar} />
 
       {/* <Modal2 isOpen={isOpen} onClose={() => setIsOpen(false)}>
