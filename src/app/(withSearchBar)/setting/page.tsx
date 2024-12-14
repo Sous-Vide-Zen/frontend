@@ -4,6 +4,7 @@ import styles from './setting.module.scss'
 import { useState } from 'react'
 import Data from './data/data'
 import Notifications from './notifications/notifications'
+import BlackList from './black-list/black-list'
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState(false)
@@ -13,6 +14,7 @@ export default function ProfilePage() {
       <div className={styles.wrapper}>
         <Data />
         <Notifications />
+        <BlackList />
       </div>
 
       <div className={styles.rightbar} />
