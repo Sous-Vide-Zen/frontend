@@ -1,8 +1,9 @@
 'use client'
 
 import styles from './setting.module.scss'
-import { useState } from 'react'    
+import { useState } from 'react'
 import Data from './data/data'
+import Notifications from './notifications/notifications'
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState(false)
@@ -11,7 +12,7 @@ export default function ProfilePage() {
     <div className={styles.container}>
       <div className={styles.wrapper}>
         <Data />
-        {/* notifications */}
+        <Notifications />
       </div>
 
       <div className={styles.rightbar} />
