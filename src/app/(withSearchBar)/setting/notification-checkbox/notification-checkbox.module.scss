@@ -1,0 +1,39 @@
+.checkBoxOn {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  width: 56px;
+  height: 30px;
+  cursor: pointer;
+  position: relative;
+
+  .ball {
+    transition: 0.5s;
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    background: var(--green-green-bright);
+  }
+}
+
+.checkBoxOff {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  width: 56px;
+  height: 30px;
+  cursor: pointer;
+  position: relative;
+
+  .ball {
+    transition: 0.5s;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 22px;
+    height: 22px;
+    border-radius: 100%;
+    background: var(--grey-grey-medium);
+  }
+}
