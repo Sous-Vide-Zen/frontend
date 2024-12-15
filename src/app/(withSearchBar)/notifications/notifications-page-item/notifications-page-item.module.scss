@@ -1,0 +1,74 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  padding: 12px 12px 24px;
+  border-bottom: 1px solid var(--grey-grey-medium);
+  background-color: var(--white);
+
+  &:hover {
+    background-color: var(--grey-super-light);
+  }
+
+  .user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .userInfo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .avatarImg {
+        width: 40px;
+        height: 40px;
+      }
+      .userName {
+        font-family: var(--font-family);
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 137%;
+        color: var(--black);
+      }
+      .userText {
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 157%;
+        color: var(--black);
+      }
+    }
+
+    .userAction {
+      font-family: var(--font-family);
+      font-weight: 400;
+      font-size: 12px;
+      line-height: 183%;
+      color: var(--black);
+
+      cursor: pointer;
+    }
+    .unreadMessages {
+      width: 14px;
+      height: 14px;
+      border-radius: 100%;
+      background-color: var(--green-green-bright);
+    }
+  }
+
+  .time {
+    display: flex;
+
+    .timeValue {
+      margin-left: 48px;
+
+      font-family: var(--font-family);
+      font-weight: 300;
+      font-size: 12px;
+      line-height: 183%;
+      color: var(--black);
+    }
+  }
+}

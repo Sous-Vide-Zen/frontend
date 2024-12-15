@@ -41,7 +41,6 @@ export default function ButtonLikeLink({ text }: ButtonLikeLinkProps) {
           height={14}
         />
       </div>
-      <div></div>
       {isMenuVisible &&
         <div className={styles.hiddenMenu} onMouseLeave={closeMenu}>
           {curItems.map((el) => (
