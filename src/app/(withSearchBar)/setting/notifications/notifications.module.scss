@@ -1,0 +1,27 @@
+.container {
+  border: 1px solid var(--green-green-light);
+  border-radius: 12px;
+  padding: 24px;
+  width: 667px;
+  height: 320px;
+
+  background: var(--white);
+
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+
+  .containerTitle {
+    font-family: var(--font-family);
+    font-weight: 600;
+    font-size: 27px;
+    line-height: 81%;
+    color: var(--black);
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}
