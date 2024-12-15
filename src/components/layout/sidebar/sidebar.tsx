@@ -8,6 +8,7 @@ import styles from './sidebar.module.scss'
 import { useAppSelector } from '@/store/hooks'
 import { useAuth } from '@/hooks/useAuth'
 import { LinkItem, NavLinkSkeleton, LinkLikeButton } from '@/components/ui'
+import ButtonLikeLink from '@/components/ui/ButtonLikeLink'
 
 type MenuItem = LinkItem & {
   path: string
@@ -123,17 +124,7 @@ export default function Sidebar() {
         <LinkLikeButton color="clear" size="medium" href="/error404">
           Правила сайта
         </LinkLikeButton>
-        <LinkLikeButton color="clear" size="medium" href="/error404">
-          <span>
-            <p className={styles.underline}>Ещё</p>
-            <Image
-              src="/img/arrow-up.svg"
-              alt="mobile app"
-              width={14}
-              height={14}
-            />
-          </span>
-        </LinkLikeButton>
+        <ButtonLikeLink text={'Ещё'} />
       </div>
 
       <div className={styles.mobileApp}>
