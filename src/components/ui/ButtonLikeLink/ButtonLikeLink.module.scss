@@ -51,6 +51,8 @@
     flex-direction: column;
     gap: 24px;
 
+    z-index: 1;
+
     &::before, &::after {
       content: '';
       position: absolute;
