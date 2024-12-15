@@ -1,10 +1,9 @@
 'use client'
 
-import NotificationItem from '../notification-item/notification-item';
-import avatar1 from '../../../../../public/img/settings/avatar_1.png';
-import avatar2 from '../../../../../public/img/settings/avatar_2.png';
-import avatar3 from '../../../../../public/img/settings/avatar_3.png';
-import avatar4 from '../../../../../public/img/settings/avatar_4.png';
+import avatar1 from '/public/img/settings/avatar_1.png';
+import avatar2 from '/public/img/settings/avatar_2.png';
+import avatar3 from '/public/img/settings/avatar_3.png';
+import avatar4 from '/public/img/settings/avatar_4.png';
 import styles from './black-list.module.scss';
 import { StaticImageData } from 'next/image';
 import BlacklistItem from '../blacklist-item/blacklist-item';
