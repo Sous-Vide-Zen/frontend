@@ -1,0 +1,68 @@
+.buttonLikeLink {
+  display: flex;
+  justify-content: space-between;
+
+  position: relative;
+
+  .hoverArea {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .underlineText {
+    text-decoration: underline;
+
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 171%;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    color: var(--black);
+  }
+
+  .underlineTextSmall {
+    cursor: pointer;
+
+    font-family: var(--font-family);
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 140%;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    color: var(--black);
+  }
+
+  .hiddenMenu {
+    position: absolute;
+    top: 30px;
+    padding: 16px;
+
+    border: 1px solid #000;
+    border-radius: 12px;
+    width: 219px;
+
+    background: var(--white);
+
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    &::before, &::after {
+      content: '';
+      position: absolute;
+      left: 32px;
+      top: -20px;
+      border: 10px solid transparent;
+      border-top: 10px solid #000;
+      transform: rotateX(180deg);
+    }
+
+    &::after {
+      border-top: 10px solid var(--white);
+      top: -19px;
+    }
+  }
+}
