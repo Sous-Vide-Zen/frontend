@@ -1,0 +1,35 @@
+.container {
+  width: 100%;
+  padding-left: 18px;
+  padding-right: 240px;
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+
+  .containerTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .title {
+      font-family: var(--font-family);
+      font-weight: 600;
+      font-size: 27px;
+      color: var(--black);
+    }
+
+    .newLetters {
+      font-family: var(--font-family);
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 157%;
+      color: var(--black);
+    }
+  }
+
+  .items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
