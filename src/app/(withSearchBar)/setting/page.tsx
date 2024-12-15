@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Data from './data/data'
 import Notifications from './notifications/notifications'
 import BlackList from './black-list/black-list'
+import ButtonDelete from './deletebtn/deletebtn'
 
 export default function ProfilePage() {
   const [isOpen, setIsOpen] = useState(false)
@@ -15,8 +16,8 @@ export default function ProfilePage() {
         <Data />
         <Notifications />
         <BlackList />
+        <ButtonDelete />
       </div>
-
       <div className={styles.rightbar} />
 
       {/* <Modal2 isOpen={isOpen} onClose={() => setIsOpen(false)}>

@@ -1,0 +1,21 @@
+.btnDelete {
+  width: 240px;
+  padding: 14px 54px;
+  border-radius: 18px;
+  border: 1px solid var(--primary-color-light);
+  background: transparent;
+  font-size: 16px;
+  text-align: center;
+  color: var(--primary-color-dark);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+
+  &:hover {
+    background: var(--button-hover);
+    color: var(--base-color);
+  }
+  &:active {
+    background: var(--button-press);
+    color: var(--base-color);
+  }
+}
