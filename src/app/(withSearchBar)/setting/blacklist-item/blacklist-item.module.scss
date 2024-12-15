@@ -1,0 +1,65 @@
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .user {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .userInfo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+
+      .avatarImg {
+        width: 40px;
+        height: 40px;
+      }
+      .userName {
+        font-family: var(--font-family);
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 157%;
+        color: var(--black);
+      }
+    }
+
+    .userAction {
+      font-family: var(--font-family);
+      font-weight: 300;
+      font-size: 12px;
+      text-align: right;
+      color: var(--black);
+
+      cursor: pointer;
+    }
+  }
+
+  .comment {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .title {
+      font-family: var(--font-family);
+      font-weight: 400;
+      font-size: 14px;
+      line-height: 107%;
+      color: var(--black);
+    }
+
+    .text {
+      border: 1px solid var(--green-green-bright);
+      border-radius: 12px;
+      padding: 16px 12px;
+      width: 100%;
+
+      font-family: var(--font-family);
+      font-weight: 400;
+      font-size: 14px;
+      color: var(--black);
+    }
+  }
+}
