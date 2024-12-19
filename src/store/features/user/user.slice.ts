@@ -37,7 +37,7 @@ const userSettingsSlice = createSlice({
     setSortMyRecipesMode: (state, action: PayloadAction<MyRecipeSort>) => {
       state.myRecipesSort = action.payload
     },
-    setDateSortMyRecipes: (state, action: PayloadAction<string>) => {
+    setDateSortMyRecipes: (state, action: PayloadAction<string | undefined>) => {
       state.myRecipesFromDate = action.payload
     },
   },
