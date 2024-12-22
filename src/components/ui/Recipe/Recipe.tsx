@@ -6,6 +6,7 @@ import styles from './Recipe.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { IconsAndActions, RecipeBody, UserNameShow } from '.'
 import { RecipePhoto } from './RecipePhoto'
+import Comments from './RecipeBody/Comments/comments'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -19,7 +20,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
 
   return (
     <div className={styles.recipe}>
-      <UserNameShow {...userProps} isMyRecipe={true}/>
+      <UserNameShow {...userProps} isMyRecipe={true} />
       <IconsAndActions {...iconProps} />
       <RecipePhoto
         isNew={false}
@@ -28,6 +29,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
         printButton={true}
       />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
+      <Comments />
     </div>
   )
 }
