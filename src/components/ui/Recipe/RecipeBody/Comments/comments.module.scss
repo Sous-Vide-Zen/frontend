@@ -1,0 +1,137 @@
+.commentsWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 800px;
+}
+
+.commentsTitle {
+  font-size: 24px;
+  color: var(--base-color-dark);
+}
+
+/*верхний блок с плейсхолдером*/
+.commentsTopContainer {
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  border-radius: 12px;
+  padding: 24px 12px;
+  background: transparent;
+  border: 1px solid var(--green-green-light);
+}
+
+.commentsContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.commentsInput {
+  border: none;
+  outline: none;
+}
+
+.buttonDiv {
+  display: flex;
+  justify-content: end;
+}
+
+.commentsBtn {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 16px;
+  color: var(--base-color-dark);
+  text-align: end;
+}
+
+/*нижний блок*/
+.commentsBottomContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  border-radius: 12px;
+  padding: 12px;
+  gap: 24px;
+  background: transparent;
+  border: 1px solid var(--green-green-light);
+
+  .commentsTopBox {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+  }
+
+  .commentsBottomContent {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .commentsImgText {
+    display: flex;
+    gap: 8px;
+  }
+
+  .commentsIcon {
+    gap: 8px;
+  }
+
+  .linkForRecipeHo {
+    width: 152px;
+  }
+
+  .commentsNameText {
+    font-size: 12px;
+    color: var(--base-color-dark);
+  }
+
+  .containerButton {
+    position: absolute;
+    right: 1%;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  .commentsBottomTextDescr {
+    font-size: 14px;
+    color: var(--base-color-dark);
+  }
+
+  /*реакции*/
+
+  .commentsReactionsContent {
+    display: flex;
+    justify-content: space-between; /* Если нужно, чтобы кнопка и реакции были по краям */
+    align-items: center; /* Выравнивание по вертикали */
+  }
+  .commentsBtn {
+    font-size: 12px;
+    color: var(--base-color-dark);
+    cursor: pointer;
+  }
+
+  .commentsReactions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Выравнивание иконок вправо */
+    gap: 4px;
+  }
+
+  .reactionItem {
+    display: flex;
+    align-items: center; /* Выравнивание иконки и текста по центру */
+  }
+
+  .reactionItem:not(:last-child) {
+    margin-right: 12px;
+  }
+
+  .commentsReactionsIconsText {
+    font-size: 12px;
+    color: var(--base-color-dark);
+  }
+}
