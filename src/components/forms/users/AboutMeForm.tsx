@@ -128,6 +128,7 @@ const AboutMeForm: FC<Props> = ({}) => {
   }, [data, getValues, setValue, watch])
 
   const onSubmit = (dataFromInput: UserPatchData) => {
+    console.log(dataFromInput)
     if (dataFromInput) {
       const filteredPhone = dataFromInput.phone
         ? dataFromInput.phone.replace(/(\D)/g, '')

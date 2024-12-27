@@ -1,6 +1,5 @@
 'use client'
-
-import { FC, useState } from 'react'
+import { FC, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
 import Image from 'next/image'
@@ -14,6 +13,11 @@ import { FormInput } from '@/components/forms/items'
 import IngredientsShowEndAdd from './IngredientsShowEndAdd'
 import hoursToMinutes from '@/helpers/hoursOrMinutes'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
+// import {
+//   useCreateRecipeDraftMutation,
+//   usePublicateMutation,
+//   useGetRecipeDraftsQuery,
+// } from '@/store/features/recipes/recipes.actions'
 
 type Props = {
   recipe?: RecipeFull
@@ -23,7 +27,7 @@ type Props = {
 export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
   const router = useRouter()
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
-  // console.log(recipe)
+
   /* тестовые данные для селекта*/
 
   const tagOptions: { value: string; label: string }[] = [
@@ -31,7 +35,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' },
   ]
-
   /* */
   const defaultTag =
     recipe?.tag && recipe?.tag?.length > 0
@@ -71,6 +74,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
   const onSubmit = (dataFromInput: any) => {
     console.log(dataFromInput)
   }
+
   let displayNoneClass =
     recipe && recipe?.cooking_time < 60
       ? styles.displayNone
@@ -135,7 +139,10 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
           <p className={styles.ingredients}>Ингредиенты*</p>
           <div className={styles.inner_descriptionIngredients}>
             {readOnly && (
-              <IngredientsShowEndAdd readOnly={readOnly} ingredients={recipe?.ingredients} />
+              <IngredientsShowEndAdd
+                readOnly={readOnly}
+                ingredients={recipe?.ingredients}
+              />
             )}
             {!readOnly && (
               <>
@@ -314,6 +321,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
               className={styles.buttonOnsubmit}
               size={'medium'}
               color={'primary'}
+              type="submit"
             >
               Опубликовать
             </Button>
