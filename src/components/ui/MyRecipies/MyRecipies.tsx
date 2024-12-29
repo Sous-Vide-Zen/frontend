@@ -12,6 +12,7 @@ import { setMyRecipiesCount } from '@/store/features/counters/counters.slice'
 import { useRecipes } from '@/hooks/useRecipes'
 import { RecipeList } from '@/components/ui/RecipeList'
 import { Button, DatePicker } from '@/components/ui'
+import CustomDatePicker from '../CustomDatePicker';
 
 type MyRecipiesProps = {
   username?: string
@@ -49,16 +50,7 @@ const MyRecipies: FC<MyRecipiesProps> = ({ username }) => {
         </div>
 
         {myRecipesSort === 'date' && (
-          <DatePicker
-            placeholder="Выберите нужную дату"
-            value={
-              (myRecipesFromDate && new Date(myRecipesFromDate)) || undefined
-            }
-            onChange={(date) =>
-              date &&
-              dispatch(setDateSortMyRecipes(date?.toISOString().split('T')[0]))
-            }
-          />
+          <CustomDatePicker />
         )}
       </div>
 
