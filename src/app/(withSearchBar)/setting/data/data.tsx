@@ -18,33 +18,33 @@ export default function Data() {
               <Image
                 alt="mail"
                 src={'/img/mail.svg'}
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 draggable={false}
               />
             </div>
             <div className={styles.dataBottomTextContent}>
-              <p className={styles.bottomTitle}>Текущая почта</p>
-              <p className={styles.bottomText}>iv****@gmail.ru</p>
+              <h3 className={styles.dataBottomTitle}>Текущая почта</h3>
+              <p className={styles.dataBottomText}>iv****@gmail.ru</p>
             </div>
-            <span className={styles.dataSpanText}>Изменить</span>
+            <button className={styles.dataButtonText}>Изменить</button>
           </div>
           <div className={styles.dataTextBox}>
             <div className={styles.dataIcon}>
               <Image
                 alt="password"
                 src={'/img/password.svg'}
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 draggable={false}
               />
             </div>
             <div className={styles.dataBottomTextContent}>
               <div className={styles.dataBottomTextContent}>
-                <p className={styles.bottomTitle}>Пароль</p>
-                <p className={styles.bottomText}>*********</p>
+                <h3 className={styles.dataBottomTitle}>Пароль</h3>
+                <p className={styles.dataBottomText}>*********</p>
               </div>
-              <span className={styles.dataSpanText}>Изменить</span>
+              <button className={styles.dataButtonText}>Изменить</button>
             </div>
           </div>
           <div className={styles.dataTextBox}>
@@ -52,14 +52,14 @@ export default function Data() {
               <Image
                 alt="safe"
                 src={'/img/safe.svg'}
-                width={40}
-                height={40}
+                width={32}
+                height={32}
                 draggable={false}
               />
             </div>
             <div className={styles.dataBottomTextContent}>
               <div className={styles.dataBottomTextContent}>
-                <p className={styles.bottomTitleYa}>
+                <p className={styles.dataBottomTitleYa}>
                   Настройки при регистрации Яндекс/Вконтакте
                 </p>
               </div>
