@@ -1,58 +1,15 @@
 /* блок ингредиенты */
-.component_container{
-  border-radius: 12px;
-	border: 1px solid var(--input-stroke);
-  padding: 20px 0px 0 20px;
-}
-
-.cockingTime {
-    font-size: 24px;
-    font-weight: 500;
-    margin-bottom: 24px;
-  }
-.fromInput{
-    max-width: 225px;
-    margin-bottom: 80px;
-	// border-radius: 12px;
-	// border: 1px solid var(--input-stroke);
-	outline: none;
-	padding: 12px 14px;
-	transition: all 0.3s ease-in-out;
-	// width: 100%;
-	color: var(--base-color-dark);
-
-	&:focus {
-		border: 1px solid var(--base-color-dark);
-		color: var(--base-color-dark);
-	}
-
-	// &__wrapper {
-	// 	position: relative;
-	// }
-
-	// &__icons {
-	// 	position: absolute;
-	// 	display: flex;
-	// 	flex-direction: row;
-	// 	height: min-content;
-	// 	top: 13.75px;
-	// 	right: 12px;
-	// }
-
-	// &__eye {
-	// 	display: flex;
-	// 	border-radius: 0;
-	// 	border: none;
-	// 	background-color: transparent;
-	// 	cursor: pointer;
-
-	// 	* {
-	// 		fill: #bcbcbc;
-	// 	}
-	// }
-}
 .ingredients_container {
-    margin-bottom: 16px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid var(--input-stroke);
+  padding: 0px 0px 0 20px;
+  display: flex;
+  width: 100%;
+  }
+  .column_container{
+    max-width: 350px;
+    width: 100%;
   }
   .ingredients {
     font-size: 24px;
@@ -71,7 +28,7 @@
     font-size: 16px;
     font-weight: 400;
     padding: 0;
-    min-width: 250px;
+    // min-width: 250px;
     margin: 20px 12px 20px 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -83,7 +40,7 @@
     font-size: 16px;
     font-weight: 400;
     padding: 0;
-    min-width: 225px;
+    // min-width: 225px;
     margin: 20px 12px 20px 0;
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -120,5 +77,31 @@
     width: 179px;
     border: 1px solid var(--input-stroke);
   }
-  
-  /* */
+
+.component_container{
+  border-radius: 12px;
+	border: 1px solid var(--input-stroke);
+  padding: 20px 0px 0 20px;
+}
+
+.cockingTime {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+.fromInput{
+    max-width: 225px;
+    // margin-bottom: 80px;
+	// border-radius: 12px;
+	// border: 1px solid var(--input-stroke);
+	outline: none;
+	// padding: 12px 14px;
+	transition: all 0.3s ease-in-out;
+	// width: 100%;
+	color: var(--base-color-dark);
+
+	&:focus {
+		border: 1px solid var(--base-color-dark);
+		color: var(--base-color-dark);
+	}
+}  
