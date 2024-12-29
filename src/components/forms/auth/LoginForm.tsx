@@ -36,7 +36,7 @@ const LoginForm: FC = () => {
     handleSubmit,
     formState: { errors, isDirty, isValid },
   } = useForm<FormValues>({
-    mode: 'onBlur',
+    mode: 'all',
   })
 
   useEffect(() => {

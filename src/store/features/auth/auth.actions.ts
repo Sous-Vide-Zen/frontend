@@ -132,6 +132,7 @@ export const {
   useGetTokensMutation,
   useVerifyTokenMutation,
   useGetCurentUserDataQuery,
+  useLazyGetCurentUserDataQuery,
   useRegisterMutation,
   useActivationMutation,
   useResendActivationMutation,
