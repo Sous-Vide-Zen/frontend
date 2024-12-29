@@ -38,7 +38,7 @@
 .secondary {
   background: var(--base-color);
   color: var(--base-color-dark);
-  border: 2px solid var(--primary-color-light);
+  border: 2px solid #000;
   &:hover:not([disabled]) {
     background: var(--button-hover);
     color: var(--base-color);
@@ -48,7 +48,7 @@
     color: var(--base-color);
   }
   &.pressed {
-    border-color: #000;
+    border-color: var(--primary-color-light);
   }
 }
 
