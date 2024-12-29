@@ -2,12 +2,16 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IInitialState {
   isAuth: boolean
+  id: number | null,
+  username: string | null,
   accessToken: string | null
   refreshToken: string | null
 }
 
 const defaultState: IInitialState = {
   isAuth: false,
+  id: null,
+  username: null,
   accessToken: null,
   refreshToken: null,
 }
@@ -32,6 +36,8 @@ export const authSlice = createSlice({
     logoutUser: (state, _action) => {
       state.accessToken = null
       state.refreshToken = null
+      state.id = null
+      state.username = null
       state.isAuth = false
     },
     setAccessToken: (state, action: PayloadAction<string>) => {
@@ -50,7 +56,17 @@ export const authSlice = createSlice({
     clearTokens: (state, _action) => {
       state.accessToken = null
       state.refreshToken = null
+      state.id = null
+      state.username = null
       state.isAuth = false
+    },
+    setUserAuthData: (
+      state,
+      action: PayloadAction<{ id: number; username: string }>,
+    ) => {
+      const { id, username } = action.payload
+      state.id = id
+      state.username = username
     },
   },
 })
@@ -62,6 +78,7 @@ export const {
   setAccessToken,
   setTokens,
   clearTokens,
+  setUserAuthData
 } = authSlice.actions
 
 export default authSlice.reducer

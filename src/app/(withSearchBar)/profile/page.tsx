@@ -1,16 +1,16 @@
 'use client'
 
 import styles from './profile.module.scss'
-import { authApi } from '@/store/features/auth/auth.actions'
+import { useAppSelector } from '@/store/hooks'
+import { useAuth } from '@/hooks/useAuth'
 import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
 import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
-import { Subscriptions } from '@/components/ui/Subscriptions'
+import { Subscribtions } from '@/components/ui/Subscribtions'
 import { Subscribers } from '@/components/ui/Subscribers'
 import UserCard from '@/components/ui/UserCard/UserCard'
-import { useAppSelector } from '@/store/hooks'
 
 export default function ProfilePage() {
-  const { data, error } = authApi.useGetCurentUserDataQuery()
+  const { isAuth, logout, username } = useAuth()
   const {
     profileTabMyRecipies,
     profileTabMySubscribers,
@@ -19,40 +19,28 @@ export default function ProfilePage() {
 
   const tabs: TabData[] = [
     {
-      label:
-        profileTabMyRecipies !== undefined
-          ? `Рецепты (${profileTabMyRecipies})`
-          : `Рецепты`,
-      Content: <MyRecipies username={data?.username} />,
+      label: `Рецепты (${profileTabMyRecipies})`,
+      Content: <MyRecipies username={username ?? undefined} />,
     },
     {
-      label:
-        profileTabMySubscriptions !== undefined
-          ? `Мои подписки (${profileTabMySubscriptions})`
-          : `Мои подписки`,
-      Content: <Subscriptions username={data?.username} />,
+      label: `Мои подписки (${profileTabMySubscriptions})`,
+      Content: <Subscribtions username={username ?? ''} />,
     },
     {
-      label:
-        profileTabMySubscribers !== undefined
-          ? `Мои подписчики (${profileTabMySubscribers})`
-          : `Мои подписчики`,
-      Content: <Subscribers username={data?.username} />,
+      label: `Мои подписчики (${profileTabMySubscribers})`,
+      Content: <Subscribers username={username ?? ''} />,
     },
   ]
 
-  if (error)
-    return (
-      <div className={styles.container}>
-        <div className={styles.wrapper}></div>
-      </div>
-    )
+  if (!isAuth) {
+    logout()
+  }
 
   return (
     <div className={styles.container}>
       <div className={`${styles.wrapper} scroll scroll--left scroll__thin`}>
-        <UserCard username={data?.username || ''} />
-        <Tabs tabs={tabs} />
+        <UserCard username={username ?? ''} />
+        <Tabs tabs={tabs} defaultTab={0} />
       </div>
       <div className={styles.rightbar} />
     </div>

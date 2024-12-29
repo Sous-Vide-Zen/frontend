@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
 export interface IInitialState {
-  profileTabMyRecipies?: number
-  profileTabMySubscriptions?: number
-  profileTabMySubscribers?: number
+  profileTabMyRecipies: number
+  profileTabMySubscriptions: number
+  profileTabMySubscribers: number
 }
 
 const defaultState: IInitialState = {
@@ -17,19 +17,19 @@ export const countersSlice = createSlice({
   initialState: defaultState,
   reducers: {
     setMyRecipiesCount: (state, action: PayloadAction<number | undefined>) => {
-      state.profileTabMyRecipies = action.payload
+      state.profileTabMyRecipies = action.payload ?? 0
     },
     setMySubscriptionsCount: (
       state,
       action: PayloadAction<number | undefined>,
     ) => {
-      state.profileTabMySubscriptions = action.payload
+      state.profileTabMySubscriptions = action.payload ?? 0
     },
     setMySubscribersCount: (
       state,
       action: PayloadAction<number | undefined>,
     ) => {
-      state.profileTabMySubscribers = action.payload
+      state.profileTabMySubscribers = action.payload ?? 0
     },
   },
 })

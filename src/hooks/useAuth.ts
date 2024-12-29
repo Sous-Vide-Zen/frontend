@@ -11,7 +11,7 @@ import {
 export const useAuth = () => {
   const router = useRouter()
   const dispatch = useAppDispatch()
-  const { isAuth } = useAppSelector((state) => state.auth)
+  const { isAuth, id, username } = useAppSelector((state) => state.auth)
 
   useEffect(() => {
     dispatch(checkLoginStatus({}))
@@ -26,5 +26,7 @@ export const useAuth = () => {
     router.push('/')
   }
 
-  return { isAuth, login, logout }
+  return {
+    isAuth, id, username, login, logout
+  }
 }

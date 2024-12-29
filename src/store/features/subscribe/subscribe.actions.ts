@@ -1,12 +1,12 @@
 import { mainApi } from '@/store/api'
-import { SubscribeResponse, SubscribtionsResponse } from './subscribe.types'
+import { SubscribeResponse, SubscribersResponse, SubscribtionsResponse } from './subscribe.types'
 
 export const subscribeApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
     getUserSubscriptions: builder.query<SubscribtionsResponse, string>({
       query: (username) => ({ url: `user/${username}/subscriptions/` }),
     }),
-    getUserSubscribers: builder.query<SubscribtionsResponse, string>({
+    getUserSubscribers: builder.query<SubscribersResponse, string>({
       query: (username) => ({ url: `user/${username}/subscribers/` }),
     }),
     subscribe: builder.mutation<SubscribeResponse, string>({
