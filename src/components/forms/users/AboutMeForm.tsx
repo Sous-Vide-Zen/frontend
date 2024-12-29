@@ -128,7 +128,6 @@ const AboutMeForm: FC<Props> = ({}) => {
   }, [data, getValues, setValue, watch])
 
   const onSubmit = (dataFromInput: UserPatchData) => {
-    console.log(dataFromInput)
     if (dataFromInput) {
       const filteredPhone = dataFromInput.phone
         ? dataFromInput.phone.replace(/(\D)/g, '')
@@ -138,6 +137,7 @@ const AboutMeForm: FC<Props> = ({}) => {
         body: {
           ...dataFromInput,
           phone: filteredPhone.length ? `+${filteredPhone}` : '',
+          country: dataFromInput.country ?? ''
         },
       })
       setFormChanged(false)
@@ -223,6 +223,7 @@ const AboutMeForm: FC<Props> = ({}) => {
                   name={name}
                   options={COUNTRIES}
                   placeholder="Россия"
+                  isClearable={true}
                   inputId={Date.now().toString()}
                   value={COUNTRIES.find((c) => c.value === value)}
                   onChange={(selectedOption) => {
