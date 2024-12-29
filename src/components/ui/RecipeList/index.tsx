@@ -28,7 +28,7 @@ export const RecipeList: FC<Props> = ({
   const [removedItems, setRemovedItems] = useState<number[]>([])
 
   const router = useRouter()
-  const { recipies, loadNextPageRef, isFetching, isLoading, error, total } =
+  const { recipies, loadNextPageRef, isFetching, isLoading, error, total, status } =
     dispatcher
 
   const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
@@ -64,8 +64,8 @@ export const RecipeList: FC<Props> = ({
   }, [loadNextPageRef])
 
   useEffect(() => {
-    onChangeTotal && onChangeTotal(total)
-  }, [onChangeTotal, total])
+    status === 'fulfilled' && onChangeTotal && onChangeTotal(total)
+  }, [onChangeTotal, status, total])
 
   let content: React.ReactNode = null
 
