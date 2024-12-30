@@ -1,83 +1,87 @@
 .dataTitle {
   font-size: 2rem;
   color: var(--base-color-dark);
-  margin-bottom: 48px;
 }
 
-.dataContainer {
+.container {
   width: 667px;
-  padding: 24px;
-  border-radius: 12px;
-  border: 1px solid var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
 
-  .dataTopContent {
+  .dataContainer {
     display: flex;
     flex-direction: column;
-    width: 235px;
-    margin-bottom: 48px;
-  }
+    width: 667px;
+    padding: 24px;
+    border-radius: 12px;
+    gap: 24px;
+    border: 1px solid var(--primary-color);
 
-  .datasContentTitle {
-    line-height: 22px;
-    color: var(--base-color-dark);
-    margin-bottom: 24px;
-  }
+    .dataTopContent {
+      display: flex;
+      flex-direction: column;
+      width: 235px;
+      gap: 16px;
+    }
 
-  .dataContentText {
-    font-size: 22px;
-    line-height: 22px;
-    color: #7c7c7c;
-  }
+    .dataContentTitle {
+      font-size: 26px;
+      line-height: 22px;
+      color: var(--base-color-dark);
+    }
 
-  .dataBottomContent {
-    display: flex;
-    flex-direction: column;
-    width: 619px;
-  }
+    .dataContentText {
+      font-size: 22px;
+      line-height: 22px;
+      color: #7c7c7c;
+    }
 
-  .dataTextBox:not(:last-child) {
-    margin-bottom: 36px;
-  }
+    .dataBottomContent {
+      display: flex;
+      flex-direction: column;
+      width: 619px;
+      gap: 20px;
+    }
 
-  .dataTextBox {
-    position: relative;
-    display: flex;
-  }
+    .dataTextBox {
+      position: relative;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
 
-  .dataBottomContent:not(:last-child) {
-    margin-bottom: 36px;
-  }
+    .dataBottomTextContent {
+      display: flex;
+      flex-direction: column;
+      // gap: 16px;
+    }
 
-  .dataIcon {
-    margin-right: 16px;
-  }
+    .dataBottomTitle {
+      font-size: 20px;
+      color: var(--base-color-dark);
+    }
 
-  .dataBottomTextContent {
-    display: flex;
-    flex-direction: column;
-  }
+    .dataBottomTitleYa {
+      font-size: 20px;
+      color: var(--base-color-dark);
+    }
 
-  .bottomTitle {
-    font-size: 24px;
-    color: var(--base-color-dark);
-    margin: -8px 0 14px 0;
-  }
+    .dataBottomText {
+      font-size: 18px;
+      color: #7c7c7c;
+    }
 
-  .bottomTitleYa {
-    font-size: 24px;
-    color: var(--base-color-dark);
-    margin-top: 5px;
-  }
-
-  .bottomText {
-    font-size: 18px;
-    color: #7c7c7c;
-  }
-
-  .dataSpanText {
-    position: absolute;
-    right: 0;
-    font-size: 22px;
-    color: var(--primary-color-light);
+    .dataButtonText {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      font-size: 20px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: var(--primary-color-light);
+    }
   }
 }

@@ -6,7 +6,7 @@ import styles from './Recipe.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { IconsAndActions, RecipeBody, UserNameShow } from '.'
 import { RecipePhoto } from './RecipePhoto'
-import Comments from './RecipeBody/Comments/comments'
+import Comments from './/Comments/comments'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
