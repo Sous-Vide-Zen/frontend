@@ -8,6 +8,7 @@
 .commentsTitle {
   font-size: 24px;
   color: var(--base-color-dark);
+  margin-bottom: 24px;
 }
 
 /*верхний блок с плейсхолдером*/
@@ -25,7 +26,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 8px;
+  gap: 9px;
 }
 
 .commentsInput {
@@ -48,6 +49,17 @@
 }
 
 /*нижний блок*/
+.commentsList {
+  // width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .commentsItem {
+    list-style-type: none;
+  }
+}
+
 .commentsBottomContainer {
   position: relative;
   display: flex;
@@ -61,14 +73,13 @@
 
   .commentsTopBox {
     display: flex;
-    justify-content: space-between;
     flex-direction: column;
   }
 
-  .commentsBottomContent {
+  .commentsTextContent {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
   }
 
   .commentsImgText {
@@ -80,20 +91,9 @@
     gap: 8px;
   }
 
-  .linkForRecipeHo {
-    width: 152px;
-  }
-
   .commentsNameText {
     font-size: 12px;
     color: var(--base-color-dark);
-  }
-
-  .containerButton {
-    position: absolute;
-    right: 1%;
-    display: flex;
-    justify-content: flex-end;
   }
 
   .commentsBottomTextDescr {
