@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import styles from './comments.module.scss'
 import { useState } from 'react'
-import { MenyMyself } from '@/components/ui/Recipe/MenuMyself/index'
+import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu/index'
 import EditComment from '@/components/ui/Recipe/Comments/EditComments/index'
 
 export default function Comments() {
@@ -37,106 +37,119 @@ export default function Comments() {
     },
   ])
 
-  const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
+  // const handleEditComment = (id: number) => {
+  //   setEditingCommentId(id)
+  // }
 
-  const handleEditComment = (id: number) => {
-    setEditingCommentId(id)
-  }
+  // const handleSaveComment = (id: number, newText: string) => {
+  //   setComments((prevComments) =>
+  //     prevComments.map((comment) =>
+  //       comment.id === id ? { ...comment, text: newText } : comment,
+  //     ),
+  //   )
+  //   setEditingCommentId(null)
+  // }
 
-  const handleSaveComment = (id: number, newText: string) => {
-    setComments((prevComments) =>
-      prevComments.map((comment) =>
-        comment.id === id ? { ...comment, text: newText } : comment,
-      ),
-    )
-    setEditingCommentId(null)
-  }
-
-  const handleCancelEdit = () => {
-    setEditingCommentId(null)
-  }
+  // const handleCancelEdit = () => {
+  //   setEditingCommentId(null)
+  // }
 
   return (
-    <div className={styles.commentsWrapper}>
-      <p className={styles.commentsTitle}>Комментарии</p>
-      <div className={styles.commentsTopContainer}>
-        <div className={styles.commentsContent}>
-          <input
-            className={styles.commentsInput}
-            type="text"
-            placeholder="Введите текст комментария..."
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-          />
-          <div className={styles.buttonDiv}>
-            <button className={styles.commentsBtn}>Отправить</button>
+    <div className={styles.commentsContainer}>
+      <h2 className={styles.commentsTitle}>Комментарии</h2>
+      <div className={styles.commentsWrapper}>
+        <div className={styles.commentsTopContainer}>
+          <div className={styles.commentsContent}>
+            <input
+              className={styles.commentsInput}
+              type="text"
+              placeholder="Введите текст комментария..."
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            />
+            <div className={styles.buttonDiv}>
+              <button className={styles.commentsBtn}>Отправить</button>
+            </div>
           </div>
         </div>
-      </div>
-      {comments.map((comment) => (
-        <div key={comment.id}>
-          <div className={styles.commentsBottomContainer}>
-            <div className={styles.commentsTopBox}>
-              <div className={styles.commentsBottomContent}>
-                <div className={styles.commentsImgText}>
-                  <Image
-                    src={comment.avatar}
-                    alt={comment.username}
-                    className={styles.avatar}
-                    width={20}
-                    height={20}
-                  />
-                  <p className={styles.commentsNameText}>{comment.username}</p>
-                </div>
-                <div className={styles.containerButton}>
-                  <MenyMyself />
-                </div>
-                {editingCommentId === comment.id ? (
-                  <EditComment
-                    currentText={comment.text}
-                    onSave={(newText) => handleSaveComment(comment.id, newText)} // Убедитесь, что эта функция работает правильно
-                  />
-                ) : (
-                  // <p className={styles.commentsBottomTextDescr}>
-                  //   {comment.text}
-                  // </p>
-                  <p className={styles.commentsBottomTextDescr}>
-                    {comment.text}
-                  </p>
-                )}
-              </div>
-            </div>
-            <div className={styles.commentsBottomBox}>
-              <div className={styles.commentsReactionsContent}>
-                <button className={styles.commentsBtn}>Ответить</button>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'flex-end',
-                    flexGrow: 1,
-                  }}
-                >
-                  {reactions.map((reaction, index) => (
-                    <div key={index} className={styles.reactionItem}>
-                      <div className={styles.commentsReactions}>
-                        <Image
-                          src={reaction.src}
-                          alt={reaction.alt}
-                          width={24}
-                          height={24}
-                        />
-                        <p className={styles.commentsReactionsIconsText}>
-                          {reaction.count}
-                        </p>
-                      </div>
+
+        <ul className={styles.commentsList}>
+          {comments.map((comment) => (
+            <li key={comment.id} className={styles.commentsItem}>
+              <div className={styles.commentsBottomContainer}>
+                <div className={styles.commentsTopBox}>
+                  <div className={styles.commentsTextContent}>
+                    <div className={styles.commentsImgText}>
+                      <Image
+                        src={comment.avatar}
+                        alt={comment.username}
+                        className={styles.avatar}
+                        width={20}
+                        height={20}
+                      />
+                      <p className={styles.commentsNameText}>
+                        {comment.username}
+                      </p>
                     </div>
-                  ))}
+                    <p className={styles.commentsBottomTextDescr}>
+                      {comment.text}
+                    </p>
+                    <PopupEditingMenu />
+                    {/* onEdit={() => handleEditComment(comment.id)} */}
+
+                    {/* {editingCommentId === comment.id ? (
+                    <EditComment
+                      currentText={comment.text}
+                      onSave={(newText) =>
+                        handleSaveComment(comment.id, newText)
+                      }
+                    />
+                  ) : (
+                    <p className={styles.commentsBottomTextDescr}>
+                      {comment.text}
+                    </p>
+                  )} */}
+                    {/* {
+                      <EditComment
+                        commentEdit={comment.text}
+                        onSave={() => handleEditClick(comment.id)}
+                      />
+                    } */}
+                  </div>
+                </div>
+                <div className={styles.commentsBottomBox}>
+                  <div className={styles.commentsReactionsContent}>
+                    <button className={styles.commentsBtn}>Ответить</button>
+                    <div
+                      style={{
+                        display: 'flex',
+                        justifyContent: 'flex-end',
+                        flexGrow: 1,
+                      }}
+                    >
+                      {reactions.map((reaction, index) => (
+                        <div key={index} className={styles.reactionItem}>
+                          <div className={styles.commentsReactions}>
+                            <Image
+                              src={reaction.src}
+                              alt={reaction.alt}
+                              width={24}
+                              height={24}
+                            />
+                            <p className={styles.commentsReactionsIconsText}>
+                              {reaction.count}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      ))}
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   )
 }

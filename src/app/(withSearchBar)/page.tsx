@@ -1,6 +1,6 @@
-import styles from './page.module.scss'
 import Rightbar from '@/components/layout/rightbar/rightbar'
 import Recipes from '@/components/ui/RecipeList/Recipes'
+import styles from './page.module.scss'
 
 export default async function HomePage() {
   /* 

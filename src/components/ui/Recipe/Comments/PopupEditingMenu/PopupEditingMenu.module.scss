@@ -1,0 +1,28 @@
+.containerButton {
+  position: absolute;
+  display: flex;
+  justify-content: flex-end;
+  right: 1%;
+  top: 5%;
+  cursor: pointer;
+  color: var(--green-green-light);
+
+  .linkEditingMenu {
+    width: 168px;
+    height: 94px;
+    position: absolute;
+    right: 10px;
+    bottom: -35px;
+    z-index: 15;
+    padding: 16px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-around;
+    font-size: 16px;
+    background-image: url(/img/recipe-card/union-edit.png);
+    background-repeat: no-repeat;
+    a {
+      color: black;
+    }
+  }
+}
