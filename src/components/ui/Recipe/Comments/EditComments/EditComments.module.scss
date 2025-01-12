@@ -1,0 +1,12 @@
+.editCommentContainer {
+  display: flex;
+  justify-content: flex-start;
+
+  .editCommentsInputTextDescr {
+    width: 51%;
+    font-size: 14px;
+    color: var(--base-color-dark);
+    border: none;
+    outline: none;
+  }
+}
