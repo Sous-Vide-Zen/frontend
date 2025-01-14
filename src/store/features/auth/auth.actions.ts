@@ -45,8 +45,7 @@ export const authApi = mainApi.injectEndpoints({
       query: (body) => {
         return {
           url: 'auth/users/',
-          method: 'POST',
-          body,
+          method: 'GET',
         }
       },
     }),

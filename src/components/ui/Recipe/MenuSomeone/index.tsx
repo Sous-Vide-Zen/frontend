@@ -10,9 +10,7 @@ type RecipeCardProps = Partial<
   Pick<RecipeFull, 'views_count' | 'reactions_count' | 'slug'>
 >
 
-export const MenuSomeone: FC<RecipeCardProps> = ({
-  slug,
-}) => {
+export const MenuSomeone: FC<RecipeCardProps> = ({ slug }) => {
   const [active, setActive] = useState(false)
 
   const handleToggle = () => {
@@ -23,8 +21,8 @@ export const MenuSomeone: FC<RecipeCardProps> = ({
     <div className={styles.containerButton}>
       {active && (
         <div className={styles.linkForRecipe}>
-          <Link href={`/recipe/edit/${slug}`}>Отписаться</Link>
-          <p>Пожаловаться</p>
+          <Link href={''}>Отписаться</Link>
+          <Link href={''}>Пожаловаться</Link>
         </div>
       )}
       <div className={styles.dropdownIcon} onClick={() => handleToggle()}>

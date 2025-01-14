@@ -13,11 +13,10 @@ import { FormInput } from '@/components/forms/items'
 import IngredientsShowEndAdd from './IngredientsShowEndAdd'
 import hoursToMinutes from '@/helpers/hoursOrMinutes'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
-// import {
-//   useCreateRecipeDraftMutation,
-//   usePublicateMutation,
-//   useGetRecipeDraftsQuery,
-// } from '@/store/features/recipes/recipes.actions'
+import {
+  useCreateRecipeDraftMutation,
+  usePublicateMutation,
+} from '@/store/features/recipes/recipes.actions'
 
 type Props = {
   recipe?: RecipeFull
@@ -27,6 +26,41 @@ type Props = {
 export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
   const router = useRouter()
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
+  // const [getSlug, { data: recipePublic, error: publishError }] =
+  //   useCreateRecipeDraftMutation()
+  const dataRecipe = {
+    title: 'тест Recipe',
+    preview: '',
+    ingredients: [
+      { name: 'Water', unit: 'литр', amount: 1 },
+      { name: 'Сахар', unit: 'грамм', amount: 500 },
+    ],
+    tag: ['Горячий', 'вода', 'сахар'],
+    full_text:
+      '180°C fan/gas 6. Separate half the oil, then roast for 25 minutes.',
+    category: [3],
+    cooking_time: 70,
+  }
+  // const [publicate, { data: recipePublic, error: publishError }] =
+  //   usePublicateMutation()
+  // const handleDraftAndPublish = async () => {
+  //   try {
+  //     Create the recipe draft and await the response
+  //     const response = await getSlug().unwrap()
+  //     const slug = response.slug//user246_chernovik_1
+
+  //     Now publish with the obtained slug
+  //     await publicate({
+  //       slug: 'user246_chernovik_1',
+  //       data: dataRecipe,
+  //     }).unwrap()
+
+  //     // Optionally, handle success or redirect
+  //     console.log('Recipe published successfully')
+  //   } catch (error) {
+  //     console.error('Error creating draft or publishing recipe:', error)
+  //   }
+  // }
 
   /* тестовые данные для селекта*/
 
@@ -82,6 +116,13 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
   /* */
   return (
     <div>
+      <div>
+        {/* <Button onClick={handleDraftAndPublish}>Publish Recipe</Button> */}
+        {/* {draftsError && <p>Error creating draft: </p>} */}
+        {/* {publishError && <p>Error publishing recipe: </p>} */}
+        {/* {recipePublic && <p>Recipe published successfully!</p>} */}
+        {/* Additional UI components go here */}
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         {/* <div className={styles.button_container}>
       <Button
