@@ -3,14 +3,19 @@
 import { FC, useState } from 'react'
 import Link from 'next/link'
 import styles from './PopupEditingMenu.module.scss'
-import { RecipeFull } from '@/store/features/recipes/recipes.types'
 
-type RecipeCardProps = Partial<Pick<RecipeFull, 'slug'>>
+type PopupEditingMenuProps = {
+  onEdit?: () => void
+  onDelete?: () => void
+}
 
-export const PopupEditingMenu: FC<RecipeCardProps> = ({ slug }) => {
+export const PopupEditingMenu: FC<PopupEditingMenuProps> = ({
+  onEdit,
+  onDelete,
+}) => {
   const [active, setActive] = useState(false)
 
-  const handleToggle = () => {
+  const toggleActive = () => {
     setActive((prevValue) => !prevValue)
   }
 
@@ -18,12 +23,16 @@ export const PopupEditingMenu: FC<RecipeCardProps> = ({ slug }) => {
     <div className={styles.containerButton}>
       {active && (
         <div className={styles.linkEditingMenu}>
-          <Link href={`/recipe/edit/${slug}`}>Редактировать</Link>
-          <Link href={``}>Удалить</Link>
+          <Link href="#" onClick={onEdit}>
+            Редактировать
+          </Link>
+          <Link href="#" onClick={onDelete}>
+            Удалить
+          </Link>
         </div>
       )}
-      <div className={styles.dropdownIcon} onClick={() => handleToggle()}>
-        &#8942;
+      <div className={styles.dropdownIcon} onClick={toggleActive}>
+        ⋮
       </div>
     </div>
   )

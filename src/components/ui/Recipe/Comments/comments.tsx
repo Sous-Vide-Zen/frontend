@@ -3,8 +3,8 @@
 import Image from 'next/image'
 import styles from './comments.module.scss'
 import { useState } from 'react'
-import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu/index'
-import EditComment from '@/components/ui/Recipe/Comments/EditComments/index'
+import EditComment from './EditComments' // Импортируем новый компонент
+import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu'
 
 export default function Comments() {
   const reactions = [
@@ -15,7 +15,10 @@ export default function Comments() {
     { src: '/img/reactions/fire.svg', alt: 'fire', count: 24 },
   ]
 
-  const [commentText, setCommentText] = useState('')
+  const [commentTexts, setCommentTexts] = useState<
+    Record<string | number, string>
+  >({})
+
   const [comments, setComments] = useState([
     {
       id: 1,
@@ -35,24 +38,43 @@ export default function Comments() {
       username: 'lena_cook',
       text: 'Легкий, но такой вкусный ужин. Рекомендую)',
     },
+    {
+      id: 4,
+      avatar: '/img/comments/png_3.png',
+      username: 'lena_cook',
+      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
+    },
+    {
+      id: 5,
+      avatar: '/img/comments/png_3.png',
+      username: 'lena_cook',
+      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
+    },
   ])
 
-  // const handleEditComment = (id: number) => {
-  //   setEditingCommentId(id)
-  // }
+  /* Обработчики событий */
 
-  // const handleSaveComment = (id: number, newText: string) => {
-  //   setComments((prevComments) =>
-  //     prevComments.map((comment) =>
-  //       comment.id === id ? { ...comment, text: newText } : comment,
-  //     ),
-  //   )
-  //   setEditingCommentId(null)
-  // }
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
 
-  // const handleCancelEdit = () => {
-  //   setEditingCommentId(null)
-  // }
+  const handleEditComment = (id: number) => {
+    setEditingCommentId(id) // Устанавливает id комментария, который нужно редактировать
+  }
+
+  const handleSaveComment = (id: number, newText: string) => {
+    setCommentTexts((prevCommentTexts) => ({
+      ...prevCommentTexts,
+      [id]: newText,
+    }))
+    setEditingCommentId(null)
+  }
+
+  const handleCancelEdit = () => {
+    setEditingCommentId(null)
+  }
+
+  const handleDeleteComment = (id: number) => {
+    setComments(comments.filter((comment) => comment.id !== id))
+  }
 
   return (
     <div className={styles.commentsContainer}>
@@ -64,8 +86,10 @@ export default function Comments() {
               className={styles.commentsInput}
               type="text"
               placeholder="Введите текст комментария..."
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
+              value={commentTexts['new'] || ''} // Для нового комментария используем ключ 'new'
+              onChange={(e) =>
+                setCommentTexts({ ...commentTexts, ['new']: e.target.value })
+              }
             />
             <div className={styles.buttonDiv}>
               <button className={styles.commentsBtn}>Отправить</button>
@@ -90,31 +114,25 @@ export default function Comments() {
                       <p className={styles.commentsNameText}>
                         {comment.username}
                       </p>
-                    </div>
-                    <p className={styles.commentsBottomTextDescr}>
-                      {comment.text}
-                    </p>
-                    <PopupEditingMenu />
-                    {/* onEdit={() => handleEditComment(comment.id)} */}
 
-                    {/* {editingCommentId === comment.id ? (
-                    <EditComment
-                      currentText={comment.text}
-                      onSave={(newText) =>
-                        handleSaveComment(comment.id, newText)
-                      }
-                    />
-                  ) : (
-                    <p className={styles.commentsBottomTextDescr}>
-                      {comment.text}
-                    </p>
-                  )} */}
-                    {/* {
-                      <EditComment
-                        commentEdit={comment.text}
-                        onSave={() => handleEditClick(comment.id)}
+                      <PopupEditingMenu
+                        onEdit={() => handleEditComment(comment.id)}
+                        onDelete={() => handleDeleteComment(comment.id)}
                       />
-                    } */}
+                    </div>
+                    {editingCommentId === comment.id ? (
+                      <EditComment
+                        initialText={comment.text}
+                        onSave={(newText) =>
+                          handleSaveComment(comment.id, newText)
+                        }
+                        onCancel={handleCancelEdit}
+                      />
+                    ) : (
+                      <p className={styles.commentsBottomTextDescr}>
+                        {commentTexts[comment.id] || comment.text}{' '}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className={styles.commentsBottomBox}>

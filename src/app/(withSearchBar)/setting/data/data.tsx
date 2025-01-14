@@ -6,7 +6,7 @@ import Image from 'next/image'
 export default function Data() {
   return (
     <div className={styles.container}>
-      <h3 className={styles.dataTitle}>Настройки</h3>
+      <h1 className={styles.dataTitle}>Настройки</h1>
       <div className={styles.dataContainer}>
         <div className={styles.dataTopContent}>
           <h2 className={styles.dataContentTitle}>Данные аккаунта</h2>
