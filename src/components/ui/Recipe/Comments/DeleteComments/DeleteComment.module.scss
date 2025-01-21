@@ -1,0 +1,58 @@
+.overlay {
+  position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+.modalContent {
+position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 360px;
+  border-radius: 12px;
+  padding: 48px;
+  gap: 24px;
+  background: var(--base-color);
+}
+
+.deleteCommentModalText {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 21.78px;
+  color: var(--base-color-dark);
+}
+
+.closeButton {
+  position: absolute;
+  top: -30%;
+  left: 97%;
+  right: 30%;
+  background: none;
+  border: none;
+  font-size: 3.5rem;
+  cursor: pointer;
+  color: white;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
+
+// .deleteCommentSuccess {
+//   margin-bottom: 24px;
+// }
+
+// .deleteCommentText {
+//   font-size: 18px;
+//   font-weight: 400;
+//   line-height: 21.78px;
+//   color: var(--black);
+//   text-align: center;
+// }

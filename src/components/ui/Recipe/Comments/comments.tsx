@@ -3,7 +3,8 @@
 import Image from 'next/image'
 import styles from './comments.module.scss'
 import { useState } from 'react'
-import EditComment from './EditComments' // Импортируем новый компонент
+import EditComment from './EditComments'
+import DeleteComment from '@/components/ui/Recipe/Comments/DeleteComments/index'
 import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu'
 
 export default function Comments() {
@@ -22,43 +23,42 @@ export default function Comments() {
   const [comments, setComments] = useState([
     {
       id: 1,
-      avatar: '/img/comments/png_1.png',
-      username: 'Алина Устимова (Вы)',
+      author: {
+        id: 1,
+        username: 'Алина Устимова',
+        avatar: '/img/comments/png_1.png',
+      },
       text: 'Безумно вкусно получается! Спасибо за рецепт))',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
     },
+
     {
       id: 2,
-      avatar: '/img/comments/png_2.png',
-      username: 'Сергей Петров',
+      author: {
+        id: 2,
+        username: 'Сергей Петров',
+        avatar: '/img/comments/png_2.png',
+      },
       text: 'Супер рецепт! Я еще добавляю кунжутное масло и 10/10',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
     },
+
     {
       id: 3,
-      avatar: '/img/comments/png_3.png',
-      username: 'lena_cook',
+      author: {
+        id: 3,
+        username: 'lena_cook',
+        avatar: '/img/comments/png_3.png',
+      },
       text: 'Легкий, но такой вкусный ужин. Рекомендую)',
-    },
-    {
-      id: 4,
-      avatar: '/img/comments/png_3.png',
-      username: 'lena_cook',
-      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
-    },
-    {
-      id: 5,
-      avatar: '/img/comments/png_3.png',
-      username: 'lena_cook',
-      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
     },
   ])
 
-  /* Обработчики событий */
-
-  const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
-
-  const handleEditComment = (id: number) => {
-    setEditingCommentId(id) // Устанавливает id комментария, который нужно редактировать
-  }
+  /* обработчики клика */
 
   const handleSaveComment = (id: number, newText: string) => {
     setCommentTexts((prevCommentTexts) => ({
@@ -68,12 +68,59 @@ export default function Comments() {
     setEditingCommentId(null)
   }
 
+  const handleEditComment = (id: number) => {
+    setEditingCommentId(id) // Устанавливает id комментария, который нужно редактировать
+  }
+
   const handleCancelEdit = () => {
     setEditingCommentId(null)
   }
 
+  /* логика действий над комментариями */
+
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [commentToDelete, setCommentToDelete] = useState<number | null>(null)
+
+  const currentUser = {
+    id: 1,
+    role: 'user', // 'user', 'admin', 'moderator'
+  }
+
   const handleDeleteComment = (id: number) => {
-    setComments(comments.filter((comment) => comment.id !== id))
+    setCommentToDelete(id)
+    setIsDeleteModalOpen(true)
+  }
+
+  const confirmDeleteComment = () => {
+    if (commentToDelete !== null) {
+      setComments(
+        comments.filter((comments) => comments.id !== commentToDelete),
+      )
+      setCommentToDelete(null)
+      setIsDeleteModalOpen(false)
+    }
+  }
+
+  const canEditComment = (comment) => {
+    const isAuthor = currentUser.id === comment.author.id
+    const isAdmin = currentUser.role === 'admin'
+    const isWithin24Hours =
+      new Date().getTime() - new Date(comment.pub_date).getTime() <
+      24 * 60 * 60 * 1000
+
+    return isAuthor || (isAdmin && isWithin24Hours)
+  }
+
+  const canDeleteComment = (comments) => {
+    const isAuthor = currentUser.id === comments.author.id
+    const isAdmin = currentUser.role === 'admin'
+    const isModerator = currentUser.role === 'moderator'
+    const isAfter24Hours =
+      new Date().getTime() - new Date(comments.pub_date).getTime() >
+      24 * 60 * 60 * 1000
+
+    return (isAuthor || isAdmin || isModerator) && isAfter24Hours
   }
 
   return (
@@ -86,7 +133,7 @@ export default function Comments() {
               className={styles.commentsInput}
               type="text"
               placeholder="Введите текст комментария..."
-              value={commentTexts['new'] || ''} // Для нового комментария используем ключ 'new'
+              value={commentTexts['new'] || ''}
               onChange={(e) =>
                 setCommentTexts({ ...commentTexts, ['new']: e.target.value })
               }
@@ -105,19 +152,25 @@ export default function Comments() {
                   <div className={styles.commentsTextContent}>
                     <div className={styles.commentsImgText}>
                       <Image
-                        src={comment.avatar}
-                        alt={comment.username}
+                        src={comment.author.avatar}
+                        alt={comment.author.username}
                         className={styles.avatar}
                         width={20}
                         height={20}
                       />
                       <p className={styles.commentsNameText}>
-                        {comment.username}
+                        {comment.author.username}
                       </p>
 
                       <PopupEditingMenu
-                        onEdit={() => handleEditComment(comment.id)}
-                        onDelete={() => handleDeleteComment(comment.id)}
+                        onEdit={() =>
+                          canEditComment(comment) &&
+                          handleEditComment(comment.id)
+                        }
+                        onDelete={() =>
+                          canDeleteComment(comment) &&
+                          handleDeleteComment(comment.id)
+                        }
                       />
                     </div>
                     {editingCommentId === comment.id ? (
@@ -126,7 +179,6 @@ export default function Comments() {
                         onSave={(newText) =>
                           handleSaveComment(comment.id, newText)
                         }
-                        onCancel={handleCancelEdit}
                       />
                     ) : (
                       <p className={styles.commentsBottomTextDescr}>
@@ -167,6 +219,11 @@ export default function Comments() {
             </li>
           ))}
         </ul>
+        <DeleteComment
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={confirmDeleteComment}
+        />
       </div>
     </div>
   )
