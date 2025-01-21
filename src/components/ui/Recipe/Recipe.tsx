@@ -7,6 +7,7 @@ import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { IconsAndActions, RecipeBody, UserNameShow } from '.'
 import { RecipePhoto } from './RecipePhoto'
 import Comments from './/Comments/comments'
+import { Skeleton } from '../Skeletons'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -18,18 +19,20 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const userProps = { author, pub_date, slug, readOnly }
   const iconProps = { slug, views_count, reactions_count }
 
+  if (!recipe) return <Skeleton/>
+
   return (
     <div className={styles.recipe}>
       <UserNameShow {...userProps} isMyRecipe={true} />
       <IconsAndActions {...iconProps} />
       <RecipePhoto
         isNew={false}
-        url={recipe?.preview_image}
+        url={recipe.preview_image}
         linkButton={true}
         printButton={true}
       />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
-      <Comments />
+      <Comments slug={recipe.slug}/>
     </div>
   )
 }

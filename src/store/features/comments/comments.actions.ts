@@ -8,8 +8,8 @@ import {
 
 export const commentsApi = mainApi.injectEndpoints({
   endpoints: (builder) => ({
-    getRecipeComments: builder.query<RecipeCommentsResponse, number>({
-      query: (recipeId) => ({ url: `recipe/${recipeId}/comments/` }),
+    getRecipeComments: builder.query<RecipeCommentsResponse, string>({
+      query: (slug) => ({ url: `recipe/${slug}/comments/` }),
     }),
     addRecipeComment: builder.mutation<
       CreateCommenResponse,
