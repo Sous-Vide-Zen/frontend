@@ -1,11 +1,10 @@
 import Image from 'next/image'
 import styles from './avatarImage.module.scss'
-import { Button } from '@/components/ui'
+import { Button, ImageLoaderNew } from '@/components/ui'
 import { useState } from 'react'
-import { ImageLoaderNew } from '../imageLoaderNew/ImageLoaderNew'
 
 type Props = {
-  avatar: string | undefined;
+  avatar: string | null;
 }
 
 export const AvatarImage = ({ avatar }: Props) => {
@@ -13,7 +12,6 @@ export const AvatarImage = ({ avatar }: Props) => {
 
   const handleSetAvatar = () => {
     setIsAvatarMode(!isAvatarMode);
-    console.log('handleSetAvatar, isAvatarMode: ', isAvatarMode);
   }
   return (
     <div className={styles.container}>
@@ -39,12 +37,13 @@ export const AvatarImage = ({ avatar }: Props) => {
             size="medium"
             color="secondary"
             onClick={handleSetAvatar}
+            style={{ width: '160px' }}
           >
             Добавить фото +
           </Button>
       }
       {isAvatarMode && (
-        <ImageLoaderNew handleSetAvatar={handleSetAvatar} avatar={avatar} />
+        <ImageLoaderNew onClick={handleSetAvatar} avatar={avatar} mode='avatar' />
       )}
     </div>
   )

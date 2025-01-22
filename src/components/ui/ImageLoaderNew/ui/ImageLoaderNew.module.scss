@@ -1,0 +1,69 @@
+.imageLoaderNew {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .mainWindow {
+    border-radius: 12px;
+    background: var(--white);
+    padding: 64px;
+    margin: 64px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+
+    .close {
+      position: absolute;
+      top: -28px;
+      right: -28px;
+      width: 20px;
+      height: 20px;
+      background: url(/img/close-white.svg) no-repeat center;
+      cursor: pointer;
+    }
+    .text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      font-family: var(--font-family);
+      font-weight: 400;
+      font-size: 16px;
+      color: var(--black);
+
+      text-align: center;
+    }
+    .canvas {
+      width: 248px;
+      height: 248px;
+      background: rgba(0, 0, 0, 0.7);
+
+      position: relative;
+
+      .controls {
+        position: absolute;
+        bottom: 38px;
+        left: 90px;
+        width: 68px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+    }
+    .imgLoaderBtns {
+      display: flex;
+      gap: 24px;
+    }
+  }
+}
