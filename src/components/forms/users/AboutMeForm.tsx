@@ -60,6 +60,7 @@ type Props = {
 const AboutMeForm: FC<Props> = ({}) => {
   const [phone, setPhone] = useState<string>()
   const [formChanged, setFormChanged] = useState(false)
+  const [avatar, setAvatar] = useState<string | null>(null)
 
   const {
     data: currentUserData,
@@ -118,7 +119,7 @@ const AboutMeForm: FC<Props> = ({}) => {
       setValue(u, data[u])
     }
     setPhone(data.phone) // триггер для изменения телефона
-
+    avatar && setAvatar(avatar)
     // подписываемся на изменение формы, чтоб не показывать ошибки сервера после изменения поля
     const { unsubscribe } = watch((_value, { name }) => {
       name === 'phone' && setFormChanged(true)
@@ -264,7 +265,7 @@ const AboutMeForm: FC<Props> = ({}) => {
             />
           </Field>
 
-          <AvatarImage />
+          <AvatarImage avatar={avatar} />
         </FieldSet>
 
         <Button
