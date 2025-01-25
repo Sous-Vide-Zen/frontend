@@ -6,13 +6,18 @@ import Link from 'next/link'
 import styles from './menuMyself.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 
-type RecipeCardProps = Partial<Pick<RecipeFull, 'slug'>>
+type RecipeCardProps = Partial<Pick<RecipeFull, 'slug'>> & {
+  isNotOlder24Hours: boolean
+}
 
 /* 
  для меню лучше использовать компонент Tooltip, а пункты меню передавать пропсами
 */
 
-export const MenyMyself: FC<RecipeCardProps> = ({ slug }) => {
+export const MenyMyself: FC<RecipeCardProps> = ({
+  slug,
+  isNotOlder24Hours,
+}) => {
   const [active, setActive] = useState(false)
 
   const handleToggle = () => {
@@ -23,7 +28,9 @@ export const MenyMyself: FC<RecipeCardProps> = ({ slug }) => {
     <div className={styles.containerButton}>
       {active && (
         <div className={styles.linkForRecipe}>
-          <Link href={`/recipe/edit/${slug}`}>Редактировать рецепт</Link>
+          {isNotOlder24Hours && (
+            <Link href={`/recipe/edit/${slug}`}>Редактировать рецепт</Link>
+          )}
           <Link href={`/recipe/delete/${slug}`}>Удалить рецепт</Link>
         </div>
       )}

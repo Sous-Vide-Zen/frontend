@@ -12,11 +12,13 @@ import { MenuSomeone } from '../MenuSomeone'
 type RecipeCardProps = Partial<
   Pick<RecipeFull, 'author' | 'pub_date' | 'slug'>
 > & {
+  isNotOlder24Hours: boolean
   isMyRecipe: boolean
   readOnly: boolean
 }
 
 export const UserNameShow: FC<RecipeCardProps> = ({
+  isNotOlder24Hours,
   isMyRecipe,
   readOnly,
   author,
@@ -47,7 +49,7 @@ export const UserNameShow: FC<RecipeCardProps> = ({
         <p>{timeAgo}</p>
         {readOnly &&
           (isMyRecipe ? (
-            <MenyMyself slug={slug} />
+            <MenyMyself slug={slug} isNotOlder24Hours={isNotOlder24Hours} />
           ) : (
             <MenuSomeone slug={slug} />
           ))}

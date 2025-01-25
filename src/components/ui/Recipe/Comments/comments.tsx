@@ -33,7 +33,7 @@ const Comments: FC<Props> = ({ slug }) => {
   const [comments, setComments] = useState<CommentData[]>([])
 
   useEffect(() => {
-    console.log({ data })
+    // console.log({ data })
     setComments(data?.results ?? [])
   }, [data])
 
@@ -126,7 +126,6 @@ const Comments: FC<Props> = ({ slug }) => {
         <ul className={styles.commentsList}>
           {comments.map((comment) => (
             <li key={comment.id} className={styles.commentsItem}>
-
               {/* следует выделить в компонент Рецепт */}
               <div className={styles.commentsBottomContainer}>
                 <div className={styles.commentsTopBox}>
