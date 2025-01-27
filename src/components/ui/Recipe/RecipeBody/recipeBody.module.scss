@@ -76,7 +76,7 @@
   flex-direction: row;
 }
 .hours {
-  min-width: 142px;
+  width: 142px;
   margin-right: 12px;
   input{
     font-size: 14px;
@@ -89,7 +89,7 @@
   display: none;
 }
 .minutes {
-  min-width: 142px;
+  width: 142px;
   input{
     height: 34px;
     background-color: white;

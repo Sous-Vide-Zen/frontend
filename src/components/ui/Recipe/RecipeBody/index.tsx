@@ -1,4 +1,5 @@
 'use client'
+
 import { FC, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
@@ -106,7 +107,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       full_text: recipe?.full_text || '',
       category: recipe?.category
         ? recipe?.category.map((c: { name: string }) => ({
-            label: c.name,
+            label: c.name,<<<<<<< newQueryCheckinAccess
           })) || []
         : [],
       tag: defaultTag,
