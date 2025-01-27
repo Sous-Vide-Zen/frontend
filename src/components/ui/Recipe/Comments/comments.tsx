@@ -2,11 +2,20 @@
 
 import Image from 'next/image'
 import styles from './comments.module.scss'
-import { useState } from 'react'
-import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu/index'
-import EditComment from '@/components/ui/Recipe/Comments/EditComments/index'
+import { FC, useEffect, useState } from 'react'
+import EditComment from './EditComments'
+import DeleteComment from '@/components/ui/Recipe/Comments/DeleteComments/index'
+import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu'
+import { useGetRecipeCommentsQuery } from '@/store/features/comments/comments.actions'
+import { CommentData } from '@/store/features/comments/comments.types'
+import { Reactions } from '../../Reactions'
+import { useAuth } from '@/hooks/useAuth'
 
-export default function Comments() {
+type Props = {
+  slug: string
+}
+
+const Comments: FC<Props> = ({ slug }) => {
   const reactions = [
     { src: '/img/reactions/heart.svg', alt: 'heart', count: 120 },
     { src: '/img/reactions/thumb-up.svg', alt: 'thumb-up', count: 13 },
@@ -15,44 +24,83 @@ export default function Comments() {
     { src: '/img/reactions/fire.svg', alt: 'fire', count: 24 },
   ]
 
-  const [commentText, setCommentText] = useState('')
-  const [comments, setComments] = useState([
-    {
-      id: 1,
-      avatar: '/img/comments/png_1.png',
-      username: 'Алина Устимова (Вы)',
-      text: 'Безумно вкусно получается! Спасибо за рецепт))',
-    },
-    {
-      id: 2,
-      avatar: '/img/comments/png_2.png',
-      username: 'Сергей Петров',
-      text: 'Супер рецепт! Я еще добавляю кунжутное масло и 10/10',
-    },
-    {
-      id: 3,
-      avatar: '/img/comments/png_3.png',
-      username: 'lena_cook',
-      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
-    },
-  ])
+  const [commentTexts, setCommentTexts] = useState<
+    Record<string | number, string>
+  >({})
+  const { data } = useGetRecipeCommentsQuery(slug)
+  const { id } = useAuth()
 
-  // const handleEditComment = (id: number) => {
-  //   setEditingCommentId(id)
-  // }
+  const [comments, setComments] = useState<CommentData[]>([])
 
-  // const handleSaveComment = (id: number, newText: string) => {
-  //   setComments((prevComments) =>
-  //     prevComments.map((comment) =>
-  //       comment.id === id ? { ...comment, text: newText } : comment,
-  //     ),
-  //   )
-  //   setEditingCommentId(null)
-  // }
+  useEffect(() => {
+    console.log({ data })
+    setComments(data?.results ?? [])
+  }, [data])
 
-  // const handleCancelEdit = () => {
-  //   setEditingCommentId(null)
-  // }
+  /* обработчики клика */
+
+  const handleSaveComment = (id: number, newText: string) => {
+    setCommentTexts((prevCommentTexts) => ({
+      ...prevCommentTexts,
+      [id]: newText,
+    }))
+    setEditingCommentId(null)
+  }
+
+  const handleEditComment = (id: number) => {
+    setEditingCommentId(id) // Устанавливает id комментария, который нужно редактировать
+  }
+
+  const handleCancelEdit = () => {
+    setEditingCommentId(null)
+  }
+
+  /* логика действий над комментариями */
+
+  const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [commentToDelete, setCommentToDelete] = useState<number | null>(null)
+
+  const currentUser = {
+    id: 1,
+    role: 'user', // 'user', 'admin', 'moderator'
+  }
+
+  const handleDeleteComment = (id: number) => {
+    setCommentToDelete(id)
+    setIsDeleteModalOpen(true)
+  }
+
+  const confirmDeleteComment = () => {
+    // if (commentToDelete !== null) {
+    //   setComments(
+    //     comments.filter((comments) => comments.id !== commentToDelete),
+    //   )
+    //   setCommentToDelete(null)
+    //   setIsDeleteModalOpen(false)
+    // }
+  }
+
+  const canEditComment = (comment: CommentData) => {
+    const isAuthor = currentUser.id === comment.author.id
+    const isAdmin = currentUser.role === 'admin'
+    const isWithin24Hours =
+      new Date().getTime() - new Date(comment.pub_date).getTime() <
+      24 * 60 * 60 * 1000
+
+    return isAuthor || (isAdmin && isWithin24Hours)
+  }
+
+  const canDeleteComment = (comment: CommentData) => {
+    const isAuthor = currentUser.id === comment.author.id
+    const isAdmin = currentUser.role === 'admin'
+    const isModerator = currentUser.role === 'moderator'
+    const isAfter24Hours =
+      new Date().getTime() - new Date(comment.pub_date).getTime() >
+      24 * 60 * 60 * 1000
+
+    return (isAuthor || isAdmin || isModerator) && isAfter24Hours
+  }
 
   return (
     <div className={styles.commentsContainer}>
@@ -64,8 +112,10 @@ export default function Comments() {
               className={styles.commentsInput}
               type="text"
               placeholder="Введите текст комментария..."
-              value={commentText}
-              onChange={(e) => setCommentText(e.target.value)}
+              value={commentTexts['new'] || ''}
+              onChange={(e) =>
+                setCommentTexts({ ...commentTexts, ['new']: e.target.value })
+              }
             />
             <div className={styles.buttonDiv}>
               <button className={styles.commentsBtn}>Отправить</button>
@@ -76,45 +126,46 @@ export default function Comments() {
         <ul className={styles.commentsList}>
           {comments.map((comment) => (
             <li key={comment.id} className={styles.commentsItem}>
+
+              {/* следует выделить в компонент Рецепт */}
               <div className={styles.commentsBottomContainer}>
                 <div className={styles.commentsTopBox}>
                   <div className={styles.commentsTextContent}>
                     <div className={styles.commentsImgText}>
                       <Image
-                        src={comment.avatar}
-                        alt={comment.username}
+                        src={comment.author.avatar ?? ''}
+                        alt={comment.author.username}
                         className={styles.avatar}
                         width={20}
                         height={20}
                       />
                       <p className={styles.commentsNameText}>
-                        {comment.username}
+                        {comment.author.username}
                       </p>
-                    </div>
-                    <p className={styles.commentsBottomTextDescr}>
-                      {comment.text}
-                    </p>
-                    <PopupEditingMenu />
-                    {/* onEdit={() => handleEditComment(comment.id)} */}
 
-                    {/* {editingCommentId === comment.id ? (
-                    <EditComment
-                      currentText={comment.text}
-                      onSave={(newText) =>
-                        handleSaveComment(comment.id, newText)
-                      }
-                    />
-                  ) : (
-                    <p className={styles.commentsBottomTextDescr}>
-                      {comment.text}
-                    </p>
-                  )} */}
-                    {/* {
-                      <EditComment
-                        commentEdit={comment.text}
-                        onSave={() => handleEditClick(comment.id)}
+                      <PopupEditingMenu
+                        onEdit={() =>
+                          canEditComment(comment) &&
+                          handleEditComment(comment.id)
+                        }
+                        onDelete={() =>
+                          canDeleteComment(comment) &&
+                          handleDeleteComment(comment.id)
+                        }
                       />
-                    } */}
+                    </div>
+                    {id === comment.author.id ? (
+                      <EditComment
+                        initialText={comment.text}
+                        onSave={(newText) =>
+                          handleSaveComment(comment.id, newText)
+                        }
+                      />
+                    ) : (
+                      <p className={styles.commentsBottomTextDescr}>
+                        {commentTexts[comment.id] || comment.text}
+                      </p>
+                    )}
                   </div>
                 </div>
                 <div className={styles.commentsBottomBox}>
@@ -149,7 +200,14 @@ export default function Comments() {
             </li>
           ))}
         </ul>
+        <DeleteComment
+          isOpen={isDeleteModalOpen}
+          onClose={() => setIsDeleteModalOpen(false)}
+          onConfirm={confirmDeleteComment}
+        />
       </div>
     </div>
   )
 }
+
+export default Comments

@@ -1,4 +1,4 @@
-import { Author, DataResponse, ListResponse } from '../common.types'
+import { Author, DataResponse, ListResponse, ListResponseSuccess } from '../common.types'
 
 export type CommentData = {
   id: number
@@ -8,7 +8,7 @@ export type CommentData = {
   updated_date: string
 }
 
-export type RecipeCommentsResponse = ListResponse<CommentData>
+export type RecipeCommentsResponse = ListResponseSuccess<CommentData>
 
 export type CreateCommentBody = {
   text: string

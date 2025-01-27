@@ -1,0 +1,17 @@
+.rotationEl {
+  width: 22px;
+  height: 22px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+
+  &.left {
+    transform: rotateY(180deg);
+  }
+
+  &:hover :global(#rotateImg) path {
+    fill: white;
+  }
+}

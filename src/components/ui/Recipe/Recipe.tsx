@@ -8,6 +8,7 @@ import { IconsAndActions, RecipeBody, UserNameShow } from '.'
 import { RecipePhoto } from './RecipePhoto'
 import Comments from './/Comments/comments'
 import { useGetCurentUserDataQuery } from '@/store/features/auth/auth.actions'
+import { Skeleton } from '../Skeletons'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -41,6 +42,8 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
     }
   }, [UserData, recipe, pub_date])
 
+  if (!recipe) return <Skeleton/>
+
   return (
     <div className={styles.recipe}>
       <UserNameShow
@@ -51,12 +54,12 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
       <IconsAndActions {...iconProps} />
       <RecipePhoto
         isNew={false}
-        url={recipe?.preview_image}
+        url={recipe.preview_image}
         linkButton={true}
         printButton={true}
       />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
-      <Comments />
+      <Comments slug={recipe.slug}/>
     </div>
   )
 }
