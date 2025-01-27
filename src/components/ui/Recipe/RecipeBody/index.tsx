@@ -107,7 +107,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       full_text: recipe?.full_text || '',
       category: recipe?.category
         ? recipe?.category.map((c: { name: string }) => ({
-            label: c.name,<<<<<<< newQueryCheckinAccess
+            label: c.name,
           })) || []
         : [],
       tag: defaultTag,
