@@ -14,9 +14,11 @@ type RecipeCardProps = Partial<
 > & {
   isMyRecipe: boolean
   readOnly: boolean
+  isNotOlder24Hours: boolean
 }
 
 export const UserNameShow: FC<RecipeCardProps> = ({
+  isNotOlder24Hours,
   isMyRecipe,
   readOnly,
   author,
@@ -47,7 +49,7 @@ export const UserNameShow: FC<RecipeCardProps> = ({
         <p>{timeAgo}</p>
         {readOnly &&
           (isMyRecipe ? (
-            <MenyMyself slug={slug} />
+            <MenyMyself slug={slug} isNotOlder24Hours={isNotOlder24Hours} />
           ) : (
             <MenuSomeone slug={slug} />
           ))}
