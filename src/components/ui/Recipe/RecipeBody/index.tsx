@@ -1,4 +1,5 @@
 'use client'
+
 import { FC, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
@@ -16,51 +17,56 @@ import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import {
   useCreateRecipeDraftMutation,
   usePublicateMutation,
+  useGetRecipeDraftsQuery,
 } from '@/store/features/recipes/recipes.actions'
+
+const textOptions = {
+  required: {
+    value: true,
+    message: 'Поле обязательно для заполнения',
+  },
+  maxLength: {
+    message: 'Поле не должно содержать более 150 символов',
+    value: 150,
+  },
+}
 
 type Props = {
   recipe?: RecipeFull
   readOnly: boolean
 }
 
-export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
+export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const router = useRouter()
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
+  const [dataRecipe, setDataRecipe] = useState({})
+
+  // const {
+  //   data: drafts,
+  //   error: draftsError,
+  //   isLoading: draftsLoading,
+  // } = useGetRecipeDraftsQuery()
+  // console.log(drafts)
   // const [getSlug, { data: recipePublic, error: publishError }] =
   //   useCreateRecipeDraftMutation()
-  const dataRecipe = {
-    title: 'тест Recipe',
-    preview: '',
-    ingredients: [
-      { name: 'Water', unit: 'литр', amount: 1 },
-      { name: 'Сахар', unit: 'грамм', amount: 500 },
-    ],
-    tag: ['Горячий', 'вода', 'сахар'],
-    full_text:
-      '180°C fan/gas 6. Separate half the oil, then roast for 25 minutes.',
-    category: [3],
-    cooking_time: 70,
+  // console.log(getSlug)
+  const [publicate, { data: recipePublic, error: publishError }] =
+    usePublicateMutation()
+  const handleDraftAndPublish = async () => {
+    try {
+      // const response = await getSlug().unwrap()
+      // const slug = response.slug
+
+      await publicate({
+        slug: 'user246_chernovik_2',
+        data: dataRecipe,
+      }).unwrap()
+
+      console.log('Recipe published successfully')
+    } catch (error) {
+      console.error('Error creating draft or publishing recipe:', error)
+    }
   }
-  // const [publicate, { data: recipePublic, error: publishError }] =
-  //   usePublicateMutation()
-  // const handleDraftAndPublish = async () => {
-  //   try {
-  //     Create the recipe draft and await the response
-  //     const response = await getSlug().unwrap()
-  //     const slug = response.slug//user246_chernovik_1
-
-  //     Now publish with the obtained slug
-  //     await publicate({
-  //       slug: 'user246_chernovik_1',
-  //       data: dataRecipe,
-  //     }).unwrap()
-
-  //     // Optionally, handle success or redirect
-  //     console.log('Recipe published successfully')
-  //   } catch (error) {
-  //     console.error('Error creating draft or publishing recipe:', error)
-  //   }
-  // }
 
   /* тестовые данные для селекта*/
 
@@ -85,20 +91,23 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
     control,
   } = useForm({
     defaultValues: {
+      title: recipe?.title || '',
       hours: hoursToMinutes(Math.floor((recipe?.cooking_time ?? 0) / 60) || 0, [
         'час',
         'часа',
         'часов',
       ]),
-      cooking_time: hoursToMinutes((recipe?.cooking_time ?? 0) % 60 || 0, [
-        'минута',
-        'минуты',
-        'минут',
-      ]),
+      cooking_time: readOnly
+        ? hoursToMinutes((recipe?.cooking_time ?? 0) % 60 || 0, [
+            'минута',
+            'минуты',
+            'минут',
+          ])
+        : '',
       full_text: recipe?.full_text || '',
       category: recipe?.category
         ? recipe?.category.map((c: { name: string }) => ({
-            label: c.name,
+            label: c.name,<<<<<<< newQueryCheckinAccess
           })) || []
         : [],
       tag: defaultTag,
@@ -106,9 +115,26 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
     mode: 'onBlur',
   })
   const onSubmit = (dataFromInput: any) => {
-    console.log(dataFromInput)
-  }
+    const cookingTime = parseInt(dataFromInput.cooking_time, 10)
 
+    const ingredients = [
+      {
+        name: dataFromInput.name,
+        unit: dataFromInput.amount,
+        amount: parseInt(dataFromInput.unit, 10),
+      },
+    ]
+
+    const transformedData = {
+      ...dataFromInput,
+      cooking_time: cookingTime,
+      ingredients,
+    }
+    setDataRecipe(transformedData)
+    // handleDraftAndPublish()
+    console.log('function work', transformedData)
+  }
+  // console.log(dataRecipe)
   let displayNoneClass =
     recipe && recipe?.cooking_time < 60
       ? styles.displayNone
@@ -124,40 +150,32 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
         {/* Additional UI components go here */}
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {/* <div className={styles.button_container}>
-      <Button
-        onClick={(e) => e.preventDefault()}
-        size={'medium'}
-        color={'secondary'}
-        style={{ width: '100%', marginBottom: '24px' }}
-      >
-        Добавить фото для превью +
-      </Button>
-    </div> */}
-        <input
-          className={styles.standardInput}
-          placeholder={'Название рецепта*'}
-          defaultValue={recipe?.title}
+        <FormInput
+          id="title"
+          type="text"
+          register={register}
+          options={textOptions}
+          className={styles.titleInput}
+          placeholder="Название рецепта*"
+          disabled={readOnly}
         />
+        {errors.title && (
+          <span className={styles.errorMessage}>{errors.title.message}</span>
+        )}
         <div className={styles.cockingTime_container}>
           <p className={styles.cockingTime}>Время приготовления*</p>
           <div className={styles.hourPlusMinutes}>
-            <div className={`${styles.hours} ${displayNoneClass}`}>
-              <FormInput
-                register={register}
-                id="hours"
-                type="text"
-                placeholder="часы"
-                disabled={readOnly}
-                // options={{
-                //     maxLength: {
-                //         message: "Поле не должно содержать более 30 символов",
-                //         value: 30,
-                //     }
-                // }}
-                // error={errors?.display_name?.message}
-              />
-            </div>
+            {readOnly && (
+              <div className={`${styles.hours} ${displayNoneClass}`}>
+                <FormInput
+                  register={register}
+                  id="hours"
+                  type="text"
+                  placeholder="часы"
+                  disabled={readOnly}
+                />
+              </div>
+            )}
             <div className={styles.minutes}>
               <FormInput
                 register={register}
@@ -165,14 +183,28 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
                 type="text"
                 placeholder="минуты"
                 disabled={readOnly}
-                // options={{
-                //     maxLength: {
-                //         message: "Поле не должно содержать более 30 символов",
-                //         value: 30,
-                //     }
-                // }}
-                // error={errors?.display_name?.message}
+                options={{
+                  required: {
+                    value: true,
+                    message: 'Поле обязательно для заполнения',
+                  },
+                  validate: (value) => {
+                    const minutes = parseInt(value, 10)
+                    if (isNaN(minutes)) {
+                      return 'Введите корректное число'
+                    }
+                    if (minutes <= 10) {
+                      return 'Время не должно быть меньше 10 минут'
+                    }
+                    return true
+                  },
+                }}
               />
+              {errors.cooking_time && (
+                <span className={styles.errorMessage}>
+                  {errors.cooking_time.message}
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -193,13 +225,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
                     id="name"
                     type="text"
                     placeholder="название"
-                    // options={{
-                    //     maxLength: {
-                    //         message: "Поле не должно содержать более 30 символов",
-                    //         value: 30,
-                    //     }
-                    // }}
-                    // error={errors?.display_name?.message}
                   />
                 </div>
                 <div className={styles.unit}>
@@ -208,13 +233,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
                     id="unit"
                     type="text"
                     placeholder="количество"
-                    // options={{
-                    //     maxLength: {
-                    //         message: "Поле не должно содержать более 30 символов",
-                    //         value: 30,
-                    //     }
-                    // }}
-                    // error={errors?.display_name?.message}
                   />
                 </div>
                 <div className={styles.amount}>
@@ -223,13 +241,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
                     id="amount"
                     type="text"
                     placeholder="кг"
-                    // options={{
-                    //     maxLength: {
-                    //         message: "Поле не должно содержать более 30 символов",
-                    //         value: 30,
-                    //     }
-                    // }}
-                    // error={errors?.display_name?.message}
                   />
                 </div>
               </>
@@ -244,7 +255,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
             +
           </button>
         )}
-
         <div className={styles.cocking_container}>
           <p className={styles.cocking}>Приготовление*</p>
           <div className={styles.full_text}>
@@ -258,15 +268,18 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly = false }) => {
                   type="textarea"
                   placeholder="впишите сюда текст рецепта"
                   disabled={readOnly}
-                  // options={{
-                  //     maxLength: {
-                  //         message: "Поле не должно содержать более 30 символов",
-                  //         value: 30,
-                  //     }
-                  // }}
-                  // error={errors?.display_name?.message}
+                  options={{
+                    required: {
+                      value: true,
+                      message: 'Поле обязательно для заполнения',
+                    },
+                  }}
                 />
-                {/* <textarea className={styles.textArea} /> */}
+                {errors.full_text && (
+                  <span className={styles.errorMessage}>
+                    {errors.full_text.message}
+                  </span>
+                )}
 
                 <button
                   onClick={(e) => {

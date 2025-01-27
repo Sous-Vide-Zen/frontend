@@ -35,6 +35,6 @@ export type CurrentUserData = {
   display_name: string
   avatar: string
   is_active: boolean
-  is_stuff: boolean
+  is_staff: boolean
   is_admin: boolean
 }

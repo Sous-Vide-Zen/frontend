@@ -10,6 +10,7 @@ import {
   SetEmailData,
   SetPasswordData,
   ActivationUserData,
+  // CurrentAuthUserData,
   CurrentUserData
 } from './auth.types'
 
@@ -38,6 +39,14 @@ export const authApi = mainApi.injectEndpoints({
     }),
 
     // В документации 'auth/users' API помещены в раздел "2. Пользователь"
+    getCurrentAuthUserData: builder.query<CurrentUserData, void>({
+      query: () => {
+        return {
+          url: 'auth/users/me/',
+          method: 'GET',
+        }
+      },
+    }),
     getCurentUserData: builder.query<CurrentUserData, void>({
       query: () => ({ url: 'auth/users/me/' }),
     }),
@@ -130,6 +139,7 @@ export const authApi = mainApi.injectEndpoints({
 export const {
   useGetTokensMutation,
   useVerifyTokenMutation,
+  useGetCurrentAuthUserDataQuery,
   useGetCurentUserDataQuery,
   useLazyGetCurentUserDataQuery,
   useRegisterMutation,

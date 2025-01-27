@@ -12,6 +12,7 @@ import { MenuSomeone } from '../MenuSomeone'
 type RecipeCardProps = Partial<
   Pick<RecipeFull, 'author' | 'pub_date' | 'slug'>
 > & {
+  isNotOlder24Hours: boolean
   isMyRecipe: boolean
   readOnly: boolean
   isNotOlder24Hours: boolean
