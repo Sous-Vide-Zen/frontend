@@ -19,6 +19,7 @@ import {
   usePublicateMutation,
   useGetRecipeDraftsQuery,
 } from '@/store/features/recipes/recipes.actions'
+import { useRedirectIfUserNotAuthorised } from '@/hooks/useRedirectIfUserNotAuthorised'
 
 const textOptions = {
   required: {
@@ -40,6 +41,8 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const router = useRouter()
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
   const [dataRecipe, setDataRecipe] = useState({})
+
+  useRedirectIfUserNotAuthorised();
 
   // const {
   //   data: drafts,
