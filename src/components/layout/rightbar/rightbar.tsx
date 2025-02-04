@@ -75,13 +75,21 @@ const Rightbar: FC<Props> = ({
     }
   }
 
+  const handlePublish = () => {
+    if (isAuth) {
+      router.push('/recipe/new')
+    } else {
+      setIsModalOpen(true)
+    }
+  }
+
   return (
     <div className={styles.rightbar}>
       <div className={styles.publish}>
         <Button
           color="primary"
           size="big"
-          onClick={() => router.push('/recipe/new')}
+          onClick={handlePublish}
         >
           Опубликовать
           <Image
