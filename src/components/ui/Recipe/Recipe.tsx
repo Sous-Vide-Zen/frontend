@@ -42,6 +42,8 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
     }
   }, [UserData, recipe, pub_date])
 
+  console.log(UserData)
+
   useEffect(() => {
     if (UserData?.is_admin || UserData?.is_staff) {
       setIsMyRecipe(true)
@@ -72,7 +74,8 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
         printButton={true}
       />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
-      <Comments slug={recipe.slug} />
+      {/* Pass UserData to Comments component */}
+      <Comments slug={recipe.slug} userData={UserData} />
     </div>
   )
 }
