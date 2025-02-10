@@ -1,0 +1,94 @@
+.commentsList {
+  width: 800px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+
+  .commentsItem {
+    list-style-type: none;
+  }
+}
+
+.commentsBottomContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 800px;
+  border-radius: 12px;
+  padding: 12px;
+  gap: 24px;
+  background: transparent;
+  border: 1px solid var(--green-green-light);
+}
+
+.commentsTopBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.commentsTextContent {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.commentsImgText {
+  display: flex;
+  gap: 8px;
+}
+
+.commentsNameText {
+  font-size: 14px;
+  color: var(--base-color-dark);
+}
+
+.commentsIcon {
+  gap: 8px;
+}
+
+.commentsNameText {
+  font-size: 12px;
+  color: var(--base-color-dark);
+}
+
+.commentsBottomTextDescr {
+  font-size: 14px;
+  color: var(--base-color-dark);
+}
+
+/*реакции*/
+
+.commentsReactionsContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.commentsBtn {
+  font-size: 12px;
+  color: var(--base-color-dark);
+  border: none;
+  outline: none;
+  background: transparent;
+}
+
+.commentsReactions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* Выравнивание иконок вправо */
+  gap: 4px;
+}
+
+.reactionItem {
+  display: flex;
+  align-items: center; /* Выравнивание иконки и текста по центру */
+}
+
+.reactionItem:not(:last-child) {
+  margin-right: 12px;
+}
+
+.commentsReactionsIconsText {
+  font-size: 12px;
+  color: var(--base-color-dark);
+}
