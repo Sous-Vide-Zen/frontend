@@ -1,30 +1,23 @@
 'use client'
 
-import { FC } from 'react'
 import Image from 'next/image'
 import styles from './DeleteComment.module.scss'
 
-type DeleteCommentModalProps = {
-  isOpen: boolean
-  onClose: () => void
+interface DeleteCommentProps {
   onConfirm: () => void
+  onCancel: () => void
 }
 
-const DeleteComment: FC<DeleteCommentModalProps> = ({
-  isOpen,
-  onClose,
-  onConfirm,
-}) => {
-  if (!isOpen) return null
 
+
+const DeleteComment: React.FC<DeleteCommentProps> = ({
+  onConfirm,
+  onCancel,
+}) => {
   return (
-    <div className={styles.overlay} onClick={onClose}>
+    <div className={styles.overlay} onClick={onCancel}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button
-          className={styles.closeButton}
-          onClick={onClose}
-          aria-label="Close modal"
-        >
+        <button className={styles.closeButton} onClick={onCancel}>
           ×
         </button>
         <Image
@@ -33,7 +26,9 @@ const DeleteComment: FC<DeleteCommentModalProps> = ({
           width={60}
           height={60}
         />
-        <p className={styles.deleteCommentModalText}>Ваш комментарий удален</p>
+        <p className={styles.deleteCommentModalText}>Комментарий удален!</p>
+        {/* <button onClick={onConfirm}>Да</button>
+        <button onClick={onCancel}>Нет</button> */}
       </div>
     </div>
   )
