@@ -24,25 +24,6 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const { data: UserData } = useGetCurrentAuthUserDataQuery()
 
   useEffect(() => {
-    const countingTimeAfterPublication = () => {
-      if (pub_date) {
-        const publicationDate = new Date(pub_date)
-        const currentDate = new Date()
-        const timeDiff = currentDate.getTime() - publicationDate.getTime()
-        const hoursDiff = timeDiff / (1000 * 3600)
-        setIsNotOlder24Hours(hoursDiff < 24)
-      }
-    }
-
-    if (UserData?.is_admin) {
-      setIsMyRecipe(true)
-    } else if (UserData?.id === recipe?.author.id) {
-      setIsMyRecipe(true)
-      countingTimeAfterPublication()
-    }
-  }, [UserData, recipe, pub_date])
-
-  useEffect(() => {
     if (UserData?.is_admin || UserData?.is_staff) {
       setIsMyRecipe(true)
     } else if (UserData?.id === recipe?.author.id) {
@@ -72,7 +53,8 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
         printButton={true}
       />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
-      <Comments slug={recipe.slug} />
+      {/* Pass UserData to Comments component */}
+      <Comments slug={recipe.slug} userData={UserData} />
     </div>
   )
 }
