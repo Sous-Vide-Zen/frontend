@@ -5,56 +5,99 @@ import Image from 'next/image'
 import styles from './ShowComment.module.scss'
 import EditComment from '@/components/ui/Recipe/Comments/EditComments/index'
 import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu'
-import {
-  DataResponse,
-  ListResponse,
-  ListResponseSuccess,
-  Author as CommonAuthor,
-} from '@/store/features/common.types'
+import { CommentData } from '@/store/features/comments/comments.types'
 
-// Определение типа Author
-interface Author {
-  id: number
-  username: string
-  display_name: string
-  avatar: string
-}
+const InitialComment: CommentData[] = [
+  {
+    id: 1,
+    author: {
+      id: 1,
+      username: 'Алина Устимова',
+      display_name: 'Alina Ustimova',
+      avatar: '/img/comments/png_1.png',
+    },
+    text: 'Безумно вкусно получается! Спасибо за рецепт))',
+    pub_date: '2023-03-15T12:10:00Z',
+    updated_date: '2023-03-15T12:10:00Z',
+  },
 
-// Определение типа CommentData
-interface CommentData {
-  id: number
-  author: CommonAuthor
-  text: string
-  pub_date: string
-  updated_date: string
-}
+  {
+    id: 2,
+    author: {
+      id: 2,
+      username: 'Сергей Петров',
+      display_name: 'Sergei Petrov',
+      avatar: '/img/comments/png_2.png',
+    },
+    text: 'Супер рецепт! Я еще добавляю кунжутное масло и 10/10',
+    pub_date: '2023-03-15T12:10:00Z',
+    updated_date: '2023-03-15T12:10:00Z',
+  },
 
-// Определение типа Reaction
-type Reaction = {
-  src: string
-  alt: string
-  count: number
-}
+  {
+    id: 3,
+    author: {
+      id: 3,
+      username: 'lena_cook',
+      display_name: 'Lena Cook',
+      avatar: '/img/comments/png_3.png',
+    },
+    text: 'Легкий, но такой вкусный ужин. Рекомендую)',
+    pub_date: '2023-03-15T12:10:00Z',
+    updated_date: '2023-03-15T12:10:00Z',
+  },
+]
 
 interface ShowCommentProps {
   comments: CommentData[]
-  reactions: Reaction[]
+  reactions: {
+    src: string
+    alt: string
+    count: number
+  }[]
   onDelete: (id: number) => void
+  userRole: string
+  userId: number
 }
 
 const ShowComment: React.FC<ShowCommentProps> = ({
   comments,
   reactions,
   onDelete,
+  userRole,
+  userId,
 }) => {
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
   const [commentTexts, setCommentTexts] = useState<{ [key: number]: string }>(
     {},
   )
 
+  const canEditOrDeleteComment = (comment: CommentData) => {
+    const isAuthor = userId === comment.author.id
+    const isAdmin = userRole === 'admin'
+    const isModerator = userRole === 'moderator'
+    const isWithin24Hours =
+      new Date().getTime() - new Date(comment.pub_date).getTime() <
+      24 * 60 * 60 * 1000
+
+    return (isAuthor || isAdmin || isModerator) && isWithin24Hours
+  }
+
+  // const canEditOrDeleteComment = (comment: CommentData) => {
+  //   const isWithin24Hours =
+  //     new Date().getTime() - new Date(comment.pub_date).getTime() <
+  //     24 * 60 * 60 * 1000
+  //   return (userId === comment.author.id ||
+  //     userRole === 'admin' ||
+  //     userRole === 'moderator') &&
+  //     isWithin24Hours
+  //     ? true
+  //     : false
+  // }
+
   return (
     <ul className={styles.commentsList}>
-      {comments.map((comment) => (
+      {InitialComment.map((comment: CommentData) => (
         <li key={comment.id} className={styles.commentsItem}>
           <div className={styles.commentsBottomContainer}>
             <div className={styles.commentsTopBox}>
@@ -90,31 +133,37 @@ const ShowComment: React.FC<ShowCommentProps> = ({
                 )}
               </div>
             </div>
-            <div className={styles.commentsReactionsContent}>
-              {reactions.map((reaction, index) => (
-                <div key={index} className={styles.reactionItem}>
-                  <Image
-                    src={reaction.src}
-                    alt={reaction.alt}
-                    width={24}
-                    height={24}
-                  />
-                  <p className={styles.commentsReactionsIconsText}>
-                    {reaction.count}
-                  </p>
-                </div>
-              ))}
+            <div className={styles.commentsBottomBox}>
+              <button className={styles.commentsBtn}>Ответить</button>
+              <div className={styles.commentsReactionsContent}>
+                {reactions.map((reaction, index) => (
+                  <div key={index} className={styles.reactionItem}>
+                    <Image
+                      src={reaction.src}
+                      alt={reaction.alt}
+                      width={24}
+                      height={24}
+                    />
+                    <p className={styles.commentsReactionsIconsText}>
+                      {reaction.count}
+                    </p>
+                  </div>
+                ))}
+              </div>
             </div>
-            <PopupEditingMenu
-              onEdit={() => {
-                setEditingCommentId(comment.id)
-                setCommentTexts((prev) => ({
-                  ...prev,
-                  [comment.id]: comment.text,
-                }))
-              }}
-              onDelete={() => onDelete(comment.id)}
-            />
+            
+            {canEditOrDeleteComment(comment) && (
+              <PopupEditingMenu
+                onEdit={() => {
+                  setEditingCommentId(comment.id)
+                  setCommentTexts((prev) => ({
+                    ...prev,
+                    [comment.id]: comment.text,
+                  }))
+                }}
+                onDelete={() => onDelete(comment.id)}
+              />
+            )}
           </div>
         </li>
       ))}
