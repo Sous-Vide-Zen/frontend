@@ -15,48 +15,12 @@ type Props = {
 }
 
 const Comments: FC<Props> = ({ slug, userData }) => {
-  /* как поместить массив объектов в компонент ShowComment? */
+  // Пример использования userData
+  const userRole = userData?.role
 
-  const InitialComment: CommentData[] = [
-    {
-      id: 1,
-      author: {
-        id: 1,
-        username: 'Алина Устимова',
-        display_name: 'Alina Ustimova',
-        avatar: '/img/comments/png_1.png',
-      },
-      text: 'Безумно вкусно получается! Спасибо за рецепт))',
-      pub_date: '2023-03-15T12:10:00Z',
-      updated_date: '2023-03-15T12:10:00Z',
-    },
-
-    {
-      id: 2,
-      author: {
-        id: 2,
-        username: 'Сергей Петров',
-        display_name: 'Sergei Petrov',
-        avatar: '/img/comments/png_2.png',
-      },
-      text: 'Супер рецепт! Я еще добавляю кунжутное масло и 10/10',
-      pub_date: '2023-03-15T12:10:00Z',
-      updated_date: '2023-03-15T12:10:00Z',
-    },
-
-    {
-      id: 3,
-      author: {
-        id: 3,
-        username: 'lena_cook',
-        display_name: 'Lena Cook',
-        avatar: '/img/comments/png_3.png',
-      },
-      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
-      pub_date: '2023-03-15T12:10:00Z',
-      updated_date: '2023-03-15T12:10:00Z',
-    },
-  ]
+  useEffect(() => {
+    console.log('Пользовательская роль:', userRole)
+  }, [userRole])
 
   const reactions = [
     { src: '/img/reactions/heart.svg', alt: 'heart', count: 120 },
@@ -68,12 +32,11 @@ const Comments: FC<Props> = ({ slug, userData }) => {
 
   // Инициализация состояния с правильным типом
   const [comments, setComments] = useState<CommentData[]>([])
-
   const { data } = useGetRecipeCommentsQuery(slug)
 
   useEffect(() => {
     if (data) {
-      // setComments(data.results) // Обновляем состояние комментариев, если данные загружены
+      setComments(data.results)
     }
   }, [data])
 
@@ -129,35 +92,36 @@ const Comments: FC<Props> = ({ slug, userData }) => {
     setIsDeleteModalOpen(false)
   }
 
-  const canEditComment = (comment: CommentData) => {
-    const isAuthor = currentUser.id === comment.author.id
-    const isAdmin = currentUser.role === 'admin'
-    const isWithin24Hours =
-      new Date().getTime() - new Date(comment.pub_date).getTime() <
-      24 * 60 * 60 * 1000
+  // const canEditComment = (comment: CommentData) => {
+  //   const isAuthor = currentUser.id === comment.author.id
+  //   const isAdmin = currentUser.role === 'admin'
+  //   const isWithin24Hours =
+  //     new Date().getTime() - new Date(comment.pub_date).getTime() <
+  //     24 * 60 * 60 * 1000
 
-    return isAuthor || (isAdmin && isWithin24Hours)
-  }
+  //   return isAuthor || (isAdmin && isWithin24Hours)
+  // }
 
-  const canDeleteComment = (comment: CommentData) => {
-    const isAuthor = currentUser.id === comment.author.id
-    const isAdmin = currentUser.role === 'admin'
-    const isModerator = currentUser.role === 'moderator'
-    const isAfter24Hours =
-      new Date().getTime() - new Date(comment.pub_date).getTime() >
-      24 * 60 * 60 * 1000
+  // const canDeleteComment = (comment: CommentData) => {
+  // const isAuthor = currentUser.id === comment.author.id
+  // const isAdmin = currentUser.role === 'admin'
+  // const isModerator = currentUser.role === 'moderator'
+  // const isAfter24Hours =
+  //   new Date().getTime() - new Date(comment.pub_date).getTime() >
+  //   24 * 60 * 60 * 1000
 
-    return (isAuthor || isAdmin || isModerator) && isAfter24Hours
-  }
+  // return (isAuthor || isAdmin || isModerator) && isAfter24Hours
+  // }
 
-  const currentUser = {
-    id: userData?.id,
-    role: userData?.role,
-  }
+  // const currentUser = {
+  //   id: userData?.id,
+  //   role: userData?.role,
+  // }
 
   return (
     <div className={styles.commentsWrapper}>
       <h4 className={styles.commentsTitle}>Комментарии</h4>
+
       {/*добавление нового комментария*/}
       <AddNewComment
         onCommentChange={handleCommentChange}
@@ -167,8 +131,10 @@ const Comments: FC<Props> = ({ slug, userData }) => {
       {/*отображение списка комментариев*/}
       <ShowComment
         comments={comments}
-        reactions={reactions} // Передаем реакции
+        reactions={reactions}
         onDelete={handleDeleteComment}
+        userRole={'author'}
+        userId={5}
       />
 
       {/*удаление комментария*/}

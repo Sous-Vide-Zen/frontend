@@ -56,14 +56,6 @@
   color: var(--base-color-dark);
 }
 
-/*реакции*/
-
-.commentsReactionsContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
 .commentsBtn {
   font-size: 12px;
   color: var(--base-color-dark);
@@ -72,11 +64,16 @@
   background: transparent;
 }
 
-.commentsReactions {
+.commentsBottomBox {
   display: flex;
+  justify-content: space-between;
+}
+
+/*реакции*/
+.commentsReactionsContent {
+  display: flex;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: flex-end; /* Выравнивание иконок вправо */
-  gap: 4px;
 }
 
 .reactionItem {
@@ -86,6 +83,10 @@
 
 .reactionItem:not(:last-child) {
   margin-right: 12px;
+}
+
+.reactionItem img {
+  margin-right: 4px; /* Добавляем правый отступ к изображению */
 }
 
 .commentsReactionsIconsText {
