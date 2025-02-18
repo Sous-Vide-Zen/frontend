@@ -5,22 +5,16 @@ import styles from './comments.module.scss'
 import DeleteComment from '@/components/ui/Recipe/Comments/DeleteComments/index'
 import { useGetRecipeCommentsQuery } from '@/store/features/comments/comments.actions'
 import AddNewComment from './AddNewComment'
-import ShowComment from './ShowComment'
+import Comment from './Comment'
 import { CommentData } from '@/store/features/comments/comments.types'
-import { Reactions } from '../../Reactions'
+import { useAuth } from '@/hooks/useAuth'
 
 type Props = {
   slug: string
-  userData: any
 }
 
-const Comments: FC<Props> = ({ slug, userData }) => {
-  // Пример использования userData
-  const userRole = userData?.role
-
-  useEffect(() => {
-    console.log('Пользовательская роль:', userRole)
-  }, [userRole])
+const Comments: FC<Props> = ({ slug }) => {
+  const userData = useAuth()
 
   const reactions = [
     { src: '/img/reactions/heart.svg', alt: 'heart', count: 120 },
@@ -129,13 +123,17 @@ const Comments: FC<Props> = ({ slug, userData }) => {
       />
 
       {/*отображение списка комментариев*/}
-      <ShowComment
-        comments={comments}
-        reactions={reactions}
-        onDelete={handleDeleteComment}
-        userRole={'author'}
-        userId={5}
-      />
+      <ul className={styles.commentsList}>
+        {comments.map((comment: CommentData) => (
+          <li key={comment.id} className={styles.commentsItem}>
+            <Comment
+              data={comment}
+              reactions={reactions}
+              onDelete={handleDeleteComment}
+            />
+          </li>
+        ))}
+      </ul>
 
       {/*удаление комментария*/}
       {isDeleteModalOpen && (

@@ -6,9 +6,9 @@ import styles from './Recipe.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { IconsAndActions, RecipeBody, UserNameShow } from '.'
 import { RecipePhoto } from './RecipePhoto'
-import Comments from './/Comments/comments'
+import Comments from './Comments/comments'
 import { Skeleton } from '../Skeletons'
-import { useGetCurrentAuthUserDataQuery } from '@/store/features/auth/auth.actions'
+import { useAuth } from '@/hooks/useAuth'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -21,7 +21,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const { slug, views_count, reactions_count, author, pub_date } = { ...recipe }
   const userProps = { author, pub_date, slug, readOnly }
   const iconProps = { slug, views_count, reactions_count }
-  const { data: UserData } = useGetCurrentAuthUserDataQuery()
+  const userData = useAuth()
 
   useEffect(() => {
     const countingTimeAfterPublication = () => {
@@ -34,20 +34,18 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
       }
     }
 
-    if (UserData?.is_admin) {
+    if (userData?.is_admin) {
       setIsMyRecipe(true)
-    } else if (UserData?.id === recipe?.author.id) {
+    } else if (userData?.id === recipe?.author.id) {
       setIsMyRecipe(true)
       countingTimeAfterPublication()
     }
-  }, [UserData, recipe, pub_date])
-
-  console.log(UserData)
+  }, [userData, recipe, pub_date])
 
   useEffect(() => {
-    if (UserData?.is_admin || UserData?.is_staff) {
+    if (userData?.is_admin || userData?.is_staff) {
       setIsMyRecipe(true)
-    } else if (UserData?.id === recipe?.author.id) {
+    } else if (userData?.id === recipe?.author.id) {
       setIsMyRecipe(true)
       if (pub_date)
         new Date().getTime() - new Date(pub_date).getTime() >
@@ -55,7 +53,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
           ? setIsNotOlder24Hours(false)
           : setIsNotOlder24Hours(true)
     }
-  }, [UserData, recipe, pub_date])
+  }, [userData, recipe, pub_date])
 
   if (!recipe) return <Skeleton />
 
@@ -75,7 +73,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
       />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
       {/* Pass UserData to Comments component */}
-      <Comments slug={recipe.slug} userData={UserData} />
+      <Comments slug={recipe.slug} />
     </div>
   )
 }

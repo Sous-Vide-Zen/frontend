@@ -1,16 +1,27 @@
+import { fillObjValues } from '@/helpers/objects'
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 
-export interface IInitialState {
+export type AuthState = {
   isAuth: boolean
   id: number | null,
   username: string | null,
+  display_name: string | null
+  avatar: string | null
+  is_active: boolean
+  is_staff: boolean
+  is_admin: boolean
   accessToken: string | null
   refreshToken: string | null
 }
 
-const defaultState: IInitialState = {
+const defaultState: AuthState = {
   isAuth: false,
   id: null,
+  display_name: null,
+  avatar: null,
+  is_active: false,
+  is_staff: false,
+  is_admin: false,
   username: null,
   accessToken: null,
   refreshToken: null,
@@ -34,11 +45,7 @@ export const authSlice = createSlice({
       state.isAuth = true
     },
     logoutUser: (state, _action) => {
-      state.accessToken = null
-      state.refreshToken = null
-      state.id = null
-      state.username = null
-      state.isAuth = false
+      fillObjValues(defaultState, state)
     },
     setAccessToken: (state, action: PayloadAction<string>) => {
       state.accessToken = action.payload
@@ -54,19 +61,13 @@ export const authSlice = createSlice({
       state.isAuth = true
     },
     clearTokens: (state, _action) => {
-      state.accessToken = null
-      state.refreshToken = null
-      state.id = null
-      state.username = null
-      state.isAuth = false
+      fillObjValues(defaultState, state)
     },
     setUserAuthData: (
       state,
       action: PayloadAction<{ id: number; username: string }>,
     ) => {
-      const { id, username } = action.payload
-      state.id = id
-      state.username = username
+      fillObjValues({ ...state, ...action.payload }, state)
     },
   },
 })

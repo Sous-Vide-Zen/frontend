@@ -28,8 +28,7 @@ export default function LoginPage() {
 
   useEffect(() => {
     if (userLoadingStatus === 'fulfilled' && userLoadingData) {
-      const { id, username } = userLoadingData
-      dispatch(setUserAuthData({ id, username }))
+      dispatch(setUserAuthData(userLoadingData))
 
       const oldUrl = window.location.href.split('%22')[1]
       if (isAuth) router.push(oldUrl || '/')
