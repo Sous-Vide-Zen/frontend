@@ -42,7 +42,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
   const [dataRecipe, setDataRecipe] = useState({})
 
-  useRedirectIfUserNotAuthorised();
+  useRedirectIfUserNotAuthorised()
 
   // const {
   //   data: drafts,
@@ -52,14 +52,17 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   // console.log(drafts)
   // const [getSlug, { data: recipePublic, error: publishError }] =
   //   useCreateRecipeDraftMutation()
-  // console.log(getSlug)
   const [publicate, { data: recipePublic, error: publishError }] =
     usePublicateMutation()
   const handleDraftAndPublish = async () => {
     try {
       // const response = await getSlug().unwrap()
       // const slug = response.slug
+      console.log(dataRecipe)
 
+      //  slug: 'user246_chernovik_1'
+      //  slug: 'user246_chernovik_2'
+      //  slug: 'user246_chernovik_3'
       await publicate({
         slug: 'user246_chernovik_2',
         data: dataRecipe,
@@ -133,9 +136,10 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       cooking_time: cookingTime,
       ingredients,
     }
-    setDataRecipe(transformedData)
-    // handleDraftAndPublish()
-    console.log('function work', transformedData)
+    const jsonData = JSON.stringify(transformedData)
+    setDataRecipe(jsonData)
+    handleDraftAndPublish()
+    console.log('function work', jsonData)
   }
   // console.log(dataRecipe)
   let displayNoneClass =

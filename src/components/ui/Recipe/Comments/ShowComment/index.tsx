@@ -51,10 +51,50 @@ const ShowComment: React.FC<ShowCommentProps> = ({
   const [commentTexts, setCommentTexts] = useState<{ [key: number]: string }>(
     {},
   )
+  const InitialComment: CommentData[] = [
+    {
+      id: 1,
+      author: {
+        id: 1,
+        username: 'Алина Устимова',
+        display_name: 'Alina Ustimova',
+        avatar: '/img/comments/png_1.png',
+      },
+      text: 'Безумно вкусно получается! Спасибо за рецепт))',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
+    },
+
+    {
+      id: 2,
+      author: {
+        id: 2,
+        username: 'Сергей Петров',
+        display_name: 'Sergei Petrov',
+        avatar: '/img/comments/png_2.png',
+      },
+      text: 'Супер рецепт! Я еще добавляю кунжутное масло и 10/10',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
+    },
+
+    {
+      id: 3,
+      author: {
+        id: 3,
+        username: 'lena_cook',
+        display_name: 'Lena Cook',
+        avatar: '/img/comments/png_3.png',
+      },
+      text: 'Легкий, но такой вкусный ужин. Рекомендую)',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
+    },
+  ]
 
   return (
     <ul className={styles.commentsList}>
-      {comments.map((comment) => (
+      {InitialComment.map((comment) => (
         <li key={comment.id} className={styles.commentsItem}>
           <div className={styles.commentsBottomContainer}>
             <div className={styles.commentsTopBox}>
