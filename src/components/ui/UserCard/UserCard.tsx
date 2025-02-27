@@ -37,7 +37,7 @@ const UserCard: FC<Props> = ({ username }) => {
   return !data ? (
     <div className={styles.userContainer}>
       <div className={styles.userFooter}>
-        <ProfileAvatar data={data} />
+        <ProfileAvatar />
       </div>
       <div className={styles.userCard}>
         <h2>
@@ -52,7 +52,7 @@ const UserCard: FC<Props> = ({ username }) => {
   ) : (
     <div className={styles.userContainer}>
       <div className={styles.userFooter}>
-        <ProfileAvatar data={data} />
+        <ProfileAvatar />
         <LinkLikeButton href="/about-me" color="clear" size="small">
           Редактировать профиль
         </LinkLikeButton>

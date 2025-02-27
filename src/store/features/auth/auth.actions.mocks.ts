@@ -28,7 +28,7 @@ export const authMocks = {
     id: 5,
     avatar: 'path/to/avatar.jpg',
     is_active: true,
-    is_stuff: false,
+    is_staff: false,
     is_admin: false,
   } satisfies CurrentUserData,
   register: {

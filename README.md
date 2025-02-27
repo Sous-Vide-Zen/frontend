@@ -62,3 +62,10 @@ yarn storybook
 ```
 
 page will be open in your default browser.
+
+### Docker
+
+all settings stored in .env.prod
+
+build `npm run docker:build`
+start `npm run docker:start`

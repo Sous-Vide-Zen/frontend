@@ -20,7 +20,7 @@ export type NotificationsPageItemType = {
   answer?: boolean;
 };
 
-export type NotificationsPageMockData = {
+type NotificationsPageMockData = {
   title: string;
   newMessages: {
     title: string;
@@ -29,7 +29,7 @@ export type NotificationsPageMockData = {
   items: Array<NotificationsPageItemType>;
 };
 
-export const NOTIFICATIONS_PAGE_MOCK_DATA: NotificationsPageMockData = {
+const NOTIFICATIONS_PAGE_MOCK_DATA: NotificationsPageMockData = {
   title: 'Уведомления',
   newMessages: {
     title: 'Новые',

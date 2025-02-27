@@ -15,7 +15,6 @@ type RecipeCardProps = Partial<
   isNotOlder24Hours: boolean
   isMyRecipe: boolean
   readOnly: boolean
-  isNotOlder24Hours: boolean
 }
 
 export const UserNameShow: FC<RecipeCardProps> = ({
