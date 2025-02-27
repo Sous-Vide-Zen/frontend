@@ -1,5 +1,4 @@
 'use client'
-
 import { FC, useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Controller, useForm } from 'react-hook-form'
@@ -18,6 +17,7 @@ import {
   useCreateRecipeDraftMutation,
   usePublicateMutation,
   useGetRecipeDraftsQuery,
+  useUpdateRecipeMutation,
 } from '@/store/features/recipes/recipes.actions'
 import { useRedirectIfUserNotAuthorised } from '@/hooks/useRedirectIfUserNotAuthorised'
 
@@ -37,35 +37,71 @@ type Props = {
   readOnly: boolean
 }
 
+interface FormInputs {
+  title: string
+  hours: string
+  cooking_time: string
+  name0: string
+  amount: number // Изменено, для массива можно использовать другой подход
+  unit0: string
+  full_text: string
+  category: { label: string }[]
+  tag: { label: string }[]
+}
+
 export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const router = useRouter()
+  const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
-  const [dataRecipe, setDataRecipe] = useState({})
+  const [ingredientsNumber, setIngredientsNumber] = useState<number[]>([1])
 
   useRedirectIfUserNotAuthorised()
 
-  // const {
-  //   data: drafts,
-  //   error: draftsError,
-  //   isLoading: draftsLoading,
-  // } = useGetRecipeDraftsQuery()
-  // console.log(drafts)
-  // const [getSlug, { data: recipePublic, error: publishError }] =
-  //   useCreateRecipeDraftMutation()
+  const [getSlug, { data: recipeDraft, error: draftError }] =
+    useCreateRecipeDraftMutation()
+  const createDraft = async () => {
+    try {
+      const response = await getSlug().unwrap()
+      const slug = response.slug
+      setSlugNewRecipe(slug)
+
+      console.log('Recipe draft create', slug)
+    } catch (error) {
+      console.error('Error creating draft or publishing recipe:', error)
+    }
+  }
+
+  const {
+    data: drafts,
+    error: draftsError,
+    isLoading: draftsLoading,
+  } = useGetRecipeDraftsQuery()
+  useEffect(() => {
+    if (draftsLoading) return
+    if (slugNewRecipe === '') {
+      if (drafts && drafts.length > 0) {
+        const objectFromDraft = drafts[0]
+        setSlugNewRecipe(objectFromDraft.slug)
+      } else {
+        createDraft()
+      }
+    }
+    console.log(drafts, slugNewRecipe)
+  }, [drafts, draftsLoading, slugNewRecipe])
+
+  const [update, { data: recipeUpdate, error: UpdateError }] =
+    useUpdateRecipeMutation()
   const [publicate, { data: recipePublic, error: publishError }] =
     usePublicateMutation()
-  const handleDraftAndPublish = async () => {
+  const handleDraftAndPublish = async (dataFromFunction: any) => {
     try {
-      // const response = await getSlug().unwrap()
-      // const slug = response.slug
-      console.log(dataRecipe)
-
-      //  slug: 'user246_chernovik_1'
-      //  slug: 'user246_chernovik_2'
-      //  slug: 'user246_chernovik_3'
+      await update({
+        slug: slugNewRecipe,
+        data: dataFromFunction,
+      }).unwrap()
       await publicate({
-        slug: 'user246_chernovik_2',
-        data: dataRecipe,
+        slug: slugNewRecipe,
+        data: {},
       }).unwrap()
 
       console.log('Recipe published successfully')
@@ -81,6 +117,11 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     { value: 'strawberry', label: 'Strawberry' },
     { value: 'vanilla', label: 'Vanilla' },
   ]
+  const categoryOptions: { value: number; label: string }[] = [
+    { value: 1, label: 'Завтрак' },
+    { value: 2, label: 'Обед' },
+    { value: 3, label: 'Ужин' },
+  ]
   /* */
   const defaultTag =
     recipe?.tag && recipe?.tag?.length > 0
@@ -95,7 +136,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     handleSubmit,
     formState: { errors, touchedFields },
     control,
-  } = useForm({
+  } = useForm<FormInputs>({
     defaultValues: {
       title: recipe?.title || '',
       hours: hoursToMinutes(Math.floor((recipe?.cooking_time ?? 0) / 60) || 0, [
@@ -110,6 +151,9 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
             'минут',
           ])
         : '',
+      name0: '',
+      amount: 1,
+      unit0: '',
       full_text: recipe?.full_text || '',
       category: recipe?.category
         ? recipe?.category.map((c: { name: string }) => ({
@@ -120,28 +164,59 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     },
     mode: 'onBlur',
   })
+
+  const addIngredientField = () => {
+    setIngredientsNumber((prevIngredients) => [
+      ...prevIngredients,
+      prevIngredients.length + 1,
+    ])
+  }
+
+  const removeIngredientField = (indexToRemove: number) => {
+    setIngredientsNumber((prevIngredients) =>
+      prevIngredients.filter((_, index) => index !== indexToRemove),
+    )
+  }
+
   const onSubmit = (dataFromInput: any) => {
     const cookingTime = parseInt(dataFromInput.cooking_time, 10)
 
-    const ingredients = [
-      {
-        name: dataFromInput.name,
-        unit: dataFromInput.amount,
-        amount: parseInt(dataFromInput.unit, 10),
-      },
-    ]
+    const ingredients = ingredientsNumber.map((ing, index) => {
+      const nameKey = `name${index}`
+      const amountKey = `amount${index}`
+      const unitKey = `unit${index}`
+
+      return {
+        name: dataFromInput[nameKey],
+        amount: dataFromInput[amountKey],
+        unit: dataFromInput[unitKey],
+      }
+    })
+
+    const transformedTags = dataFromInput.tag
+      ? dataFromInput.tag.map(
+          (item: { value: string; label: string }) => item.value,
+        )
+      : []
+    const transformedCategory = dataFromInput.category
+      ? dataFromInput.category.map(
+          (item: { value: string; label: string }) => item.value,
+        )
+      : []
 
     const transformedData = {
-      ...dataFromInput,
+      // ...dataFromInput,
+      title: dataFromInput.title,
       cooking_time: cookingTime,
       ingredients,
+      full_text: dataFromInput.full_text,
+      tag: transformedTags,
+      category: transformedCategory,
     }
-    const jsonData = JSON.stringify(transformedData)
-    setDataRecipe(jsonData)
-    handleDraftAndPublish()
-    console.log('function work', jsonData)
+    handleDraftAndPublish(transformedData)
+    console.log('function work', transformedData)
   }
-  // console.log(dataRecipe)
+
   let displayNoneClass =
     recipe && recipe?.cooking_time < 60
       ? styles.displayNone
@@ -149,18 +224,11 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   /* */
   return (
     <div>
-      <div>
-        {/* <Button onClick={handleDraftAndPublish}>Publish Recipe</Button> */}
-        {/* {draftsError && <p>Error creating draft: </p>} */}
-        {/* {publishError && <p>Error publishing recipe: </p>} */}
-        {/* {recipePublic && <p>Recipe published successfully!</p>} */}
-        {/* Additional UI components go here */}
-      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormInput
+          register={register}
           id="title"
           type="text"
-          register={register}
           options={textOptions}
           className={styles.titleInput}
           placeholder="Название рецепта*"
@@ -200,7 +268,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                     if (isNaN(minutes)) {
                       return 'Введите корректное число'
                     }
-                    if (minutes <= 10) {
+                    if (minutes <= 9) {
                       return 'Время не должно быть меньше 10 минут'
                     }
                     return true
@@ -226,37 +294,93 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
             )}
             {!readOnly && (
               <>
-                <div className={styles.name}>
-                  <FormInput
-                    register={register}
-                    id="name"
-                    type="text"
-                    placeholder="название"
-                  />
-                </div>
-                <div className={styles.unit}>
-                  <FormInput
-                    register={register}
-                    id="unit"
-                    type="text"
-                    placeholder="количество"
-                  />
-                </div>
-                <div className={styles.amount}>
-                  <FormInput
-                    register={register}
-                    id="amount"
-                    type="text"
-                    placeholder="кг"
-                  />
-                </div>
+                {ingredientsNumber.map((ingredient, index) => (
+                  <div key={index} className={styles.ingredientFields}>
+                    <div className={styles.name}>
+                      <FormInput
+                        register={register}
+                        id={`name${index}`}
+                        type="text"
+                        options={textOptions}
+                        // className={styles.titleInput}
+                        placeholder="название"
+                      />
+                      {errors[`name${index}` as keyof FormInputs] && (
+                        <span className={styles.errorMessage}>
+                          {errors[`name${index}` as keyof FormInputs]?.message}
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.amount}>
+                      <FormInput
+                        register={register}
+                        id={`amount${index}`}
+                        type="text"
+                        placeholder="количество"
+                        options={{
+                          required: {
+                            value: true,
+                            message: 'Поле обязательно для заполнения',
+                          },
+                          validate: (value) => {
+                            const number = parseInt(value, 10)
+                            if (isNaN(number)) {
+                              return 'Введите корректное число'
+                            }
+                            if (number < 1) {
+                              return 'Количество не должно быть меньше 1'
+                            }
+                            return true
+                          },
+                        }}
+                      />
+                      {errors[`amount${index}` as keyof FormInputs] && (
+                        <span className={styles.errorMessage}>
+                          {
+                            errors[`amount${index}` as keyof FormInputs]
+                              ?.message
+                          }
+                        </span>
+                      )}
+                    </div>
+                    <div className={styles.unit}>
+                      <FormInput
+                        register={register}
+                        id={`unit${index}`}
+                        type="text"
+                        options={textOptions}
+                        // className={styles.titleInput}
+                        placeholder="кг"
+                      />
+                      {errors[`unit${index}` as keyof FormInputs] && (
+                        <span className={styles.errorMessage}>
+                          {errors[`unit${index}` as keyof FormInputs]?.message}
+                        </span>
+                      )}
+                    </div>
+                    {index > 0 && (
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault()
+                          removeIngredientField(index)
+                        }}
+                        className={styles.ingredientsButton}
+                      >
+                        -
+                      </button>
+                    )}
+                  </div>
+                ))}
               </>
             )}
           </div>
         </div>
         {!readOnly && (
           <button
-            onClick={(e) => e.preventDefault()}
+            onClick={(e) => {
+              e.preventDefault()
+              addIngredientField()
+            }}
             className={styles.ingredientsButton}
           >
             +
@@ -325,7 +449,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  options={tagOptions}
+                  options={categoryOptions}
                   isDisabled={readOnly}
                   isMulti
                   placeholder={readOnly ? '' : 'Выберите категорию'}
@@ -334,22 +458,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                 />
               )}
             />
-            {/* <Controller
-          control={control}
-          name="category"
-          render={({ field }) => (
-            <CreatableSelect
-              {...field}
-              styles={stylesFromCategory}
-              placeholder="Выберите категорию"
-              formatCreateLabel={(value) => (
-                <span>{`Создать "${value}"`}</span>
-              )}
-              isClearable
-              options={options}
-            />
-          )}
-        /> */}
           </div>
         </div>
         <div className={styles.tag_container}>
@@ -362,10 +470,11 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  isMulti
                   options={tagOptions}
                   isDisabled={readOnly}
-                  placeholder={null}
+                  isMulti
+                  placeholder={readOnly ? '' : 'Выберите хэштег'}
+                  // placeholder={null}
                   styles={stylesFromTag}
                   inputId={Date.now().toString()}
                 />
