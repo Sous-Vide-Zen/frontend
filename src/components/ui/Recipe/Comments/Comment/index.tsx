@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react'
 import Image from 'next/image'
-import styles from './ShowComment.module.scss'
+import styles from './Comment.module.scss'
 import EditComment from '@/components/ui/Recipe/Comments/EditComments/index'
 import { PopupEditingMenu } from '@/components/ui/Recipe/Comments/PopupEditingMenu'
 import { CommentData } from '@/store/features/comments/comments.types'
@@ -18,11 +18,7 @@ interface CommentProps {
   onDelete: (id: number) => void
 }
 
-const Comment: React.FC<CommentProps> = ({
-  data,
-  reactions,
-  onDelete,
-}) => {
+const Comment: React.FC<CommentProps> = ({ data, reactions, onDelete }) => {
   const userData = useAuth()
 
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
@@ -30,26 +26,51 @@ const Comment: React.FC<CommentProps> = ({
     {},
   )
 
-  const canEditOrDeleteComment = (comment: CommentData) => {
-    const isAuthor = userData.id === comment.author.id
-    const isWithin24Hours =
-      new Date().getTime() - new Date(comment.pub_date).getTime() <
-      24 * 60 * 60 * 1000
+  const isAuthor = userData.id === data.author.id
+  const isAdmin = userData.is_admin
+  const isModerator = userData.is_staff
+  const commentDate = new Date(data.pub_date)
+  const isWithin24Hours =
+    new Date().getTime() - commentDate.getTime() < 24 * 60 * 60 * 1000
 
-    return (isAuthor || userData.is_admin || userData.is_staff) && isWithin24Hours
+  console.log(
+    'isAuthor:',
+    isAuthor,
+    'isAdmin:',
+    isAdmin,
+    'isModerator:',
+    isModerator,
+  )
+
+  let canEdit = false
+  let canDelete = false
+
+  // Если прошло не более 24 часов:
+  if (isWithin24Hours) {
+    // Модератор может удалять чужие комментарии, а свои комментарии может и редактировать и удалять;
+    if (isModerator) {
+      canDelete = true
+      canEdit = isAuthor
+    }
+
+    // Автор комментария может редактировать комментарии
+    if (isAuthor) {
+      canEdit = true
+    }
+
+    // Администратор может редактировать и удалять свой/чужой комментарий
+    if (isAdmin) {
+      canDelete = true
+      canEdit = true
+    }
+  } else {
+    // Если прошло более 24 часов:
+
+    // Удалять могут:  автор комментария, администратор и модератор
+    if (!isWithin24Hours) {
+      canDelete = isAuthor || isAdmin || isModerator
+    }
   }
-
-  // const canEditOrDeleteComment = (comment: CommentData) => {
-  //   const isWithin24Hours =
-  //     new Date().getTime() - new Date(comment.pub_date).getTime() <
-  //     24 * 60 * 60 * 1000
-  //   return (userId === comment.author.id ||
-  //     userRole === 'admin' ||
-  //     userRole === 'moderator') &&
-  //     isWithin24Hours
-  //     ? true
-  //     : false
-  // }
 
   return (
     <div className={styles.commentsBottomContainer}>
@@ -60,8 +81,8 @@ const Comment: React.FC<CommentProps> = ({
               src={data?.author?.avatar ?? '/img/author.svg'}
               alt={data?.author?.username}
               className={styles.avatar}
-              width={50}
-              height={50}
+              width={20}
+              height={20}
             />
             <p className={styles.commentsNameText}>{data?.author?.username}</p>
           </div>
@@ -101,18 +122,16 @@ const Comment: React.FC<CommentProps> = ({
         </div>
       </div>
 
-      {canEditOrDeleteComment(data) && (
-        <PopupEditingMenu
-          onEdit={() => {
-            setEditingCommentId(data?.id)
-            setCommentTexts((prev) => ({
-              ...prev,
-              [data?.id]: data?.text,
-            }))
-          }}
-          onDelete={() => onDelete(data?.id)}
-        />
-      )}
+      <PopupEditingMenu
+        onEdit={() => {
+          setEditingCommentId(data?.id)
+          setCommentTexts((prev) => ({
+            ...prev,
+            [data?.id]: data?.text,
+          }))
+        }}
+        onDelete={() => onDelete(data?.id)}
+      />
     </div>
   )
 }

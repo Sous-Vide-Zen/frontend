@@ -16,12 +16,15 @@ type Props = {
 const Comments: FC<Props> = ({ slug }) => {
   const userData = useAuth()
 
+  /* Счетчик реакций был обнулен по замечанию тестировщика, чтобы потом можно было
+  с ними работать */
+
   const reactions = [
-    { src: '/img/reactions/heart.svg', alt: 'heart', count: 120 },
-    { src: '/img/reactions/thumb-up.svg', alt: 'thumb-up', count: 13 },
-    { src: '/img/reactions/thumb-down.svg', alt: 'thumb-down', count: 3 },
+    { src: '/img/reactions/heart.svg', alt: 'heart', count: 0 },
+    { src: '/img/reactions/thumb-up.svg', alt: 'thumb-up', count: 0 },
+    { src: '/img/reactions/thumb-down.svg', alt: 'thumb-down', count: 0 },
     { src: '/img/reactions/angry-face.svg', alt: 'angry-face', count: 0 },
-    { src: '/img/reactions/fire.svg', alt: 'fire', count: 24 },
+    { src: '/img/reactions/fire.svg', alt: 'fire', count: 0 },
   ]
 
   // Инициализация состояния с правильным типом
@@ -30,6 +33,7 @@ const Comments: FC<Props> = ({ slug }) => {
 
   useEffect(() => {
     if (data) {
+      console.log('Полученные данные комментариев:', data.results)
       setComments(data.results)
     }
   }, [data])
@@ -86,31 +90,54 @@ const Comments: FC<Props> = ({ slug }) => {
     setIsDeleteModalOpen(false)
   }
 
-  // const canEditComment = (comment: CommentData) => {
-  //   const isAuthor = currentUser.id === comment.author.id
-  //   const isAdmin = currentUser.role === 'admin'
-  //   const isWithin24Hours =
-  //     new Date().getTime() - new Date(comment.pub_date).getTime() <
-  //     24 * 60 * 60 * 1000
-
-  //   return isAuthor || (isAdmin && isWithin24Hours)
-  // }
-
-  // const canDeleteComment = (comment: CommentData) => {
-  // const isAuthor = currentUser.id === comment.author.id
-  // const isAdmin = currentUser.role === 'admin'
-  // const isModerator = currentUser.role === 'moderator'
-  // const isAfter24Hours =
-  //   new Date().getTime() - new Date(comment.pub_date).getTime() >
-  //   24 * 60 * 60 * 1000
-
-  // return (isAuthor || isAdmin || isModerator) && isAfter24Hours
-  // }
-
   // const currentUser = {
   //   id: userData?.id,
   //   role: userData?.role,
   // }
+
+  const InitialComment: CommentData[] = [
+    {
+      id: 1,
+      author: {
+        id: 1,
+        username: 'Алина Устимова',
+        display_name: 'Alina Ustimova',
+        avatar: '/img/comments/png_1.png',
+      },
+      text: 'Безумно вкусно получается! Спасибо за рецепт))',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
+    },
+
+    // {
+    //   id: 2,
+    //   author: {
+    //     id: 2,
+    //     username: 'Сергей Петров',
+    //     display_name: 'Sergei Petrov',
+    //     avatar: '/img/comments/png_2.png',
+    //   },
+    //   text: 'Кипятим чайник, заливаем кипток в кружку, кладем чайный пакетик, выжимаем туда лимон. Ура! Сегодня на завтрак у нас вкусный и яблочный чай :)',
+    //   pub_date: '2023-03-15T12:10:00Z',
+    //   updated_date: '2023-03-15T12:10:00Z',
+    // },
+
+    // {
+    //   id: 3,
+    //   author: {
+    //     id: 3,
+    //     username: 'Иван Ши',
+    //     display_name: 'Ivan Shi',
+    //     avatar: '/img/comments/png_4.png',
+    //   },
+    //   text: 'Легкий, но такой вкусный ужин. Рекомендую)',
+    //   pub_date: '2023-03-15T12:10:00Z',
+    //   updated_date: '2023-03-15T12:10:00Z',
+    // },
+  ]
+  if (comments.length === 0) {
+    setComments(InitialComment)
+  }
 
   return (
     <div className={styles.commentsWrapper}>
