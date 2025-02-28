@@ -5,6 +5,7 @@
   right: 0;
   bottom: 0;
   background-color: rgba(0, 0, 0, 0.7);
+  z-index: 1;
   // display: flex;
   // justify-content: center;
   // align-items: center;
@@ -20,8 +21,8 @@
 
 .modal {
   position: absolute;
-  padding: 64px 96px;
-  border-radius: 8px;
+  padding: 59.5px 96px;
+  border-radius: 12px;
   max-width: 697px;
   width: 90%;
   top: 50%;
@@ -35,8 +36,8 @@
 
 .closeButton {
   position: absolute;
-  top: -4rem;
-  right: -3rem;
+  top: -4.25rem;
+  right: -2.25rem;
   background: none;
   border: none;
   font-size: 3.5rem;

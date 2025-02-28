@@ -22,7 +22,9 @@ export const Modal: FC<ModalProps> = ({ isOpen, onClose, children }) => {
             onClick={onClose}
             aria-label="Close modal"
           >
-            ×
+            <svg width="21" height="22" viewBox="0 0 21 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1 1L20 21M20 1L1 21" stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg>
           </button>
         </div>
       </div>

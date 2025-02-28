@@ -1,4 +1,6 @@
 .link {
+  width: 150px;
+  height: 40px;
   border-radius: 20px;
   display: flex;
   flex-direction: row;
@@ -27,10 +29,12 @@
   &:hover {
     background: var(--button-hover);
     color: var(--base-color);
+    border: 1px solid var(--button-hover);
   }
   &:active {
     background: var(--button-press);
     color: var(--base-color);
+    border: 1px solid var(--button-press);
   }
 }
 
