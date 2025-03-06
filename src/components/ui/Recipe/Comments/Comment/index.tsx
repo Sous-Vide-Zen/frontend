@@ -66,7 +66,7 @@ const Comment: React.FC<CommentProps> = ({ data, reactions, onDelete }) => {
   } else {
     // Если прошло более 24 часов:
 
-    // Удалять могут:  автор комментария, администратор и модератор
+    // Удалять могут: автор комментария, администратор и модератор
     if (!isWithin24Hours) {
       canDelete = isAuthor || isAdmin || isModerator
     }

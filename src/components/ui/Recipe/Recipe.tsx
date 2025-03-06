@@ -34,6 +34,8 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
       }
     }
 
+    console.log(userData)
+
     if (userData?.is_admin) {
       setIsMyRecipe(true)
     } else if (userData?.id === recipe?.author.id) {
