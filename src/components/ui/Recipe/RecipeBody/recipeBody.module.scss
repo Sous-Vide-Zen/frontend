@@ -108,7 +108,11 @@
 }
 .inner_descriptionIngredients {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+.ingredientFields{
+  display: flex;
+  flex-flow: row;
 }
 .name {
   min-width: 300px;
