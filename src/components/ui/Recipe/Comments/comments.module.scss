@@ -1,11 +1,21 @@
+.commentsTitle {
+  font-size: 24px;
+  margin-bottom: 24px;
+}
+
 .commentsWrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  // gap: 12px;
   width: 800px;
-}
 
-.commentsTitle {
-  font-weight: 500;
-  line-height: 29.05px;
+  .commentsList {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+
+    .commentsItem {
+      list-style-type: none;
+    }
+  }
 }
