@@ -73,6 +73,7 @@ export const RecipePhoto: FC<RecipeCardProps> = ({
         <Image
           src={url}
           height={300}
+          width={760}
           alt="recipe image"
           draggable={false}
           className={styles.notPreview}
