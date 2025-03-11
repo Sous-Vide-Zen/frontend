@@ -1,0 +1,17 @@
+.editCommentContainer {
+  width: 774px;
+}
+
+.editText {
+  font-size: 14px;
+}
+
+.commentText {
+  white-space: pre-wrap; // Сохраняет переносы строк
+  font-size: 14px;
+}
+
+.commentTextEditable {
+  white-space: pre-wrap; // Сохраняет переносы строк в редактируемом параграфе
+  outline: none;
+}
