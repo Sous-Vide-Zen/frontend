@@ -20,7 +20,6 @@ interface CommentProps {
 
 const Comment: React.FC<CommentProps> = ({ data, reactions, onDelete }) => {
   const userData = useAuth()
-
   const [editingCommentId, setEditingCommentId] = useState<number | null>(null)
   const [commentTexts, setCommentTexts] = useState<{ [key: number]: string }>(
     {},
@@ -32,15 +31,6 @@ const Comment: React.FC<CommentProps> = ({ data, reactions, onDelete }) => {
   const commentDate = new Date(data.pub_date)
   const isWithin24Hours =
     new Date().getTime() - commentDate.getTime() < 24 * 60 * 60 * 1000
-
-  console.log(
-    'isAuthor:',
-    isAuthor,
-    'isAdmin:',
-    isAdmin,
-    'isModerator:',
-    isModerator,
-  )
 
   let canEdit = false
   let canDelete = false
@@ -66,7 +56,7 @@ const Comment: React.FC<CommentProps> = ({ data, reactions, onDelete }) => {
   } else {
     // Если прошло более 24 часов:
 
-    // Удалять могут: автор комментария, администратор и модератор
+    // Удалять могут:  автор комментария, администратор и модератор
     if (!isWithin24Hours) {
       canDelete = isAuthor || isAdmin || isModerator
     }
@@ -96,7 +86,6 @@ const Comment: React.FC<CommentProps> = ({ data, reactions, onDelete }) => {
                 }))
                 setEditingCommentId(null)
               }}
-              onCancel={() => setEditingCommentId(null)}
             />
           ) : (
             <p className={styles.commentsBottomTextDescr}>{data?.text}</p>

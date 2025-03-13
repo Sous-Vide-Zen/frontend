@@ -3,6 +3,7 @@
 import { FC, useState } from 'react'
 import Link from 'next/link'
 import styles from './PopupEditingMenu.module.scss'
+import { ComntextsMenu } from '../ComntextsMenu'
 
 type PopupEditingMenuProps = {
   onEdit?: () => void
@@ -23,7 +24,13 @@ export const PopupEditingMenu: FC<PopupEditingMenuProps> = ({
     <div className={styles.containerButton}>
       {active && (
         <div className={styles.linkEditingMenu}>
-          <Link href="#" onClick={onEdit}>
+          <Link
+            href="#"
+            onClick={(event) => {
+              event.preventDefault() // Предотвращаем стандартное поведение ссылки
+              if (onEdit) onEdit() // Вызываем функцию редактирования
+            }}
+          >
             Редактировать
           </Link>
           <Link href="#" onClick={onDelete}>
@@ -31,6 +38,7 @@ export const PopupEditingMenu: FC<PopupEditingMenuProps> = ({
           </Link>
         </div>
       )}
+      <ComntextsMenu></ComntextsMenu>
       <div className={styles.dropdownIcon} onClick={toggleActive}>
         ⋮
       </div>

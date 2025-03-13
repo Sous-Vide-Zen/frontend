@@ -99,7 +99,7 @@ const Comments: FC<Props> = ({ slug }) => {
     {
       id: 1,
       author: {
-        id: 1,
+        id: 2,
         username: 'Алина Устимова',
         display_name: 'Alina Ustimova',
         avatar: '/img/comments/png_1.png',
@@ -108,20 +108,18 @@ const Comments: FC<Props> = ({ slug }) => {
       pub_date: '2023-03-15T12:10:00Z',
       updated_date: '2023-03-15T12:10:00Z',
     },
-
-    // {
-    //   id: 2,
-    //   author: {
-    //     id: 2,
-    //     username: 'Сергей Петров',
-    //     display_name: 'Sergei Petrov',
-    //     avatar: '/img/comments/png_2.png',
-    //   },
-    //   text: 'Кипятим чайник, заливаем кипток в кружку, кладем чайный пакетик, выжимаем туда лимон. Ура! Сегодня на завтрак у нас вкусный и яблочный чай :)',
-    //   pub_date: '2023-03-15T12:10:00Z',
-    //   updated_date: '2023-03-15T12:10:00Z',
-    // },
-
+    {
+      id: 2,
+      author: {
+        id: 3,
+        username: 'Сергей Петров',
+        display_name: 'Sergei Petrov',
+        avatar: '/img/comments/png_2.png',
+      },
+      text: 'Кипятим чайник, заливаем кипток в кружку, кладем чайный пакетик, выжимаем туда лимон. Ура!',
+      pub_date: '2023-03-15T12:10:00Z',
+      updated_date: '2023-03-15T12:10:00Z',
+    },
     // {
     //   id: 3,
     //   author: {
