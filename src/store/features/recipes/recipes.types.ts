@@ -52,3 +52,16 @@ export interface ResipeDraftsElem {
   draft_title: string
   slug: string
 }
+
+export interface RecipeFormInputs {
+  title: string
+  hours: string
+  cooking_time: string
+  name0: string
+  amount: number
+  unit0: string
+  full_text: string
+  category: { label: string }[]
+  tag: { label: string }[]
+  ingredients: Ingredient[]
+}

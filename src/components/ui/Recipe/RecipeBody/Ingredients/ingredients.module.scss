@@ -1,0 +1,44 @@
+.ingredients_container {
+  margin-bottom: 48px;
+}
+.ingredients {
+  font-size: 24px;
+  font-weight: 500;
+  margin-bottom: 24px;
+}
+.inner_descriptionIngredients {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.ingredientFields {
+  display: flex;
+  flex-flow: row;
+}
+.name {
+  min-width: 300px;
+  margin-right: 12px;
+}
+.unit,
+.amount {
+  min-width: 142px;
+  margin-right: 12px;
+}
+
+.ingredientsButton {
+  border-radius: 20px;
+  width: 35px;
+  padding: 1px 5px 5px 5px;
+  background-color: var(--primary-color);
+  border: none;
+  color: var(--base-color);
+  font-size: 25px;
+  margin-bottom: 48px;
+  cursor: pointer;
+  &:hover {
+    background: var(--button-hover);
+  }
+  &:active {
+    background: var(--button-press);
+  }
+}

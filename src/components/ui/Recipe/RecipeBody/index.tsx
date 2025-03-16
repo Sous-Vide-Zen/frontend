@@ -1,6 +1,5 @@
 'use client'
-import { FC, useState, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { FC, useState, useEffect, useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import Image from 'next/image'
 import Select from 'react-select'
@@ -8,18 +7,21 @@ import Select from 'react-select'
 import styles from './recipeBody.module.scss'
 import { stylesFromTag } from './addNewRecipeTagSelectStyles'
 import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
-import { Button } from '@/components/ui/'
-import { FormInput } from '@/components/forms/items'
-import IngredientsShowEndAdd from './IngredientsShowEndAdd'
-import hoursToMinutes from '@/helpers/hoursOrMinutes'
-import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import {
   useCreateRecipeDraftMutation,
   usePublicateMutation,
   useGetRecipeDraftsQuery,
   useUpdateRecipeMutation,
 } from '@/store/features/recipes/recipes.actions'
+import {
+  RecipeFormInputs,
+  RecipeFull,
+} from '@/store/features/recipes/recipes.types'
 import { useRedirectIfUserNotAuthorised } from '@/hooks/useRedirectIfUserNotAuthorised'
+import hoursToMinutes from '@/helpers/hoursOrMinutes'
+import { Button } from '@/components/ui/'
+import { FormInput } from '@/components/forms/items'
+import { Ingredients } from './Ingredients'
 
 const textOptions = {
   required: {
@@ -37,29 +39,16 @@ type Props = {
   readOnly: boolean
 }
 
-interface FormInputs {
-  title: string
-  hours: string
-  cooking_time: string
-  name0: string
-  amount: number
-  unit0: string
-  full_text: string
-  category: { label: string }[]
-  tag: { label: string }[]
-}
-
 export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
-  const router = useRouter()
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
-  const [ingredientsNumber, setIngredientsNumber] = useState<number[]>([1])
 
   useRedirectIfUserNotAuthorised()
 
   const [getSlug, { data: recipeDraft, error: draftError }] =
     useCreateRecipeDraftMutation()
-  const createDraft = async () => {
+
+  const createDraft = useCallback(async () => {
     try {
       const response = await getSlug().unwrap()
       const slug = response.slug
@@ -69,13 +58,14 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     } catch (error) {
       console.error('Error creating draft or publishing recipe:', error)
     }
-  }
+  }, [getSlug])
 
   const {
     data: drafts,
     error: draftsError,
     isLoading: draftsLoading,
   } = useGetRecipeDraftsQuery()
+
   useEffect(() => {
     if (draftsLoading) return
     if (slugNewRecipe === '') {
@@ -87,12 +77,13 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       }
     }
     console.log(drafts, slugNewRecipe)
-  }, [drafts, draftsLoading, slugNewRecipe])
+  }, [createDraft, drafts, draftsLoading, slugNewRecipe])
 
   const [update, { data: recipeUpdate, error: UpdateError }] =
     useUpdateRecipeMutation()
   const [publicate, { data: recipePublic, error: publishError }] =
     usePublicateMutation()
+
   const handleDraftAndPublish = async (dataFromFunction: any) => {
     try {
       await update({
@@ -136,7 +127,9 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     handleSubmit,
     formState: { errors, touchedFields },
     control,
-  } = useForm<FormInputs>({
+    getValues,
+    setValue,
+  } = useForm<RecipeFormInputs>({
     defaultValues: {
       title: recipe?.title || '',
       hours: hoursToMinutes(Math.floor((recipe?.cooking_time ?? 0) / 60) || 0, [
@@ -161,38 +154,13 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           })) || []
         : [],
       tag: defaultTag,
+      ingredients: recipe?.ingredients ?? [],
     },
     mode: 'onBlur',
   })
 
-  const addIngredientField = () => {
-    setIngredientsNumber((prevIngredients) => [
-      ...prevIngredients,
-      prevIngredients.length + 1,
-    ])
-  }
-
-  const removeIngredientField = (indexToRemove: number) => {
-    setIngredientsNumber((prevIngredients) =>
-      prevIngredients.filter((_, index) => index !== indexToRemove),
-    )
-  }
-
   const onSubmit = (dataFromInput: any) => {
     const cookingTime = parseInt(dataFromInput.cooking_time, 10)
-
-    const ingredients = ingredientsNumber.map((ing, index) => {
-      const nameKey = `name${index}`
-      const amountKey = `amount${index}`
-      const unitKey = `unit${index}`
-
-      return {
-        name: dataFromInput[nameKey],
-        amount: dataFromInput[amountKey],
-        unit: dataFromInput[unitKey],
-      }
-    })
-
     const transformedTags = dataFromInput.tag
       ? dataFromInput.tag.map(
           (item: { value: string; label: string }) => item.value,
@@ -208,7 +176,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       // ...dataFromInput,
       title: dataFromInput.title,
       cooking_time: cookingTime,
-      ingredients,
+      ingredients: dataFromInput.ingredients,
       full_text: dataFromInput.full_text,
       tag: transformedTags,
       category: transformedCategory,
@@ -285,107 +253,14 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         </div>
         <div className={styles.ingredients_container}>
           <p className={styles.ingredients}>Ингредиенты*</p>
-          <div className={styles.inner_descriptionIngredients}>
-            {readOnly && (
-              <IngredientsShowEndAdd
-                readOnly={readOnly}
-                ingredients={recipe?.ingredients}
-              />
-            )}
-            {!readOnly && (
-              <>
-                {ingredientsNumber.map((ingredient, index) => (
-                  <div key={index} className={styles.ingredientFields}>
-                    <div className={styles.name}>
-                      <FormInput
-                        register={register}
-                        id={`name${index}`}
-                        type="text"
-                        options={textOptions}
-                        // className={styles.titleInput}
-                        placeholder="название"
-                      />
-                      {errors[`name${index}` as keyof FormInputs] && (
-                        <span className={styles.errorMessage}>
-                          {errors[`name${index}` as keyof FormInputs]?.message}
-                        </span>
-                      )}
-                    </div>
-                    <div className={styles.amount}>
-                      <FormInput
-                        register={register}
-                        id={`amount${index}`}
-                        type="text"
-                        placeholder="количество"
-                        options={{
-                          required: {
-                            value: true,
-                            message: 'Поле обязательно для заполнения',
-                          },
-                          validate: (value) => {
-                            const number = parseInt(value, 10)
-                            if (isNaN(number)) {
-                              return 'Введите корректное число'
-                            }
-                            if (number < 1) {
-                              return 'Количество не должно быть меньше 1'
-                            }
-                            return true
-                          },
-                        }}
-                      />
-                      {errors[`amount${index}` as keyof FormInputs] && (
-                        <span className={styles.errorMessage}>
-                          {
-                            errors[`amount${index}` as keyof FormInputs]
-                              ?.message
-                          }
-                        </span>
-                      )}
-                    </div>
-                    <div className={styles.unit}>
-                      <FormInput
-                        register={register}
-                        id={`unit${index}`}
-                        type="text"
-                        options={textOptions}
-                        // className={styles.titleInput}
-                        placeholder="кг"
-                      />
-                      {errors[`unit${index}` as keyof FormInputs] && (
-                        <span className={styles.errorMessage}>
-                          {errors[`unit${index}` as keyof FormInputs]?.message}
-                        </span>
-                      )}
-                    </div>
-                    {index > 0 && (
-                      <button
-                        onClick={(e) => {
-                          e.preventDefault()
-                          removeIngredientField(index)
-                        }}
-                        className={styles.ingredientsButton}
-                      >
-                        х
-                      </button>
-                    )}
-                  </div>
-                ))}
-              </>
-            )}
-          </div>
+          <Ingredients
+            readOnly={readOnly}
+            getValues={getValues}
+            register={register}
+            setValue={setValue}
+            errors={errors}
+          />
         </div>
-        {!readOnly && (
-          <button
-            onClick={(e) => {
-              e.preventDefault()
-              addIngredientField()
-            }}
-            className={styles.ingredientsButton}
-          >
-            +
-          </button>
-        )}
         <div className={styles.cocking_container}>
           <p className={styles.cocking}>Приготовление*</p>
           <div className={styles.full_text}>
