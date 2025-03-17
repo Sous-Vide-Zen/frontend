@@ -1,39 +1,73 @@
-.ingredients_container {
-  margin-bottom: 48px;
-}
-.ingredients {
-  font-size: 24px;
-  font-weight: 500;
-  margin-bottom: 24px;
-}
+/* */
+/* блок ингредиенты */
 .inner_descriptionIngredients {
+  // max-width: 710px;
+  // width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 10px;
 }
-.ingredientFields {
+
+.ingredientFields{
+  margin-bottom: 30px;
+  max-width: 710px;
+  width: 100%;
   display: flex;
   flex-flow: row;
 }
 .name {
-  min-width: 300px;
+  max-width: 300px;
+  width: 100%;
   margin-right: 12px;
-}
-.unit,
-.amount {
-  min-width: 142px;
-  margin-right: 12px;
+  p{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px 0px 12px 0;
+  }
+  span{
+    font-size: 18px;
+  }
 }
 
+.amount {
+  max-width: 181px;
+  width: 100%;
+  margin-right: 12px;
+  p{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px 0px 12px 0;
+  }
+  span{
+    font-size: 18px;
+  }
+}
+.unit {
+  max-width: 181px;
+  width: 100%;
+  p{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0px 0px 12px 0;
+  }
+  span{
+    font-size: 18px;
+  }
+}
+.ingredientsButtonWrapper{
+  margin-top: 20px;
+}
 .ingredientsButton {
   border-radius: 20px;
-  width: 35px;
-  padding: 1px 5px 5px 5px;
+  width: 26px;
+  height: 26px;
+  padding-bottom: 3px;
+  // padding: 1px 5px 5px 5px;
   background-color: var(--primary-color);
   border: none;
   color: var(--base-color);
   font-size: 25px;
-  margin-bottom: 48px;
+  line-height: 0px;
+  // margin-bottom: 48px;
   cursor: pointer;
   &:hover {
     background: var(--button-hover);
@@ -42,3 +76,10 @@
     background: var(--button-press);
   }
 }
+.ingredientsButton2{
+  position: relative;
+  top: 31px;
+  left: 20px;
+}
+
+/* */

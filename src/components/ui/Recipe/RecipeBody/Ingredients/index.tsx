@@ -1,9 +1,6 @@
 'use client'
-import { FC, Fragment, useCallback, useEffect } from 'react'
-import {
-  RecipeFormInputs,
-  RecipeFull,
-} from '@/store/features/recipes/recipes.types'
+import { FC, useCallback, useEffect } from 'react'
+import { RecipeFormInputs } from '@/store/features/recipes/recipes.types'
 import styles from './ingredients.module.scss'
 import { Field, FormInput } from '@/components/forms/items'
 import {
@@ -11,22 +8,27 @@ import {
   UseFormGetValues,
   UseFormRegister,
   UseFormSetValue,
+  useWatch,
+  Control,
 } from 'react-hook-form'
 import IngredientsShowEndAdd from '../IngredientsShowEndAdd'
 
-const textOptions = {
-  required: {
-    value: true,
-    message: 'Поле обязательно для заполнения',
-  },
-  maxLength: {
-    message: 'Поле не должно содержать более 150 символов',
-    value: 150,
+const textForIngredient = {
+  validate: (value: string) => {
+    const text = value
+    if (text.trim() === '') {
+      return 'Поле обязательно для заполнения'
+    }
+    if (text.length > 30) {
+      return 'Поле не должно содержать более 30 символов'
+    }
+    return true
   },
 }
 
 interface Props {
   readOnly: boolean
+  control: Control<RecipeFormInputs>
   getValues: UseFormGetValues<RecipeFormInputs>
   register: UseFormRegister<RecipeFormInputs>
   setValue: UseFormSetValue<RecipeFormInputs>
@@ -35,86 +37,93 @@ interface Props {
 
 export const Ingredients: FC<Props> = ({
   readOnly,
+  control,
   getValues,
   register,
   setValue,
   errors,
 }) => {
-  const ingredients = getValues()['ingredients']
-  console.log({ ingredients, errors })
+  const ingredients = useWatch({
+    control,
+    name: 'ingredients',
+    defaultValue: getValues('ingredients'),
+  })
 
+  // Инициализация ингредиентов при загрузке
   useEffect(() => {
-    console.log({ errors })
-  }, [errors])
+    const currentIngredients = getValues('ingredients')
+    if (!currentIngredients || currentIngredients.length === 0) {
+      setValue('ingredients', [{ name: '', amount: '', unit: '' }])
+    }
+  }, [getValues, setValue])
 
+  // Добавление нового ингредиента
   const addIngredientField = useCallback(() => {
-    ingredients.push({
-      name: '',
-      amount: 0,
-      unit: '',
-    })
-    setValue('ingredients', ingredients)
-  }, [ingredients, setValue])
+    const newIngredient = { name: '', amount: '', unit: '' }
+    const updatedIngredients = [...(ingredients || []), newIngredient]
+    setValue('ingredients', updatedIngredients)
+    // console.log('add getValue', updatedIngredients, getValues('ingredients'))
+  }, [setValue, ingredients])
 
+  // Удаление ингредиента
   const removeIngredientField = useCallback(
     (indexToRemove: number) => {
-      delete ingredients[indexToRemove]
-      setValue('ingredients', ingredients)
+      const updatedIngredients = (ingredients || []).filter(
+        (_, index) => index !== indexToRemove,
+      )
+      setValue('ingredients', updatedIngredients)
     },
-    [ingredients, setValue],
+    [setValue, ingredients],
   )
 
-  if (readOnly)
+  if (readOnly) {
     return (
       <IngredientsShowEndAdd readOnly={readOnly} ingredients={ingredients} />
     )
+  }
 
   return (
     <div className={styles.inner_descriptionIngredients}>
-      {ingredients.map((_ingredient, index) => (
+      {ingredients?.map((_ingredient, index) => (
         <div key={index} className={styles.ingredientFields}>
           <div className={styles.name}>
-            <Field
-              error={
-                errors && errors?.ingredients && errors.ingredients[index]
-                  ? errors.ingredients[index]?.name?.message
-                  : null
-              }
-            >
+            <p>Название</p>
+            <Field error={errors?.ingredients?.[index]?.name?.message || null}>
               <FormInput
                 register={register}
                 id={`ingredients.${index}.name`}
                 type="text"
-                options={textOptions}
-                placeholder="название"
+                options={textForIngredient}
+                // placeholder="название"
               />
             </Field>
           </div>
           <div className={styles.amount}>
+            <p>Количество</p>
             <Field
-              error={
-                errors && errors?.ingredients && errors.ingredients[index]
-                  ? errors.ingredients[index]?.amount?.message
-                  : null
-              }
+              error={errors?.ingredients?.[index]?.amount?.message || null}
             >
               <FormInput
                 register={register}
                 id={`ingredients.${index}.amount`}
                 type="number"
-                placeholder="количество"
+                // placeholder="количество"
+                // defaultValue={_ingredient.amount === 0 ? '' : _ingredient.amount} // Отображаем пустую строку для 0
                 options={{
-                  required: {
-                    value: true,
-                    message: 'Поле обязательно для заполнения',
-                  },
                   validate: (value) => {
+                    const text = value
+                    if (text.trim() === '') {
+                      return 'Поле обязательно для заполнения'
+                    }
                     const number = parseInt(value, 10)
                     if (isNaN(number)) {
                       return 'Введите корректное число'
                     }
                     if (number < 1) {
                       return 'Количество не должно быть меньше 1'
+                    }
+                    if (number > 1000) {
+                      return 'Количество не должно быть больше 1000'
                     }
                     return true
                   },
@@ -123,40 +132,36 @@ export const Ingredients: FC<Props> = ({
             </Field>
           </div>
           <div className={styles.unit}>
-            <Field
-              error={
-                errors && errors?.ingredients && errors.ingredients[index]
-                  ? errors.ingredients[index]?.unit?.message
-                  : null
-              }
-            >
+            <p>Единица измерения</p>
+            <Field error={errors?.ingredients?.[index]?.unit?.message || null}>
               <FormInput
                 register={register}
                 id={`ingredients.${index}.unit`}
                 type="text"
-                options={textOptions}
-                placeholder="кг"
+                options={textForIngredient}
+                // placeholder="кг"
               />
             </Field>
           </div>
-          <button
-            onClick={(e) => {
-              removeIngredientField(index)
-            }}
-            className={styles.ingredientsButton}
-          >
-            х
-          </button>
+          {index > 0 && (
+            <button
+              onClick={() => removeIngredientField(index)}
+              className={`${styles.ingredientsButton} ${styles.ingredientsButton2}`}
+            >
+              х
+            </button>
+          )}
         </div>
       ))}
-
-      <button
-        type="button"
-        onClick={addIngredientField}
-        className={styles.ingredientsButton}
-      >
-        +
-      </button>
+      <div className={styles.ingredientsButtonWrapper}>
+        <button
+          type="button"
+          onClick={addIngredientField}
+          className={styles.ingredientsButton}
+        >
+          +
+        </button>
+      </div>
     </div>
   )
 }

@@ -23,14 +23,16 @@ import { Button } from '@/components/ui/'
 import { FormInput } from '@/components/forms/items'
 import { Ingredients } from './Ingredients'
 
-const textOptions = {
-  required: {
-    value: true,
-    message: 'Поле обязательно для заполнения',
-  },
-  maxLength: {
-    message: 'Поле не должно содержать более 150 символов',
-    value: 150,
+const textForTitle = {
+  validate: (value: string) => {
+    const text = value
+    if (text.trim() === '') {
+      return 'Поле обязательно для заполнения'
+    }
+    if (text.length > 150) {
+      return 'Поле не должно содержать более 150 символов'
+    }
+    return true
   },
 }
 
@@ -132,11 +134,13 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   } = useForm<RecipeFormInputs>({
     defaultValues: {
       title: recipe?.title || '',
-      hours: hoursToMinutes(Math.floor((recipe?.cooking_time ?? 0) / 60) || 0, [
-        'час',
-        'часа',
-        'часов',
-      ]),
+      hours: readOnly
+        ? hoursToMinutes(Math.floor((recipe?.cooking_time ?? 0) / 60) || 0, [
+            'час',
+            'часа',
+            'часов',
+          ])
+        : '',
       cooking_time: readOnly
         ? hoursToMinutes((recipe?.cooking_time ?? 0) % 60 || 0, [
             'минута',
@@ -145,7 +149,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           ])
         : '',
       name0: '',
-      amount: 1,
+      amount: '',
       unit0: '',
       full_text: recipe?.full_text || '',
       category: recipe?.category
@@ -160,7 +164,8 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   })
 
   const onSubmit = (dataFromInput: any) => {
-    const cookingTime = parseInt(dataFromInput.cooking_time, 10)
+    const cookingTime =
+      parseInt(dataFromInput.cooking_time, 10) + dataFromInput.hours * 60
     const transformedTags = dataFromInput.tag
       ? dataFromInput.tag.map(
           (item: { value: string; label: string }) => item.value,
@@ -171,13 +176,20 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           (item: { value: string; label: string }) => item.value,
         )
       : []
+    const ingredients = dataFromInput.ingredients.map((ing: any) => {
+      return {
+        name: ing.name.trim(),
+        amount: parseInt(ing.amount, 10),
+        unit: ing.unit.trim(),
+      }
+    })
 
     const transformedData = {
       // ...dataFromInput,
-      title: dataFromInput.title,
+      title: dataFromInput.title.trim(),
       cooking_time: cookingTime,
-      ingredients: dataFromInput.ingredients,
-      full_text: dataFromInput.full_text,
+      ingredients: ingredients,
+      full_text: dataFromInput.full_text.trim(),
       tag: transformedTags,
       category: transformedCategory,
     }
@@ -197,7 +209,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           register={register}
           id="title"
           type="text"
-          options={textOptions}
+          options={textForTitle}
           className={styles.titleInput}
           placeholder="Название рецепта*"
           disabled={readOnly}
@@ -208,17 +220,29 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         <div className={styles.cockingTime_container}>
           <p className={styles.cockingTime}>Время приготовления*</p>
           <div className={styles.hourPlusMinutes}>
-            {readOnly && (
-              <div className={`${styles.hours} ${displayNoneClass}`}>
-                <FormInput
-                  register={register}
-                  id="hours"
-                  type="text"
-                  placeholder="часы"
-                  disabled={readOnly}
-                />
-              </div>
-            )}
+            <div className={`${styles.hours} ${displayNoneClass}`}>
+              <input
+                {...register('hours', {
+                  validate: (value) => {
+                    if (!value) return true
+                    const hours = parseInt(value, 10)
+                    if (isNaN(hours) || hours < 0) {
+                      return 'Введите корректное число'
+                    }
+                    return true
+                  },
+                })}
+                id="hours"
+                type="text"
+                placeholder="часы"
+                disabled={readOnly}
+              />
+              {errors.hours && (
+                <span className={styles.errorMessage}>
+                  {errors.hours.message}
+                </span>
+              )}
+            </div>
             <div className={styles.minutes}>
               <FormInput
                 register={register}
@@ -227,26 +251,35 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                 placeholder="минуты"
                 disabled={readOnly}
                 options={{
-                  required: {
-                    value: true,
-                    message: 'Поле обязательно для заполнения',
-                  },
                   validate: (value) => {
+                    const hoursElement = document.getElementById(
+                      'hours',
+                    ) as HTMLInputElement | null
+                    const hoursValue = hoursElement
+                      ? parseInt(hoursElement.value, 10)
+                      : 0
+                    const text = value
+                    if (text.trim() === '' && !hoursValue) {
+                      return 'Поле обязательно для заполнения'
+                    }
                     const minutes = parseInt(value, 10)
-                    if (isNaN(minutes)) {
+                    if (isNaN(minutes) && !hoursValue) {
                       return 'Введите корректное число'
                     }
-                    if (minutes <= 9) {
+                    if (minutes <= 9 && !hoursValue) {
                       return 'Время не должно быть меньше 10 минут'
+                    }
+                    if (minutes + hoursValue * 60 > 1440) {
+                      return 'Количество не должно быть больше 1440'
                     }
                     return true
                   },
                 }}
               />
               {errors.cooking_time && (
-                <span className={styles.errorMessage}>
+                <p className={styles.errorMessage}>
                   {errors.cooking_time.message}
-                </span>
+                </p>
               )}
             </div>
           </div>
@@ -255,6 +288,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           <p className={styles.ingredients}>Ингредиенты*</p>
           <Ingredients
             readOnly={readOnly}
+            control={control}
             getValues={getValues}
             register={register}
             setValue={setValue}
@@ -275,18 +309,15 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                   placeholder="впишите сюда текст рецепта"
                   disabled={readOnly}
                   options={{
-                    required: {
-                      value: true,
-                      message: 'Поле обязательно для заполнения',
+                    validate: (value: string) => {
+                      const text = value
+                      if (text.trim() === '') {
+                        return 'Поле обязательно для заполнения'
+                      }
+                      return true
                     },
                   }}
                 />
-                {errors.full_text && (
-                  <span className={styles.errorMessage}>
-                    {errors.full_text.message}
-                  </span>
-                )}
-
                 <button
                   onClick={(e) => {
                     e.preventDefault(), setShowMediaIcons(!showMediaIcons)
@@ -314,6 +345,11 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
               </div>
             )}
           </div>
+          {errors.full_text && (
+            <span className={styles.errorMessage}>
+              {errors.full_text.message}
+            </span>
+          )}
         </div>
         <div className={styles.category_container}>
           <p className={styles.category}>Категории</p>
