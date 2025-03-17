@@ -43,6 +43,7 @@
 .errorMessage{
   color: var(--input-invalid);
     text-align: left;
+    font-size: 20px;
 }
 .titleInput>div>input{
   border: none;
@@ -94,11 +95,16 @@
     height: 34px;
     background-color: white;
   }
+  p{
+    width: 500px;
+  }
 }
 /* */
 
 /* блок ингредиенты */
 .ingredients_container {
+  width: 774px;
+  // width: 100%;
   margin-bottom: 48px;
 }
 .ingredients {
@@ -117,13 +123,26 @@
 .name {
   min-width: 300px;
   margin-right: 12px;
+  p{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 20px 12px 10px 0;
+  }
 }
 .unit,
 .amount {
   min-width: 142px;
   margin-right: 12px;
+  p{
+    font-size: 16px;
+    font-weight: 400;
+    margin: 20px 12px 10px 0;
+  }
 }
 
+.ingredientsButtonWrapper{
+  margin-top: 50px;
+}
 .ingredientsButton {
   border-radius: 20px;
   width: 35px;
@@ -148,21 +167,21 @@
 .cocking_container {
   margin-bottom: 48px;
 }
-.full_text {
-  position: relative;
-}
 .cocking {
   font-size: 24px;
   font-weight: 500;
   margin-bottom: 24px;
 }
-.textArea {
-  div>input{
-    border: none;
-  }
-  font-size: 16px;
-  font-weight: 400;
-  width: 100%;
+.hours input{
+  width: 142px;
+  border-radius: 12px;
+  color: var(--base-color-dark);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid var(--input-stroke);
+  padding: 12px 14px;
+}
+.full_text {
+  position: relative;
   min-height: 240px;
   border-radius: 12px;
   color: var(--base-color-dark);
@@ -170,13 +189,28 @@
   outline: none;
   border: 1px solid var(--input-stroke);
   padding: 24px 16px;
+}
+.textArea {
+  div input{
+    // height: 200px;
+    border: 0px solid;
+    // min-height: 200px;
+  resize: vertical; /* Можете использовать 'both', 'none', или 'horizontal', если хотите ограничить изменение размера */
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+  // border: 0;
+  padding: 10px; /* Добавляем внутренние отступы для удобства ввода */
   &:hover {
-    border: 1px solid var(--base-color-dark);
+    border: 0px solid var(--base-color-dark);
   }
   &:focus {
-    border: 1px solid var(--base-color-dark);
-    color: var(--base-color-dark);
+    border: 0px solid var(--base-color-dark);
   }
+  }
+  font-size: 16px;
+  font-weight: 400;
+  width: 100%;
+  
 }
 .cockingButton {
   border-radius: 20px;
