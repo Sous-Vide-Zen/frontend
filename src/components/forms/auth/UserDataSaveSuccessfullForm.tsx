@@ -22,7 +22,7 @@ export default function UserDataSaveSuccessfullForm() {
       <div className={styles.inner_text}>
         <h2>Ваши данные сохранены!</h2>
         <p>Новые данные будут отражены на вашей странице.</p>
-        <p style={{ paddingTop: '48px' }}>
+        <p>
           <LinkLikeButton href="/" size="big" color="primary">
             На главную
           </LinkLikeButton>
