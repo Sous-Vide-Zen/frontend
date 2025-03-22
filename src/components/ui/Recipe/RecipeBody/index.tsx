@@ -197,7 +197,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     console.log('function work', transformedData)
   }
 
-  let displayNoneClass =
+  const displayNoneClass =
     recipe && recipe?.cooking_time < 60
       ? styles.displayNone
       : styles.background4
