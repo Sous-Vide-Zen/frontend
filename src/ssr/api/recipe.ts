@@ -11,7 +11,7 @@ const serverAxios = axios.create({
 })
 
 export const getHeaders = () => {
-  let allHeader: Record<string, string> = {}
+  const allHeader: Record<string, string> = {}
   const headerKeys = Array.from(headers().keys())
   for (const e of headerKeys) {
     allHeader[e] = headers().get(e) || ''

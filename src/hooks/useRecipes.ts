@@ -66,7 +66,7 @@ export const useRecipes = (
   useEffect(() => {
     loadNextPageRef.current = () => {
       if (data?.next) {
-        let url = new URL(data?.next ?? '')
+        const url = new URL(data?.next ?? '')
         const page = url ? String(url.searchParams.get('page')) : '0'
         // eslint-disable-next-line react-hooks/exhaustive-deps
         params = { ...params, page }

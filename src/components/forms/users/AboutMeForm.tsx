@@ -52,12 +52,7 @@ const textOptions: RegisterOptions<any> = {
   },
 }
 
-type Props = {
-  // isLoading?: boolean
-  // errorText?: string
-}
-
-const AboutMeForm: FC<Props> = ({}) => {
+const AboutMeForm: FC = ({}) => {
   const [phone, setPhone] = useState<string>()
   const [formChanged, setFormChanged] = useState(false)
   const [avatar, setAvatar] = useState<string | null>(null)
@@ -114,7 +109,7 @@ const AboutMeForm: FC<Props> = ({}) => {
       is_staff,
       ...userData
     } = data
-    for (let u in userData) {
+    for (const u in userData) {
       //@ts-ignore
       setValue(u, data[u])
     }
@@ -138,7 +133,7 @@ const AboutMeForm: FC<Props> = ({}) => {
         body: {
           ...dataFromInput,
           phone: filteredPhone.length ? `+${filteredPhone}` : '',
-          country: dataFromInput.country ?? ''
+          country: dataFromInput.country ?? '',
         },
       })
       setFormChanged(false)
