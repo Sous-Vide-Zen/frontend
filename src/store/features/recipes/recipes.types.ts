@@ -5,7 +5,7 @@ export type Category = { id: number; name: string; slug: string }
 export type Ingredient = {
   name: string
   unit: string
-  amount: string
+  amount: number
 }
 
 export interface RecipeCommon {

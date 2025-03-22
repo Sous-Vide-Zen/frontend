@@ -1,6 +1,6 @@
 'use client'
 import { FC, useCallback, useEffect } from 'react'
-import { RecipeFormInputs } from '@/store/features/recipes/recipes.types'
+import { Ingredient, RecipeFormInputs } from '@/store/features/recipes/recipes.types'
 import styles from './ingredients.module.scss'
 import { Field, FormInput } from '@/components/forms/items'
 import {
@@ -53,14 +53,14 @@ export const Ingredients: FC<Props> = ({
   useEffect(() => {
     const currentIngredients = getValues('ingredients')
     if (!currentIngredients || currentIngredients.length === 0) {
-      setValue('ingredients', [{ name: '', amount: '', unit: '' }])
+      setValue('ingredients', [{ name: '', amount: 0, unit: '' }])
     }
   }, [getValues, setValue])
 
   // Добавление нового ингредиента
   const addIngredientField = useCallback(() => {
-    const newIngredient = { name: '', amount: '', unit: '' }
-    const updatedIngredients = [...(ingredients || []), newIngredient]
+    const newIngredient: Ingredient = { name: '', amount: 0, unit: '' }
+    const updatedIngredients: Ingredient[] = [...(ingredients || []), newIngredient]
     setValue('ingredients', updatedIngredients)
     // console.log('add getValue', updatedIngredients, getValues('ingredients'))
   }, [setValue, ingredients])
