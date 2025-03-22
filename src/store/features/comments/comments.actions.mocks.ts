@@ -7,6 +7,7 @@ import {
 
 export const commentsMocks = {
   getRecipeComments: {
+    slug: 'test',
     recipeId: 1,
     response: {
       count: 25,

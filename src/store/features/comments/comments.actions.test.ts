@@ -22,7 +22,7 @@ const apiStore = makeStore()
 export const restHandlers = [
   // getRecipeComments
   http.get(
-    `${BASE_URL}recipe/${mocks.getRecipeComments.recipeId}/comments/`,
+    `${BASE_URL}recipe/${mocks.getRecipeComments.slug}/comments/`,
     () => HttpResponse.json(mocks.getRecipeComments.response),
   ),
   // addRecipeComment
@@ -62,7 +62,7 @@ describe('subscribeApi', () => {
 
   it('should fetch recipe comments', async () => {
     const result = await apiStore.dispatch<any>(
-      getRecipeComments.initiate(mocks.getRecipeComments.recipeId),
+      getRecipeComments.initiate(mocks.getRecipeComments.slug),
     )
 
     expect(result?.data?.results).toBeDefined()

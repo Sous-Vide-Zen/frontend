@@ -24,7 +24,8 @@ const mocks = {
       previous: '',
       results: [
         {
-          user: {
+          id: 1,
+          author: {
             id: 228,
             username: 'admin',
             bio: 'Привет, я Вася, и я профессиональный...',
@@ -32,7 +33,8 @@ const mocks = {
           subscribers_count: 1,
         },
         {
-          user: {
+          id: 2,
+          author: {
             id: 2,
             username: 'Vasya',
             avatar: 'path/to/avatar.webp',
@@ -50,7 +52,8 @@ const mocks = {
       previous: '',
       results: [
         {
-          user: {
+          id: 3,
+          author: {
             id: 228,
             username: 'admin',
             bio: 'Привет, я Вася, и я профессиональный...',
@@ -58,7 +61,8 @@ const mocks = {
           subscribers_count: 1,
         },
         {
-          user: {
+          id: 4,
+          author: {
             id: 2,
             username: 'Vasya',
             avatar: 'path/to/avatar.webp',
@@ -119,8 +123,8 @@ describe('subscribeApi', () => {
     )
 
     expect(result?.data?.results).toBeDefined()
-    expect(result.data.results[0].user.id).toBe(
-      mocks.getUserSubscriptions.response.results[0].user.id,
+    expect(result.data.results[0].author.id).toBe(
+      mocks.getUserSubscriptions.response.results[0].author.id,
     )
   })
 
@@ -130,8 +134,8 @@ describe('subscribeApi', () => {
     )
 
     expect(result?.data?.results).toBeDefined()
-    expect(result.data.results[0].user.id).toBe(
-      mocks.getUserSubscribers.response.results[0].user.id,
+    expect(result.data.results[0].author.id).toBe(
+      mocks.getUserSubscribers.response.results[0].author.id,
     )
   })
 

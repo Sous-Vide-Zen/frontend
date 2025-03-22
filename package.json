@@ -6,14 +6,16 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "check-types": "tsc --noemit",
+    "lint": "next lint && npm run check-types",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test": "vitest",
     "test:coverage": "vitest --coverage",
     "docker:build": "docker build --tag cousvidezen .",
     "docker:start": "docker run -it --rm -p 3000:3000 cousvidezen",
-    "docker:test": "docker run -it --rm -p 3000:3000 cousvidezen /bin/sh"
+    "docker:test": "docker run -it --rm -p 3000:3000 cousvidezen /bin/sh",
+    "prepare": "husky"
   },
   "dependencies": {
     "@reduxjs/toolkit": "^2.0.1",

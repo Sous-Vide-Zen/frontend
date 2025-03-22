@@ -96,3 +96,5 @@ sketch
 .env
 
 *storybook.log
+
+tsconfig.tsbuildinfo
