@@ -69,3 +69,7 @@ all settings stored in .env.prod
 
 build `npm run docker:build`
 start `npm run docker:start`
+
+### Linter
+
+on push branch or PR start linter
