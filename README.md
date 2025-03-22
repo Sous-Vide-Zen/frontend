@@ -72,4 +72,4 @@ start `npm run docker:start`
 
 ### Linter
 
-on push branch or PR start linter
+test
