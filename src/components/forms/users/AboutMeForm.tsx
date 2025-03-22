@@ -87,6 +87,8 @@ const AboutMeForm: FC = ({}) => {
   // @ts-ignore
   const patchErrorText = patchError?.data ?? {}
 
+  const [selectedCountryColor, setSelectedCountryColor] = useState('white') // Начальный цвет
+
   useEffect(() => {
     const username = currentUserData?.username
     if (username) {
@@ -224,6 +226,48 @@ const AboutMeForm: FC = ({}) => {
                   value={COUNTRIES.find((c) => c.value === value)}
                   onChange={(selectedOption) => {
                     onChange(selectedOption?.value)
+                    setSelectedCountryColor('white')
+                  }}
+                  styles={{
+                    control: (baseStyles, state) => ({
+                      ...baseStyles,
+                      borderRadius: '12px',
+                      borderColor: state.isFocused
+                        ? '#010b00'
+                        : baseStyles.borderColor,
+                      backgroundColor: selectedCountryColor,
+                      '&:hover': {
+                        borderColor: state.isFocused
+                          ? '#010b00'
+                          : baseStyles.borderColor,
+                      },
+                      outline: 'none',
+                      boxShadow: 'none',
+                    }),
+                    menu: (base) => ({
+                      ...base,
+                      '&:hover': {
+                        backgroundColor: 'white',
+                        borderRadius: '12px',
+                      },
+                    }),
+                    option: (base, state) => ({
+                      ...base,
+                      transition: 'background-color 0.2s ease-out',
+                      backgroundColor: state.isFocused
+                        ? '#5dc791' // Цвет фона при фокусе
+                        : state.isSelected
+                          ? '#5dc791' // Цвет фона для выбранного элемента
+                          : base.backgroundColor, // Цвет фона по умолчанию
+                      color:
+                        state.isFocused || state.isSelected
+                          ? '#010b00'
+                          : base.color,
+                      '&:hover': {
+                        backgroundColor: '#5dc791', // Цвет фона при наведении
+                        color: '#010b00', // Цвет текста при наведении
+                      },
+                    }),
                   }}
                 />
               )}
@@ -269,6 +313,7 @@ const AboutMeForm: FC = ({}) => {
           color="primary"
           size="medium"
           loading={isPatchLoading}
+          style={{ borderRadius: '18px' }}
         >
           Сохранить
         </Button>

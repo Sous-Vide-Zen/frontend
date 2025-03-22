@@ -37,7 +37,7 @@ export default function LoginPage() {
 
   return (
     <div className={styles.container}>
-      <h1>Добро пожаловать в мир су-вид.</h1>
+      <h1>С возвращением в мир су-вид!</h1>
       <LoginForm />
     </div>
   )
