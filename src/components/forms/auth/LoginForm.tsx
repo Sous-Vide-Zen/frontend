@@ -89,7 +89,7 @@ const LoginForm: FC = () => {
 
         {isError && (
           <span role="alert" className={styles.error}>
-            {String(error)}
+            {String('Неправильно указана почта и/или пароль')}
           </span>
         )}
       </form>

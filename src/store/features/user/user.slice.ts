@@ -17,7 +17,7 @@ export interface IInitialState {
 
 const defaultState: IInitialState = {
   view: 'feed',
-  sort: 'default',
+  sort: 'top',
   myRecipesSort: 'date',
 }
 
@@ -37,7 +37,10 @@ const userSettingsSlice = createSlice({
     setSortMyRecipesMode: (state, action: PayloadAction<MyRecipeSort>) => {
       state.myRecipesSort = action.payload
     },
-    setDateSortMyRecipes: (state, action: PayloadAction<string | undefined>) => {
+    setDateSortMyRecipes: (
+      state,
+      action: PayloadAction<string | undefined>,
+    ) => {
       state.myRecipesFromDate = action.payload
     },
   },
