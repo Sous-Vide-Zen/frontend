@@ -49,3 +49,12 @@
 .modal_login {
   margin-right: 24px;
 }
+
+.highlighted {
+  outline: none; /* Обводка зеленым цветом */
+  box-shadow: none;
+}
+
+.green-border {
+  border: 2px solid green;
+}
