@@ -9,6 +9,7 @@ import { useAppSelector } from '@/store/hooks'
 import { useAuth } from '@/hooks/useAuth'
 import { LinkItem, NavLinkSkeleton, LinkLikeButton } from '@/components/ui'
 import ButtonLikeLink from '@/components/ui/ButtonLikeLink'
+import Badge from '@/components/ui/Badge'
 
 type MenuItem = LinkItem & {
   path: string
@@ -77,6 +78,25 @@ export default function Sidebar() {
     </div>
   )
 
+  // const jsxIsAuth = (
+  //   <div className={styles.auth}>
+  //     {menu.map(({ text, img, alt, path }, key) => (
+  //       <LinkLikeButton
+  //         key={key}
+  //         color="clear"
+  //         size="medium"
+  //         href={path}
+  //         pressed={pathname === path}
+  //       >
+  //         {text}
+  //         {img && <Image src={img} alt={alt} width={22} height={22} />}
+  //       </LinkLikeButton>
+  //     ))}
+  //   </div>
+  // )
+
+  const notificationsCount = 1 // Это число должно быть динамическим, например, из состояния или пропсов
+
   const jsxIsAuth = (
     <div className={styles.auth}>
       {menu.map(({ text, img, alt, path }, key) => (
@@ -88,7 +108,15 @@ export default function Sidebar() {
           pressed={pathname === path}
         >
           {text}
-          {img && <Image src={img} alt={alt} width={22} height={22} />}
+          {path === '/notifications' ? (
+            img ? ( // Проверка на наличие изображения
+              <Badge count={notificationsCount} imgSrc={img} altText={alt} />
+            ) : (
+              <span>No image</span> // Или любой другой обработчик на случай отсутствия изображения
+            )
+          ) : (
+            img && <Image src={img} alt={alt} width={22} height={22} />
+          )}
         </LinkLikeButton>
       ))}
     </div>
