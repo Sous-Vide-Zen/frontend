@@ -219,7 +219,7 @@ const AboutMeForm: FC = ({}) => {
               render={({ field: { onChange, value, name } }) => (
                 <Select
                   name={name}
-                  options={COUNTRIES}
+                  options={COUNTRIES.filter((c) => c.value !== value)} // Убираем выбранную страну
                   placeholder="Россия"
                   isClearable={true}
                   inputId={Date.now().toString()}
@@ -233,12 +233,12 @@ const AboutMeForm: FC = ({}) => {
                       ...baseStyles,
                       borderRadius: '12px',
                       borderColor: state.isFocused
-                        ? '#010b00'
+                        ? 'var(--base-color-dark)'
                         : baseStyles.borderColor,
                       backgroundColor: selectedCountryColor,
                       '&:hover': {
                         borderColor: state.isFocused
-                          ? '#010b00'
+                          ? 'var(--base-color-dark)'
                           : baseStyles.borderColor,
                       },
                       outline: 'none',
@@ -246,6 +246,11 @@ const AboutMeForm: FC = ({}) => {
                     }),
                     menu: (base) => ({
                       ...base,
+                      border: '1px solid var(--input-advices)', // Устанавливаем зеленую рамку для выпадающего списка
+                      zIndex: '100', // Отображение меню поверх других элементов
+                      overflow: 'hidden', // Препятствует выходу содержимого за рамки
+                      marginTop: '3px', // Отступ между контролом и меню
+                      borderRadius: '12px',
                       '&:hover': {
                         backgroundColor: 'white',
                         borderRadius: '12px',
@@ -255,17 +260,17 @@ const AboutMeForm: FC = ({}) => {
                       ...base,
                       transition: 'background-color 0.2s ease-out',
                       backgroundColor: state.isFocused
-                        ? '#5dc791' // Цвет фона при фокусе
+                        ? 'var(--input-advices)' // Цвет фона при фокусе
                         : state.isSelected
-                          ? '#5dc791' // Цвет фона для выбранного элемента
+                          ? 'var(--input-advices)' // Цвет фона для выбранного элемента
                           : base.backgroundColor, // Цвет фона по умолчанию
                       color:
                         state.isFocused || state.isSelected
-                          ? '#010b00'
+                          ? 'var(--base-color-dark)'
                           : base.color,
                       '&:hover': {
-                        backgroundColor: '#5dc791', // Цвет фона при наведении
-                        color: '#010b00', // Цвет текста при наведении
+                        backgroundColor: 'var(--input-advices)', // Цвет фона при наведении
+                        color: 'white', // Цвет текста при наведении
                       },
                     }),
                   }}
