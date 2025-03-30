@@ -7,6 +7,7 @@ type Props = {
   id: string
   register: UseFormRegister<any>
   options?: RegisterOptions<any>
+  defaultValue?: string | number
 } & ComponentProps<typeof Input>
 
 export const FormInput: FC<Props> = ({ id, options, register, ...props }) => {

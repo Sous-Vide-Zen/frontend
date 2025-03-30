@@ -149,7 +149,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           ])
         : '',
       name0: '',
-      amount: '',
+      amount: 0,
       unit0: '',
       full_text: recipe?.full_text || '',
       category: recipe?.category
