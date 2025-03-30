@@ -36,8 +36,10 @@ const Rightbar: FC<Props> = ({
     let isChanged = false
     const params = new URLSearchParams(searchParams.toString())
 
-    if (params.get('sort') !== sort) {
-      params.set('sort', sort)
+    /* Если параметр сортировки отсутствует или равен "default",
+    устанавливаем его на "top" (популярное).*/
+    if (!params.get('sort') || params.get('sort') === 'default') {
+      params.set('sort', 'top')
       isChanged = true
     }
 
@@ -86,11 +88,7 @@ const Rightbar: FC<Props> = ({
   return (
     <div className={styles.rightbar}>
       <div className={styles.publish}>
-        <Button
-          color="primary"
-          size="big"
-          onClick={handlePublish}
-        >
+        <Button color="primary" size="big" onClick={handlePublish}>
           Опубликовать
           <Image
             src="/img/rightbar/plus.png"
@@ -108,6 +106,7 @@ const Rightbar: FC<Props> = ({
           <h3>Сортировка</h3>
           <div>
             <Button
+              className={`${sort === 'top' ? 'highlighted green-border' : ''}`}
               color="secondary"
               size="medium"
               pressed={sort === 'top'}
