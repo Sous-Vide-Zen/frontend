@@ -301,23 +301,21 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
             {readOnly && <p className={styles.textArea}>{recipe?.full_text}</p>}
             {!readOnly && (
               <>
-                <FormInput
-                  className={styles.textArea}
-                  register={register}
-                  id="full_text"
-                  type="textarea"
-                  placeholder="впишите сюда текст рецепта"
-                  disabled={readOnly}
-                  options={{
-                    validate: (value: string) => {
+                <textarea
+                  {...register('full_text', {
+                    validate: (value) => {
                       const text = value
                       if (text.trim() === '') {
                         return 'Поле обязательно для заполнения'
                       }
                       return true
                     },
-                  }}
-                />
+                  })}
+                  className={styles.textArea}
+                  id="full_text"
+                  placeholder="впишите сюда текст рецепта"
+                  disabled={readOnly}
+                ></textarea>
                 <button
                   onClick={(e) => {
                     e.preventDefault(), setShowMediaIcons(!showMediaIcons)

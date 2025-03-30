@@ -189,29 +189,33 @@
   outline: none;
   border: 1px solid var(--input-stroke);
   padding: 24px 16px;
+  // textarea{
+  //   border: none !important;
+  // }
 }
 .textArea {
-  div input{
+  // div input{
     // height: 200px;
-    border: 0px solid;
-    // min-height: 200px;
+    border: none;
+    // border: 0px solid;
+    min-height: 170px;
   resize: vertical; /* Можете использовать 'both', 'none', или 'horizontal', если хотите ограничить изменение размера */
   white-space: pre-wrap;
   overflow-wrap: break-word;
   // border: 0;
   padding: 10px; /* Добавляем внутренние отступы для удобства ввода */
-  &:hover {
-    border: 0px solid var(--base-color-dark);
-  }
-  &:focus {
-    border: 0px solid var(--base-color-dark);
-  }
-  }
+  // &:hover {
+  //   border: 0px solid var(--base-color-dark);
+  // }
+  // &:focus {
+  //   border: 0px solid var(--base-color-dark);
+  // }
+  // }
   font-size: 16px;
   font-weight: 400;
   width: 100%;
-  
 }
+
 .cockingButton {
   border-radius: 20px;
   width: 35px;
@@ -222,7 +226,7 @@
   font-size: 25px;
   cursor: pointer;
   position: absolute;
-  bottom: 32px;
+  bottom: 5px;
   left: 16px;
   z-index: 1;
   &:active {
