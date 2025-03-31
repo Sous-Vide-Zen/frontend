@@ -31,13 +31,13 @@ const Rightbar: FC<Props> = ({
   const searchParams = useSearchParams()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  // восстанавливаем параметры поиска (в url) из стейта
+  // Восстановление параметров поиска (в url) из стейта
   useEffect(() => {
     let isChanged = false
     const params = new URLSearchParams(searchParams.toString())
 
     /* Если параметр сортировки отсутствует или равен "default",
-    устанавливаем его на "top" (популярное).*/
+       устанавливаем его на "top" (популярное). */
     if (!params.get('sort') || params.get('sort') === 'default') {
       params.set('sort', 'top')
       isChanged = true
@@ -46,6 +46,9 @@ const Rightbar: FC<Props> = ({
     if (isAuth) {
       if (filter && isAuth && params.get('filter') !== filter) {
         params.set('filter', filter)
+        isChanged = true
+      }
+      if (filter === 'subscribe' && params.get('sort') !== 'default') {
         isChanged = true
       }
     } else {
@@ -59,23 +62,24 @@ const Rightbar: FC<Props> = ({
   const changeSearchParams = useCallback(
     (name: string, value: string | null) => {
       const params = new URLSearchParams(searchParams.toString())
+
       value ? params.set(name, value) : params.delete(name)
       router.replace(pathname + '?' + params.toString())
     },
     [pathname, router, searchParams],
   )
 
-  const handleFilterBySubscribe = () => {
-    if (isAuth) {
-      const what = !filter ? 'subscribe' : null
-      dispatch(setFilterMode(what))
-      changeSearchParams('filter', what)
-    } else {
-      setIsModalOpen(true)
-      dispatch(setFilterMode(null))
-      changeSearchParams('filter', null)
-    }
-  }
+  // const handleFilterBySubscribe = () => {
+  //   if (isAuth) {
+  //     const currentFilter = filter === 'subscribe' ? null : 'subscribe'
+  //     dispatch(setFilterMode(currentFilter))
+  //     changeSearchParams('filter', currentFilter)
+  //   } else {
+  //     setIsModalOpen(true)
+  //     dispatch(setFilterMode(null))
+  //     changeSearchParams('filter', null)
+  //   }
+  // }
 
   const handlePublish = () => {
     if (isAuth) {
@@ -98,7 +102,6 @@ const Rightbar: FC<Props> = ({
           />
         </Button>
       </div>
-
       {showListViewButtons && <ListViewChanger />}
 
       {showSortButtons && (
@@ -111,9 +114,13 @@ const Rightbar: FC<Props> = ({
               size="medium"
               pressed={sort === 'top'}
               onClick={() => {
-                if (sort === 'top') return
+                if (sort === 'top' && !filter) return
                 dispatch(setSortMode('top'))
                 changeSearchParams('sort', 'top')
+                if (filter) {
+                  dispatch(setFilterMode(null)) // Сбрасываем фильтр при выборе другой сортировки
+                  changeSearchParams('filter', null)
+                }
               }}
             >
               Популярное
@@ -121,7 +128,7 @@ const Rightbar: FC<Props> = ({
             <Button
               color="secondary"
               size="medium"
-              pressed={sort === 'default'}
+              pressed={sort === 'default' && !filter}
               onClick={() => {
                 if (sort === 'default') return
                 dispatch(setSortMode('default'))
@@ -130,22 +137,28 @@ const Rightbar: FC<Props> = ({
             >
               По времени
             </Button>
+
             <Button
               color="secondary"
               size="medium"
               pressed={!!filter}
-              onClick={handleFilterBySubscribe}
+              onClick={() => {
+                if (filter) return // Учитываем наличие фильтра
+                dispatch(setFilterMode('subscribe')) // Устанавливаем фильтр на подписки
+                changeSearchParams('filter', 'subscribe')
+                if (sort !== 'default') {
+                  dispatch(setSortMode('default')) // Меняем сортировку на "по времени" при выборе фильтра
+                  changeSearchParams('sort', 'default')
+                }
+              }}
             >
               По подпискам
             </Button>
           </div>
         </div>
       )}
-
       <DayRecipe />
       <TopAuthor />
-
-      {}
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <p>
           Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и

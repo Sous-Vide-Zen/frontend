@@ -8,15 +8,22 @@
   align-items: center;
   gap: 36px;
 
+  a {
+    width: 139px;
+    height: 40px;
+  }
+
   .inner_text {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 26px;
+    width: 410px;
+
     h2 {
       font-size: 24px;
       font-weight: 500;
-      --button-default: #45624e;
+      color: var(--button-default);
     }
     p {
       text-align: center;
