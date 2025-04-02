@@ -24,6 +24,7 @@ import { Button, LinkLikeButton } from '@/components/ui/'
 import { Loader } from '@/components/ui/Loader/Loader'
 import UserDataSaveSuccessfullForm from '@/components/forms/auth/UserDataSaveSuccessfullForm'
 import { COUNTRIES } from '@/helpers/countries'
+import Layout from '@/components/layout/layout'
 
 /*
  с телефоном пришлось "изобретать велосипед" с допонительнми полями {setValue, getValues},
@@ -152,182 +153,188 @@ const AboutMeForm: FC = ({}) => {
   if (patchData) return <UserDataSaveSuccessfullForm />
 
   return (
-    <div className={cn(formStyles.container, { [styles.condensedForm]: true })}>
-      <form onSubmit={onSubmit && handleSubmit(onSubmit)}>
-        <FieldSet label="Расскажите о себе">
-          <Field
-            label="Никнейм"
-            error={errors?.display_name?.message || patchErrorText.display_name}
-          >
-            <FormInput
-              register={register}
-              id="display_name"
-              autocomplete="display_name"
-              options={displayNameOptions}
-            />
-          </Field>
+    <Layout sidebar={false} backButton={true} hideHeader={true}>
+      <div
+        className={cn(formStyles.container, { [styles.condensedForm]: true })}
+      >
+        <form onSubmit={onSubmit && handleSubmit(onSubmit)}>
+          <FieldSet label="Расскажите о себе">
+            <Field
+              label="Никнейм"
+              error={
+                errors?.display_name?.message || patchErrorText.display_name
+              }
+            >
+              <FormInput
+                register={register}
+                id="display_name"
+                autocomplete="display_name"
+                options={displayNameOptions}
+              />
+            </Field>
 
-          <Field
-            label="Имя"
-            error={errors?.first_name?.message || patchErrorText.first_name}
-          >
-            <FormInput
-              register={register}
-              id="first_name"
-              autocomplete="first_name"
-              placeholder="Иван"
-              options={textOptions}
-            />
-          </Field>
+            <Field
+              label="Имя"
+              error={errors?.first_name?.message || patchErrorText.first_name}
+            >
+              <FormInput
+                register={register}
+                id="first_name"
+                autocomplete="first_name"
+                placeholder="Иван"
+                options={textOptions}
+              />
+            </Field>
 
-          <Field
-            label="Фамилия"
-            error={errors?.last_name?.message || patchErrorText.last_name}
-          >
-            <FormInput
-              register={register}
-              id="last_name"
-              autocomplete="last_name"
-              placeholder="Иванов"
-              options={textOptions}
-            />
-          </Field>
+            <Field
+              label="Фамилия"
+              error={errors?.last_name?.message || patchErrorText.last_name}
+            >
+              <FormInput
+                register={register}
+                id="last_name"
+                autocomplete="last_name"
+                placeholder="Иванов"
+                options={textOptions}
+              />
+            </Field>
 
-          <Field
-            label="Телефон"
-            error={
-              errors?.phone?.message || (!formChanged && patchErrorText.phone)
-            }
-          >
-            <PhoneFormInput
-              register={register}
-              value={phone}
-              setValue={setValue}
-              getValues={getValues}
-              name="phone"
-              autoComplete="phone"
-            />
-          </Field>
+            <Field
+              label="Телефон"
+              error={
+                errors?.phone?.message || (!formChanged && patchErrorText.phone)
+              }
+            >
+              <PhoneFormInput
+                register={register}
+                value={phone}
+                setValue={setValue}
+                getValues={getValues}
+                name="phone"
+                autoComplete="phone"
+              />
+            </Field>
 
-          <Field
-            label="Страна"
-            error={errors?.country?.message || patchErrorText.country}
-          >
-            <Controller
-              name={'country'}
-              control={control}
-              render={({ field: { onChange, value, name } }) => (
-                <Select
-                  name={name}
-                  options={COUNTRIES.filter((c) => c.value !== value)} // Убираем выбранную страну
-                  placeholder="Россия"
-                  isClearable={true}
-                  inputId={Date.now().toString()}
-                  value={COUNTRIES.find((c) => c.value === value)}
-                  onChange={(selectedOption) => {
-                    onChange(selectedOption?.value)
-                    setSelectedCountryColor('white')
-                  }}
-                  styles={{
-                    control: (baseStyles, state) => ({
-                      ...baseStyles,
-                      borderRadius: '12px',
-                      borderColor: state.isFocused
-                        ? 'var(--base-color-dark)'
-                        : baseStyles.borderColor,
-                      backgroundColor: selectedCountryColor,
-                      '&:hover': {
+            <Field
+              label="Страна"
+              error={errors?.country?.message || patchErrorText.country}
+            >
+              <Controller
+                name={'country'}
+                control={control}
+                render={({ field: { onChange, value, name } }) => (
+                  <Select
+                    name={name}
+                    options={COUNTRIES.filter((c) => c.value !== value)} // Убираем выбранную страну
+                    placeholder="Россия"
+                    isClearable={true}
+                    inputId={Date.now().toString()}
+                    value={COUNTRIES.find((c) => c.value === value)}
+                    onChange={(selectedOption) => {
+                      onChange(selectedOption?.value)
+                      setSelectedCountryColor('white')
+                    }}
+                    styles={{
+                      control: (baseStyles, state) => ({
+                        ...baseStyles,
+                        borderRadius: '12px',
                         borderColor: state.isFocused
                           ? 'var(--base-color-dark)'
                           : baseStyles.borderColor,
-                      },
-                      outline: 'none',
-                      boxShadow: 'none',
-                    }),
-                    menu: (base) => ({
-                      ...base,
-                      border: '1px solid var(--input-advices)', // Устанавливаем зеленую рамку для выпадающего списка
-                      zIndex: '100', // Отображение меню поверх других элементов
-                      overflow: 'hidden', // Препятствует выходу содержимого за рамки
-                      marginTop: '3px', // Отступ между контролом и меню
-                      borderRadius: '12px',
-                      '&:hover': {
-                        backgroundColor: 'white',
+                        backgroundColor: selectedCountryColor,
+                        '&:hover': {
+                          borderColor: state.isFocused
+                            ? 'var(--base-color-dark)'
+                            : baseStyles.borderColor,
+                        },
+                        outline: 'none',
+                        boxShadow: 'none',
+                      }),
+                      menu: (base) => ({
+                        ...base,
+                        border: '1px solid var(--input-advices)', // Устанавливаем зеленую рамку для выпадающего списка
+                        zIndex: '100', // Отображение меню поверх других элементов
+                        overflow: 'hidden', // Препятствует выходу содержимого за рамки
+                        marginTop: '3px', // Отступ между контролом и меню
                         borderRadius: '12px',
-                      },
-                    }),
-                    option: (base, state) => ({
-                      ...base,
-                      transition: 'background-color 0.2s ease-out',
-                      backgroundColor: state.isFocused
-                        ? 'var(--input-advices)' // Цвет фона при фокусе
-                        : state.isSelected
-                          ? 'var(--input-advices)' // Цвет фона для выбранного элемента
-                          : base.backgroundColor, // Цвет фона по умолчанию
-                      color:
-                        state.isFocused || state.isSelected
-                          ? 'var(--base-color-dark)'
-                          : base.color,
-                      '&:hover': {
-                        backgroundColor: 'var(--input-advices)', // Цвет фона при наведении
-                        color: 'white', // Цвет текста при наведении
-                      },
-                    }),
-                  }}
-                />
-              )}
-            />
-          </Field>
+                        '&:hover': {
+                          backgroundColor: 'white',
+                          borderRadius: '12px',
+                        },
+                      }),
+                      option: (base, state) => ({
+                        ...base,
+                        transition: 'background-color 0.2s ease-out',
+                        backgroundColor: state.isFocused
+                          ? 'var(--input-advices)' // Цвет фона при фокусе
+                          : state.isSelected
+                            ? 'var(--input-advices)' // Цвет фона для выбранного элемента
+                            : base.backgroundColor, // Цвет фона по умолчанию
+                        color:
+                          state.isFocused || state.isSelected
+                            ? 'var(--base-color-dark)'
+                            : base.color,
+                        '&:hover': {
+                          backgroundColor: 'var(--input-advices)', // Цвет фона при наведении
+                          color: 'white', // Цвет текста при наведении
+                        },
+                      }),
+                    }}
+                  />
+                )}
+              />
+            </Field>
 
-          <Field
-            label="Город"
-            error={errors?.city?.message || patchErrorText.city}
+            <Field
+              label="Город"
+              error={errors?.city?.message || patchErrorText.city}
+            >
+              <FormInput
+                register={register}
+                id="city"
+                autocomplete="city"
+                placeholder="Москва"
+                options={textOptions}
+              />
+            </Field>
+
+            <Field
+              label="О себе"
+              error={errors?.bio?.message || patchErrorText.bio}
+            >
+              <FormInput
+                register={register}
+                id="bio"
+                autocomplete="bio"
+                options={{
+                  maxLength: {
+                    message: 'Поле не должно содержать более 200 символов',
+                    value: 200,
+                  },
+                }}
+              />
+            </Field>
+
+            <AvatarImage avatar={avatar} />
+          </FieldSet>
+
+          <Button
+            disabled={!isValid || !formChanged}
+            type="submit"
+            color="primary"
+            size="medium"
+            loading={isPatchLoading}
+            style={{ borderRadius: '18px' }}
           >
-            <FormInput
-              register={register}
-              id="city"
-              autocomplete="city"
-              placeholder="Москва"
-              options={textOptions}
-            />
-          </Field>
+            Сохранить
+          </Button>
 
-          <Field
-            label="О себе"
-            error={errors?.bio?.message || patchErrorText.bio}
-          >
-            <FormInput
-              register={register}
-              id="bio"
-              autocomplete="bio"
-              options={{
-                maxLength: {
-                  message: 'Поле не должно содержать более 200 символов',
-                  value: 200,
-                },
-              }}
-            />
-          </Field>
-
-          <AvatarImage avatar={avatar} />
-        </FieldSet>
-
-        <Button
-          disabled={!isValid}
-          type="submit"
-          color="primary"
-          size="medium"
-          loading={isPatchLoading}
-          style={{ borderRadius: '18px' }}
-        >
-          Сохранить
-        </Button>
-
-        <LinkLikeButton href="/" size="medium" color="secondary">
-          Заполнить позже
-        </LinkLikeButton>
-      </form>
-    </div>
+          <LinkLikeButton href="/" size="medium" color="secondary">
+            Заполнить позже
+          </LinkLikeButton>
+        </form>
+      </div>
+    </Layout>
   )
 }
 

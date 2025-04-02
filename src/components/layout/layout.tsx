@@ -11,6 +11,7 @@ type Props = {
   sidebar?: boolean
   isSearch?: boolean
   backButton?: boolean
+  hideHeader?: boolean
 }
 
 const Layout: FC<Props> = ({
@@ -18,10 +19,11 @@ const Layout: FC<Props> = ({
   sidebar = true,
   isSearch = false,
   backButton: showBackButton = false,
+  hideHeader = false,
 }) => (
   <div className={styles.layout}>
     <div className={styles.container} style={{ flexDirection: 'column' }}>
-      <Header isSearch={isSearch} />
+      {!hideHeader && <Header isSearch={isSearch} />}
       {sidebar ? (
         <div className={styles.layoutTwo}>
           <Sidebar />
@@ -29,7 +31,7 @@ const Layout: FC<Props> = ({
         </div>
       ) : (
         <div className={styles.layoutOne}>
-          {showBackButton && (
+          {!showBackButton && (
             <div className={styles.left}>
               <ButtonBack />
             </div>
