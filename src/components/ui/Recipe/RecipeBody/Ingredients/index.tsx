@@ -1,6 +1,9 @@
 'use client'
 import { FC, useCallback, useEffect } from 'react'
-import { Ingredient, RecipeFormInputs } from '@/store/features/recipes/recipes.types'
+import {
+  Ingredient,
+  RecipeFormInputs,
+} from '@/store/features/recipes/recipes.types'
 import styles from './ingredients.module.scss'
 import { Field, FormInput } from '@/components/forms/items'
 import {
@@ -60,7 +63,10 @@ export const Ingredients: FC<Props> = ({
   // Добавление нового ингредиента
   const addIngredientField = useCallback(() => {
     const newIngredient: Ingredient = { name: '', amount: 0, unit: '' }
-    const updatedIngredients: Ingredient[] = [...(ingredients || []), newIngredient]
+    const updatedIngredients: Ingredient[] = [
+      ...(ingredients || []),
+      newIngredient,
+    ]
     setValue('ingredients', updatedIngredients)
     // console.log('add getValue', updatedIngredients, getValues('ingredients'))
   }, [setValue, ingredients])
@@ -107,15 +113,16 @@ export const Ingredients: FC<Props> = ({
                 register={register}
                 id={`ingredients.${index}.amount`}
                 type="number"
-                // placeholder="количество"
-                // defaultValue={_ingredient.amount === 0 ? '' : _ingredient.amount} // Отображаем пустую строку для 0
+                // defaultValue={
+                //   _ingredient.amount === 0 ? '' : _ingredient.amount
+                // }
                 options={{
                   validate: (value) => {
                     const text = value
-                    if (text.trim() === '') {
-                      return 'Поле обязательно для заполнения'
-                    }
-                    const number = parseInt(value, 10)
+                    // if (text === '' || text === null) {
+                    //   return 'Поле обязательно для заполнения'
+                    // }
+                    const number = parseFloat(value)
                     if (isNaN(number)) {
                       return 'Введите корректное число'
                     }
