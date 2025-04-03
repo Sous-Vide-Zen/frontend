@@ -1,6 +1,5 @@
 import userSettingsReducer, {
   setViewMode,
-  setFilterMode,
   setSortMode,
   setSortMyRecipesMode,
   setDateSortMyRecipes,
@@ -17,11 +16,6 @@ describe('userSettingsSlice', () => {
   it('should handle setViewMode', () => {
     const nextState = userSettingsReducer(initialState, setViewMode('tile'))
     expect(nextState.view).toEqual('tile')
-  })
-
-  it('should handle setFilterMode', () => {
-    const nextState = userSettingsReducer(initialState, setFilterMode('newFilter'))
-    expect(nextState.filter).toEqual('newFilter')
   })
 
   it('should handle setSortMode', () => {
