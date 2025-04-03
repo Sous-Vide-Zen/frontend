@@ -6,8 +6,9 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import styles from './rightbar.module.scss'
 import { useAppDispatch, useAppSelector } from '@/store/hooks'
-import { setFilterMode, setSortMode } from '@/store/features/user/user.slice'
+import { setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
+import { RecipeListOrdering } from '@/hooks/dispatcher.types'
 import { Button, LinkLikeButton } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
@@ -25,7 +26,7 @@ const Rightbar: FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch()
   const router = useRouter()
-  const { sort, filter } = useAppSelector((state) => state.userSettings)
+  const { sort } = useAppSelector((state) => state.userSettings)
   const { isAuth } = useAuth()
   const pathname = usePathname()
   const searchParams = useSearchParams()
@@ -33,53 +34,47 @@ const Rightbar: FC<Props> = ({
 
   // Восстановление параметров поиска (в url) из стейта
   useEffect(() => {
-    let isChanged = false
     const params = new URLSearchParams(searchParams.toString())
+    const sortMode = params.get('sort')
 
-    /* Если параметр сортировки отсутствует или равен "default",
+    switch (sortMode) {
+      case 'top':
+      case 'default':
+        break
+      case 'subscribe': {
+        console.log('subscribe', isAuth)
+
+        if (!isAuth) {
+          params.set('sort', 'top')
+          router.replace(pathname + '?' + params.toString())
+          dispatch(setSortMode('top'))
+        }
+        break
+      }
+
+      /* Если параметр сортировки отсутствует,
        устанавливаем его на "top" (популярное). */
-    if (!params.get('sort') || params.get('sort') === 'default') {
-      params.set('sort', 'top')
-      isChanged = true
+      default:
+        const newSort = sort ?? 'top'
+        params.set('sort', newSort)
+        router.replace(pathname + '?' + params.toString())
+        dispatch(setSortMode(newSort))
     }
+  }, [dispatch, isAuth, pathname, router, searchParams, sort])
 
-    if (isAuth) {
-      if (filter && isAuth && params.get('filter') !== filter) {
-        params.set('filter', filter)
-        isChanged = true
-      }
-      if (filter === 'subscribe' && params.get('sort') !== 'default') {
-        isChanged = true
-      }
-    } else {
-      dispatch(setFilterMode(null))
-      params.delete('filter')
-    }
+  const changeSortMode = useCallback(
+    (mode: RecipeListOrdering) => {
+      console.log('set', mode)
 
-    router.replace(pathname + '?' + params.toString())
-  }, [dispatch, filter, isAuth, pathname, router, searchParams, sort])
-
-  const changeSearchParams = useCallback(
-    (name: string, value: string | null) => {
+      dispatch(setSortMode(mode))
       const params = new URLSearchParams(searchParams.toString())
+      params.set('sort', mode)
+      console.log('new params', params.toString())
 
-      value ? params.set(name, value) : params.delete(name)
       router.replace(pathname + '?' + params.toString())
     },
-    [pathname, router, searchParams],
+    [dispatch, pathname, router, searchParams],
   )
-
-  // const handleFilterBySubscribe = () => {
-  //   if (isAuth) {
-  //     const currentFilter = filter === 'subscribe' ? null : 'subscribe'
-  //     dispatch(setFilterMode(currentFilter))
-  //     changeSearchParams('filter', currentFilter)
-  //   } else {
-  //     setIsModalOpen(true)
-  //     dispatch(setFilterMode(null))
-  //     changeSearchParams('filter', null)
-  //   }
-  // }
 
   const handlePublish = () => {
     if (isAuth) {
@@ -109,18 +104,11 @@ const Rightbar: FC<Props> = ({
           <h3>Сортировка</h3>
           <div>
             <Button
-              className={`${sort === 'top' ? 'highlighted green-border' : ''}`}
               color="secondary"
               size="medium"
               pressed={sort === 'top'}
               onClick={() => {
-                if (sort === 'top' && !filter) return
-                dispatch(setSortMode('top'))
-                changeSearchParams('sort', 'top')
-                if (filter) {
-                  dispatch(setFilterMode(null)) // Сбрасываем фильтр при выборе другой сортировки
-                  changeSearchParams('filter', null)
-                }
+                if (sort !== 'top') changeSortMode('top')
               }}
             >
               Популярное
@@ -128,11 +116,9 @@ const Rightbar: FC<Props> = ({
             <Button
               color="secondary"
               size="medium"
-              pressed={sort === 'default' && !filter}
+              pressed={sort === 'default'}
               onClick={() => {
-                if (sort === 'default') return
-                dispatch(setSortMode('default'))
-                changeSearchParams('sort', 'default')
+                if (sort !== 'default') changeSortMode('default')
               }}
             >
               По времени
@@ -141,14 +127,13 @@ const Rightbar: FC<Props> = ({
             <Button
               color="secondary"
               size="medium"
-              pressed={!!filter}
+              pressed={sort === 'subscribe'}
               onClick={() => {
-                if (filter) return // Учитываем наличие фильтра
-                dispatch(setFilterMode('subscribe')) // Устанавливаем фильтр на подписки
-                changeSearchParams('filter', 'subscribe')
-                if (sort !== 'default') {
-                  dispatch(setSortMode('default')) // Меняем сортировку на "по времени" при выборе фильтра
-                  changeSearchParams('sort', 'default')
+                if (sort === 'subscribe') return
+                if (isAuth) {
+                  changeSortMode('subscribe')
+                } else {
+                  setIsModalOpen(true)
                 }
               }}
             >
