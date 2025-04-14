@@ -29,6 +29,8 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
   const [iLike, setILike] = useState(false)
   const [iShare, setIShare] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [addToFavorites, { status }] = useAddToFavoritesMutation()
   const [removeFromFavorites, { status: status2 }] =
@@ -64,6 +66,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     onPreview && onPreview(recipe.slug)
   }
 
+  const handleShowLoginModal = () => {
+    setIsModalOpen(true)
+  }
+
   return (
     <div className={styles.recipe}>
       <div className={styles.user}>
@@ -91,6 +97,8 @@ export const RecipeCard: FC<RecipeCardProps> = ({
           cooking_time={recipe.cooking_time}
           onFavoriteClick={changeIsFavoriteHandler}
           onButtonClick={handlerOnTap}
+          isAuthenticated={isAuthenticated}
+          showLoginModal={handleShowLoginModal}
         />
       </div>
 
