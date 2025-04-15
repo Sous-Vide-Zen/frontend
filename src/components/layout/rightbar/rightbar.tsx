@@ -13,7 +13,6 @@ import { Button, LinkLikeButton } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
-import { Modal } from '@/components/ui/Modal'
 import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
 
 type Props = {

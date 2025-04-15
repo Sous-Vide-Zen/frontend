@@ -11,6 +11,8 @@ import { useData } from '@/hooks/useData'
 import { Reactions, Popup } from '@/components/ui'
 import { RecipeCardPhoto } from './RecipeCardPhoto'
 import { RecipeHash } from './RecipeHash'
+import { useAuth } from '@/hooks/useAuth'
+import { LoginOrRegisterModal } from '../../LoginOrRegisterModal'
 
 interface RecipeCardProps {
   recipe: RecipeFeed
@@ -23,6 +25,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   onPreview,
   onRemoveFromFavorites,
 }) => {
+  const { isAuth } = useAuth()
   const { fancyDate } = useData(recipe.pub_date)
   const [updateFavorite, setUpdateFavorite] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
@@ -50,6 +53,11 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   }, [isFavorite, status, status2])
 
   const changeIsFavoriteHandler = () => {
+    if (!isAuth) {
+      setIsModalOpen(true)
+      return
+    }
+
     if (isFavorite) {
       removeFromFavorites(recipe.slug)
       statusIsFavoriteUpdate.current = 'reset'
@@ -176,6 +184,11 @@ export const RecipeCard: FC<RecipeCardProps> = ({
           </div>
         </div>
       </div>
+
+      <LoginOrRegisterModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   )
 }
