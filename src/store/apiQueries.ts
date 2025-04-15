@@ -63,7 +63,7 @@ export const authBaseQuery: BaseQueryFn<
     )
     refreshToken = JSON.parse(auth.refreshToken)
     args = injectAuth(args, JSON.parse(auth.accessToken))
-  } catch (error) {}
+  } catch (error) { }
 
   const result = await baseQuery(args, api, extraOptions)
 
@@ -96,6 +96,8 @@ export const authBaseQuery: BaseQueryFn<
 
         return Promise.reject(detail)
       }
+
+      if (!refreshToken) return
 
       // normal operations
       // case 2: authorization error on any other request -> incorrect access token -> try to refresh it with hepling refresh token
