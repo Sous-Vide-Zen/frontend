@@ -35,7 +35,7 @@ const DataRecipe: FC<Props> = ({ recipeSlug }) => {
           }}
         />
       ) : (
-        <p>Loading...</p>
+       <p>Loading...</p>
       )}
     </>
   )

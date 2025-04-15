@@ -13,6 +13,7 @@ import { RecipeCardPhoto } from './RecipeCardPhoto'
 import { RecipeHash } from './RecipeHash'
 import { useAuth } from '@/hooks/useAuth'
 import { LoginOrRegisterModal } from '../../LoginOrRegisterModal'
+import { useRouter } from 'next/navigation'
 
 interface RecipeCardProps {
   recipe: RecipeFeed
@@ -77,6 +78,8 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   const handleShowLoginModal = () => {
     setIsModalOpen(true)
   }
+  const router = useRouter()
+  const editingDraft = (slug: string) => router.push(`/recipe/new?${slug}`)
 
   return (
     <div className={styles.recipe}>
@@ -112,7 +115,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
 
       <div className={styles.bottom}>
         <div className={styles.nameAndHash}>
-          <div className={styles.name}>
+          <div
+            className={styles.name}
+            onClick={() => editingDraft(`${recipe.slug}`)}
+          >
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>

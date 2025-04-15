@@ -43,6 +43,7 @@ type Props = {
 }
 
 export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
+  // const [publishOrDraft, setPublishOrDraft] = useState(true)
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
 
@@ -86,7 +87,19 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     useUpdateRecipeMutation()
   const [publicate, { data: recipePublic, error: publishError }] =
     usePublicateMutation()
-
+  //сохранение черновика
+  const handleDraft = async (dataFromFunction: any) => {
+    try {
+      await update({
+        slug: slugNewRecipe,
+        data: dataFromFunction,
+      }).unwrap()
+      console.log('Recipe draft successfully')
+    } catch (error) {
+      console.error('Error creating draft or publishing recipe:', error)
+    }
+  }
+  //сохранение черновика и его публикация
   const handleDraftAndPublish = async (dataFromFunction: any) => {
     try {
       await update({
@@ -97,7 +110,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         slug: slugNewRecipe,
         data: {},
       }).unwrap()
-
       console.log('Recipe published successfully')
     } catch (error) {
       console.error('Error creating draft or publishing recipe:', error)
@@ -105,7 +117,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   }
 
   /* тестовые данные для селекта*/
-
   const tagOptions: { value: string; label: string }[] = [
     { value: 'chocolate', label: 'Chocolate' },
     { value: 'strawberry', label: 'Strawberry' },
@@ -129,9 +140,9 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     register,
     handleSubmit,
     formState: { errors, touchedFields },
-    control,
     getValues,
     setValue,
+    control,
   } = useForm<RecipeFormInputs>({
     defaultValues: {
       title: recipe?.title || '',
@@ -163,8 +174,8 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     },
     mode: 'onBlur',
   })
-
-  const onSubmit = (dataFromInput: any) => {
+  //приведение к требованиям бэка и удаление полей без данных для черновика
+  const checkData = (dataFromInput: any) => {
     const cookingTime =
       parseInt(dataFromInput.cooking_time, 10) + dataFromInput.hours * 60
     const transformedTags = dataFromInput.tag
@@ -184,18 +195,48 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         unit: ing.unit.trim(),
       }
     })
-
-    const transformedData = {
-      // ...dataFromInput,
-      title: dataFromInput.title.trim(),
-      cooking_time: cookingTime,
-      ingredients: ingredients,
-      full_text: dataFromInput.full_text.trim(),
-      tag: transformedTags,
-      category: transformedCategory,
+    console.log(
+      transformedTags,
+      transformedCategory,
+      dataFromInput.tag,
+      dataFromInput.category,
+    )
+    const result: any = {
+      // tag: transformedTags,
+      // category: transformedCategory,
     }
+    if (dataFromInput.title.trim()) {
+      result.title = dataFromInput.title.trim()
+    }
+    if (cookingTime) {
+      result.cooking_time = cookingTime
+    }
+    if (Object.values(ingredients[0].name).length > 0) {
+      result.ingredients = ingredients
+    }
+    if (dataFromInput.full_text.trim()) {
+      result.full_text = dataFromInput.full_text.trim()
+    }
+
+    return result
+  }
+  //публикация ?227 строки только при соответствии обязательных полей
+  const onSubmit = (dataFromInput: any) => {
+    checkData(dataFromInput) //проверить работу без этого
+    const transformedData = checkData(dataFromInput)
     handleDraftAndPublish(transformedData)
     console.log('function work', transformedData)
+  }
+  // сохранение черновика после удаления полей без данных
+  const onSaveDraft = (dataFromInput: any) => {
+    const transformedData = checkData(dataFromInput)
+    handleDraft(transformedData)
+    console.log('Draft saved:', transformedData)
+  }
+  //получение данных из полей без валидации
+  const handleDraftButtonClick = () => {
+    const dataFromInput = getValues()
+    onSaveDraft(dataFromInput)
   }
 
   const displayNoneClass =
@@ -406,14 +447,28 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
             <p className={styles.required}>
               *обозначены обязательные для заполнения поля
             </p>
-            <Button
-              className={styles.buttonOnsubmit}
-              size={'medium'}
-              color={'primary'}
-              type="submit"
-            >
-              Опубликовать
-            </Button>
+            <div className={styles.containerButton}>
+              <Button
+                className={styles.buttonOnsubmit}
+                size={'medium'}
+                color={'primary'}
+                type="submit"
+                // onClick={() => onSubmit("publish")}
+              >
+                Опубликовать
+              </Button>
+
+              <Button
+                className={styles.buttonOnsubmit}
+                size={'medium'}
+                color={'primary'}
+                type="button"
+                // onClick={handleSubmit(onSaveDraft)}
+                onClick={handleDraftButtonClick}
+              >
+                Cохранить в черновиках
+              </Button>
+            </div>
           </div>
         )}
       </form>

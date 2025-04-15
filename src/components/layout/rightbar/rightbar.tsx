@@ -87,7 +87,7 @@ const Rightbar: FC<Props> = ({
     isLoading: draftsLoading,
   } = useGetRecipeDraftsQuery()
 
-  const handlePublish = () => {
+  const handlePublish = useCallback(() => {
     const quantityDraft = drafts?.length || 1
     if (!isAuth) {
       setIsModalOpen(true)
@@ -98,7 +98,7 @@ const Rightbar: FC<Props> = ({
     } else {
       router.push('/recipe/new')
     }
-  }
+  }, [drafts?.length, isAuth, router])
 
   return (
     <div className={styles.rightbar}>
