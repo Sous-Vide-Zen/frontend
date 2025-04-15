@@ -74,4 +74,18 @@
   .tooltip:hover .tooltiptext {
     visibility: visible;
   }
+
+  .modal_btns {
+    display: flex;
+    justify-content: center;
+    margin-top: 48px;
+
+    a {
+      width: 150px;
+    }
+  }
+
+  .modal_login {
+    margin-right: 24px;
+  }
 }

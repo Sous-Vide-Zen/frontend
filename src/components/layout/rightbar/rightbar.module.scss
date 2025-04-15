@@ -39,11 +39,10 @@
   display: flex;
   justify-content: center;
   margin-top: 48px;
-}
 
-.modal_login,
-.modal_registration {
-  width: 150px;
+  a {
+    width: 150px;
+  }
 }
 
 .modal_login {
