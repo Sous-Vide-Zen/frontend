@@ -9,16 +9,18 @@ import { useData } from '@/hooks/useData'
 import { MenyMyself } from '../MenuMyself'
 import { MenuSomeone } from '../MenuSomeone'
 
+//todo: меню показывать только для зарегистрированного пользователя!
+
 type RecipeCardProps = Partial<
   Pick<RecipeFull, 'author' | 'pub_date' | 'slug'>
 > & {
-  isNotOlder24Hours: boolean
+  allowEdit: boolean
   isMyRecipe: boolean
   readOnly: boolean
 }
 
 export const UserNameShow: FC<RecipeCardProps> = ({
-  isNotOlder24Hours,
+  allowEdit,
   isMyRecipe,
   readOnly,
   author,
@@ -49,7 +51,11 @@ export const UserNameShow: FC<RecipeCardProps> = ({
         <p>{timeAgo}</p>
         {readOnly &&
           (isMyRecipe ? (
-            <MenyMyself slug={slug} isNotOlder24Hours={isNotOlder24Hours} />
+            <MenyMyself
+              slug={slug}
+              allowEdit={allowEdit}
+              isMyRecipe={isMyRecipe}
+            />
           ) : (
             <MenuSomeone slug={slug} />
           ))}
