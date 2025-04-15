@@ -5,11 +5,10 @@ import { useRouter } from 'next/navigation'
 
 import styles from './Recipe.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
+import { useAuth } from '@/hooks/useAuth'
 import { IconsAndActions, RecipeBody, UserNameShow } from '.'
-import { RecipePhoto } from './RecipePhoto'
 import Comments from './Comments/comments'
 import { Skeleton } from '../Skeletons'
-import { useAuth } from '@/hooks/useAuth'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -67,12 +66,6 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
         allowEdit={allowEdit}
       />
       <IconsAndActions {...iconProps} />
-      <RecipePhoto
-        isNew={false}
-        url={recipe.preview_image}
-        linkButton={true}
-        printButton={true}
-      />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
       {/* Pass UserData to Comments component */}
       <Comments slug={recipe.slug} />
