@@ -11,6 +11,7 @@ import { useData } from '@/hooks/useData'
 import { Reactions, Popup } from '@/components/ui'
 import { RecipeCardPhoto } from './RecipeCardPhoto'
 import { RecipeHash } from './RecipeHash'
+import { useRouter } from 'next/navigation'
 
 interface RecipeCardProps {
   recipe: RecipeFeed
@@ -64,6 +65,9 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     onPreview && onPreview(recipe.slug)
   }
 
+  const router = useRouter()
+  const editingDraft = (slug: string) => router.push(`/recipe/new?${slug}`)
+
   return (
     <div className={styles.recipe}>
       <div className={styles.user}>
@@ -96,7 +100,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
 
       <div className={styles.bottom}>
         <div className={styles.nameAndHash}>
-          <div className={styles.name}>
+          <div
+            className={styles.name}
+            onClick={() => editingDraft(`${recipe.slug}`)}
+          >
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>

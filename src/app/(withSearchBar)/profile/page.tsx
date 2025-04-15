@@ -5,6 +5,7 @@ import { useAppSelector } from '@/store/hooks'
 import { useAuth } from '@/hooks/useAuth'
 import Tabs, { TabData } from '@/components/ui/Tabs/Tabs.module'
 import MyRecipies from '@/components/ui/MyRecipies/MyRecipies'
+import MyDrafts from '@/components/ui/MyDrafts/MyDrafts'
 import { Subscribtions } from '@/components/ui/Subscribtions'
 import { Subscribers } from '@/components/ui/Subscribers'
 import UserCard from '@/components/ui/UserCard/UserCard'
@@ -22,6 +23,10 @@ export default function ProfilePage() {
       label: `Рецепты (${profileTabMyRecipies})`,
       Content: <MyRecipies username={username ?? undefined} />,
     },
+    // {
+    //   label: `черновики`,
+    //   Content: <MyDrafts username={username ?? undefined} />,
+    // },
     {
       label: `Мои подписки (${profileTabMySubscriptions})`,
       Content: <Subscribtions username={username ?? ''} />,
