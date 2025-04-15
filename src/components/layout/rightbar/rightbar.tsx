@@ -14,6 +14,7 @@ import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
 import { Modal } from '@/components/ui/Modal'
+import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
 
 type Props = {
   showListViewButtons?: boolean
@@ -144,25 +145,10 @@ const Rightbar: FC<Props> = ({
       )}
       <DayRecipe />
       <TopAuthor />
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <p>
-          Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
-          оценивать рецепты других пользователей.
-        </p>
-        <div className={styles.modal_btns}>
-          <div className={styles.modal_login}>
-            <LinkLikeButton color="primary" size="big" href="/login">
-              Вход
-            </LinkLikeButton>
-          </div>
-          <div className={styles.modal_registration}>
-            <LinkLikeButton color="secondary" size="big" href="/registration">
-              Регистрация
-            </LinkLikeButton>
-          </div>
-        </div>
-        <div />
-      </Modal>
+      <LoginOrRegisterModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   )
 }
