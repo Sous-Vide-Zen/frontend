@@ -62,6 +62,13 @@
 .standardInput:focus {
   outline-width: 0;
 }
+
+.photo_and_title {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
 /* */
 /* блок время приготовления */
 .cockingTime_container {

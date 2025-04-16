@@ -7,7 +7,8 @@ import styles from './menuMyself.module.scss'
 import { RecipeFull } from '@/store/features/recipes/recipes.types'
 
 type RecipeCardProps = Partial<Pick<RecipeFull, 'slug'>> & {
-  isNotOlder24Hours: boolean
+  allowEdit: boolean
+  isMyRecipe: boolean
 }
 
 /* 
@@ -16,7 +17,8 @@ type RecipeCardProps = Partial<Pick<RecipeFull, 'slug'>> & {
 
 export const MenyMyself: FC<RecipeCardProps> = ({
   slug,
-  isNotOlder24Hours,
+  allowEdit,
+  isMyRecipe,
 }) => {
   const [active, setActive] = useState(false)
 
@@ -28,10 +30,12 @@ export const MenyMyself: FC<RecipeCardProps> = ({
     <div className={styles.containerButton}>
       {active && (
         <div className={styles.linkForRecipe}>
-          {isNotOlder24Hours && (
+          {allowEdit && (
             <Link href={`/recipe/edit/${slug}`}>Редактировать рецепт</Link>
           )}
-          <Link href={`/recipe/delete/${slug}`}>Удалить рецепт</Link>
+          {isMyRecipe && (
+            <Link href={`/recipe/delete/${slug}`}>Удалить рецепт</Link>
+          )}
         </div>
       )}
       <div className={styles.dropdownIcon} onClick={() => handleToggle()}>

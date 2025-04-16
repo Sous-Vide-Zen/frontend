@@ -56,13 +56,13 @@ export const Ingredients: FC<Props> = ({
   useEffect(() => {
     const currentIngredients = getValues('ingredients')
     if (!currentIngredients || currentIngredients.length === 0) {
-      setValue('ingredients', [{ name: '', amount: 0, unit: '' }])
+      setValue('ingredients', [{ name: '', amount: 1, unit: '' }])
     }
   }, [getValues, setValue])
 
   // Добавление нового ингредиента
   const addIngredientField = useCallback(() => {
-    const newIngredient: Ingredient = { name: '', amount: 0, unit: '' }
+    const newIngredient: Ingredient = { name: '', amount: 1, unit: '' }
     const updatedIngredients: Ingredient[] = [
       ...(ingredients || []),
       newIngredient,
