@@ -14,6 +14,9 @@ import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
 import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
+import { ModalTransitionInDraft } from '@/components/ui/ModalTransitionInDraft'
+import { ModalOnlyDraft } from '@/components/ui/ModalOnlyDraft'
+import { useGetRecipeDraftsQuery } from '@/store/features/recipes/recipes.actions'
 
 type Props = {
   showListViewButtons?: boolean
@@ -31,6 +34,8 @@ const Rightbar: FC<Props> = ({
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalDraft, setIsModalDraft] = useState(false)
+  const [isModalOnlyDraft, setIsModalOnlyDraft] = useState(false)
 
   // Восстановление параметров поиска (в url) из стейта
   useEffect(() => {
@@ -76,11 +81,22 @@ const Rightbar: FC<Props> = ({
     [dispatch, pathname, router, searchParams],
   )
 
+  const {
+    data: drafts,
+    error: draftsError,
+    isLoading: draftsLoading,
+  } = useGetRecipeDraftsQuery()
+
   const handlePublish = () => {
-    if (isAuth) {
-      router.push('/recipe/new')
-    } else {
+    const quantityDraft = drafts?.length || 1
+    if (!isAuth) {
       setIsModalOpen(true)
+    } else if (quantityDraft >= 3) {
+      setIsModalOnlyDraft(true)
+    } else if (quantityDraft >= 1) {
+      setIsModalDraft(true)
+    } else {
+      router.push('/recipe/new')
     }
   }
 
@@ -147,6 +163,14 @@ const Rightbar: FC<Props> = ({
       <LoginOrRegisterModal
         isModalOpen={isModalOpen}
         setIsModalOpen={setIsModalOpen}
+      />
+      <ModalTransitionInDraft
+        isModalOpen={isModalDraft}
+        setIsModalOpen={setIsModalDraft}
+      />
+      <ModalOnlyDraft
+        isModalOpen={isModalOnlyDraft}
+        setIsModalOpen={setIsModalOnlyDraft}
       />
     </div>
   )
