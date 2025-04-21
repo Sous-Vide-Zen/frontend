@@ -1,48 +1,49 @@
 .container {
-  width: 100%;
+  width: 863px;
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin: auto;
-  gap: 24px;
-}
-
-.error {
-  border-radius: 16px;
-  border: 10px solid #4bc185;
-  text-align: center;
-  padding: 128px;
-  width: 100%;
-  max-width: 863px;
-}
-
-.title_text {
-  font-size: 184px;
-  background: linear-gradient(129.67deg, #273526 22.89%, #4bc185 64.07%);
-  color: transparent;
-  background-clip: text;
-  margin-bottom: 48px;
-}
-
-.full_text {
-  font-size: 26px;
-  font-weight: 600;
-  color: #273526;
-  margin-bottom: 80px;
-}
-
-.LinkLikeButton:hover {
-  background: var(--button-hover);
-  color: #fff;
-}
-
-.LinkLikeButton:active {
-  background: var(--button-press);
-  color: #fff;
-}
-
-.like_button {
-  display: flex;
-  align-items: center;
   justify-content: center;
+  border-radius: 16px;
+  padding: 128px;
+  border: 10px solid var(--primary-color-light);
+  gap: 24px;
+
+  .errorContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .errorTextContent {
+    display: flex;
+    flex-direction: column;
+    width: 607px;
+  }
+
+  .errorTitle {
+    font-size: 184px;
+    font-weight: 700;
+    margin-bottom: 49px;
+    background: linear-gradient(
+      129.67deg,
+      var(--primary-color-darker) 22.89%,
+      var(--primary-color-light) 64.07%
+    );
+    color: transparent;
+    background-clip: text;
+  }
+
+  .errorDescr {
+    font-size: 26px;
+    font-weight: 600;
+  }
+
+  .errorLinkButton {
+    padding-top: 80px;
+  }
+
+  a {
+    width: 139px;
+    padding: 11px 24px;
+  }
 }

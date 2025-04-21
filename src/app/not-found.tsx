@@ -5,7 +5,7 @@ import NotFound from '@/components/ui/NotFound/NotFound'
 
 export default function NotFoundPage() {
   return (
-    <Layout sidebar={false} isSearch={true}>
+    <Layout sidebar={false} isSearch={true} disablebackButtonFormForms={false}>
       <NotFound />
     </Layout>
   )

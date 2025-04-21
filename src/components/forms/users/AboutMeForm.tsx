@@ -153,7 +153,12 @@ const AboutMeForm: FC = ({}) => {
   if (patchData) return <UserDataSaveSuccessfullForm />
 
   return (
-    <Layout sidebar={false} backButton={true} hideHeader={true}>
+    <Layout
+      sidebar={false}
+      backButton={false}
+      disablebackButtonFormForms={true}
+      hideHeader={true}
+    >
       <div
         className={cn(formStyles.container, { [styles.condensedForm]: true })}
       >
