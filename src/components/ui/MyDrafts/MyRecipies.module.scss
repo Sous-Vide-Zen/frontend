@@ -1,0 +1,32 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-top: 24px;
+
+  .top {
+    width: 292px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 68px;
+
+      button {
+        border: none;
+        background: none;
+        font-size: 18px;
+        padding: 0;
+        white-space: nowrap;
+
+        &.active, &:hover {
+          color: var(--primary-color-light);
+        }
+      }
+    }
+  }
+}
