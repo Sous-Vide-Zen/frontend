@@ -1,13 +1,10 @@
 'use client'
 import { FC, useState, useEffect } from 'react'
 import styles from './MyRecipies.module.scss'
-// import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import {
   useGetRecipeDraftsQuery,
   useGetRecipeQuery,
 } from '@/store/features/recipes/recipes.actions'
-// import { useRecipes } from '@/hooks/useRecipes'
-// import { RecipeList } from '@/components/ui/RecipeList'
 import { RecipeCard } from '@/components/ui/RecipeList/RecipeCard'
 
 type Props = {
@@ -22,15 +19,23 @@ const DataRecipe: FC<Props> = ({ recipeSlug }) => {
   } = useGetRecipeQuery(recipeSlug, {
     skip: !recipeSlug,
   })
-  console.log(dataRecipe)
 
   return (
     <>
       {dataRecipe && Object.keys(dataRecipe).length > 0 ? (
-        <div></div>
+        <RecipeCard
+          key={dataRecipe.id}
+          recipe={{
+            ...dataRecipe,
+            short_text: 'test',
+            comments_count: 0,
+            views_count: 0,
+            activity_count: 0,
+            is_favorite: false,
+          }}
+        />
       ) : (
-        // <RecipeCard key={dataRecipe.id} recipe={dataRecipe} />
-        <p>Loading...</p>
+       <p>Loading...</p>
       )}
     </>
   )
@@ -53,13 +58,6 @@ const MyDrafts: FC<MyRecipiesProps> = ({ username }) => {
       setDraftsData(drafts)
     }
   }, [drafts, draftsLoading])
-
-  // const { myRecipesSort, myRecipesFromDate } = useAppSelector(
-  //   (state) => state.userSettings,
-  // )
-  // const dispatch = useAppDispatch()
-  // const ordering = myRecipesSort === 'ingredients' ? undefined : undefined //todo: после реализации изменить
-  // const dispatcher = useRecipes('feed', { username, ordering })
 
   return (
     <div className={styles.container}>

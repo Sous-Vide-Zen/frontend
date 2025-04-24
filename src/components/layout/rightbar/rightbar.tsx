@@ -13,7 +13,9 @@ import { Button, LinkLikeButton } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
-import { Modal } from '@/components/ui/Modal'
+import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
+import { ModalTransitionInDraft } from '@/components/ui/ModalTransitionInDraft'
+import { ModalOnlyDraft } from '@/components/ui/ModalOnlyDraft'
 import { useGetRecipeDraftsQuery } from '@/store/features/recipes/recipes.actions'
 
 type Props = {
@@ -33,6 +35,7 @@ const Rightbar: FC<Props> = ({
   const searchParams = useSearchParams()
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalDraft, setIsModalDraft] = useState(false)
+  const [isModalOnlyDraft, setIsModalOnlyDraft] = useState(false)
 
   // Восстановление параметров поиска (в url) из стейта
   useEffect(() => {
@@ -78,34 +81,24 @@ const Rightbar: FC<Props> = ({
     [dispatch, pathname, router, searchParams],
   )
 
-  // const handleFilterBySubscribe = () => {
-  //   if (isAuth) {
-  //     const currentFilter = filter === 'subscribe' ? null : 'subscribe'
-  //     dispatch(setFilterMode(currentFilter))
-  //     changeSearchParams('filter', currentFilter)
-  //   } else {
-  //     setIsModalOpen(true)
-  //     dispatch(setFilterMode(null))
-  //     changeSearchParams('filter', null)
-  //   }
-  // }
-
   const {
     data: drafts,
     error: draftsError,
     isLoading: draftsLoading,
   } = useGetRecipeDraftsQuery()
 
-  const handlePublish = () => {
-    const quantityDraft = drafts?.length || 0
+  const handlePublish = useCallback(() => {
+    const quantityDraft = drafts?.length || 1
     if (!isAuth) {
       setIsModalOpen(true)
     } else if (quantityDraft >= 3) {
+      setIsModalOnlyDraft(true)
+    } else if (quantityDraft >= 1) {
       setIsModalDraft(true)
     } else {
       router.push('/recipe/new')
     }
-  }
+  }, [drafts?.length, isAuth, router])
 
   return (
     <div className={styles.rightbar}>
@@ -167,41 +160,18 @@ const Rightbar: FC<Props> = ({
       )}
       <DayRecipe />
       <TopAuthor />
-      <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <p>
-          Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
-          оценивать рецепты других пользователей.
-        </p>
-        <div className={styles.modal_btns}>
-          <div className={styles.modal_login}>
-            <LinkLikeButton color="primary" size="big" href="/login">
-              Вход
-            </LinkLikeButton>
-          </div>
-          <div className={styles.modal_registration}>
-            <LinkLikeButton color="secondary" size="big" href="/registration">
-              Регистрация
-            </LinkLikeButton>
-          </div>
-        </div>
-        <div />
-      </Modal>
-      <Modal isOpen={isModalDraft} onClose={() => setIsModalDraft(false)}>
-        <p>У вас уже есть начатые рецепты. Хотите перейти к ним?</p>
-        <div className={styles.modal_btns}>
-          <div className={styles.modal_login}>
-            <LinkLikeButton color="primary" size="big" href="/profile">
-              Перейти к черновикам
-            </LinkLikeButton>
-          </div>
-          <div className={styles.modal_registration}>
-            <LinkLikeButton color="secondary" size="big" href="/profile">
-              Создать новый рецепт
-            </LinkLikeButton>
-          </div>
-        </div>
-        <div />
-      </Modal>
+      <LoginOrRegisterModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
+      <ModalTransitionInDraft
+        isModalOpen={isModalDraft}
+        setIsModalOpen={setIsModalDraft}
+      />
+      <ModalOnlyDraft
+        isModalOpen={isModalOnlyDraft}
+        setIsModalOpen={setIsModalOnlyDraft}
+      />
     </div>
   )
 }

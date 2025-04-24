@@ -1,0 +1,14 @@
+.btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 48px;
+
+  a {
+    min-width: 150px;
+    width: 100%;
+  }
+}
+
+.login {
+  margin-right: 24px;
+}

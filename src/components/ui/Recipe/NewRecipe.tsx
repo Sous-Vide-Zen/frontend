@@ -1,12 +1,9 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
-import { FC, useState, useEffect, useCallback } from 'react'
+import { FC } from 'react'
 import styles from './Recipe.module.scss'
 import { RecipeBody } from '.'
-import {
-  useGetRecipeDraftsQuery,
-  useGetRecipeQuery,
-} from '@/store/features/recipes/recipes.actions'
+import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
 
 const NewRecipe: FC = () => {
   //@ts-ignore
