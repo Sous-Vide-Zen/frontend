@@ -2,8 +2,6 @@
 import { useSearchParams } from 'next/navigation'
 import { FC, useState, useEffect, useCallback } from 'react'
 import styles from './Recipe.module.scss'
-// import { RecipeFull } from '@/store/features/recipes/recipes.types'
-import { RecipePhoto } from '@/components/ui/Recipe/RecipePhoto'
 import { RecipeBody } from '.'
 import {
   useGetRecipeDraftsQuery,
@@ -31,8 +29,7 @@ const NewRecipe: FC = () => {
 
   return (
     <div className={styles.recipe}>
-      <RecipePhoto isNew={true} />
-      <RecipeBody recipe={dataRecipe} readOnly={false} />
+      <RecipeBody recipe={recipe} readOnly={false} />
     </div>
   )
 }

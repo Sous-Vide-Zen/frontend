@@ -29,7 +29,7 @@ const ResetPasswordForm: FC<Props> = ({
     handleSubmit,
     formState: { errors, isDirty, isValid },
   } = useForm<FormValues>({
-    mode: 'onBlur',
+    mode: 'onChange', // меняем свойство onBlur на onChange
   })
 
   return (

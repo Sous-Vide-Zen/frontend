@@ -5,7 +5,6 @@ import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 
 import styles from './sidebar.module.scss'
-import { useAppSelector } from '@/store/hooks'
 import { useAuth } from '@/hooks/useAuth'
 import { LinkItem, NavLinkSkeleton, LinkLikeButton } from '@/components/ui'
 import ButtonLikeLink from '@/components/ui/ButtonLikeLink'
@@ -20,21 +19,13 @@ export default function Sidebar() {
   const { isAuth } = useAuth()
   const pathname = usePathname()
 
-  const { sort: sort, filter } = useAppSelector((state) => state.userSettings)
-
-  const homeParams = new URLSearchParams()
-  homeParams.set('sort', sort)
-  if (filter && homeParams.get('filter') !== filter) {
-    homeParams.set('filter', filter)
-  }
-
   const menu: MenuItem[] = [
     {
       text: 'Домой',
       img: '/img/sidebar/home.svg',
       alt: 'home',
       path: '/',
-      url: `/?${homeParams.toString()}`,
+      url: '/',
     },
     {
       text: 'Уведомления',

@@ -4,9 +4,7 @@ import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.t
 import { QueryStatus } from '@reduxjs/toolkit/query'
 import { MutableRefObject } from 'react'
 
-export type RecipeListOrdering = 'default' | 'top'
-
-export type RecipeListFilter = 'subscribe'
+export type RecipeListOrdering = 'default' | 'top' | 'subscribe'
 
 export type RecipeListResult = {
   isLoading: boolean

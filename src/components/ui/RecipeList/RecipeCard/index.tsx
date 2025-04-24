@@ -24,12 +24,15 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   onPreview,
   onRemoveFromFavorites,
 }) => {
+  const { isAuth } = useAuth()
   const { fancyDate } = useData(recipe.pub_date)
   const [updateFavorite, setUpdateFavorite] = useState<boolean>(false)
   const [isFavorite, setIsFavorite] = useState<boolean>(recipe.is_favorite)
   const statusIsFavoriteUpdate = useRef<undefined | 'set' | 'reset'>()
   const [iLike, setILike] = useState(false)
   const [iShare, setIShare] = useState(false)
+  const [isAuthenticated, setIsAuthenticated] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false)
 
   const [addToFavorites, { status }] = useAddToFavoritesMutation()
   const [removeFromFavorites, { status: status2 }] =
@@ -49,6 +52,11 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   }, [isFavorite, status, status2])
 
   const changeIsFavoriteHandler = () => {
+    if (!isAuth) {
+      setIsModalOpen(true)
+      return
+    }
+
     if (isFavorite) {
       removeFromFavorites(recipe.slug)
       statusIsFavoriteUpdate.current = 'reset'
@@ -95,6 +103,8 @@ export const RecipeCard: FC<RecipeCardProps> = ({
           cooking_time={recipe.cooking_time}
           onFavoriteClick={changeIsFavoriteHandler}
           onButtonClick={handlerOnTap}
+          isAuthenticated={isAuthenticated}
+          showLoginModal={handleShowLoginModal}
         />
       </div>
 
@@ -175,6 +185,11 @@ export const RecipeCard: FC<RecipeCardProps> = ({
           </div>
         </div>
       </div>
+
+      <LoginOrRegisterModal
+        isModalOpen={isModalOpen}
+        setIsModalOpen={setIsModalOpen}
+      />
     </div>
   )
 }

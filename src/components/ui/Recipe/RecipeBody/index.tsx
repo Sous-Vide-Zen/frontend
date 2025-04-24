@@ -22,6 +22,7 @@ import hoursToMinutes from '@/helpers/hoursOrMinutes'
 import { Button } from '@/components/ui/'
 import { FormInput } from '@/components/forms/items'
 import { Ingredients } from './Ingredients'
+import { RecipePhoto } from '../RecipePhoto'
 
 const textForTitle = {
   validate: (value: string) => {
@@ -46,7 +47,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
 
-  useRedirectIfUserNotAuthorised()
+  // useRedirectIfUserNotAuthorised()
 
   const [getSlug, { data: recipeDraft, error: draftError }] =
     useCreateRecipeDraftMutation()
@@ -245,22 +246,31 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     recipe && recipe?.cooking_time < 60
       ? styles.displayNone
       : styles.background4
-  /* */
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        <FormInput
-          register={register}
-          id="title"
-          type="text"
-          options={textForTitle}
-          className={styles.titleInput}
-          placeholder="Название рецепта*"
-          disabled={readOnly}
-        />
-        {errors.title && (
-          <span className={styles.errorMessage}>{errors.title.message}</span>
-        )}
+        <div className={styles.photo_and_title}>
+          <RecipePhoto
+            isNew={!recipe?.id}
+            url={recipe?.preview_image}
+            linkButton={true}
+            printButton={true}
+          />
+
+          <FormInput
+            register={register}
+            id="title"
+            type="text"
+            options={textForTitle}
+            className={styles.titleInput}
+            placeholder="Название рецепта*"
+            disabled={readOnly}
+          />
+          {errors.title && (
+            <span className={styles.errorMessage}>{errors.title.message}</span>
+          )}
+        </div>
         <div className={styles.cockingTime_container}>
           <p className={styles.cockingTime}>Время приготовления*</p>
           <div className={styles.hourPlusMinutes}>
