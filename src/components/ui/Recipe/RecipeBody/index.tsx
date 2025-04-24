@@ -64,24 +64,27 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     }
   }, [getSlug])
 
-  // const {
-  //   data: drafts,
-  //   error: draftsError,
-  //   isLoading: draftsLoading,
-  // } = useGetRecipeDraftsQuery()
-
-  // useEffect(() => {
-  //   if (draftsLoading) return
-  //   if (slugNewRecipe === '') {
-  //     if (drafts && drafts.length > 0) {
-  //       const objectFromDraft = drafts[0]
-  //       setSlugNewRecipe(objectFromDraft.slug)
-  //     } else {
-  //       createDraft()
-  //     }
-  //   }
-  //   console.log(drafts, slugNewRecipe)
-  // }, [createDraft, drafts, draftsLoading, slugNewRecipe])
+  const {
+    data: drafts,
+    error: draftsError,
+    isLoading: draftsLoading,
+  } = useGetRecipeDraftsQuery()
+  //создание черновика если имя не присвоено и его нет в полученном рецепте
+  useEffect(() => {
+    if (draftsLoading) return
+    if (slugNewRecipe === '') {
+      if (recipe?.slug === undefined) {
+        //   if (drafts && drafts.length > 0) {
+        //   const objectFromDraft = drafts[2]
+        //   setSlugNewRecipe(objectFromDraft.slug)
+        // } else {
+        createDraft()
+      } else {
+        setSlugNewRecipe(recipe?.slug || '')
+      }
+    }
+    console.log(recipe?.slug, slugNewRecipe)
+  }, [createDraft, drafts, draftsLoading, slugNewRecipe, recipe?.slug])
 
   const [update, { data: recipeUpdate, error: UpdateError }] =
     useUpdateRecipeMutation()

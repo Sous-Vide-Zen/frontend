@@ -2,7 +2,6 @@
 import { useSearchParams } from 'next/navigation'
 import { FC } from 'react'
 import styles from './Recipe.module.scss'
-import { RecipeFull } from '@/store/features/recipes/recipes.types'
 import { RecipeBody } from '.'
 import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
 

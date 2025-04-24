@@ -13,7 +13,7 @@ import { Reactions, Popup } from '@/components/ui'
 import { RecipeCardPhoto } from './RecipeCardPhoto'
 import { RecipeHash } from './RecipeHash'
 import { useAuth } from '@/hooks/useAuth'
-import { LoginOrRegisterModal } from '../../LoginOrRegisterModal'
+import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
 
 interface RecipeCardProps {
   recipe: RecipeFeed
