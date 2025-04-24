@@ -6,7 +6,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <Layout sidebar={false} isSearch={false} backButton={true}>
+    <Layout
+      sidebar={false}
+      isSearch={false}
+      backButton={true}
+      disablebackButtonFormForms={false}
+    >
       {children}
     </Layout>
   )

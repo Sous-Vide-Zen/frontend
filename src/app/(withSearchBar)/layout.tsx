@@ -5,5 +5,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
-  return <Layout isSearch={true}>{children}</Layout>
+  return (
+    <Layout isSearch={true} disablebackButtonFormForms={false}>
+      {children}{' '}
+    </Layout>
+  )
 }

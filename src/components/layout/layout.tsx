@@ -11,6 +11,7 @@ type Props = {
   sidebar?: boolean
   isSearch?: boolean
   backButton?: boolean
+  disablebackButtonFormForms: boolean
   hideHeader?: boolean
 }
 
@@ -19,6 +20,7 @@ const Layout: FC<Props> = ({
   sidebar = true,
   isSearch = false,
   backButton: showBackButton = false,
+  disablebackButtonFormForms = false,
   hideHeader = false,
 }) => (
   <div className={styles.layout}>
@@ -31,7 +33,7 @@ const Layout: FC<Props> = ({
         </div>
       ) : (
         <div className={styles.layoutOne}>
-          {!showBackButton && (
+          {disablebackButtonFormForms && showBackButton && (
             <div className={styles.left}>
               <ButtonBack />
             </div>
