@@ -9,6 +9,8 @@ import {
 } from '@/store/features/recipes/recipes.actions'
 
 const NewRecipe: FC = () => {
+  //@ts-ignore
+  const recipe: RecipeFull = {}
   const [params] = useSearchParams()
   let recipeSlug = ''
 

@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import styles from './RecipeCard.module.scss'
 import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
@@ -11,7 +12,8 @@ import { useData } from '@/hooks/useData'
 import { Reactions, Popup } from '@/components/ui'
 import { RecipeCardPhoto } from './RecipeCardPhoto'
 import { RecipeHash } from './RecipeHash'
-import { useRouter } from 'next/navigation'
+import { useAuth } from '@/hooks/useAuth'
+import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
 
 interface RecipeCardProps {
   recipe: RecipeFeed
@@ -37,6 +39,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   const [addToFavorites, { status }] = useAddToFavoritesMutation()
   const [removeFromFavorites, { status: status2 }] =
     useRemoveFromFavoritesMutation()
+
+  const handleShowLoginModal = () => {
+    setIsModalOpen(true)
+  }
 
   useEffect(() => {
     if (statusIsFavoriteUpdate.current === 'set' && status === 'fulfilled') {
