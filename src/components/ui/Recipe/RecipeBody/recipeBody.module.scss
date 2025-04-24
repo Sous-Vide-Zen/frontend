@@ -306,6 +306,10 @@
   font-weight: 500;
   margin-bottom: 80px;
 }
+.containerButton{
+  display: flex;
+  justify-content: space-between;
+}
 .buttonOnsubmit {
   padding: 10px;
 }

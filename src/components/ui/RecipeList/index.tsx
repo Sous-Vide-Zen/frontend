@@ -28,9 +28,15 @@ export const RecipeList: FC<Props> = ({
   const [removedItems, setRemovedItems] = useState<number[]>([])
 
   const router = useRouter()
-  const { recipies, loadNextPageRef, isFetching, isLoading, error, total, status } =
-    dispatcher
-
+  const {
+    recipies,
+    loadNextPageRef,
+    isFetching,
+    isLoading,
+    error,
+    total,
+    status,
+  } = dispatcher
   const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
 
   const onRemoveFromFavorites = (id: number) => {
@@ -81,7 +87,6 @@ export const RecipeList: FC<Props> = ({
   if (error) content = <ListLoadingError error={error.data?.detail} />
 
   if (!recipies?.length && !isFetching) content = <EmptyRecipeList />
-
   if (recipies && recipies.length)
     content = recipies
       .filter((e) => !removedItems.includes(e.id))
@@ -111,4 +116,3 @@ export const RecipeList: FC<Props> = ({
     </div>
   )
 }
-

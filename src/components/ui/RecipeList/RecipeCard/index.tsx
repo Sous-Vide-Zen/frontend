@@ -1,5 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 import styles from './RecipeCard.module.scss'
 import { RecipeFeed } from '@/store/features/feedAndFavorites/feedAndFavorites.types'
@@ -12,7 +13,7 @@ import { Reactions, Popup } from '@/components/ui'
 import { RecipeCardPhoto } from './RecipeCardPhoto'
 import { RecipeHash } from './RecipeHash'
 import { useAuth } from '@/hooks/useAuth'
-import { LoginOrRegisterModal } from '../../LoginOrRegisterModal'
+import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
 
 interface RecipeCardProps {
   recipe: RecipeFeed
@@ -38,6 +39,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   const [addToFavorites, { status }] = useAddToFavoritesMutation()
   const [removeFromFavorites, { status: status2 }] =
     useRemoveFromFavoritesMutation()
+
+  const handleShowLoginModal = () => {
+    setIsModalOpen(true)
+  }
 
   useEffect(() => {
     if (statusIsFavoriteUpdate.current === 'set' && status === 'fulfilled') {
@@ -74,9 +79,8 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     onPreview && onPreview(recipe.slug)
   }
 
-  const handleShowLoginModal = () => {
-    setIsModalOpen(true)
-  }
+  const router = useRouter()
+  const editingDraft = (slug: string) => router.push(`/recipe/new?${slug}`)
 
   return (
     <div className={styles.recipe}>
@@ -112,7 +116,10 @@ export const RecipeCard: FC<RecipeCardProps> = ({
 
       <div className={styles.bottom}>
         <div className={styles.nameAndHash}>
-          <div className={styles.name}>
+          <div
+            className={styles.name}
+            onClick={() => editingDraft(`${recipe.slug}`)}
+          >
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>
