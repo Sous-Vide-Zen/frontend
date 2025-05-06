@@ -9,3 +9,29 @@
     width: 378px;
   }
 }
+
+.textAreaContainer {
+  width: 100%;
+  max-width: 400px;
+}
+
+.textArea {
+  height: 100px;
+  width: 100%;
+  border: 1px solid var(--input-stroke);
+  border-radius: 12px;
+  padding: 12px 14px;
+  color: var(--base-color-dark);
+  transition: all 0.3s ease-in-out;
+  outline: none;
+  resize: vertical;
+
+  &:focus {
+    border: 1px solid var(--base-color-dark);
+    color: var(--base-color-dark);
+  }
+
+  &:hover {
+    border: 1px solid var(--base-color-dark);
+  }
+}

@@ -307,17 +307,16 @@ const AboutMeForm: FC = ({}) => {
               label="О себе"
               error={errors?.bio?.message || patchErrorText.bio}
             >
-              <FormInput
-                register={register}
-                id="bio"
-                autocomplete="bio"
-                options={{
-                  maxLength: {
-                    message: 'Поле не должно содержать более 200 символов',
-                    value: 200,
-                  },
-                }}
-              />
+              <div className={styles.textAreaContainer}>
+                <textarea
+                  {...register('bio')}
+                  className={styles.textArea}
+                  id="bio"
+                  placeholder="Расскажите немного о себе"
+                  // title="Поле не должно содержать более 200 символов"
+                  maxLength={200}
+                />
+              </div>
             </Field>
 
             <AvatarImage avatar={avatar} />
