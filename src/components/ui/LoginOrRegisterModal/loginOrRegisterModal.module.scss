@@ -11,3 +11,12 @@
 .login {
   margin-right: 24px;
 }
+
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+}

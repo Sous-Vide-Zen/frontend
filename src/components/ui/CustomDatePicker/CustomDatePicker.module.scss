@@ -3,7 +3,7 @@
   width: fit-content;
 
   .datePickerInput {
-    width: 222px;
+    width: 313px;
     height: 40px;
     border-radius: 12px;
     border: 1px solid #010b00;
@@ -41,8 +41,8 @@
 
   .calendar {
     position: absolute;
-    top: 40px;
-    left: 190px;
+    top: 18px;
+    left: 255px;
 
     border: 1px solid var(--green-green-bright);
     border-radius: 16px;
@@ -69,7 +69,7 @@
         gap: 24px;
 
         .customSelect {
-          width: 124px;
+          width: 92px;
           height: 24px;
 
           font-family: var(--font-family);
@@ -95,7 +95,7 @@
         }
 
         .year .customSelect {
-          width: 75px;
+          width: 68px;
         }
       }
 
@@ -181,7 +181,6 @@
             color: var(--white);
             cursor: pointer;
           }
-
         }
       }
     }

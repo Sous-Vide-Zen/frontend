@@ -31,19 +31,12 @@ export const AvatarImage = ({ avatar }: Props) => {
           </div>
         </div>
       ) : (
-        <Button
-          size="medium"
-          color="secondary"
-          onClick={handleSetAvatar}
-          style={{
-            width: '130px',
-            padding: '8px',
-            fontSize: '12px',
-            borderRadius: '12px',
-          }}
-        >
-          Добавить фото +
-        </Button>
+        <div className={styles.addImageContainer}>
+          <div className={styles.addPhotoContainer} onClick={handleSetAvatar}>
+            <div className={styles.setAvatar}></div>
+            <p className={styles.text}>Изменить миниатюру</p>
+          </div>
+        </div>
       )}
       {isAvatarMode && (
         <ImageLoaderNew
