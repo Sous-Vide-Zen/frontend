@@ -47,6 +47,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
 
+  console.log(recipe)
   // useRedirectIfUserNotAuthorised()
 
   const [getSlug, { data: recipeDraft, error: draftError }] =
@@ -83,7 +84,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         setSlugNewRecipe(recipe?.slug || '')
       }
     }
-    console.log(recipe?.slug, slugNewRecipe)
   }, [createDraft, drafts, draftsLoading, slugNewRecipe, recipe?.slug])
 
   const [update, { data: recipeUpdate, error: UpdateError }] =
@@ -109,6 +109,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         slug: slugNewRecipe,
         data: dataFromFunction,
       }).unwrap()
+      console.log('draft and public', slugNewRecipe, dataFromFunction)
       await publicate({
         slug: slugNewRecipe,
         data: {},
