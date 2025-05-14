@@ -46,8 +46,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   // const [publishOrDraft, setPublishOrDraft] = useState(true)
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
-
-  console.log(recipe)
   // useRedirectIfUserNotAuthorised()
 
   const [getSlug, { data: recipeDraft, error: draftError }] =
@@ -74,11 +72,12 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   useEffect(() => {
     if (draftsLoading) return
     if (slugNewRecipe === '') {
-      if (recipe?.slug === undefined) {
+      if (recipe?.slug === '') {
         //   if (drafts && drafts.length > 0) {
         //   const objectFromDraft = drafts[2]
         //   setSlugNewRecipe(objectFromDraft.slug)
         // } else {
+        console.log('work create draft')
         createDraft()
       } else {
         setSlugNewRecipe(recipe?.slug || '')
@@ -135,6 +134,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const defaultTag =
     recipe?.tag && recipe?.tag?.length > 0
       ? recipe.tag.map((c: { name: string }) => ({
+          value: c.name,
           label: c.name,
         }))
       : []
@@ -156,20 +156,25 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
             'часа',
             'часов',
           ])
-        : '',
+        : recipe?.cooking_time
+          ? `${Math.floor((recipe?.cooking_time ?? 0) / 60)}`
+          : '',
       cooking_time: readOnly
         ? hoursToMinutes((recipe?.cooking_time ?? 0) % 60 || 0, [
             'минута',
             'минуты',
             'минут',
           ])
-        : '',
+        : recipe?.cooking_time
+          ? `${(recipe?.cooking_time ?? 0) % 60}`
+          : '',
       name0: '',
       amount: 0,
       unit0: '',
       full_text: recipe?.full_text || '',
       category: recipe?.category
         ? recipe?.category.map((c: { name: string }) => ({
+            value: c.name,
             label: c.name,
           })) || []
         : [],
@@ -200,13 +205,15 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       }
     })
     console.log(
-      transformedTags,
+      'check data',
+      cookingTime,
+      // transformedTags,
       transformedCategory,
-      dataFromInput.tag,
+      // dataFromInput.tag,
       dataFromInput.category,
     )
     const result: any = {
-      // tag: transformedTags,
+      tag: transformedTags,
       // category: transformedCategory,
     }
     if (dataFromInput.title.trim()) {
@@ -242,6 +249,8 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     const dataFromInput = getValues()
     onSaveDraft(dataFromInput)
   }
+
+  console.log('recipe body', readOnly, slugNewRecipe, recipe)
 
   const displayNoneClass =
     recipe && recipe?.cooking_time < 60
@@ -290,7 +299,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                 id="hours"
                 type="text"
                 placeholder="часы"
-                disabled={readOnly}
+                // disabled={readOnly}
               />
               {errors.hours && (
                 <span className={styles.errorMessage}>

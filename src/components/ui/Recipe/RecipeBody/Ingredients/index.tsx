@@ -73,7 +73,8 @@ export const Ingredients: FC<Props> = ({
 
   // Удаление ингредиента
   const removeIngredientField = useCallback(
-    (indexToRemove: number) => {
+    (indexToRemove: number, e: { stopPropagation: () => void }) => {
+      e.stopPropagation()
       const updatedIngredients = (ingredients || []).filter(
         (_, index) => index !== indexToRemove,
       )
@@ -152,7 +153,7 @@ export const Ingredients: FC<Props> = ({
           </div>
           {index > 0 && (
             <button
-              onClick={() => removeIngredientField(index)}
+              onClick={(e) => removeIngredientField(index, e)}
               className={`${styles.ingredientsButton} ${styles.ingredientsButton2}`}
             >
               х
