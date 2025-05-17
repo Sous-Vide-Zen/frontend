@@ -173,8 +173,8 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       unit0: '',
       full_text: recipe?.full_text || '',
       category: recipe?.category
-        ? recipe?.category.map((c: { name: string }) => ({
-            value: c.name,
+        ? recipe?.category.map((c: { name: string; id: number }) => ({
+            value: c.id,
             label: c.name,
           })) || []
         : [],
@@ -204,17 +204,9 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         unit: ing.unit.trim(),
       }
     })
-    console.log(
-      'check data',
-      cookingTime,
-      // transformedTags,
-      transformedCategory,
-      // dataFromInput.tag,
-      dataFromInput.category,
-    )
     const result: any = {
       tag: transformedTags,
-      // category: transformedCategory,
+      category: transformedCategory,
     }
     if (dataFromInput.title.trim()) {
       result.title = dataFromInput.title.trim()
@@ -476,7 +468,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                 size={'medium'}
                 color={'primary'}
                 type="button"
-                // onClick={handleSubmit(onSaveDraft)}
                 onClick={handleDraftButtonClick}
               >
                 Cохранить в черновиках

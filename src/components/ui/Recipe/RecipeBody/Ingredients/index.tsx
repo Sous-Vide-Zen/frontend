@@ -155,6 +155,7 @@ export const Ingredients: FC<Props> = ({
             <button
               onClick={(e) => removeIngredientField(index, e)}
               className={`${styles.ingredientsButton} ${styles.ingredientsButton2}`}
+              type="button"
             >
               х
             </button>
