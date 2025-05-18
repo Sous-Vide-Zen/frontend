@@ -80,7 +80,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   }
 
   const router = useRouter()
-  const editingDraft = (slug: string) => router.push(`/recipe/new?${slug}`)
+  const editingDraft = (slug: string) => router.push(`/recipe/new?slug=${slug}`)
 
   return (
     <div className={styles.recipe}>

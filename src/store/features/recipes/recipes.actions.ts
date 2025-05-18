@@ -38,6 +38,7 @@ export const recipeApi = mainApi.injectEndpoints({
 
     updateRecipe: builder.mutation<RecipeFull, PatchRecipe>({
       query: ({ slug, data: body }) => {
+        console.log('update', body, slug)
         return {
           url: `recipe/${slug}/`,
           method: 'PATCH',
@@ -56,7 +57,7 @@ export const recipeApi = mainApi.injectEndpoints({
 
     publicate: builder.mutation<RecipeFull, PublicateRecipe>({
       query: ({ slug, data: body }) => {
-        console.log('RTQ data', body)
+        console.log('publication', body, slug)
         return {
           url: `recipe/drafts/${slug}/publicate/`,
           method: 'POST',

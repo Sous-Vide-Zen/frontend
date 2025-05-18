@@ -1,6 +1,6 @@
 export  default function fixEnding (number: number, arrWords: string[]) {
     const afterDozens = number % 10
-    // console.log(number, arrWords, afterDozens)
+    // console.log('function ending', number, arrWords, afterDozens)
     if (afterDozens === 1) {
       return `${number} ${arrWords[0]}`
     }
