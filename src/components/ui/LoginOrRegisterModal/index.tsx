@@ -15,7 +15,7 @@ export const LoginOrRegisterModal: FC<Props> = ({
 }) => (
   <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
     <div className={styles.modalContent}>
-      <p>
+      <p style={{ fontSize: '16px', lineHeight: '99%' }}>
         Войдите или зарегистрируйтесь, чтобы создавать собственные рецепты и
         оценивать рецепты других пользователей.
       </p>

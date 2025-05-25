@@ -65,7 +65,7 @@ $border-color: var(--primary-color-dark);
 
     &::after {
       top: 0;
-      left: 50%;
+      left: 75%;
       transform: translate(-50%, -50%) rotate(135deg);
       border: 1px solid transparent;
       border-left-color: rgb(0, 0, 0);

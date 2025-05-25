@@ -3,9 +3,9 @@
   display: flex;
   justify-content: center;
   border-radius: 16px;
-  padding: 128px;
+  padding: 119px;
   border: 10px solid var(--primary-color-light);
-  gap: 24px;
+  gap: 10px;
 
   .errorContent {
     display: flex;
@@ -23,7 +23,7 @@
   .errorTitle {
     font-size: 184px;
     font-weight: 700;
-    margin-bottom: 49px;
+    margin-bottom: 50px;
     background: linear-gradient(
       129.67deg,
       var(--primary-color-darker) 22.89%,
@@ -44,6 +44,7 @@
 
   a {
     width: 139px;
-    padding: 11px 24px;
+    height: 40px;
+    padding: 14px 24px;
   }
 }

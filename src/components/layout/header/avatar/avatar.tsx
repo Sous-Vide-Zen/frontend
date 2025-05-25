@@ -28,6 +28,7 @@ const Avatar: FC = () => {
     <PopupArrow
       position="bottom"
       tooltipStyles={{
+        left: `${isAuth ? '-65%' : '-115%'}`,
         minWidth: '140px',
         textAlign: 'left',
         fontSize: 16,
