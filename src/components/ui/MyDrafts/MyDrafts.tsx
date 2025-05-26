@@ -21,8 +21,6 @@ const DataRecipe: FC<Props> = ({ recipeSlug }) => {
     skip: !recipeSlug,
   })
 
-  console.log({dataRecipe});
-  
   const router = useRouter()
   const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
   
