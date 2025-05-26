@@ -9,14 +9,14 @@ import { useAppDispatch, useAppSelector } from '@/store/hooks'
 import { setSortMode } from '@/store/features/user/user.slice'
 import { useAuth } from '@/hooks/useAuth'
 import { RecipeListOrdering } from '@/hooks/dispatcher.types'
-import { Button, LinkLikeButton } from '@/components/ui'
+import { useDrafts } from '@/hooks/useDrafts'
+import { Button } from '@/components/ui'
 import ListViewChanger from '@/components/ui/ListViewChanger/ListViewChanger'
 import DayRecipe from '@/components/ui/DayRecipe'
 import TopAuthor from '@/components/ui/TopAuthor'
 import { LoginOrRegisterModal } from '@/components/ui/LoginOrRegisterModal'
 import { ModalTransitionInDraft } from '@/components/ui/ModalTransitionInDraft'
 import { ModalOnlyDraft } from '@/components/ui/ModalOnlyDraft'
-import { useGetRecipeDraftsQuery } from '@/store/features/recipes/recipes.actions'
 
 type Props = {
   showListViewButtons?: boolean
@@ -36,6 +36,7 @@ const Rightbar: FC<Props> = ({
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [isModalDraft, setIsModalDraft] = useState(false)
   const [isModalOnlyDraft, setIsModalOnlyDraft] = useState(false)
+  const { drafts, status, loadDrafts } = useDrafts()
 
   // Восстановление параметров поиска (в url) из стейта
   useEffect(() => {
@@ -81,13 +82,11 @@ const Rightbar: FC<Props> = ({
     [dispatch, pathname, router, searchParams],
   )
 
-  const {
-    data: drafts,
-    error: draftsError,
-    isLoading: draftsLoading,
-  } = useGetRecipeDraftsQuery()
+  const handlePublish = useCallback(() => loadDrafts(), [loadDrafts])
 
-  const handlePublish = useCallback(() => {
+  useEffect(() => {
+    if (status !== 'fulfilled') return
+
     const quantityDraft = drafts?.length || 1
     if (!isAuth) {
       setIsModalOpen(true)
@@ -98,7 +97,7 @@ const Rightbar: FC<Props> = ({
     } else {
       router.push('/recipe/new')
     }
-  }, [drafts?.length, isAuth, router])
+  }, [drafts?.length, isAuth, router, status])
 
   return (
     <div className={styles.rightbar}>
