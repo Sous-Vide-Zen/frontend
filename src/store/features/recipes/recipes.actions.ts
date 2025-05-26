@@ -70,7 +70,7 @@ export const recipeApi = mainApi.injectEndpoints({
 
 export const {
   useGetRecipeQuery,
-  useGetRecipeDraftsQuery,
+  useLazyGetRecipeDraftsQuery,
   useCreateRecipeDraftMutation,
   useUpdateRecipeMutation,
   useDeleteRecipeMutation,

@@ -1,10 +1,11 @@
 'use client'
-import { FC, useState, useEffect } from 'react'
+
+import { FC, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
+
 import styles from './MyRecipies.module.scss'
-import {
-  useGetRecipeDraftsQuery,
-  useGetRecipeQuery,
-} from '@/store/features/recipes/recipes.actions'
+import { useGetRecipeQuery } from '@/store/features/recipes/recipes.actions'
+import { useDrafts } from '@/hooks/useDrafts'
 import { RecipeCard } from '@/components/ui/RecipeList/RecipeCard'
 
 type Props = {
@@ -20,6 +21,11 @@ const DataRecipe: FC<Props> = ({ recipeSlug }) => {
     skip: !recipeSlug,
   })
 
+  console.log({dataRecipe});
+  
+  const router = useRouter()
+  const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
+  
   return (
     <>
       {dataRecipe && Object.keys(dataRecipe).length > 0 ? (
@@ -33,9 +39,10 @@ const DataRecipe: FC<Props> = ({ recipeSlug }) => {
             activity_count: 0,
             is_favorite: false,
           }}
+          onPreview={toggleIngredients}
         />
       ) : (
-       <p>Loading...</p>
+        <p>Loading...</p>
       )}
     </>
   )
@@ -44,24 +51,15 @@ const DataRecipe: FC<Props> = ({ recipeSlug }) => {
 type MyRecipiesProps = { username?: string }
 
 const MyDrafts: FC<MyRecipiesProps> = ({ username }) => {
-  const [draftsData, setDraftsData] = useState<any[]>([])
-
-  const {
-    data: drafts,
-    error: draftsError,
-    isLoading: draftsLoading,
-  } = useGetRecipeDraftsQuery()
+  const { drafts, status, loadDrafts } = useDrafts()
 
   useEffect(() => {
-    if (draftsLoading) return
-    if (drafts) {
-      setDraftsData(drafts)
-    }
-  }, [drafts, draftsLoading])
+    if (status === 'uninitialized') loadDrafts()
+  }, [loadDrafts, status])
 
   return (
     <div className={styles.container}>
-      {draftsData.map((draft, item) => (
+      {drafts?.map((draft, item) => (
         <div key={item}>
           <DataRecipe recipeSlug={draft.slug} />
         </div>
