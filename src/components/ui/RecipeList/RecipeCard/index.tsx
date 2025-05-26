@@ -80,9 +80,6 @@ export const RecipeCard: FC<RecipeCardProps> = ({
     onPreview && onPreview(recipe.slug)
   }
 
-  const router = useRouter()
-  const editingDraft = (slug: string) => router.push(`/recipe/new?slug=${slug}`)
-
   return (
     <div className={styles.recipe}>
       <div className={styles.user}>
@@ -117,10 +114,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
 
       <div className={styles.bottom}>
         <div className={styles.nameAndHash}>
-          <div
-            className={styles.name}
-            onClick={() => editingDraft(`${recipe.slug}`)}
-          >
+          <div className={styles.name}>
             <p>{recipe.title}</p>
             <p>{recipe.short_text}</p>
           </div>
