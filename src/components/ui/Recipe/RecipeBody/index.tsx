@@ -1,26 +1,26 @@
 'use client'
+
 import { FC, useState, useEffect, useCallback } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import Image from 'next/image'
 import Select from 'react-select'
 
 import styles from './recipeBody.module.scss'
-import { stylesFromTag } from './addNewRecipeTagSelectStyles'
-import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
 import {
   useCreateRecipeDraftMutation,
   usePublicateMutation,
-  useGetRecipeDraftsQuery,
   useUpdateRecipeMutation,
 } from '@/store/features/recipes/recipes.actions'
 import {
   RecipeFormInputs,
   RecipeFull,
 } from '@/store/features/recipes/recipes.types'
-import { useRedirectIfUserNotAuthorised } from '@/hooks/useRedirectIfUserNotAuthorised'
+import { useDrafts } from '@/hooks/useDrafts'
 import hoursToMinutes from '@/helpers/hoursOrMinutes'
 import { Button } from '@/components/ui/'
 import { FormInput } from '@/components/forms/items'
+import { stylesFromTag } from './addNewRecipeTagSelectStyles'
+import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
 import { Ingredients } from './Ingredients'
 import { RecipePhoto } from '../RecipePhoto'
 
@@ -46,6 +46,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   // const [publishOrDraft, setPublishOrDraft] = useState(true)
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
+  const { loadDrafts, drafts, status } = useDrafts()
   // useRedirectIfUserNotAuthorised()
 
   const [getSlug, { data: recipeDraft, error: draftError }] =
@@ -63,14 +64,16 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     }
   }, [getSlug])
 
-  const {
-    data: drafts,
-    error: draftsError,
-    isLoading: draftsLoading,
-  } = useGetRecipeDraftsQuery()
+  useEffect(() => {
+    if (status === 'uninitialized') {
+      loadDrafts()
+    }
+  }, [loadDrafts, status])
+
   //создание черновика если имя не присвоено и его нет в полученном рецепте
   useEffect(() => {
-    if (draftsLoading) return
+    if (status !== 'fulfilled') return
+
     if (slugNewRecipe === '') {
       if (recipe?.slug === '') {
         //   if (drafts && drafts.length > 0) {
@@ -83,7 +86,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         setSlugNewRecipe(recipe?.slug || '')
       }
     }
-  }, [createDraft, drafts, draftsLoading, slugNewRecipe, recipe?.slug])
+  }, [createDraft, drafts, slugNewRecipe, recipe?.slug, status])
 
   const [update, { data: recipeUpdate, error: UpdateError }] =
     useUpdateRecipeMutation()

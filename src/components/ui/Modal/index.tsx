@@ -7,6 +7,8 @@ interface ModalProps {
   isOpen: boolean
   onClose: () => void
   showCloseButton?: boolean
+  customWidth?: string
+  customHeight?: string
   children: ReactNode
 }
 
@@ -15,12 +17,21 @@ export const Modal: FC<ModalProps> = ({
   onClose,
   showCloseButton = true,
   children,
+  customWidth,
+  customHeight,
 }) => {
   if (!isOpen) return null
 
   return (
     <div className={styles.overlay} onClick={onClose}>
-      <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+      <div
+        className={styles.modal}
+        style={{
+          width: customWidth || '697px',
+          height: customHeight || '247px',
+        }}
+        onClick={(e) => e.stopPropagation()}
+      >
         <div className={styles.content}>{children}</div>
         {showCloseButton && (
           <button
