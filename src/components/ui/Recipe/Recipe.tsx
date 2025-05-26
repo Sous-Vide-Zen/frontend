@@ -9,7 +9,7 @@ import { useAuth } from '@/hooks/useAuth'
 import { IconsAndActions, RecipeBody, UserNameShow } from '.'
 import Comments from './Comments/comments'
 import { Skeleton } from '../Skeletons'
-import { useCheckChernovikSlug } from '@/helpers/useCheckChernovikSlug'
+import { useCheckDraftSlug } from '@/helpers/useCheckChernovikSlug'
 
 interface RecipeCardProps {
   recipe?: RecipeFull
@@ -24,7 +24,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const userProps = { author, pub_date, slug, readOnly }
   const iconProps = { slug, views_count, reactions_count }
   const userData = useAuth()
-  const hasChernovik = useCheckChernovikSlug(recipe?.slug)
+  const hasDraft = useCheckDraftSlug(recipe?.slug)
   console.log('recipe status user and data', userData, { recipe, readOnly })
   useEffect(() => {
     const isNotOlder24Hours = () => {
@@ -43,7 +43,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
       userData?.is_admin ||
       userData?.is_staff ||
       (userData?.id === recipe?.author.id && isNotOlder24Hours()) ||
-      (userData?.id === recipe?.author.id && hasChernovik)
+      (userData?.id === recipe?.author.id && hasDraft)
 
     if (!readOnly && !realAllowEdit) {
       router.back()
@@ -55,7 +55,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
         userData?.is_staff ||
         userData?.id === recipe?.author.id,
     )
-  }, [readOnly, recipe, router, userData])
+  }, [readOnly, recipe, router, userData, hasDraft])
 
   if (!recipe) return <Skeleton />
 

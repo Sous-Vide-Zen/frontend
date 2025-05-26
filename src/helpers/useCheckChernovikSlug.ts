@@ -1,9 +1,9 @@
 import { useMemo } from 'react'
 
-export const useCheckChernovikSlug = (slug?: string): boolean => {
-  const containsChernovik = useMemo(() => {
+export const useCheckDraftSlug = (slug?: string): boolean => {
+  const containsDraft = useMemo(() => {
     return !!slug && slug.includes('chernovik')
   }, [slug])
 
-  return containsChernovik
+  return containsDraft
 }
