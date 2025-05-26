@@ -37,7 +37,10 @@ export const RecipeList: FC<Props> = ({
     total,
     status,
   } = dispatcher
-  const toggleIngredients = (slug: string) => router.push(`/recipe/${slug}`)
+  const toggleIngredients = (slug: string) => {
+    console.log('recipe list', slug)
+    router.push(`/recipe/${slug}`)
+  }
 
   const onRemoveFromFavorites = (id: number) => {
     if (!removeItemsOnRemoveFromFavorites) return

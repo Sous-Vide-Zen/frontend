@@ -25,13 +25,11 @@ const emptyRecipe: RecipeFull = {
 
 const NewRecipe: FC = () => {
   const params = useSearchParams()
-  // извлекаем slug (предполагаем, что параметр называется "slug")
   const recipeSlug = params?.get('slug') ?? ''
 
-  // если slug пустой — сразу показываем форму
   const [timeOpen, setTimeOpen] = useState<boolean>(recipeSlug === '')
   const [newRecipe, setNewRecipe] = useState<RecipeFull>(emptyRecipe)
-  console.log('new recipe', params, timeOpen)
+  // console.log('new recipe', params, timeOpen)
   const {
     data: dataRecipe,
     error: recipeError,
