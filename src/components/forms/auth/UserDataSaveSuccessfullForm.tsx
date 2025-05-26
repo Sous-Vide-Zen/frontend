@@ -42,9 +42,9 @@ export default function UserDataSaveSuccessfullForm() {
               aria-label="Закрыть модальное окно"
             >
               <svg
-                width="22"
-                height="22"
-                viewBox="0 0 22 22"
+                width="20"
+                height="20"
+                viewBox="0 0 20 20"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
               >
@@ -57,18 +57,23 @@ export default function UserDataSaveSuccessfullForm() {
               </svg>
             </button>
 
-            <Image
-              src="/img/check/clarity_success-standard-solid.svg"
-              alt="check"
-              width={80}
-              height={80}
-              draggable={false}
-              priority
-            />
-            <div className={styles.inner_text}>
-              <h2>Ваши данные сохранены!</h2>
-              <p>Новые данные будут отражены на вашей странице.</p>
-              <p>
+            <div className={styles.claritySuccessIcon}>
+              <Image
+                src="/img/check/clarity_success-standard-solid.svg"
+                alt="check"
+                width={80}
+                height={80}
+                draggable={false}
+                priority
+              />
+            </div>
+
+            <div className={styles.modalContent}>
+              <div className={styles.inner_text}>
+                <h2>Ваши данные сохранены!</h2>
+                <p>Новые данные будут отражены на вашей странице.</p>
+              </div>
+              <p className={styles.modalContentButton}>
                 <LinkLikeButton href="/" size="big" color="primary">
                   На главную
                 </LinkLikeButton>

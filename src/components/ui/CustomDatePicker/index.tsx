@@ -165,7 +165,7 @@ export default function CustomDatePicker() {
   const dispatch = useAppDispatch()
   const [isCalendarVisible, setIsCalendarVisible] = useState(false)
   const [dataValue, setDataValue] = useState<string | undefined>(undefined)
-  const [curMonth, setCurMonth] = useState(3) //! если нужно, добавить установку
+  const [curMonth, setCurMonth] = useState(4) //! если нужно, добавить установку
   const [curYear, setCurYear] = useState(2025) //! если нужно, добавить установку
   const [prevBtnStyle, setPrevBtnStyle] = useState(true)
   const [nextBtnStyle, setNextBtnStyle] = useState(true)
@@ -217,7 +217,7 @@ export default function CustomDatePicker() {
   const clearDate = () => {
     dispatch(setDateSortMyRecipes(undefined)) // Очищаем выбор даты
 
-    setCurMonth(3) // индекс месяца 3 означает апрель
+    setCurMonth(5) // индекс месяца
     setCurYear(2025) // фиксированный год
   }
 
@@ -229,26 +229,46 @@ export default function CustomDatePicker() {
     setCurYear(+e.target.value)
   }
 
+  // const handlerPrevMonth = () => {
+  //   if (curMonth === 0) {
+  //     if (curYear !== YEAR_LIST[0].id) {
+  //       setCurMonth(11)
+  //       setCurYear(curYear - 1)
+  //     }
+  //   } else {
+  //     setCurMonth(curMonth - 1)
+  //   }
+  // }
+
+  // const handlerNextMonth = () => {
+  //   if (curMonth === 11) {
+  //     if (curYear !== YEAR_LIST[YEAR_LIST.length - 1].id) {
+  //       setCurMonth(0)
+  //       setCurYear(curYear + 1)
+  //     }
+  //   } else {
+  //     setCurMonth(curMonth + 1)
+  //   }
+  // }
+
   const handlerPrevMonth = () => {
-    if (curMonth === 0) {
-      if (curYear !== YEAR_LIST[0].id) {
-        setCurMonth(11)
-        setCurYear(curYear - 1)
+    setCurMonth((prev) => {
+      if (prev === 0) {
+        setCurYear((prevYear) => prevYear - 1)
+        return 11 // Декабрь
       }
-    } else {
-      setCurMonth(curMonth - 1)
-    }
+      return prev - 1
+    })
   }
 
   const handlerNextMonth = () => {
-    if (curMonth === 11) {
-      if (curYear !== YEAR_LIST[YEAR_LIST.length - 1].id) {
-        setCurMonth(0)
-        setCurYear(curYear + 1)
+    setCurMonth((prev) => {
+      if (prev === 11) {
+        setCurYear((prevYear) => prevYear + 1)
+        return 0 // Январь
       }
-    } else {
-      setCurMonth(curMonth + 1)
-    }
+      return prev + 1
+    })
   }
 
   const handlerClickOnDay = (e: React.MouseEvent<HTMLDivElement>) => {
