@@ -38,7 +38,6 @@ export const RecipeList: FC<Props> = ({
     status,
   } = dispatcher
   const toggleIngredients = (slug: string) => {
-    console.log('recipe list', slug)
     router.push(`/recipe/${slug}`)
   }
 

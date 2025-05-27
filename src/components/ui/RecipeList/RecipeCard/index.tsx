@@ -76,7 +76,6 @@ export const RecipeCard: FC<RecipeCardProps> = ({
   }
 
   const handlerOnTap = () => {
-    console.log('recipe card', recipe.slug)
     onPreview && onPreview(recipe.slug)
   }
 

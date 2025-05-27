@@ -25,7 +25,7 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const iconProps = { slug, views_count, reactions_count }
   const userData = useAuth()
   const hasDraft = useCheckDraftSlug(recipe?.slug)
-  console.log('recipe status user and data', userData, { recipe, readOnly })
+  // console.log('recipe status user and data', userData, { recipe, readOnly })
   useEffect(() => {
     const isNotOlder24Hours = () => {
       if (!recipe?.pub_date) {
