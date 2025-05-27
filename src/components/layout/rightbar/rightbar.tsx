@@ -102,7 +102,7 @@ const Rightbar: FC<Props> = ({
     } else {
       router.push('/recipe/new')
     }
-  }, [drafts?.length, isAuth, router, status])
+  }, [drafts?.length, router, status])
 
   return (
     <div className={styles.rightbar}>
