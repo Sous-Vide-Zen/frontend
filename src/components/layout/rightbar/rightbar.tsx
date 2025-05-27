@@ -82,22 +82,27 @@ const Rightbar: FC<Props> = ({
     [dispatch, pathname, router, searchParams],
   )
 
-  const handlePublish = useCallback(() => loadDrafts(), [loadDrafts])
+  const handlePublish = useCallback(() => {
+    if (!isAuth) {
+      setIsModalOpen(true)
+    } else {
+      loadDrafts()
+    }
+  }, [isAuth, loadDrafts])
 
   useEffect(() => {
     if (status !== 'fulfilled') return
 
     const quantityDraft = drafts?.length || 1
-    if (!isAuth) {
-      setIsModalOpen(true)
-    } else if (quantityDraft >= 3) {
+
+    if (quantityDraft >= 3) {
       setIsModalOnlyDraft(true)
     } else if (quantityDraft >= 1) {
       setIsModalDraft(true)
     } else {
       router.push('/recipe/new')
     }
-  }, [drafts?.length, isAuth, router, status])
+  }, [drafts?.length, router, status])
 
   return (
     <div className={styles.rightbar}>
