@@ -1,0 +1,60 @@
+.btns {
+  display: flex;
+  justify-content: center;
+  // margin-top: 48px;
+  margin-top: 35px;
+
+  a {
+    min-width: 150px;
+    width: 311px;
+    height: 40px;
+  }
+}
+
+.modalFullText {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+// .login {
+//   margin-right: 24px;
+// }
+.modalContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 784px;
+  height: 100%;
+}
+
+.modalOnlyDraft {
+  position: absolute;
+  padding: 64px 96px;
+  border-radius: 12px;
+  width: 976px;
+  height: 262px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000;
+  text-align: center;
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.modalOnlyDraftCloseButton {
+  position: absolute;
+  top: -4.25rem;
+  right: -2.25rem;
+  background: none;
+  border: none;
+  font-size: 3.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: white;
+
+  &:hover {
+    opacity: 0.7;
+  }
+}
