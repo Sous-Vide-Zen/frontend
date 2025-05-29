@@ -23,6 +23,7 @@ import { stylesFromTag } from './addNewRecipeTagSelectStyles'
 import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
 import { Ingredients } from './Ingredients'
 import { RecipePhoto } from '../RecipePhoto'
+import { ModalPublish } from '@/components/ui/Recipe/RecipeBody/ModalPublish'
 
 const textForTitle = {
   validate: (value: string) => {
@@ -43,7 +44,7 @@ type Props = {
 }
 
 export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
-  // const [publishOrDraft, setPublishOrDraft] = useState(true)
+  const [isModalPublish, setIsModalPublish] = useState(false)
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
   const { loadDrafts, drafts, status } = useDrafts()
@@ -117,6 +118,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         data: {},
       }).unwrap()
       console.log('Recipe published successfully')
+      setIsModalPublish(true)
     } catch (error) {
       console.error('Error creating draft or publishing recipe:', error)
     }
@@ -254,6 +256,10 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
 
   return (
     <div>
+      <ModalPublish
+        isModalOpen={isModalPublish}
+        setIsModalOpen={setIsModalPublish}
+      />
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.photo_and_title}>
           <RecipePhoto

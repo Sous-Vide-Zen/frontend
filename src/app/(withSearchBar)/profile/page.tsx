@@ -23,10 +23,6 @@ export default function ProfilePage() {
       label: `Рецепты (${profileTabMyRecipies})`,
       Content: <MyRecipies username={username ?? undefined} />,
     },
-    // {
-    //   label: `черновики`,
-    //   Content: <MyDrafts username={username ?? undefined} />,
-    // },
     {
       label: `Мои подписки (${profileTabMySubscriptions})`,
       Content: <Subscribtions username={username ?? ''} />,
