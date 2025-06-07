@@ -283,7 +283,9 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           )}
         </div>
         <div className={styles.cockingTime_container}>
-          <p className={styles.cockingTime}>Время приготовления*</p>
+          <p className={styles.cockingTime}>
+            Время приготовления{readOnly ? '' : '*'}
+          </p>
           <div className={styles.hourPlusMinutes}>
             <div className={`${styles.hours} ${displayNoneClass}`}>
               <input
@@ -350,7 +352,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           </div>
         </div>
         <div className={styles.ingredients_container}>
-          <p className={styles.ingredients}>Ингредиенты*</p>
+          <p className={styles.ingredients}>Ингредиенты{readOnly ? '' : '*'}</p>
           <Ingredients
             readOnly={readOnly}
             control={control}
@@ -361,7 +363,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           />
         </div>
         <div className={styles.cocking_container}>
-          <p className={styles.cocking}>Приготовление*</p>
+          <p className={styles.cocking}>Приготовление{readOnly ? '' : '*'}</p>
           <div className={styles.full_text}>
             {readOnly && <p className={styles.textArea}>{recipe?.full_text}</p>}
             {!readOnly && (
