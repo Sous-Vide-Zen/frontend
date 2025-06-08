@@ -14,7 +14,18 @@ interface RecipeCardProps {
 export const NewRecipePhoto: FC<RecipeCardProps> = ({ url, setUrl }) => {
   return (
     <div>
-      <Button>Добавить фото для превью</Button>
+      <Button
+        className={styles.addPreviewButton}
+        color="primary"
+        size="medium"
+        style={{
+          borderRadius: '12px',
+          lineHeight: '7px',
+          padding: '16px 8px',
+        }}
+      >
+        Добавить фото для превью +
+      </Button>
     </div>
   )
 }

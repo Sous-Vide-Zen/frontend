@@ -165,8 +165,11 @@ export default function CustomDatePicker() {
   const dispatch = useAppDispatch()
   const [isCalendarVisible, setIsCalendarVisible] = useState(false)
   const [dataValue, setDataValue] = useState<string | undefined>(undefined)
-  const [curMonth, setCurMonth] = useState(4) //! если нужно, добавить установку
-  const [curYear, setCurYear] = useState(2025) //! если нужно, добавить установку
+  const currentDate = new Date() // Текущая дата браузера
+  const initialMonth = currentDate.getMonth()
+  const initialYear = currentDate.getFullYear()
+  const [curMonth, setCurMonth] = useState(initialMonth)
+  const [curYear, setCurYear] = useState(initialYear)
   const [prevBtnStyle, setPrevBtnStyle] = useState(true)
   const [nextBtnStyle, setNextBtnStyle] = useState(true)
   const [calendarGrid, setCalendarGrid] = useState<CalendarItemType[]>([])
@@ -216,9 +219,6 @@ export default function CustomDatePicker() {
 
   const clearDate = () => {
     dispatch(setDateSortMyRecipes(undefined)) // Очищаем выбор даты
-
-    setCurMonth(5) // индекс месяца
-    setCurYear(2025) // фиксированный год
   }
 
   const handlerChangeMonth = (e: ChangeEvent<HTMLSelectElement>) => {
@@ -229,45 +229,23 @@ export default function CustomDatePicker() {
     setCurYear(+e.target.value)
   }
 
-  // const handlerPrevMonth = () => {
-  //   if (curMonth === 0) {
-  //     if (curYear !== YEAR_LIST[0].id) {
-  //       setCurMonth(11)
-  //       setCurYear(curYear - 1)
-  //     }
-  //   } else {
-  //     setCurMonth(curMonth - 1)
-  //   }
-  // }
-
-  // const handlerNextMonth = () => {
-  //   if (curMonth === 11) {
-  //     if (curYear !== YEAR_LIST[YEAR_LIST.length - 1].id) {
-  //       setCurMonth(0)
-  //       setCurYear(curYear + 1)
-  //     }
-  //   } else {
-  //     setCurMonth(curMonth + 1)
-  //   }
-  // }
-
   const handlerPrevMonth = () => {
     setCurMonth((prev) => {
-      if (prev === 0) {
-        setCurYear((prevYear) => prevYear - 1)
-        return 11 // Декабрь
+      const newMonth = prev - 1
+      if (newMonth < 0) {
+        setCurYear((prevYear) => prevYear - 1) // переход на предыдущий год
       }
-      return prev - 1
+      return newMonth
     })
   }
 
   const handlerNextMonth = () => {
     setCurMonth((prev) => {
-      if (prev === 11) {
-        setCurYear((prevYear) => prevYear + 1)
-        return 0 // Январь
+      const newMonth = prev + 1
+      if (newMonth > 11) {
+        setCurYear((prevYear) => prevYear + 1) // переход на следующий год
       }
-      return prev + 1
+      return newMonth
     })
   }
 

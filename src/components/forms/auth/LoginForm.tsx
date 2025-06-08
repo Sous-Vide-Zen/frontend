@@ -59,7 +59,14 @@ const LoginForm: FC = () => {
 
           <Field
             label="Пароль"
-            toTheRightLabel={<Link href="/resetpassword">Забыли пароль?</Link>}
+            toTheRightLabel={
+              <Link
+                href="/resetpassword"
+                style={{ marginTop: '-3px', display: 'inline-block' }}
+              >
+                Забыли пароль?
+              </Link>
+            }
             error={errors.password?.message}
           >
             <PasswordFormInput
