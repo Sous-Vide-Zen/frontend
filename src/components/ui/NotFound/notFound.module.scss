@@ -3,7 +3,7 @@
   display: flex;
   justify-content: center;
   border-radius: 16px;
-  padding: 119px;
+  padding: 118px;
   border: 10px solid var(--primary-color-light);
   gap: 10px;
 
@@ -17,13 +17,13 @@
   .errorTextContent {
     display: flex;
     flex-direction: column;
+    gap: 51px;
     width: 607px;
   }
 
   .errorTitle {
     font-size: 184px;
     font-weight: 700;
-    margin-bottom: 50px;
     background: linear-gradient(
       129.67deg,
       var(--primary-color-darker) 22.89%,

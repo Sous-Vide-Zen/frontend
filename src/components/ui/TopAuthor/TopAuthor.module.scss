@@ -6,8 +6,14 @@
     font-size: 32px;
     font-weight: 600;
   }
-  
+
   .authors {
-    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+
+    > div:not(:last-child) {
+      margin-bottom: 12px;
+    }
   }
 }

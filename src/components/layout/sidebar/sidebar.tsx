@@ -115,10 +115,10 @@ export default function Sidebar() {
 
   const jsxIsNotAuth = (
     <div className={styles.notAuth}>
-      <LinkLikeButton color="primary" size="medium" href="login">
+      <LinkLikeButton color="primary" size="medium" href="/login">
         Вход
       </LinkLikeButton>
-      <LinkLikeButton color="secondary" size="medium" href="registration">
+      <LinkLikeButton color="secondary" size="medium" href="/registration">
         Регистрация
       </LinkLikeButton>
     </div>
@@ -137,6 +137,8 @@ export default function Sidebar() {
       {auth === false && jsxIsNotAuth}
 
       <div className={styles.more}>
+        {/* {hrefs будут изменены после создания компонентов к соответствующим пунктам меню. Пока оставил
+        переброс на страницу с ошибкой 404} */}
         <LinkLikeButton color="clear" size="medium" href="/error404">
           FAQ
         </LinkLikeButton>

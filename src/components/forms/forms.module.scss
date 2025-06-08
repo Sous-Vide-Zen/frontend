@@ -1,13 +1,13 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 24px;
   max-width: 450px;
+  gap: 24px;
   margin: 0 auto;
-  padding: 35px;
+  padding: 36px;
   border: 1px solid var(--primary-color);
-  border-radius: 12px;
   font-size: 14px;
+  border-radius: 12px;
 
   a {
     color: var(--primary-color-light);
@@ -62,6 +62,7 @@
   legend {
     font-weight: bold;
     font-size: 22px;
+    line-height: 30px;
     color: var(--primary-color);
     margin-bottom: 24px;
   }
@@ -69,7 +70,7 @@
   .fields {
     display: flex;
     flex-direction: column;
-    gap: 9px;
+    gap: 16px;
   }
 }
 
@@ -83,6 +84,7 @@
   label {
     display: flex;
     margin-bottom: 9px;
+    line-height: 71%;
   }
 
   .error {
