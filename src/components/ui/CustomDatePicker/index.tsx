@@ -176,6 +176,8 @@ export default function CustomDatePicker() {
   const curEl = useRef<HTMLDivElement | null>(null)
 
   const { myRecipesFromDate } = useAppSelector((state) => state.userSettings)
+  const [isMonthOpen, setIsMonthOpen] = useState(false) // Для списка месяцев
+  const [isYearOpen, setIsYearOpen] = useState(false) // Для списка годов
 
   useEffect(() => {
     if (myRecipesFromDate) {
@@ -219,14 +221,6 @@ export default function CustomDatePicker() {
 
   const clearDate = () => {
     dispatch(setDateSortMyRecipes(undefined)) // Очищаем выбор даты
-  }
-
-  const handlerChangeMonth = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCurMonth(+e.target.value)
-  }
-
-  const handlerChangeYear = (e: ChangeEvent<HTMLSelectElement>) => {
-    setCurYear(+e.target.value)
   }
 
   const handlerPrevMonth = () => {
@@ -283,35 +277,74 @@ export default function CustomDatePicker() {
         <div className={styles.calendar} ref={curEl}>
           <div className={styles.header}>
             <div className={styles.monthYear}>
-              <div className={styles.month}>
-                <select
-                  name="selectMonth"
-                  id="selectMonth"
-                  className={styles.customSelect}
-                  onChange={handlerChangeMonth}
-                  value={curMonth}
+              <div
+                className={styles.customSelect}
+                onClick={() => {
+                  setIsMonthOpen((prev) => !prev)
+                  if (isYearOpen) setIsYearOpen(false)
+                }}
+              >
+                <span>
+                  {MONTH_LIST.find((month) => month.id === curMonth)?.ruText}
+                </span>
+                <div
+                  className={`${styles.options} ${isMonthOpen ? styles.show : ''}`}
                 >
                   {MONTH_LIST.map((el) => (
-                    <option key={el.id} value={el.id}>
+                    <div
+                      key={el.id}
+                      className={`${styles.option} ${el.id === curMonth ? styles.currentMonth : ''}`}
+                      style={{
+                        color:
+                          el.id === curMonth
+                            ? 'var(--primary-color-light)'
+                            : undefined,
+                      }}
+                      onClick={() => {
+                        setCurMonth(el.id)
+                        setIsMonthOpen(false)
+                      }}
+                    >
                       {el.ruText}
-                    </option>
+                    </div>
                   ))}
-                </select>
+                </div>
               </div>
               <div className={styles.year}>
-                <select
-                  name="selectYear"
-                  id="selectYear"
+                <div
                   className={styles.customSelect}
-                  onChange={handlerChangeYear}
-                  value={curYear}
+                  onClick={() => {
+                    setIsYearOpen((prev) => !prev)
+                    if (isMonthOpen) setIsMonthOpen(false)
+                  }}
                 >
-                  {YEAR_LIST.map((el) => (
-                    <option key={el.id} value={el.id}>
-                      {el.value}
-                    </option>
-                  ))}
-                </select>
+                  <span>
+                    {YEAR_LIST.find((year) => year.id === curYear)?.value}
+                  </span>
+                  <div
+                    className={`${styles.options} ${isYearOpen ? styles.show : ''}`}
+                  >
+                    {YEAR_LIST.map((el) => (
+                      <div
+                        key={el.id}
+                        className={`${styles.option} ${el.id === curYear ? styles.currentYear : ''}`}
+                        style={{
+                          color:
+                            el.id === curYear
+                              ? 'var(--green-green-bright)'
+                              : undefined,
+                          textAlign: 'center',
+                        }}
+                        onClick={() => {
+                          setCurYear(el.id)
+                          setIsYearOpen(false)
+                        }}
+                      >
+                        {el.value}
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </div>
             <div className={styles.control}>

@@ -67,35 +67,75 @@
         display: flex;
         align-items: center;
         gap: 24px;
+        outline: none;
 
         .customSelect {
-          // width: 92px;
           height: 24px;
-          padding-right: 15px;
+          padding-right: 40px;
           font-family: var(--font-family);
           font-weight: 500;
           font-size: 20px;
           color: var(--black);
-
           -webkit-appearance: none;
           appearance: none;
           border: none;
           outline: none;
           background: url('/img/arrow_right.svg') no-repeat right;
 
-          & option {
+          .options {
+            display: none;
+            position: absolute;
             background-color: #fff;
-            color: var(--black);
+            border: 1px solid var(--primary-color-light);
+            z-index: 1;
+            border-radius: 12px;
+            padding-top: 8px;
+            padding-bottom: 8px;
+
+            .option {
+              padding: 8px;
+              cursor: pointer;
+            }
+
+            /* Эффект при наведении — изменение цвета текста на белый */
+            .option:hover {
+              color: #fff;
+              background: var(--primary-color-light); /* Фон при наведении */
+            }
+
+            .option.currentMonth {
+              background: transparent;
+              color: var(--primary-color-light);
+            }
+
+            /* Сохранение эффекта при наведении на активный месяц */
+            .option.currentMonth:hover {
+              background: transparent; /* Фон при наведении на текущий месяц */
+            }
+
+            .option.currentYear {
+              background: transparent;
+              color: var(--primary-color-light);
+            }
+
+            /* Сохранение эффекта при наведении на активный месяц */
+            .option.currentYear:hover {
+              background: transparent; /* Фон при наведении на текущий месяц */
+            }
           }
 
-          & option:checked {
-            background: var(--green-green-bright);
-            color: #fff;
+          .show {
+            display: block;
           }
-        }
 
-        .year .customSelect {
-          width: 68px;
+          .customSelect:hover .options,
+          .customSelect:focus-within .options {
+            display: block;
+          }
+
+          &.year .customSelect {
+            width: 68px;
+          }
         }
       }
 
