@@ -1,0 +1,52 @@
+/* блок время приготовления */
+.cockingTime_container {
+  margin-bottom: 48px; 
+}
+.cockingTime {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 48px 0 24px 0;
+}
+.hourPlusMinutes {
+  display: flex;
+  flex-direction: row;
+}
+.hours {
+  width: 142px;
+  margin-right: 12px;
+  position: relative;
+  input{
+    font-size: 14px;
+    font-weight: 400;
+    height: 34px;
+    background-color: white;
+  }
+  div>span{
+    position: absolute;
+    width: 500px;
+    font-size: 17px;
+    top: 45px;
+  }
+}
+.displayNone{
+  display: none;
+}
+.minutes {
+  width: 142px;
+  position: relative;
+  input{
+    height: 34px;
+    background-color: white;
+  }
+  p{
+    width: 500px;
+  }
+  div>span{
+    position: absolute;
+    width: 500px;
+    font-size: 17px;
+    top: 45px;
+    left: 230px;
+  }
+}
+/* */
