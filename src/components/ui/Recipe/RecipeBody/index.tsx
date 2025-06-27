@@ -24,6 +24,7 @@ import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
 import { Ingredients } from './Ingredients'
 import { RecipePhoto } from '../RecipePhoto'
 import { ModalPublish } from '@/components/ui/Recipe/RecipeBody/ModalPublish'
+import ModalSuccessSavingDraft from './ModalSuccessSavingDraft'
 
 const textForTitle = {
   validate: (value: string) => {
@@ -48,6 +49,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   const [slugNewRecipe, setSlugNewRecipe] = useState('')
   const [showMediaIcons, setShowMediaIcons] = useState<boolean>(false)
   const { loadDrafts, drafts, status } = useDrafts()
+  const [isModalOpen, setIsModalOpen] = useState(false)
   // useRedirectIfUserNotAuthorised()
 
   const [getSlug, { data: recipeDraft, error: draftError }] =
@@ -254,12 +256,24 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
       ? styles.displayNone
       : styles.background4
 
+  const handleSaveDraftButtonClick = () => {
+    const dataFromInput = getValues()
+    onSaveDraft(dataFromInput) // сохраняем черновик
+    setIsModalOpen(true) // открываем модальное окно
+  }
+
+  // закрываем модальное окно после подтверждения
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
   return (
     <div>
       <ModalPublish
         isModalOpen={isModalPublish}
         setIsModalOpen={setIsModalPublish}
       />
+      {isModalOpen && <ModalSuccessSavingDraft />}
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className={styles.photo_and_title}>
           <RecipePhoto
@@ -479,7 +493,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
                 size={'medium'}
                 color={'primary'}
                 type="button"
-                onClick={handleDraftButtonClick}
+                onClick={handleSaveDraftButtonClick}
               >
                 Cохранить в черновиках
               </Button>

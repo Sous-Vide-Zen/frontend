@@ -8,13 +8,9 @@ $border-color: rgba(0, 0, 0, 1);
     position: absolute;
     opacity: 0;
     visibility: hidden;
-
     transition: all ease-out 0.3s;
     box-shadow: none;
-
-    bottom: 36px;
     left: calc(50% - 54px);
-
     background-color: #fff;
     color: var(--base-color-dark);
     text-align: center;
@@ -30,14 +26,10 @@ $border-color: rgba(0, 0, 0, 1);
 
       position: absolute;
       transform: translateY(-50%) rotate(-45deg);
-
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       top: 100%;
-      left: 38px;
-
       background-color: #fff;
-
       border: 1px solid transparent;
       border-left-color: $border-color;
       border-bottom-color: $border-color;
