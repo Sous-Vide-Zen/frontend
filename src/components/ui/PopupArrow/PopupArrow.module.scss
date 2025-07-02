@@ -3,22 +3,17 @@ $border-color: var(--primary-color-dark);
 .wrapper {
   display: inline-block;
   position: relative;
-
   color: black;
   text-align: center;
-
   .tooltip {
     position: absolute;
     z-index: 998;
-
     border: 1px solid $border-color;
     border-radius: 12px;
     box-sizing: border-box;
-
     padding: 16px;
     color: #ffffff;
     background-color: #fff;
-
     visibility: hidden;
     opacity: 0;
     transition: all ease-out 0.3s;
@@ -26,8 +21,8 @@ $border-color: var(--primary-color-dark);
     &::after {
       content: '';
       position: absolute;
-      width: 10px;
-      height: 10px;
+      width: 11px;
+      height: 11px;
       background-color: #fff;
       border-color: $border-color;
     }

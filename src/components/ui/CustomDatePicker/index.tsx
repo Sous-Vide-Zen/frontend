@@ -299,6 +299,7 @@ export default function CustomDatePicker() {
                           el.id === curMonth
                             ? 'var(--primary-color-light)'
                             : undefined,
+                        width: '112px',
                       }}
                       onClick={() => {
                         setCurMonth(el.id)
@@ -333,7 +334,10 @@ export default function CustomDatePicker() {
                             el.id === curYear
                               ? 'var(--green-green-bright)'
                               : undefined,
-                          textAlign: 'center',
+                          // textAlign: 'center',
+                          width: '80px',
+                          paddingLeft: '16px',
+                          paddingRight: '16px',
                         }}
                         onClick={() => {
                           setCurYear(el.id)

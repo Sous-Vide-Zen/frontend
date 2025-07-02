@@ -1,0 +1,36 @@
+.modalContent {
+  position: absolute;
+  border-radius: 12px;
+  width: 391px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 1px solid var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.modalSuccessContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 23px;
+}
+
+.claritySuccessIcon {
+  width: 60px;
+  height: 60px;
+}
+
+.customPadding {
+  padding: 48px;
+}
+
+.modalFullText {
+  font-size: 1.125rem;
+  font-weight: 400;
+  color: var(--base-color-dark);
+  width: 297px;
+  line-height: 72%;
+}

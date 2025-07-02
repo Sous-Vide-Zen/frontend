@@ -4,6 +4,10 @@
   gap: 24px;
   flex: 1 0 124px;
 
+  .active {
+    color: var(--primary-color-light);
+  }
+
   .underline {
     text-decoration: underline;
   }
@@ -23,7 +27,7 @@
       font-size: 14px;
       font-weight: 400;
     }
-    
+
     span {
       display: flex;
       flex-direction: row;

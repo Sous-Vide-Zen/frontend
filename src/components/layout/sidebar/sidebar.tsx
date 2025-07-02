@@ -90,23 +90,34 @@ export default function Sidebar() {
 
   const jsxIsAuth = (
     <div className={styles.auth}>
-      {menu.map(({ text, img, alt, path }, key) => (
+      {menu.map((item, index) => (
         <LinkLikeButton
-          key={key}
+          key={index}
           color="clear"
           size="medium"
-          href={path}
-          pressed={pathname === path}
+          href={item.path}
+          pressed={
+            (item.path === '/' &&
+              (pathname === '/' || pathname.startsWith('/recipe'))) ||
+            (item.path !== '/' && pathname === item.path)
+          }
+          className={`${pathname === item.path || (item.path === '/' && pathname.startsWith('/recipe')) ? styles.active : ''}`}
         >
-          {text}
-          {path === '/notifications' ? (
-            img ? ( // Проверка на наличие изображения
-              <Badge count={notificationsCount} imgSrc={img} altText={alt} />
+          {item.text}
+          {item.path === '/notifications' ? (
+            item.img ? (
+              <Badge
+                count={notificationsCount}
+                imgSrc={item.img}
+                altText={item.alt}
+              />
             ) : (
-              <span>No image</span> // Или любой другой обработчик на случай отсутствия изображения
+              <span>No image</span>
             )
           ) : (
-            img && <Image src={img} alt={alt} width={22} height={22} />
+            item.img && (
+              <Image src={item.img} alt={item.alt} width={22} height={22} />
+            )
           )}
         </LinkLikeButton>
       ))}

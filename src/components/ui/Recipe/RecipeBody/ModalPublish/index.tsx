@@ -7,7 +7,8 @@ import {
   useRef,
 } from 'react'
 import { useRouter } from 'next/navigation'
-import styles from './loginOrRegisterModal.module.scss'
+import styles from './ModalPublish.module.scss'
+import Image from 'next/image'
 import { Modal } from '@/components/ui/Modal'
 
 type Props = {
@@ -25,12 +26,6 @@ export const ModalPublish: FC<Props> = ({ isModalOpen, setIsModalOpen }) => {
   }, [setIsModalOpen, router])
 
   useEffect(() => {
-    if (isModalOpen) {
-      timerRef.current = setTimeout(() => {
-        openRecipeLastPublish()
-      }, 3000)
-    }
-
     return () => {
       if (timerRef.current) {
         clearTimeout(timerRef.current)
@@ -43,14 +38,27 @@ export const ModalPublish: FC<Props> = ({ isModalOpen, setIsModalOpen }) => {
     <Modal
       isOpen={isModalOpen}
       onClose={() => setIsModalOpen(false)}
+      customWidth={'804px'}
+      customHeight={'334px'}
       showCloseButton={false}
     >
-      <div className={`${styles.modalContent} ${styles.modalOnlyDraft}`}>
+      <div className={`${styles.modalContent}`}>
+        <div className={styles.claritySuccessIcon}>
+          <Image
+            src="/img/check/clarity_success-standard-solid.svg"
+            alt="check"
+            width={60}
+            height={60}
+            draggable={false}
+            priority
+          />
+        </div>
         <p className={styles.modalFullText}>Ваш рецепт успешно опубликован!</p>
-        <p className={styles.modalFullText}>
+        <hr className={styles.modalHr} />
+        <span className={styles.modalBottomText}>
           Если вы допустили ошибку, рецепт можно отредактировать в течение
           суток.
-        </p>
+        </span>
       </div>
       <button
         className={styles.modalOnlyDraftCloseButton}
