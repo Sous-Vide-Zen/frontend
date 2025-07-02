@@ -21,6 +21,7 @@ import { Button } from '@/components/ui/'
 import { FormInput } from '@/components/forms/items'
 import { stylesFromTag } from './addNewRecipeTagSelectStyles'
 import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
+import { CookingTime } from './CookingTime'
 import { Ingredients } from './Ingredients'
 import { RecipePhoto } from '../RecipePhoto'
 import { ModalPublish } from '@/components/ui/Recipe/RecipeBody/ModalPublish'
@@ -164,7 +165,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         : recipe?.cooking_time
           ? `${Math.floor((recipe?.cooking_time ?? 0) / 60)}`
           : '',
-      cooking_time: readOnly
+      minutes: readOnly
         ? hoursToMinutes((recipe?.cooking_time ?? 0) % 60 || 0, [
             'минута',
             'минуты',
@@ -191,7 +192,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   //приведение к требованиям бэка и удаление полей без данных для черновика
   const checkData = (dataFromInput: any) => {
     const cookingTime =
-      parseInt(dataFromInput.cooking_time, 10) + dataFromInput.hours * 60
+      parseInt(dataFromInput.hours, 10) * 60 + parseInt(dataFromInput.minutes)
     const transformedTags = dataFromInput.tag
       ? dataFromInput.tag.map(
           (item: { value: string; label: string }) => item.value,
@@ -228,18 +229,15 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
 
     return result
   }
-  //публикация ?227 строки только при соответствии обязательных полей
+  //публикация
   const onSubmit = (dataFromInput: any) => {
-    checkData(dataFromInput) //проверить работу без этого
     const transformedData = checkData(dataFromInput)
     handleDraftAndPublish(transformedData)
-    console.log('function work', transformedData)
   }
   // сохранение черновика после удаления полей без данных
   const onSaveDraft = (dataFromInput: any) => {
     const transformedData = checkData(dataFromInput)
     handleDraft(transformedData)
-    console.log('Draft saved:', transformedData)
   }
   //получение данных из полей без валидации
   const handleDraftButtonClick = () => {
@@ -247,13 +245,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     onSaveDraft(dataFromInput)
   }
 
-  console.log('recipe body', readOnly, slugNewRecipe, recipe)
-
-  const displayNoneClass =
-    recipe && recipe?.cooking_time < 60
-      ? styles.displayNone
-      : styles.background4
-
+  // console.log('recipe body', readOnly, slugNewRecipe, recipe)
   return (
     <div>
       <ModalPublish
@@ -286,70 +278,14 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
           <p className={styles.cockingTime}>
             Время приготовления{readOnly ? '' : '*'}
           </p>
-          <div className={styles.hourPlusMinutes}>
-            <div className={`${styles.hours} ${displayNoneClass}`}>
-              <input
-                {...register('hours', {
-                  validate: (value) => {
-                    if (!value) return true
-                    const hours = parseInt(value, 10)
-                    if (isNaN(hours) || hours < 0) {
-                      return 'Введите корректное число'
-                    }
-                    return true
-                  },
-                })}
-                id="hours"
-                type="text"
-                placeholder="часы"
-                // disabled={readOnly}
-              />
-              {errors.hours && (
-                <span className={styles.errorMessage}>
-                  {errors.hours.message}
-                </span>
-              )}
-            </div>
-            <div className={styles.minutes}>
-              <FormInput
-                register={register}
-                id="cooking_time"
-                type="text"
-                placeholder="минуты"
-                disabled={readOnly}
-                options={{
-                  validate: (value) => {
-                    const hoursElement = document.getElementById(
-                      'hours',
-                    ) as HTMLInputElement | null
-                    const hoursValue = hoursElement
-                      ? parseInt(hoursElement.value, 10)
-                      : 0
-                    const text = value
-                    if (text.trim() === '' && !hoursValue) {
-                      return 'Поле обязательно для заполнения'
-                    }
-                    const minutes = parseInt(value, 10)
-                    if (isNaN(minutes) && !hoursValue) {
-                      return 'Введите корректное число'
-                    }
-                    if (minutes <= 9 && !hoursValue) {
-                      return 'Время не должно быть меньше 10 минут'
-                    }
-                    if (minutes + hoursValue * 60 > 1440) {
-                      return 'Количество не должно быть больше 1440'
-                    }
-                    return true
-                  },
-                }}
-              />
-              {errors.cooking_time && (
-                <p className={styles.errorMessage}>
-                  {errors.cooking_time.message}
-                </p>
-              )}
-            </div>
-          </div>
+          <CookingTime
+            readOnly={readOnly}
+            control={control}
+            getValues={getValues}
+            register={register}
+            setValue={setValue}
+            errors={errors}
+          />
         </div>
         <div className={styles.ingredients_container}>
           <p className={styles.ingredients}>Ингредиенты{readOnly ? '' : '*'}</p>

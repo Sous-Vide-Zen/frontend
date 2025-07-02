@@ -55,6 +55,7 @@ export interface ResipeDraftsElem {
 
 export interface RecipeFormInputs {
   title: string
+  minutes: string
   hours: string
   cooking_time: string
   name0: string

@@ -47,6 +47,10 @@ export const ModalPublish: FC<Props> = ({ isModalOpen, setIsModalOpen }) => {
     >
       <div className={`${styles.modalContent} ${styles.modalOnlyDraft}`}>
         <p className={styles.modalFullText}>Ваш рецепт успешно опубликован!</p>
+        <p className={styles.modalFullText}>
+          Если вы допустили ошибку, рецепт можно отредактировать в течение
+          суток.
+        </p>
       </div>
       <button
         className={styles.modalOnlyDraftCloseButton}
