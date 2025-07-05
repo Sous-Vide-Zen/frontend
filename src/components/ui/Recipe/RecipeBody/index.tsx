@@ -36,6 +36,9 @@ const textForTitle = {
     if (text.length > 150) {
       return 'Поле не должно содержать более 150 символов'
     }
+    if (text.toLowerCase().includes('черновик')) {
+      return 'Недопустимо использовать слово "черновик" в названии рецепта'
+    }
     return true
   },
 }
@@ -157,7 +160,9 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     control,
   } = useForm<RecipeFormInputs>({
     defaultValues: {
-      title: recipe?.title || '',
+      title: recipe?.title.toLowerCase().includes('черновик')
+        ? ''
+        : recipe?.title,
       hours: readOnly
         ? hoursToMinutes(Math.floor((recipe?.cooking_time ?? 0) / 60) || 0, [
             'час',

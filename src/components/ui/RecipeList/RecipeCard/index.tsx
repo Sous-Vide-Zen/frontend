@@ -81,6 +81,9 @@ export const RecipeCard: FC<RecipeCardProps> = ({
 
   return (
     <div className={styles.recipe}>
+      <button className={styles.showRecipe} onClick={handlerOnTap}>
+        &nbsp
+      </button>
       <div className={styles.user}>
         <div className={styles.userWrapper}>
           <div className={styles.userLeft}>
@@ -98,6 +101,7 @@ export const RecipeCard: FC<RecipeCardProps> = ({
           </div>
         </div>
       </div>
+
       <div className={styles.preview}>
         <RecipeCardPhoto
           id={recipe.id}

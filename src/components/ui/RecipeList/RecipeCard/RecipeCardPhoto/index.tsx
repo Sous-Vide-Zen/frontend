@@ -82,6 +82,9 @@ export const RecipeCardPhoto: FC<RecipeCardProps> = ({
   return (
     <>
       <div className={styles.wrapper}>
+        <button className={styles.showRecipe} onClick={onButtonClick}>
+          &nbsp
+        </button>
         <button className={styles.previewPrinter}>
           <Image
             src="/img/recipe-card/printer.png"
@@ -159,22 +162,22 @@ export const RecipeCardPhoto: FC<RecipeCardProps> = ({
             )}
           </button>
         )}
-        <button
+        <div
           className={cn(styles.previewTime, {
             [styles.tooltip]: true,
             [styles.withBorder]: !preview_image,
           })}
-          onClick={onButtonClick}
+          // onClick={onButtonClick}
         >
           {formatCookingTime()}
-          <span
+          {/* <span
             className={cn(styles.tooltiptext, {
               [styles.tooltipTop]: true,
             })}
           >
             Нажмите для предварительного просмотра
-          </span>
-        </button>
+          </span> */}
+        </div>
       </div>
     </>
   )
