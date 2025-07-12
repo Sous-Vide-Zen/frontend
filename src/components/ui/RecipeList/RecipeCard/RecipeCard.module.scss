@@ -2,6 +2,7 @@ $name-title-max-line: 4;
 $name-text-max-line: 7;
 
 .recipe {
+  position: relative;
   container: recipe / inline-size;
   display: flex;
   flex-direction: column;
@@ -11,6 +12,12 @@ $name-text-max-line: 7;
   border: 1px solid #6c8777;
   padding: 16px;
   width: 100%;
+
+  .showRecipe{
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+  }
 
   button {
     cursor: pointer;
