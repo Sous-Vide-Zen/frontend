@@ -53,7 +53,7 @@ export const TagsRecipe: FC<Props> = ({
       return
     }
 
-    let tagText = inputValue.trim()
+    const tagText = inputValue.trim()
 
     // Проверка максимальной длины тега
     if (tagText.length > 10) {
