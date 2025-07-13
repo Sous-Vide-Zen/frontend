@@ -1,0 +1,49 @@
+.errorMessage{
+  color: var(--input-invalid);
+    text-align: left;
+    font-size: 20px;
+}
+
+.tagsContainer {
+  width: 100%;
+}
+
+.tagInput {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid #dbdade;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  
+  &:focus {
+    outline: none;
+    border-color: var(--base-color-dark);
+  }
+}
+
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.tagItem {
+  // background-color: var(--primary-color);
+  // color: white;
+  padding: 5px 10px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  font-size: 12px;
+}
+
+.removeTag {
+  background: none;
+  border: none;
+  color: black;
+  cursor: pointer;
+  margin-left: 5px;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+}

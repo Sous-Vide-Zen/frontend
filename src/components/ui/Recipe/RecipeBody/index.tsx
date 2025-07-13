@@ -1,9 +1,9 @@
 'use client'
 
 import { FC, useState, useEffect, useCallback } from 'react'
-import { Controller, useForm } from 'react-hook-form'
+import { Controller, useForm } from 'react-hook-form' //for tag and category
 import Image from 'next/image'
-import Select from 'react-select'
+import Select from 'react-select' //for tag and category
 
 import styles from './recipeBody.module.scss'
 import {
@@ -19,10 +19,10 @@ import { useDrafts } from '@/hooks/useDrafts'
 import hoursToMinutes from '@/helpers/hoursOrMinutes'
 import { Button } from '@/components/ui/'
 import { FormInput } from '@/components/forms/items'
-import { stylesFromTag } from './addNewRecipeTagSelectStyles'
 import { stylesFromCategory } from './addNewRecipeCategorySelectStyles'
 import { CookingTime } from './CookingTime'
 import { Ingredients } from './Ingredients'
+import { TagsRecipe } from './TagsRecipe'
 import { RecipePhoto } from '../RecipePhoto'
 import { ModalPublish } from '@/components/ui/Recipe/RecipeBody/ModalPublish'
 import ModalSuccessSavingDraft from './ModalSuccessSavingDraft'
@@ -131,11 +131,6 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
   }
 
   /* тестовые данные для селекта*/
-  const tagOptions: { value: string; label: string }[] = [
-    { value: 'chocolate', label: 'Chocolate' },
-    { value: 'strawberry', label: 'Strawberry' },
-    { value: 'vanilla', label: 'Vanilla' },
-  ]
   const categoryOptions: { value: number; label: string }[] = [
     { value: 1, label: 'Завтрак' },
     { value: 2, label: 'Обед' },
@@ -201,9 +196,7 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
     const cookingTime =
       parseInt(dataFromInput.hours, 10) * 60 + parseInt(dataFromInput.minutes)
     const transformedTags = dataFromInput.tag
-      ? dataFromInput.tag.map(
-          (item: { value: string; label: string }) => item.value,
-        )
+      ? dataFromInput.tag.map((item: { label: string }) => item.label)
       : []
     const transformedCategory = dataFromInput.category
       ? dataFromInput.category.map(
@@ -400,22 +393,11 @@ export const RecipeBody: FC<Props> = ({ recipe, readOnly }) => {
         <div className={styles.tag_container}>
           <p className={styles.tag}>Хэштеги</p>
           <div className={styles.tag_input}>
-            <Controller
-              control={control}
-              name="tag"
-              disabled={readOnly}
-              render={({ field }) => (
-                <Select
-                  {...field}
-                  options={tagOptions}
-                  isDisabled={readOnly}
-                  isMulti
-                  placeholder={readOnly ? '' : 'Выберите хэштег'}
-                  // placeholder={null}
-                  styles={stylesFromTag}
-                  inputId={Date.now().toString()}
-                />
-              )}
+            <TagsRecipe
+              readOnly={readOnly}
+              getValues={getValues}
+              register={register}
+              setValue={setValue}
             />
           </div>
         </div>
