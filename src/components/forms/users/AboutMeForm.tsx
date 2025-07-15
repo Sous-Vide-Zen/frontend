@@ -89,6 +89,14 @@ const AboutMeForm: FC = ({}) => {
   const patchErrorText = patchError?.data ?? {}
 
   const [selectedCountryColor, setSelectedCountryColor] = useState('white') // Начальный цвет
+  const [isDisplayNameFilled, setIsDisplayNameFilled] = useState(false)
+  const displayNameValue = watch('display_name')
+
+  useEffect(() => {
+    setIsDisplayNameFilled(
+      !!displayNameValue && displayNameValue.trim().length > 0,
+    )
+  }, [displayNameValue])
 
   useEffect(() => {
     const username = currentUserData?.username
@@ -323,12 +331,18 @@ const AboutMeForm: FC = ({}) => {
           </FieldSet>
 
           <Button
-            disabled={!isValid || !formChanged}
+            disabled={!isValid || !formChanged || !isDisplayNameFilled}
             type="submit"
             color="primary"
             size="medium"
             loading={isPatchLoading}
-            style={{ borderRadius: '18px' }}
+            style={{
+              borderRadius: '18px',
+              backgroundColor: isDisplayNameFilled
+                ? 'var(--green-green-medium)'
+                : undefined,
+              color: isDisplayNameFilled ? 'white' : undefined,
+            }}
           >
             Сохранить
           </Button>
