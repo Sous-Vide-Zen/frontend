@@ -18,7 +18,7 @@ export const ModalOnlyDraft: FC<Props> = ({ isModalOpen, setIsModalOpen }) => (
     <div className={`${styles.modalContent} ${styles.modalOnlyDraft}`}>
       <p className={styles.modalFullText}>
         У вас не осталось свободных слотов для черновиков. Для создания нового
-        черновика удалите или опубликуйте черновики.
+        черновика удалите или опубликуйте черновики
       </p>
       <div className={styles.btns}>
         <div className={styles.login}>

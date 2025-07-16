@@ -25,37 +25,31 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
   const iconProps = { slug, views_count, reactions_count }
   const userData = useAuth()
   const hasDraft = useCheckDraftSlug(recipe?.slug)
-  // console.log('recipe status user and data', userData, { recipe, readOnly })
-  useEffect(() => {
-    const isNotOlder24Hours = () => {
-      if (!recipe?.pub_date) {
-        return true
-      }
 
-      const publicationDate = new Date(recipe?.pub_date)
-      const currentDate = new Date()
-      const timeDiff = currentDate.getTime() - publicationDate.getTime()
-      const hoursDiff = timeDiff / (1000 * 3600)
-      return hoursDiff < 24
-    }
+  // Вынесем вычисление outside useEffect, чтобы переменная была доступна в JSX
+  const olderThan24Hours = (() => {
+    if (!recipe?.pub_date) return false
+    const publicationDate = new Date(recipe.pub_date)
+    const currentDate = new Date()
+    const timeDiff = currentDate.getTime() - publicationDate.getTime()
+    const hoursDiff = timeDiff / (1000 * 3600)
+    return hoursDiff >= 24
+  })()
+
+  useEffect(() => {
+    const isAuthor = userData?.id === recipe?.author.id
+    const isAdminOrStaff = userData?.is_admin || userData?.is_staff
 
     const realAllowEdit =
-      userData?.is_admin ||
-      userData?.is_staff ||
-      (userData?.id === recipe?.author.id && isNotOlder24Hours()) ||
-      (userData?.id === recipe?.author.id && hasDraft)
+      isAdminOrStaff || (isAuthor && (hasDraft || !olderThan24Hours))
 
     if (!readOnly && !realAllowEdit) {
       router.back()
     }
 
     setAllowEdit(realAllowEdit)
-    setIsMyRecipe(
-      userData?.is_admin ||
-        userData?.is_staff ||
-        userData?.id === recipe?.author.id,
-    )
-  }, [readOnly, recipe, router, userData, hasDraft])
+    setIsMyRecipe(isAdminOrStaff || isAuthor)
+  }, [readOnly, recipe, router, userData, hasDraft, olderThan24Hours])
 
   if (!recipe) return <Skeleton />
 
@@ -65,10 +59,10 @@ const Recipe: FC<RecipeCardProps> = ({ recipe, readOnly = false }) => {
         {...userProps}
         isMyRecipe={isMyRecipe}
         allowEdit={allowEdit}
+        olderThan24Hours={olderThan24Hours && !hasDraft}
       />
       <IconsAndActions {...iconProps} />
       <RecipeBody recipe={recipe} readOnly={readOnly} />
-      {/* Pass UserData to Comments component */}
       <Comments slug={recipe.slug} />
     </div>
   )

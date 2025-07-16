@@ -17,6 +17,7 @@ type RecipeCardProps = Partial<
   allowEdit: boolean
   isMyRecipe: boolean
   readOnly: boolean
+  olderThan24Hours: boolean
 }
 
 export const UserNameShow: FC<RecipeCardProps> = ({
@@ -26,6 +27,7 @@ export const UserNameShow: FC<RecipeCardProps> = ({
   author,
   pub_date,
   slug,
+  olderThan24Hours,
 }) => {
   const { timeAgo, formattedDate } = useData(pub_date ?? '')
 
@@ -55,6 +57,7 @@ export const UserNameShow: FC<RecipeCardProps> = ({
               slug={slug}
               allowEdit={allowEdit}
               isMyRecipe={isMyRecipe}
+              olderThan24Hours={olderThan24Hours}
             />
           ) : (
             <MenuSomeone slug={slug} />

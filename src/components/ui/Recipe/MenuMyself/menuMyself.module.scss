@@ -3,7 +3,7 @@
   justify-content: flex-end;
   position: relative;
   // bottom: 50px;
-  color: #6c8777;
+  color: var(--primary-color);
 
   &:hover {
     cursor: pointer;
@@ -11,7 +11,7 @@
 
   .dropdownIcon {
     font-size: 20px;
-    color: var(--green-green-light);
+    color: var(--primary-color);
     font-size: 24px;
   }
 
@@ -20,7 +20,7 @@
     height: 94px;
     position: absolute;
     right: 10px;
-    bottom: -35px;
+    bottom: -31px;
     z-index: 15;
     padding: 10px 17px;
     display: flex;
@@ -34,8 +34,29 @@
     // background-color: white;
     background-image: url(/img/recipe-card/Union.png);
     background-repeat: no-repeat;
-    a{
-      color: black;
+    a {
+      color: var(--base-color-dark);
+    }
+  }
+  a.disabled {
+    color: #7c7c7c;
+    cursor: default; /*стрелочка*/
+    position: relative;
+
+    &:hover::after {
+      content: 'Время для возможности отредактировать рецепт вышло';
+      position: absolute;
+      top: -50px;
+      left: -20%;
+      transform: translateX(-50%);
+      width: 485px;
+      border-radius: 12px;
+      border: 1px solid var(--gray-element);
+      padding: 14px;
+      background: var(--base-color);
+      color: var(--gray-element);
+      font-size: 16px;
+      z-index: 35;
     }
   }
 }

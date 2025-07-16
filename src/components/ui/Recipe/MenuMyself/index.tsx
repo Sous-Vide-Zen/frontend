@@ -9,6 +9,7 @@ import { RecipeFull } from '@/store/features/recipes/recipes.types'
 type RecipeCardProps = Partial<Pick<RecipeFull, 'slug'>> & {
   allowEdit: boolean
   isMyRecipe: boolean
+  olderThan24Hours?: boolean
 }
 
 /* 
@@ -19,6 +20,7 @@ export const MenyMyself: FC<RecipeCardProps> = ({
   slug,
   allowEdit,
   isMyRecipe,
+  olderThan24Hours,
 }) => {
   const [active, setActive] = useState(false)
 
@@ -30,15 +32,27 @@ export const MenyMyself: FC<RecipeCardProps> = ({
     <div className={styles.containerButton}>
       {active && (
         <div className={styles.linkForRecipe}>
-          {allowEdit && (
-            <Link href={`/recipe/edit/${slug}`}>Редактировать рецепт</Link>
-          )}
           {isMyRecipe && (
-            <Link href={`/recipe/delete/${slug}`}>Удалить рецепт</Link>
+            <>
+              {allowEdit && !olderThan24Hours && (
+                <Link href={`/recipe/edit/${slug}`}>Редактировать рецепт</Link>
+              )}
+              {(!allowEdit || olderThan24Hours) && (
+                <a
+                  className={styles.disabled}
+                  tabIndex={-1}
+                  aria-disabled="true"
+                  onClick={(e) => e.preventDefault()}
+                >
+                  Редактировать рецепт
+                </a>
+              )}
+              <Link href={`/recipe/delete/${slug}`}>Удалить рецепт</Link>
+            </>
           )}
         </div>
       )}
-      <div className={styles.dropdownIcon} onClick={() => handleToggle()}>
+      <div className={styles.dropdownIcon} onClick={handleToggle}>
         &#8942;
       </div>
     </div>

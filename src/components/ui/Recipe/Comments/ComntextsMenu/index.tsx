@@ -19,9 +19,9 @@ export const ComntextsMenu: FC<ComntextsMenuProps> = ({ onDelete }) => {
     <div className={styles.comntextsMenucontainerButton}>
       {active && (
         <div className={styles.recipeDeletionLink}>
-          <Link href="#" onClick={onDelete}>
+          {/* <Link href="#" onClick={onDelete}>
             Удалить рецепт
-          </Link>
+          </Link> */}
         </div>
       )}
       <div className={styles.dropdownIcon} onClick={toggleActive}>
